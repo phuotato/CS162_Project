@@ -35,7 +35,6 @@ public:
 
 
 	// Semester section
-
 	void input_Semester(classes_LL* pHead);
 };
 
