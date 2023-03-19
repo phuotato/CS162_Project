@@ -1,8 +1,16 @@
 #pragma once
 #include "SchoolYear.h"
-class Semester :
-    public SchoolYear
-{
+#include "Course.h"
 
+class Semester 
+{
+private:
+	int Sem;
+	SchoolYear Year; //hay la dung int thoi?
+	Date StartDate, EndDate;
+	Course* CourseList;
+public:
+	void Create_Semester();
+	void Delete_Semester();
 };
 

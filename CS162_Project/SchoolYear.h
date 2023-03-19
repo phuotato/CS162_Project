@@ -1,5 +1,6 @@
 #pragma once
 #include "Universal.h"
+#include "Semester.h"
 
 class SchoolYear
 {
@@ -32,7 +33,6 @@ public:
 
 	// Classes section
 	void input_Classes(school_Year_LL* pHead);
-
 
 	// Semester section
 	void input_Semester(classes_LL* pHead);
