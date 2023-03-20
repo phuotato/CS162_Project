@@ -27,7 +27,7 @@ private:
 	};
 
 public:
-	void input_New_Year(school_Year_LL*& pHead, school_Year_LL*& pLast);
+	void Create_SchoolYear(school_Year_LL*& pHead, school_Year_LL*& pLast);
 
 	void delete_Data(school_Year_LL* pHead);
 

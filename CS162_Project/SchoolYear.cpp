@@ -1,7 +1,7 @@
 #include "SchoolYear.h"
 
 //School year section
-void SchoolYear::input_New_Year(school_Year_LL*& pHead, school_Year_LL*& pLast) 
+void SchoolYear::Create_SchoolYear(school_Year_LL*& pHead, school_Year_LL*& pLast) 
 {
 	std::cout << "New year: ";
 	if (pHead) {																		// If there is already one - create a new
