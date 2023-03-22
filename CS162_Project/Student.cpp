@@ -1,6 +1,6 @@
 #include "Universal.h"
 
-void viewProfile(Student*& student, string username)
+void Student::viewProfile(Student * &student, string username)
 {
     Student* temp = student;
     while (temp != nullptr)

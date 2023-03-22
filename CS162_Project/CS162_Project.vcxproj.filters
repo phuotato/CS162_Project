@@ -44,8 +44,5 @@
     <ClInclude Include="ChangePassword.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="loadData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
