@@ -38,22 +38,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SchoolYear.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Universal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Semester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Class.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Student.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Course.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChangePassword.h">

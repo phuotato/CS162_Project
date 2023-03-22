@@ -149,11 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangePassword.h" />
-    <ClInclude Include="Class.h" />
-    <ClInclude Include="Course.h" />
-    <ClInclude Include="SchoolYear.h" />
-    <ClInclude Include="Semester.h" />
-    <ClInclude Include="Student.h" />
     <ClInclude Include="Universal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
