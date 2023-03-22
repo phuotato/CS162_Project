@@ -36,12 +36,30 @@
     <ClCompile Include="ChangePassword.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loadData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewProfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteStudentList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Universal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChangePassword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewProfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteStudentList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

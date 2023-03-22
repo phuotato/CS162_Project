@@ -142,14 +142,20 @@
     <ClCompile Include="ChangePassword.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Course.cpp" />
+    <ClCompile Include="DeleteStudentList.cpp" />
+    <ClCompile Include="loadData.cpp" />
     <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="System.cpp" />
+    <ClCompile Include="ViewProfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangePassword.h" />
+    <ClInclude Include="DeleteStudentList.h" />
+    <ClInclude Include="loadData.h" />
     <ClInclude Include="Universal.h" />
+    <ClInclude Include="ViewProfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
