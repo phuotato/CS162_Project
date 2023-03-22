@@ -23,6 +23,7 @@ public:
 	Student* pNext;
 
 	//function	
+	void viewProfile(Student*& student, string username);
 	void view_Course();
 	void view_Score();
 };
@@ -33,8 +34,9 @@ public:
 	Student* headS;
 
 	//function
-	void Add_Student();
+	void Add_Student(std::ifstream& fin, std::string username, Student*& student);
 	void Remove_Student();
+	void deleteStudentList(Student*& student);
 };
 
 class Course {
