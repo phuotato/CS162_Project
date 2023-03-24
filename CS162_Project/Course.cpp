@@ -8,7 +8,7 @@ void Course::Export_Class(string filename)
     file.open(filename);
 
     // File header
-    file << "No,Student ID,First name,Last name,Gender,Date Of Birth,Social ID" << "\n";
+    file << "No,Student ID,First name,Last name" << "\n";
 
 
     Student* current = StudentList.headS;
@@ -18,9 +18,6 @@ void Course::Export_Class(string filename)
         file << current->ID << ",";
         file << current->firstname << ",";
         file << current->lastname << ",";
-        file << current->Gender << ",";
-        //chua export DOB
-        file << current->Social_ID << "\n";
 
         current = current->pNext;
     }
