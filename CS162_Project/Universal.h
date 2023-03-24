@@ -56,7 +56,7 @@ private:
 	string day, session;
 	//(MON / TUE / WED / THU / FRI / SAT
 	//S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
-	Class* StudentList;
+	Class StudentList;
 
 public:
 	Course* pNext;
@@ -67,6 +67,7 @@ public:
 	void Delete_Course();
 	void View_Course();
 	void Update_Course();
+	void Export_Class(string filename);
 
 };
 
