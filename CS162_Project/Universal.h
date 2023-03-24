@@ -22,6 +22,9 @@ public:
 
 	Student* pNext;
 
+	//Constructor
+	Student();
+
 	//function	
 	void viewProfile(Student*& student, string username);
 	void view_Course();
@@ -32,6 +35,9 @@ class Class {
 public:
 	//a linked list of student
 	Student* headS;
+
+	//Constructor
+	Class();
 
 	//function
 	void Add_Student(std::ifstream& fin, std::string username, Student*& student);
@@ -54,6 +60,8 @@ private:
 
 public:
 	Course* pNext;
+	//Constructor
+	Course();
 	//function
 	void Add_Course();
 	void Delete_Course();
@@ -70,6 +78,9 @@ private:
 	Date StartDate, EndDate;
 	Course* CourseList;
 public:
+	//Constructor
+	Semester();
+	//Function
 	void Create_Semester();
 	void Delete_Semester();
 };
@@ -82,6 +93,10 @@ private:
 	Class* ClassList; //linked list 
 
 public:
+	//Constructor
+	SchoolYear();
+
+	//Function
 	void Create_SchoolYear();
 	void delete_SchoolYear();
 
