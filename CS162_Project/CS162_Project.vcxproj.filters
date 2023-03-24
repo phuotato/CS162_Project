@@ -45,4 +45,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Scoreboard\PH212_22TT2.csv" />
+  </ItemGroup>
 </Project>

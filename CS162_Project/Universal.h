@@ -68,6 +68,7 @@ public:
 	void View_Course();
 	void Update_Course();
 	void Export_Class(string filename);
+	void Import_Scoreboard(string filename);
 
 };
 

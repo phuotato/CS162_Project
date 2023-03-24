@@ -22,8 +22,28 @@ void Course::Export_Class(string filename)
         current = current->pNext;
     }
 
-    // Close the file
     file.close();
 
     cout << "Finished exporting to " << filename << ".\n";
+}
+
+void Course::Import_Scoreboard(string filename)
+{
+    ifstream file(filename);
+
+    // Declare a string variable to store each line of the file
+    string line;
+
+    // File header
+    getline(file, line);
+
+    while (getline(file, line)) 
+    {
+        int no, id;
+        string firstname, lastname;
+        double totalMark, finalMark, midtermMark, otherMark;
+
+    }
+
+    file.close();
 }
