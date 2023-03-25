@@ -23,7 +23,10 @@ public:
 	Student* pNext;
 
 	//Constructor
-	Student();
+	Student(int no, string id, string firstname, string lastname,
+		bool gender, Date dob, string socialId) :
+		No(no), ID(id), firstname(firstname), lastname(lastname), Gender(gender),
+		DOB(dob), Social_ID(socialId), CourseList(nullptr), pNext(nullptr) {}
 
 	//function	
 	void viewProfile(Student*& student, string username);

@@ -1,5 +1,6 @@
 #include "Universal.h"
 #include <fstream>
+#include <sstream>
 
 void Class::Add_Student(ifstream& fin, string username, Student*& student)
 {
@@ -39,6 +40,33 @@ void Class::Add_Student(ifstream& fin, string username, Student*& student)
         getline(fin, newStudent->Social_ID);
         newStudent->pNext = student;
         student = newStudent;
+    }
+}
+
+//day chi la vi du
+void addStudentUsingsstream(const string& fileName, Student*& headS) {
+    ifstream fin(fileName);
+    if (!fin) {
+        cout << "Error loading data! Please try again.";
+        return;
+    }
+
+    string line;
+    while (getline(fin, line)) {
+        istringstream iss(line);
+        int no;
+        string id, firstname, lastname, socialId;
+        bool gender;
+        Date dob;
+
+        if (!(iss >> no >> id >> firstname >> lastname >> gender >> dob.day >> dob.month >> dob.year >> socialId)) {
+            cout << "Error reading line from file";
+            continue;
+        }
+
+        Student* newStudent = new Student(no, id, firstname, lastname, gender, dob, socialId);
+        newStudent->pNext = headS;
+        headS = newStudent;
     }
 }
 
