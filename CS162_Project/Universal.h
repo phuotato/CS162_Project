@@ -9,6 +9,8 @@ struct Date {
 	int year;
 };
 
+class Course;
+
 class Student {
 public:
 	//attribute
@@ -37,10 +39,14 @@ public:
 class Class {
 public:
 	//a linked list of student
-	Student* headS;
+	Student* HeadS;
+	Class* pNext = nullptr;
+	char Year[2]{}; // Ex: 21, 22, 23
+	char Name[5]{}; // Ex: APCS, VP, CLC
+	char Subclass{}; // Ex: 1, 2, 3
 
 	//Constructor
-	Class();
+	Class(char cYear[], char cName[], char cSubclass, Student*& headS);
 
 	//function
 	void Add_Student(std::ifstream& fin, std::string username, Student*& student);
@@ -75,31 +81,19 @@ public:
 
 };
 
-class Semester
-{
-private:
-	int Sem;
-	SchoolYear Year; //hay la dung int thoi?
-	Date StartDate, EndDate;
-	Course* CourseList;
-public:
-	//Constructor
-	Semester();
-	//Function
-	void Create_Semester();
-	void Delete_Semester();
-};
-
+class Semester;
 
 class SchoolYear
 {
 private:
 	Semester* SemList; //dynamic array
 	Class* ClassList; //linked list 
+	SchoolYear* pNext = nullptr;
+	int SYear;
 
 public:
 	//Constructor
-	SchoolYear();
+	SchoolYear(int cYear, Semester*& cSemList, Class*& cClassList, SchoolYear* pHead);
 
 	//Function
 	void Create_SchoolYear();
@@ -109,6 +103,19 @@ public:
 	void Add_Classes();
 };
 
-
+class Semester
+{
+private:
+	int Sem;
+	SchoolYear* Year; //hay la dung int thoi?
+	Date StartDate, EndDate;
+	Course* DeCourseList; // default course
+public:
+	//Constructor
+	Semester(SchoolYear* cYear, Date cStartDate, Date cEndDate, Course* cDeCourse);
+	//Function
+	void Create_Semester();
+	void Delete_Semester();
+};
 
 
