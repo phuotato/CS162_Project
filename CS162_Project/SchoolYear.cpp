@@ -1,36 +1,7 @@
 #include "Universal.h"
 using namespace std;
 
-// definition constructor
-Class::Class(char cYear[2], char cName[5], char cSubclass, Student*& headS) : Subclass(cSubclass), HeadS(headS) {
-	cout << "Please enter the year this class in: ";
-	cin.get(cYear, 2, '\n');
-	for (int i = 0; i < 2; i++) {
-		Year[i] = cYear[i];
-	}
-	cin.ignore(32000, '\n');
-	
-	cout << "Please enter the program name for this class: ";
-	cin.get(cName, 5, '\n');
-	for (int i = 0; i < 5; i++) {
-		Name[i] = cName[i];
-	}
-	cin.ignore(32000, '\n');
-
-	cout << "Please enter the subclass: ";
-	cin >> cSubclass;
-	cin.ignore(32000, '\n');
-
-}
-
-Semester::Semester(SchoolYear* cYear, Date cStartDate, Date cEndDate, Course* cDeCourse) : Year(cYear), StartDate(cStartDate),
-					EndDate(cEndDate), DeCourseList(cDeCourse) 
-{
-
-
-
-}
-
+// definition constructors
 
 SchoolYear::SchoolYear(int cYear, Semester*& cSemList, Class*& cClassList, SchoolYear* pHead) : SYear(cYear), SemList(cSemList), 
 						ClassList(cClassList) 
@@ -38,7 +9,8 @@ SchoolYear::SchoolYear(int cYear, Semester*& cSemList, Class*& cClassList, Schoo
 	cin >> cYear;
 
 	if (!cSemList) {
-		//cSemList = new Semester(pHead, cSemList->)[3];
+		Semester generalSemester;
+		generalSemester.Create_Semester(cSemList);
 	}
 
 

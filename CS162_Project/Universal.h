@@ -7,6 +7,8 @@ struct Date {
 	int day;
 	int month;
 	int year;
+
+	void GetDate(int& day, int& month, int& year);
 };
 
 class Course;
@@ -107,14 +109,17 @@ class Semester
 {
 private:
 	int Sem;
-	SchoolYear* Year; //hay la dung int thoi?
-	Date StartDate, EndDate;
-	Course* DeCourseList; // default course
+
 public:
+	SchoolYear* Year; //hay la dung int thoi?
+	Course* DeCourseList; // default course
+	Date StartDate, EndDate;
+
 	//Constructor
+	Semester() {};
 	Semester(SchoolYear* cYear, Date cStartDate, Date cEndDate, Course* cDeCourse);
 	//Function
-	void Create_Semester();
+	void Create_Semester(Semester*& cSemester);
 	void Delete_Semester();
 };
 

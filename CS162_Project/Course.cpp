@@ -11,7 +11,7 @@ void Course::Export_Class(string filename)
     file << "No,Student ID,First name,Last name" << "\n";
 
 
-    Student* current = StudentList.headS;
+    Student* current = StudentList.HeadS;
     while (current) 
     {
         file << current->No << ",";

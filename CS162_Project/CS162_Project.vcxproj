@@ -142,6 +142,7 @@
     <ClCompile Include="ChangePassword.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Course.cpp" />
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Student.cpp" />
