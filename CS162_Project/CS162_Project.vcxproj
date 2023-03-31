@@ -143,6 +143,7 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Student.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangePassword.h" />
+    <ClInclude Include="Login.h" />
     <ClInclude Include="Universal.h" />
   </ItemGroup>
   <ItemGroup>

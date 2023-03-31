@@ -3,26 +3,26 @@
 #include <sstream>
 
 //definition of constructor
-Class::Class(char cYear[2], char cName[5], char cSubclass, Student*& headS) : Subclass(cSubclass), HeadS(headS) {
-    cout << "Please enter the year this class in: ";
-    cin.get(cYear, 2, '\n');
-    for (int i = 0; i < 2; i++) {
-        Year[i] = cYear[i];
-    }
-    cin.ignore(32000, '\n');
-
-    cout << "Please enter the program name for this class: ";
-    cin.get(cName, 5, '\n');
-    for (int i = 0; i < 5; i++) {
-        Name[i] = cName[i];
-    }
-    cin.ignore(32000, '\n');
-
-    cout << "Please enter the subclass: ";
-    cin >> cSubclass;
-    cin.ignore(32000, '\n');
-
-}
+//Class::Class(char cYear[2], char cName[5], char cSubclass, Student*& headS) : Subclass(cSubclass), HeadS(headS) {
+//    cout << "Please enter the year this class in: ";
+//    cin.get(cYear, 2, '\n');
+//    for (int i = 0; i < 2; i++) {
+//        Year[i] = cYear[i];
+//    }
+//    cin.ignore(32000, '\n');
+//
+//    cout << "Please enter the program name for this class: ";
+//    cin.get(cName, 5, '\n');
+//    for (int i = 0; i < 5; i++) {
+//        Name[i] = cName[i];
+//    }
+//    cin.ignore(32000, '\n');
+//
+//    cout << "Please enter the subclass: ";
+//    cin >> cSubclass;
+//    cin.ignore(32000, '\n');
+//
+//}
 
 //definition of function
 
@@ -68,39 +68,39 @@ Class::Class(char cYear[2], char cName[5], char cSubclass, Student*& headS) : Su
 //}
 
 //day chi la vi du
-void addStudentUsingsstream(const string& fileName, Student*& headS) {
-    ifstream fin(fileName);
-    if (!fin) {
-        cout << "Error loading data! Please try again.";
-        return;
-    }
-
-    string line;
-    while (getline(fin, line)) {
-        istringstream iss(line);
-        int no;
-        string id, firstname, lastname, socialId;
-        bool gender;
-        Date dob;
-
-        if (!(iss >> no >> id >> firstname >> lastname >> gender >> dob.day >> dob.month >> dob.year >> socialId)) {
-            cout << "Error reading line from file";
-            continue;
-        }
-
-        Student* newStudent = new Student(no, id, firstname, lastname, gender, dob, socialId);
-        newStudent->pNext = headS;
-        headS = newStudent;
-    }
-}
-
-void Class::deleteStudentList(Student*& student)
-{
-    Student* cur = student;
-    while (cur != nullptr)
-    {
-        Student* temp = cur;
-        cur = cur->pNext;
-        delete temp;
-    }
-}
+//void addStudentUsingsstream(const string& fileName, Student*& headS) {
+//    ifstream fin(fileName);
+//    if (!fin) {
+//        cout << "Error loading data! Please try again.";
+//        return;
+//    }
+//
+//    string line;
+//    while (getline(fin, line)) {
+//        istringstream iss(line);
+//        int no;
+//        string id, firstname, lastname, socialId;
+//        bool gender;
+//        Date dob;
+//
+//        if (!(iss >> no >> id >> firstname >> lastname >> gender >> dob.day >> dob.month >> dob.year >> socialId)) {
+//            cout << "Error reading line from file";
+//            continue;
+//        }
+//
+//        Student* newStudent = new Student(no, id, firstname, lastname, gender, dob, socialId);
+//        newStudent->pNext = headS;
+//        headS = newStudent;
+//    }
+//}
+//
+//void Class::deleteStudentList(Student*& student)
+//{
+//    Student* cur = student;
+//    while (cur != nullptr)
+//    {
+//        Student* temp = cur;
+//        cur = cur->pNext;
+//        delete temp;
+//    }
+//}
