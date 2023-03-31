@@ -11,7 +11,21 @@ struct Date {
 	void GetDate(int& day, int& month, int& year);
 };
 
-class Course;
+struct Course_Score {
+	Course* CoursePointer;
+	double total;
+	double midterm;
+	double final;
+	double other;
+};
+
+struct Student_Score {
+	Student* StudentPointer;
+	double total;
+	double midterm;
+	double final;
+	double other;
+};
 
 class Student {
 public:

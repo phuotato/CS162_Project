@@ -12,17 +12,18 @@ type Staff()
 type Student()
 {
 	system("cls");
-	cout << "Select option: ";
+	cout << "Select option: \n";
 
 }
 
 int main()
 {
 	int x;
+	cout << "Welcome to FIT.HCMUS Management System. \n";
+	cout << "Are you a \n";
 	cout << "(1)Staff or (2)Student?:";
 	cin >> x;
 	if (x == 1) Staff();
 	else Student();
-	
 	return 0;
 }
