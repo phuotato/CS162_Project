@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <iostream>
+#include <fstream>
 using namespace std;
 void drawBox();
 void login();

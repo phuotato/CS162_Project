@@ -1,10 +1,4 @@
 #include "Login.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <Windows.h>
-using namespace std;
-ifstream fin;
 void gotoxy(short a, short b)
 {
 	COORD coordinates{};
@@ -80,7 +74,7 @@ void drawBox()
 		cout << ch;
 	}
 }
-void login()
+void login(ifstream& fin)
 {
 	bool flag = 0;
 	drawBox();

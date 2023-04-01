@@ -1,6 +1,4 @@
-#include <fstream>
-#include <iostream>
-using namespace std;
+#include "ChangePassword.h"
 void changePassword(ifstream& fin, ofstream& fout)
 {
 	cout << "Input the username: ";

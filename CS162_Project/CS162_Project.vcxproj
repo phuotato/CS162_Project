@@ -154,9 +154,6 @@
     <ClInclude Include="Login.h" />
     <ClInclude Include="Universal.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Scoreboard\PH212_22TT2.csv" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
