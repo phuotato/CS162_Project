@@ -21,10 +21,12 @@ class date
 {
 public:
 	date(int Month, int Day, int Year);
-	void getDate();
+	int getDay();
+	int getMonth();
+	int getYear();
 private:
-	int month;
 	int day;
+	int month;
 	int year;
 };
 class semester
@@ -34,8 +36,7 @@ public:
 	void addCourse();
 	int getSem();
 	semester* pNext;
-	date getStartDate();
-	date getEndDate();
+	void getInformation();
 private:
 	course* pHeadCourses = nullptr;
 	date startDate, endDate;
@@ -48,20 +49,22 @@ public:
 	schoolYear(string time, schoolYear* pointer);
 	schoolYear();
 	string getYear();
-	bool createSemester();
-	void showSemester();
+	void createSemester(string year);
+	void loadFile(string year);
+	bool checkExistSemester(int sem);
 	schoolYear* pNext;
 private:
-	semester** arrSemester = new semester * [3] {};
+	semester* pHeadSemester;
+	semester* pTailSemester;
 	string year;
 };
 class school
 {
 public:
 	void createSchoolYear();
-	void createSemesterFromSchoolYear();
 	void deleteSchoolYear();
 	void showSchoolYear();
+	void createSemesterFromSchoolYear();
 	void loadFile();
 	bool checkExistSchoolYear(string year);
 private:

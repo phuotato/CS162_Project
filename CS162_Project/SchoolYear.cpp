@@ -1,25 +1,78 @@
 #include "Universal.h"
 ifstream fin;
 ofstream fout;
-bool schoolYear::createSemester()
+void schoolYear::createSemester(string year)
 {
-	cout << "What is semester you want to create: ";
-	int x; cin >> x;
-	if (arrSemester[x - 1])
+	loadFile(year);
+	bool flag = 1;
+	while (true)
 	{
-		cout << "This semester is already created. Please try again others.\n";
-		return 0;
+		if (!pHeadSemester)
+		{
+			cout << "What is semester you want to create: ";
+			string x;
+			getline(cin, x);
+			fout.open("../School Year/" + year + "/all semester.txt", ios::app);
+			fout << "Semester " + x;
+			fout.close();
+			cout << "Enter the start date of the semester:\n";
+			cout << "Day: "; int day1; cin >> day1;
+			cout << "Month: "; int month1; cin >> month1;
+			cout << "Year: "; int year1; cin >> year1;
+			cout << "Enter the end date of the semester:\n";
+			cout << "Day: "; int day2; cin >> day2;
+			cout << "Month: "; int month2; cin >> month2;
+			cout << "Year: "; int year2; cin >> year2;
+			if (_mkdir(("../School Year/" + year + "/Semester " + x).c_str()));
+			fout.open("../School Year/" + year + "/Semester " + x + "/information.txt");
+			fout << day1 << "," << month1 << "," << year1 << "," << day2 << "," << month2 << "," << year2;
+			fout.close();
+			pHeadSemester = new semester(stoi(x), day1, month1, year1, day2, month2, year2);
+			pTailSemester = pHeadSemester;
+		}
+		else
+		{
+			cout << "What is semester you want to create: ";
+			string x;
+			getline(cin, x);
+			if (checkExistSemester(stoi(x)))
+			{
+				fout.open("../School Year/" + year + "/all semester.txt", ios::app);
+				fout << endl << "Semester " + x;
+				fout.close();
+				cout << "Enter the start date of the semester:\n";
+				cout << "Day: "; int day1; cin >> day1;
+				cout << "Month: "; int month1; cin >> month1;
+				cout << "Year: "; int year1; cin >> year1;
+				cout << "Enter the end date of the semester:\n";
+				cout << "Day: "; int day2; cin >> day2;
+				cout << "Month: "; int month2; cin >> month2;
+				cout << "Year: "; int year2; cin >> year2;
+				if (_mkdir(("../School Year/" + year + "/Semester " + x).c_str()));
+				fout.open("../School Year/" + year + "/Semester " + x + "/information.txt");
+				fout << day1 << "," << month1 << "," << year1 << "," << day2 << "," << month2 << "," << year2;
+				fout.close();
+				semester* tmp = new semester(stoi(x), day1, month1, year1, day2, month2, year2);
+				pTailSemester->pNext = tmp;
+				pTailSemester = tmp;
+				flag = 1;
+			}
+			else
+			{
+				cout << "This semester is already created, please enter another semester\n";
+				flag = 0;
+			}
+		}
+		if (flag)
+		{
+			cout << "Create succesfully\n";
+			cout << "Do you want to add more semester on this school year:(Y/N || y/n) ";
+			char choice; cin >> choice;
+			cin.ignore();
+			if (choice == 'N' || choice == 'n')
+				return;
+		}
 	}
-	cout << "Enter the start date of the semester:\n";
-	cout << "Day: "; int day1; cin >> day1;
-	cout << "Month: "; int month1; cin >> month1;
-	cout << "Year: "; int year1; cin >> year1;
-	cout << "Enter the end date of the semester:\n";
-	cout << "Day: "; int day2; cin >> day2;
-	cout << "Month: "; int month2; cin >> month2;
-	cout << "Year: "; int year2; cin >> year2;
-	arrSemester[x - 1] = new semester(x, day1, month1, year1, day2, month2, year2);
-	return true;
 }
 schoolYear::schoolYear(string time, schoolYear* pointer) :year(time), pNext(pointer) {}
 schoolYear::schoolYear() {}
@@ -28,6 +81,7 @@ semester::semester(int Sem, int Day1, int Month1, int Year1, int Day2, int Month
 	:sem(Sem), startDate(Day1, Month1, Year1), endDate(Day2, Month2, Year2) {}
 void school::createSchoolYear()
 {
+	loadFile();
 	bool flag = 1;
 	while (true)
 	{
@@ -39,6 +93,8 @@ void school::createSchoolYear()
 			fout << year;
 			fout.close();
 			if (_mkdir(("../School Year/" + year).c_str()));
+			fout.open("../School Year/" + year + "/all semester.txt", ios::app);
+			fout.close();
 			pHeadSchoolYear = new schoolYear(year, nullptr);
 			pTailSchoolYear = pHeadSchoolYear;
 		}
@@ -52,6 +108,8 @@ void school::createSchoolYear()
 				fout << endl << year;
 				fout.close();
 				if (_mkdir(("../School Year/" + year).c_str()));
+				fout.open("../School Year/" + year + "/all semester.txt", ios::app);
+				fout.close();
 				schoolYear* tmp = new schoolYear(year, nullptr);
 				pTailSchoolYear->pNext = tmp;
 				pTailSchoolYear = tmp;
@@ -89,17 +147,15 @@ void school::createSemesterFromSchoolYear()
 		for (; cur; cur = cur->pNext)
 		{
 			string tmp = cur->getYear();
-			if (tmp == year);
+			if (!tmp.compare(year))
+				break;
 		}
-		if (cur->createSemester())
-		{
-			cout << "Create semester successfully\n";
-			cout << "Do you want to add more semester:(Y/N || y/n) ";
-			char choice; cin >> choice;
-			cin.ignore();
-			if (choice == 'N' || choice == 'n')
-				return;
-		}
+		cur->createSemester(year);
+		cout << "Do you want to add more semester:(Y/N || y/n) ";
+		char choice; cin >> choice;
+		cin.ignore();
+		if (choice == 'N' || choice == 'n')
+			return;
 	}
 }
 void school::deleteSchoolYear()
@@ -154,30 +210,54 @@ int semester::getSem()
 {
 	return sem;
 }
-date semester::getStartDate()
+void schoolYear::loadFile(string year)
 {
-	return startDate;
-}
-date semester::getEndDate()
-{
-	return endDate;
-}
-void schoolYear::showSemester()
-{
-	for (int i = 0; i < 3; ++i)
+	fin.open("../School Year/" + year + "/all semester.txt");
+	while (!fin.eof())
 	{
-		if (arrSemester[i])
+		string sem, day1, month1, year1, day2, month2, year2;
+		getline(fin, sem, ',');
+		getline(fin, day1, ',');
+		getline(fin, month1, ',');
+		getline(fin, year1, ',');
+		getline(fin, day2, ',');
+		getline(fin, month2, ',');
+		getline(fin, year2, '\n');
+		if (!pHeadSemester)
 		{
-			cout << "Sem " << i + 1 << ":\n";
-			cout << arrSemester[i]->getSem() << endl;
-			arrSemester[i]->getStartDate().getDate();
-			cout << endl;
-			arrSemester[i]->getEndDate().getDate();
-			cout << endl;
+			pHeadSemester = new semester(stoi(sem), stoi(day1), stoi(month1), stoi(year1), stoi(day2), stoi(month2), stoi(year2));
+			pTailSemester = pHeadSemester;
+		}
+		else
+		{
+			semester* tmp = new semester(stoi(sem), stoi(day1), stoi(month1), stoi(year1), stoi(day2), stoi(month2), stoi(year2));
+			pTailSemester->pNext = tmp;
+			pTailSemester = tmp;
 		}
 	}
 }
-void date::getDate()
+bool schoolYear::checkExistSemester(int sem)
 {
-	cout << day << " " << month << " " << year;
+	for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
+	{
+		if (sem == cur->getSem())
+			return 0;
+	}
+	return 1;
+}
+void semester::getInformation()
+{
+	cout << sem << "," << startDate.getDay() << "," << startDate.getMonth() << "," << startDate.getYear() << "," << endDate.getDay() << "," << endDate.getMonth() << "," << endDate.getYear() << endl;
+}
+int date::getDay()
+{
+	return day;
+}
+int date::getMonth()
+{
+	return month;
+}
+int date::getYear()
+{
+	return year;
 }
