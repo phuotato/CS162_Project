@@ -125,7 +125,7 @@ using namespace std;
 
 
 struct Course_Score {
-	Course* CoursePointer;
+	course* CoursePointer;
 	double total;
 	double midterm;
 	double final;
@@ -133,7 +133,7 @@ struct Course_Score {
 };
 
 struct Student_Score {
-	Student* StudentPointer;
+	student* StudentPointer;
 	double total;
 	double midterm;
 	double final;
