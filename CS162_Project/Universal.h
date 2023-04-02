@@ -32,11 +32,17 @@ private:
 class semester
 {
 public:
+	//definition for constructor
 	semester(int Sem, int Day1, int Month1, int Year1, int Day2, int Month2, int Year2);
+	semester();
+
+	//functions
 	void addCourse();
 	int getSem();
-	semester* pNext;
 	void getInformation();
+
+	//variables
+	semester* pNext;
 private:
 	course* pHeadCourses = nullptr;
 	date startDate, endDate;
@@ -46,12 +52,18 @@ private:
 class schoolYear
 {
 public:
+	//definition for constructor
 	schoolYear(string time, schoolYear* pointer);
 	schoolYear();
+
+	//functions
 	string getYear();
 	void createSemester(string year);
 	void loadFile(string year);
 	bool checkExistSemester(int sem);
+	semester* getSemester();
+
+	//variables
 	schoolYear* pNext;
 private:
 	semester* pHeadSemester;
@@ -61,10 +73,11 @@ private:
 class school
 {
 public:
+	//functions
 	void createSchoolYear();
 	void deleteSchoolYear();
 	void showSchoolYear();
-	void createSemesterFromSchoolYear();
+	void createSemesterFromSchoolYear(); //Edit while running app - Add more semester
 	void loadFile();
 	bool checkExistSchoolYear(string year);
 private:
