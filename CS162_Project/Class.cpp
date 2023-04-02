@@ -1,6 +1,6 @@
-#include "Universal.h"
-#include <fstream>
-#include <sstream>
+//#include "Universal.h"
+//#include <fstream>
+//#include <sstream>
 
 //definition of constructor
 //Class::Class(char cYear[2], char cName[5], char cSubclass, Student*& headS) : Subclass(cSubclass), HeadS(headS) {
