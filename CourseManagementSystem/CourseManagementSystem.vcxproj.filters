@@ -24,15 +24,18 @@
     <ClCompile Include="Display.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SchoolYear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\Universal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Universal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SchoolYear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
