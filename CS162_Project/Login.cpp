@@ -80,7 +80,6 @@ void login(ifstream& fin)
 	drawBox();
 	string username{}, password{};
 	gotoxy(31, 11);
-	cin.ignore();
 	getline(cin, username);
 	fin.open("StudentAccount/" + username + ".txt", ios::in);
 	string check_username, check_password;
@@ -139,7 +138,6 @@ void login(ifstream& fin)
 		drawBox();
 		string username{}, password{};
 		gotoxy(31, 11);
-		cin.ignore(-1);
 		getline(cin, username);
 		fin.open("StudentAccount/" + username + ".txt", ios::in);
 		string check_username, check_password;

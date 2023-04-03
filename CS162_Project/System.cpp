@@ -5,8 +5,9 @@ typedef void type;
 
 type Staff()
 {
+	ifstream fin;
 	system("cls");
-	login();
+	login(fin);
 	system("cls");
 	cout << "Begin of school year: \n";
 	// goi cac function Create a school year, classes, Add students o dayID
