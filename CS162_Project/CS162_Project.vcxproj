@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="ChangePassword.h" />
     <ClInclude Include="Login.h" />
+    <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Universal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
