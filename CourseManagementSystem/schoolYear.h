@@ -1,11 +1,11 @@
+#pragma once
 #include <string>
-#include "Universal.h"
 
 class Class
 {
 	public:
 	//Constructor
-
+	Class(std::string Name);
 	//Get attribute
 	std::string getName();
 
@@ -43,7 +43,7 @@ public:
 	void Create_Information_Class();
 
 	//Pointer
-	SchoolYear* pNext;
+	SchoolYear* pNext=nullptr;
 private:
 	std::string year;
 };

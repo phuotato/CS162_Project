@@ -1,11 +1,14 @@
-#include "SchoolYear.h"
+#pragma once
+#include "Universal.h"
 #include <iostream>
 #include <fstream>
 #include <direct.h>
 std::ifstream fin;
 std::ofstream fout;
 
-
+//Initialize extern variables
+SchoolYear* pHeadSchoolYear=nullptr;
+SchoolYear* pTailSchoolYear=nullptr;
 //Constructor for SchoolYear
 SchoolYear::SchoolYear(std::string time, SchoolYear* pointer) :year(time), pNext(pointer) {}
 SchoolYear::SchoolYear() {}
@@ -131,32 +134,39 @@ void SchoolYear::showSchoolYear()
 
 //Create&Information Class
 
+//Function error line 154. Name variable is undefined
 
-void SchoolYear::Create_Information_Class() {
-	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
-		std::string year = cur->getYear();
-		while (true) {
-			fin.open(".. /School Year/" + year + "/Class.txt");
-			if (!fin.eof()) return;
-			std::string ClassName;
-			getline(fin, ClassName, ' ');
-			if (ClassName == ".") break;
-			fin.ignore();
+//void SchoolYear::Create_Information_Class() {
+//	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
+//		std::string year = cur->getYear();
+//		while (true) {
+//			fin.open(".. /School Year/" + year + "/Class.txt");
+//			if (!fin.eof()) return;
+//			std::string ClassName;
+//			getline(fin, ClassName, ' ');
+//			if (ClassName == ".") break;
+//			fin.ignore();
+//
+//			if (!pHeadClass) pHeadClass = new Class;
+//			Class* tmp = pHeadClass;
+//			tmp->pNext = new Class(Name); //Create Constructor
+//
+//			pTailClass = tmp;
+//			if (!pHeadClass) delete pHeadClass;
+//
+//			fin.close();
+//		}
+//
+//	}
+//
+//}
+//
+//std::string Class::getName() {
+//	return Name;
+//}
 
-			if (!pHeadClass) pHeadClass = new Class;
-			Class* tmp = pHeadClass;
-			tmp->pNext = new Class(Name); //Create Constructor
-
-			pTailClass = tmp;
-			if (!pHeadClass) delete pHeadClass;
-
-			fin.close();
-		}
-
-	}
-
-}
-
-std::string Class::getName() {
-	return Name;
+Class::Class(std::string Name):Name(Name){}
+std::string SchoolYear::getYear()
+{
+	return year;
 }
