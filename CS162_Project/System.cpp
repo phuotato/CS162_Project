@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Login.h"
 using namespace std;
 typedef void type;
@@ -6,7 +7,8 @@ typedef void type;
 type Staff()
 {
 	system("cls");
-	login();
+	string folder = "../StaffAccount/";
+	login(folder);
 	system("cls");
 	cout << "Begin of school year: \n";
 	// goi cac function Create a school year, classes, Add students o dayID
@@ -22,5 +24,6 @@ type Student()
 int main()
 {
 	drawBox();
+	Staff();
 	return 0;
 }

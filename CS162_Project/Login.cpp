@@ -74,15 +74,15 @@ void drawBox()
 		cout << ch;
 	}
 }
-void login(ifstream& fin)
+void login(string folder)
 {
+	ifstream fin;
 	bool flag = 0;
 	drawBox();
 	string username{}, password{};
 	gotoxy(31, 11);
-	cin.ignore();
 	getline(cin, username);
-	fin.open("StudentAccount/" + username + ".txt", ios::in);
+	fin.open(folder + username + ".txt", ios::in);
 	string check_username, check_password;
 	fin >> check_username;
 	fin >> check_password;
@@ -139,9 +139,8 @@ void login(ifstream& fin)
 		drawBox();
 		string username{}, password{};
 		gotoxy(31, 11);
-		cin.ignore(-1);
 		getline(cin, username);
-		fin.open("StudentAccount/" + username + ".txt", ios::in);
+		fin.open( folder + username + ".txt", ios::in);
 		string check_username, check_password;
 		fin >> check_username;
 		fin >> check_password;

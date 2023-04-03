@@ -5,6 +5,6 @@
 #include <fstream>
 using namespace std;
 void drawBox();
-void login();
+void login(string folder);
 void gotoxy(short a, short b);
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput);
