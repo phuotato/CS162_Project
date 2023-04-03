@@ -144,6 +144,7 @@
     <ClCompile Include="Universal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Header\Universal.h" />
     <ClInclude Include="Universal.h" />
   </ItemGroup>
