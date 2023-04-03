@@ -6,6 +6,7 @@ typedef void type;
 
 type Staff()
 {
+	ifstream fin;
 	system("cls");
 	string folder = "../StaffAccount/";
 	login(folder);
