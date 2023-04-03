@@ -127,36 +127,3 @@ void SchoolYear::showSchoolYear()
 	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 		std::cout << cur->getYear() << " ";
 }
-
-
-//Create&Information Class
-
-
-void SchoolYear::Create_Information_Class() {
-	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
-		std::string year = cur->getYear();
-		while (true) {
-			fin.open(".. /School Year/" + year + "/Class.txt");
-			if (!fin.eof()) return;
-			std::string ClassName;
-			getline(fin, ClassName, ' ');
-			if (ClassName == ".") break;
-			fin.ignore();
-		
-			if (!pHeadClass) pHeadClass = new Class;
-			Class* tmp = pHeadClass;
-			tmp->pNext = new Class(Name); //Create Constructor
-
-			pTailClass = tmp;
-			if (!pHeadClass) delete pHeadClass;
-
-			fin.close();
-		}
-		
-	}
-
-}
-
-std::string Class::getName() {
-	return Name;
-}
