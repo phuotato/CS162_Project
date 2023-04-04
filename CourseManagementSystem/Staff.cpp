@@ -40,13 +40,12 @@ int BeginSchoolYear() {
             break;
         case 0:
             cout << "\n\t\t Thank you for using the College Management Program!";
+            exit(0);
             break;
         default:
             cout << "\n\t\t Invalid input.";
         }
     } while (option != 0);
-
-    return 0;
 }
 
 void Staff()
