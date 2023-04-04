@@ -1,4 +1,4 @@
-#include "WelcomePage.h"
+#include "Universal.h"
 using namespace std;
 
 void gotoxy(short a, short b){
@@ -181,6 +181,7 @@ void login(string folder)
 	loginPage();
 	string username{}, password{};
 	gotoxy(31, 11);
+	cin.ignore();
 	getline(cin, username);
 	fin.open(folder + username + ".txt", ios::in);
 	string check_username, check_password;
@@ -218,12 +219,13 @@ void login(string folder)
 	gotoxy(31, 19);
 	cout << "Press enter to sign in:";
 	cin.get();
-	if (check_password != password)
+	if (check_password != password && check_password != "")
 	{
 		flag = 1;
-		system("cls");
 		gotoxy(31, 19);
 		cout << "Your password or username wrong!";
+		system("pause");
+		system("cls");
 	}
 	if (flag == 0)
 	{

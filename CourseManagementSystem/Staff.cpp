@@ -1,5 +1,8 @@
-#include "Staff.h"
+#include "Universal.h"
 using namespace std;
+
+extern SchoolYear* pHeadSchoolYear;
+extern SchoolYear* pTailSchoolYear;
 
 void displayHeader() {
     system("cls");
@@ -33,13 +36,19 @@ int BeginSchoolYear() {
 
         switch (option) {
         case 1:
-            // Code to create school year
+            system("cls");
+            gotoxy(12, 0);
+            cout << "All the year list:\n";
+            pHeadSchoolYear->loadFile();
+            pHeadSchoolYear->showSchoolYear();
+            pHeadSchoolYear->createSchoolYear();
             break;
         case 2:
-            // Code to create classes for 1st-year students
+            pHeadSchoolYear->Create_Information_Class();
             break;
         case 0:
             cout << "\n\t\t Thank you for using the College Management Program!";
+            pHeadSchoolYear->deleteSchoolYear();
             exit(0);
             break;
         default:
