@@ -3,9 +3,10 @@
 
 class Class
 {
-	public:
+public:
 	//Constructor
 	Class(std::string Name);
+	Class();
 	//Get attribute
 	std::string getName();
 
@@ -13,7 +14,7 @@ class Class
 	//Pointer
 	Class* pNext;
 
-	private:
+private:
 	std::string Name;
 };
 
@@ -35,7 +36,7 @@ public:
 
 	//Delete function
 	void deleteSchoolYear();
-	
+
 	//Show SchoolYear
 	void showSchoolYear();
 
@@ -43,7 +44,16 @@ public:
 	void Create_Information_Class();
 
 	//Pointer
-	SchoolYear* pNext=nullptr;
+	SchoolYear* pNext = nullptr;
+
+	//Class pointer
+
+	Class* pHeadClass;
+	Class* pTailClass;
+
+	//Semester pointer
+
+
 private:
 	std::string year;
 };

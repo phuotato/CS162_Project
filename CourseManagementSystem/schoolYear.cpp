@@ -7,14 +7,17 @@ std::ifstream fin;
 std::ofstream fout;
 
 //Initialize extern variables
-SchoolYear* pHeadSchoolYear=nullptr;
-SchoolYear* pTailSchoolYear=nullptr;
+SchoolYear* pHeadSchoolYear = nullptr;
+SchoolYear* pTailSchoolYear = nullptr;
+
 //Constructor for SchoolYear
 SchoolYear::SchoolYear(std::string time, SchoolYear* pointer) :year(time), pNext(pointer) {}
 SchoolYear::SchoolYear() {}
 
 
 //Create SchoolYear
+
+
 void SchoolYear::createSchoolYear()
 {
 	loadFile();
@@ -49,15 +52,15 @@ void SchoolYear::createSchoolYear()
 			flag = 0;
 		}
 	}
-		if (flag)
-		{
-			std::cout << "Create succesfully\n";
-			std::cout << "Do you want to add more school year:(Y/N || y/n) ";
-			char choice; std::cin >> choice;
-			std::cin.ignore();
-			if (choice == 'N' || choice == 'n')
-				return;
-		}
+	if (flag)
+	{
+		std::cout << "Create succesfully\n";
+		std::cout << "Do you want to add more school year:(Y/N || y/n) ";
+		char choice; std::cin >> choice;
+		std::cin.ignore();
+		if (choice == 'N' || choice == 'n')
+			return;
+	}
 }
 
 void SchoolYear::loadFile()
@@ -121,6 +124,8 @@ void SchoolYear::deleteSchoolYear()
 
 
 //Show SchoolYear
+
+
 void SchoolYear::showSchoolYear()
 {
 	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
@@ -130,38 +135,41 @@ void SchoolYear::showSchoolYear()
 
 //Create&Information Class
 
-//Function error line 154. Name variable is undefined
+//Constructor for Class
+Class::Class(std::string Name) :Name(Name) {}
 
-//void SchoolYear::Create_Information_Class() {
-//	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
-//		std::string year = cur->getYear();
-//		while (true) {
-//			fin.open(".. /School Year/" + year + "/Class.txt");
-//			if (!fin.eof()) return;
-//			std::string ClassName;
-//			getline(fin, ClassName, ' ');
-//			if (ClassName == ".") break;
-//			fin.ignore();
-//
-//			if (!pHeadClass) pHeadClass = new Class;
-//			Class* tmp = pHeadClass;
-//			tmp->pNext = new Class(Name); //Create Constructor
-//
-//			pTailClass = tmp;
-//			if (!pHeadClass) delete pHeadClass;
-//
-//			fin.close();
-//		}
-//
-//	}
-//
-//}
-//
-//std::string Class::getName() {
-//	return Name;
-//}
+//Functions for Class
+void SchoolYear::Create_Information_Class() {
+	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
+		std::string year = cur->getYear();
+		while (true) {
+			fin.open(".. /School Year/" + year + "/Class.txt");
+			if (!fin.eof()) return;
+			std::string ClassName;
+			getline(fin, ClassName, ' ');
+			if (ClassName == ".") break;
+			fin.ignore();
 
-Class::Class(std::string Name):Name(Name){}
+			if (!pHeadClass) pHeadClass = new Class("");
+			Class* tmp = pHeadClass;
+			tmp->pNext = new Class(ClassName);
+
+			pTailClass = tmp;
+			if (pHeadClass->getName() == "") delete pHeadClass;
+
+			fin.close();
+		}
+
+	}
+
+}
+
+
+//Other functions
+std::string Class::getName() {
+	return Name;
+}
+
 std::string SchoolYear::getYear()
 {
 	return year;
