@@ -5,40 +5,67 @@
 #include "Student.h"
 #include "Date.h"
 using namespace std;
-
-void student::addStudentto1stClass(student*& headS) {
-    cout << "Enter the classcode (Example: 22TT2, 22TT1, 21VP, 22CLC03,...): ";
-    string fileName;
-    getline(cin, fileName);
-    ifstream fin("../StudentProfile/" + fileName + ".txt");
-    if (!fin) {
+student* pStudent = nullptr;
+void student::addStudentto1stClass(student*& headS)
+{
+    cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
+    string classcode;
+    cin >> classcode;
+    ifstream fin("../StudentProfile/" + classcode + ".csv");
+    if (!fin)
+    {
         cout << "Error loading data! Please try again.";
         return;
     }
-    string line;
-    while (getline(fin, line)) {
-        istringstream iss(line);
+    string redundant;
+    getline(fin, redundant);
+    while (!fin.eof())
+    {
         int no;
         string id, firstname, lastname, socialId;
         bool gender;
         Date dob;
-
-        if (!(iss >> no >> id >> firstname >> lastname >> gender >> dob.day >> dob.month >> dob.year >> socialId)) {
-            cout << "Error reading line from file";
-            continue;
-        }
-
-        student* newStudent = new student(no, id, firstname, lastname, gender, dob, socialId, nullptr);       
+        getline(fin, id, ',');
+        string getNO;
+        getline(fin, getNO, ',');
+        if (fin.eof())
+            break;
+        no = stoi(getNO);
+        getline(fin, firstname, ',');
+        getline(fin, lastname, ',');
+        string getGender;
+        getline(fin, getGender, ',');
+        gender = stoi(getGender);
+        string getDay, getMonth, getYear;
+        getline(fin, getDay, '/');
+        getline(fin, getMonth, '/');
+        getline(fin, getYear, ',');
+        dob.day = stoi(getDay);
+        dob.month = stoi(getMonth);
+        dob.year = stoi(getYear);
+        fin.ignore();
+        getline(fin, socialId);
+        student* newStudent = new student(no, id, firstname, lastname, gender, dob, socialId, nullptr);
         newStudent->pNext = headS;
         headS = newStudent;
     }
+    cout << "Add students successfully! System will go back to the menu now." << endl << endl;
+    system("pause");
 }
 void student::viewProfile(student* &headS)
 {
     student* temp = headS;
     string username;
-    cout << "Input the student ID ";
+    cout << "Input the student ID: ";
+    cin.ignore();
     getline(cin, username);
+    if (!headS)
+    {
+        cout << "No information currently! Please load the data first." << endl << endl;
+        cout << "Process done! The system will go back to the menu." << endl;
+        system("pause");
+        return;
+    }
     while (temp != nullptr)
     {
         if (temp->id== username)
@@ -53,12 +80,17 @@ void student::viewProfile(student* &headS)
             else
                 cout << "Female";
             cout << endl;
-            cout << "Social ID: " << temp->socialId;
+            cout << "Social ID: " << temp->socialId << endl;
             break;
         }
         else
             temp = temp->pNext;
     }
+    if (temp == nullptr)
+        cout << "No information about this student!" << endl;
+    cout << endl;
+    cout << "Process done! The system will go back to the menu." << endl;
+    system("pause");
 }
 
 void student::deleteStudentList(student*& headS)

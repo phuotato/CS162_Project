@@ -2,6 +2,7 @@
 #include <string>
 #include "Date.h"
 using namespace std;
+
 class student
 {
 public:
@@ -11,14 +12,16 @@ public:
 	bool gender;
 	Date dob;
 	student* pNext = nullptr;
+	student* pStudent = nullptr;
 
 	//Constructor
 	student(int no, string id, string firstname, string lastname, bool gender, Date dob, string socialId, student* pointer) :
-		no(no), id(id), firstName(firstName), lastName(lastName), gender(gender),
+		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dob(dob), socialId(socialId), pNext(pointer) {}
 	void addStudentto1stClass(student*& headS);
 	void viewProfile(student*& headS);
-	void deleteStudentList(student*& student);
+	void deleteStudentList(student*& headS);
 private: 
 	student* headS = nullptr;
 };
+

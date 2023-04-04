@@ -3,6 +3,7 @@
 using namespace std;
 extern std::ifstream fin;
 extern std::ofstream fout;
+extern student* pStudent;
 extern SchoolYear* pHeadSchoolYear;
 extern SchoolYear* pTailSchoolYear;
 
@@ -16,7 +17,8 @@ void displayMenu() {
     cout << "\n\t\t 1. Create School Year";
     cout << "\n\t\t 2. Create Classes for 1st-Year Students";
     cout << "\n\t\t 3. Add 1st-year students to 1st-year classes";
-    cout << "\n\t\t 4. Change Password";
+    cout << "\n\t\t 4. View student profile";
+    cout << "\n\t\t 5. Change Password";
     cout << "\n\t\t 0. Exit";
     cout << "\n\t\t-----------------------";
     cout << "\n\t\t Enter your choice: ";
@@ -51,14 +53,21 @@ int BeginSchoolYear() {
             pHeadSchoolYear->Create_Information_Class();
             break;
         case 3: 
-
-        case 4: 
+            system("cls");
+            pStudent->addStudentto1stClass(pStudent);
+            break;
+        case 4:
+            system("cls");
+            pStudent->viewProfile(pStudent);
+            break;
+        case 5: 
             system("cls");
             changePassword(fin, fout);
             break;
         case 0:
             cout << "\n\t\t Thank you for using the College Management Program!";
             pHeadSchoolYear->deleteSchoolYear();
+            pStudent->deleteStudentList(pStudent);
             exit(0);
             break;
         default:

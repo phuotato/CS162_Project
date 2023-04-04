@@ -10,7 +10,9 @@ void changePassword(ifstream& fin, ofstream& fout)
 		fin.open("..StudentAccount/" + username + ".txt", ios::in);
 	if (!fin)
 	{
-		cout << "Error! Please try again.";
+		cout << "Account Not Found! Please try again." << endl << endl;
+		cout << "Process done! The system will go back to the menu." << endl;
+		system("pause");
 		return;
 	}
 	cout << "Input the password: ";
@@ -51,4 +53,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 			cin >> password;
 		}
 	}
+	cout << endl;
+	cout << "Process done! The system will go back to the menu.";
+	system("pause");
 }
