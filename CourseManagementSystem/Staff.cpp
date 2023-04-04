@@ -1,6 +1,8 @@
 #include "Universal.h"
-using namespace std;
 
+using namespace std;
+extern std::ifstream fin;
+extern std::ofstream fout;
 extern SchoolYear* pHeadSchoolYear;
 extern SchoolYear* pTailSchoolYear;
 
@@ -13,6 +15,8 @@ void displayMenu() {
     cout << "\n\t\t-----------------------";
     cout << "\n\t\t 1. Create School Year";
     cout << "\n\t\t 2. Create Classes for 1st-Year Students";
+    cout << "\n\t\t 3. Add 1st-year students to 1st-year classes";
+    cout << "\n\t\t 4. Change Password";
     cout << "\n\t\t 0. Exit";
     cout << "\n\t\t-----------------------";
     cout << "\n\t\t Enter your choice: ";
@@ -45,6 +49,12 @@ int BeginSchoolYear() {
             break;
         case 2:
             pHeadSchoolYear->Create_Information_Class();
+            break;
+        case 3: 
+
+        case 4: 
+            system("cls");
+            changePassword(fin, fout);
             break;
         case 0:
             cout << "\n\t\t Thank you for using the College Management Program!";
