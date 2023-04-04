@@ -21,10 +21,13 @@
     <ClCompile Include="Universal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Display.cpp">
+    <ClCompile Include="WelcomePage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SchoolYear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Staff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +35,13 @@
     <ClInclude Include="Universal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Display.h">
+    <ClInclude Include="WelcomePage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchoolYear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

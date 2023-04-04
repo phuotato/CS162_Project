@@ -1,4 +1,4 @@
-#include "Display.h"
+#include "WelcomePage.h"
 using namespace std;
 
 void gotoxy(short a, short b){
@@ -92,7 +92,7 @@ void welcomePage()
 	cin >> option;
 	switch (option) {
 	case 1: 
-		login("../StaffAccount/");
+		Staff();
 		break;
 	case 2:
 		login("../StudentAccount/");
