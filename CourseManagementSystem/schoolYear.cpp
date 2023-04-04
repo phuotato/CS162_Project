@@ -111,7 +111,7 @@ void SchoolYear::deleteSchoolYear()
 	for (pHeadSchoolYear; pHeadSchoolYear;)
 	{
 		//DeleteClass
-		deleteClass(pHeadSchoolYear);
+		pHeadSchoolYear->pHeadClass->deleteClass();
 
 		//delete semester
 		//for (semester* pHead = pHeadSchoolYear->getSemester(); pHead;) {
@@ -223,12 +223,12 @@ bool SchoolYear::CheckExistClass(std::string Name)
 	return 1;
 }
 
-void deleteClass(SchoolYear* cur) {
-	for (Class* pHead = cur->pHeadClass; pHead;)
+void Class::deleteClass() {
+	for (; pHeadSchoolYear->pHeadClass;)
 	{
-		Class* tmp = pHead->pNext;
-		delete pHead;
-		pHead = tmp;
+		Class* tmp = pHeadSchoolYear->pHeadClass;
+		delete pHeadSchoolYear->pHeadClass;
+		pHeadSchoolYear->pHeadClass = tmp;
 
 	}
 }

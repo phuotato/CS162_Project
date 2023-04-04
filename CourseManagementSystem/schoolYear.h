@@ -11,7 +11,7 @@ public:
 	std::string getName();
 
 	//Function for class
-	void deleteClass(SchoolYear* cur);
+	void deleteClass();
 
 	//Pointer
 	Class* pNext;
