@@ -5,6 +5,11 @@ using namespace std;
 
 int main()
 {
-	welcomePage();
+	cout << "Phuong Anh ne";
+	for (int i = 0; i < 3; ++i)
+	{
+		cout << i << " ";
+	}
+	//welcomePage();
 	return 0;
 }
