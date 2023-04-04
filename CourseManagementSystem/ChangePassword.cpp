@@ -22,6 +22,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 	fin >> check_username;
 	fin >> check_password;
 	bool condition = false;
+	fin.close();																			//Remember to close text file
 	while (condition == false)
 	{
 		if (check_username == username && check_password == password)
@@ -40,6 +41,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 				fout << newPass;
 				condition = true;
 				cout << "Change password successfully!" << endl;
+				fout.close();																//Remember to close text file
 			}
 			else
 			{
