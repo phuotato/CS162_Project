@@ -7,7 +7,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 	if (username[0] >= 'a' && username[0] <= 'z')
 		fin.open("../StaffAccount/" + username + ".txt", ios::in);
 	else if (username[0] >= '0' && username[0] <= '9')
-		fin.open("..StudentAccount/" + username + ".txt", ios::in);
+		fin.open("../StudentAccount/" + username + ".txt", ios::in);
 	if (!fin)
 	{
 		cout << "Account Not Found! Please try again." << endl << endl;
@@ -33,9 +33,9 @@ void changePassword(ifstream& fin, ofstream& fout)
 			if (newPass == confirmPass)
 			{
 				if (username[0] >= 'a' && username[0] <= 'z')
-					fout.open("../StaffAccount/" + username + ".txt");
+					fout.open("../StaffAccount/" + username + ".txt", ios::trunc);
 				else if (username[0] >= '0' && username[0] <= '9')
-					fout.open("../StudentAccount/" + username + ".txt");
+					fout.open("../StudentAccount/" + username + ".txt", ios::trunc);
 				fout << username << endl;
 				fout << newPass;
 				condition = true;
