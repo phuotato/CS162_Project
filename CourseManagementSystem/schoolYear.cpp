@@ -15,8 +15,6 @@ SchoolYear::SchoolYear() {}
 
 
 //Create SchoolYear
-
-
 void SchoolYear::createSchoolYear()
 {
 	loadFile();
@@ -123,8 +121,6 @@ void SchoolYear::deleteSchoolYear()
 
 
 //Show SchoolYear
-
-
 void SchoolYear::showSchoolYear()
 {
 	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)

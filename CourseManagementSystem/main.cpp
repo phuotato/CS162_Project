@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-//	welcomePage();
-
+	welcomePage();
+	loginPage();
 	return 0;
 }
