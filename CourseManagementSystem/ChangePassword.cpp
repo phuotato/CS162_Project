@@ -22,6 +22,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 	fin >> check_username;
 	fin >> check_password;
 	bool condition = false;
+	fin.close();																			//Remember to close text file
 	while (condition == false)
 	{
 		if (check_username == username && check_password == password)
@@ -33,13 +34,14 @@ void changePassword(ifstream& fin, ofstream& fout)
 			if (newPass == confirmPass)
 			{
 				if (username[0] >= 'a' && username[0] <= 'z')
-					fout.open("../StaffAccount/" + username + ".txt");
+					fout.open("../StaffAccount/" + username + ".txt", ios::trunc);
 				else if (username[0] >= '0' && username[0] <= '9')
-					fout.open("../StudentAccount/" + username + ".txt");
+					fout.open("../StudentAccount/" + username + ".txt", ios::trunc);
 				fout << username << endl;
 				fout << newPass;
 				condition = true;
 				cout << "Change password successfully!" << endl;
+				fout.close();																//Remember to close text file
 			}
 			else
 			{
