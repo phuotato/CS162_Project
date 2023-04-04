@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-	//welcomePage();
+	welcomePage();
 	return 0;
 }

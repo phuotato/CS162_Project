@@ -78,6 +78,8 @@ int BeginSchoolYear() {
 
 void Staff()
 {
+    cin.get();
+    system("cls");
     login("../StaffAccount/");
 	system("cls");
 	cout << "Begin of school year: \n";
