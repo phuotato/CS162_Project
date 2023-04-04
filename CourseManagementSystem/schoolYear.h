@@ -10,6 +10,8 @@ public:
 	//Get attribute
 	std::string getName();
 
+	//Function for class
+	void deleteClass(SchoolYear* cur);
 
 	//Pointer
 	Class* pNext;
@@ -41,13 +43,14 @@ public:
 	void showSchoolYear();
 
 	//Create&Information_Class
+	bool CheckExistClass(std::string Name);
+	void Add_New_Class();
 	void Create_Information_Class();
 
 	//Pointer
 	SchoolYear* pNext = nullptr;
 
 	//Class pointer
-
 	Class* pHeadClass;
 	Class* pTailClass;
 
