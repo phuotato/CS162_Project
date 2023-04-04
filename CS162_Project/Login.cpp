@@ -121,9 +121,11 @@ void login(string folder)
 	if (check_password != password)
 	{
 		flag = 1;
-		system("cls");
 		gotoxy(31, 19);
 		cout << "Your password or username wrong!";
+		gotoxy(31, 20);
+		system("pause");
+		system("cls");
 	}
 	if (flag == 0)
 	{
@@ -178,9 +180,11 @@ void login(string folder)
 		cin.get();
 		if (check_password != password)
 		{
-			system("cls");
 			gotoxy(31, 19);
 			cout << "Your password or username wrong!";
+			gotoxy(31, 20);
+			system("pause");
+			system("cls");
 		}
 		else
 			break;
