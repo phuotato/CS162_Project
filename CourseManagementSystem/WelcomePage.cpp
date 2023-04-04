@@ -223,7 +223,8 @@ void login(string folder)
 	{
 		flag = 1;
 		gotoxy(31, 19);
-		cout << "Your password or username wrong!";
+		cout << "Your password or username wrong!\n";
+		gotoxy(31, 19);
 		system("pause");
 		system("cls");
 	}

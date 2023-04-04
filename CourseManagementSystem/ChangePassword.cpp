@@ -33,9 +33,9 @@ void changePassword(ifstream& fin, ofstream& fout)
 			if (newPass == confirmPass)
 			{
 				if (username[0] >= 'a' && username[0] <= 'z')
-					fout.open("..StaffAccount/" + username + ".txt", ios::trunc);
+					fout.open("../StaffAccount/" + username + ".txt");
 				else if (username[0] >= '0' && username[0] <= '9')
-					fout.open("..StudentAccount/" + username + ".txt", ios::trunc);
+					fout.open("../StudentAccount/" + username + ".txt");
 				fout << username << endl;
 				fout << newPass;
 				condition = true;
