@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="WelcomePage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SchoolYear.cpp" />
@@ -146,7 +147,10 @@
     <ClCompile Include="Universal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Course.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="Staff.h" />
+    <ClInclude Include="Student.h" />
     <ClInclude Include="WelcomePage.h" />
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Universal.h" />
