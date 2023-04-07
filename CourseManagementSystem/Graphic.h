@@ -9,4 +9,5 @@ void setcursor(bool visible, DWORD size);
 void gotoxy(short a, short b);
 void drawHeader();
 void setColor(int color);
+//void setBackgroundColor(int color);
 void drawBox(int x, int y, int width, int height);

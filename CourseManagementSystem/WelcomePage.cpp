@@ -9,20 +9,21 @@ void welcomePage()
     // set console size and title
     system("mode con: cols=90 lines=30");
     SetConsoleTitle(TEXT("FIT.HCMUS Management Program"));
-
+	system("color 70");
     //header
     drawHeader();
     
     //welcome message
-    setColor(15); // white text color
+    //setColor(0); // black text color
     cout << "\n\n\n\n";
     drawBox(20, 10, 40, 8);
     gotoxy(32, 12);
     cout << "Welcome to";
     gotoxy(25, 14);
-    setColor(9); // light blue text color
+	//system("color 79");
+    //setColor(9); // light blue text color
     cout << "FIT.HCMUS Management System.";
-    setColor(15);
+    //setColor(15);
 
     // wait for user input to continue
     gotoxy(28, 24);
@@ -65,6 +66,7 @@ void welcomePage()
 void loginPage()
 {
 	//system("cls");
+	system("color 50");
 	drawHeader();
 	char ch;
 	gotoxy(20, 11);

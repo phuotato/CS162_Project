@@ -1,6 +1,7 @@
 #include "Graphic.h"
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+HANDLE console_color;
 
 void setcursor(bool visible, DWORD size) // set bool visible = 0 - invisible, bool visible = 1 - visible
 {
@@ -23,6 +24,11 @@ void gotoxy(short a, short b) {
 
 void setColor(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void setBackgroundColor(int color) {
+	console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console_color, color);
 }
 
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
