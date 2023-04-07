@@ -1,5 +1,5 @@
 #pragma once
-#include "Semester.h"
+#include "Semester.h"	 
 
 class Class
 {
@@ -36,7 +36,7 @@ public:
 	void createSchoolYear();
 	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
-
+	
 	void createSemester();
 	//Delete function
 	void deleteSchoolYear();
@@ -60,7 +60,7 @@ public:
 	semester* pHeadSemester = nullptr;
 
 private:
-	std::string year;
+	std::string year; 
 	
 };
 void switchSchoolYear();

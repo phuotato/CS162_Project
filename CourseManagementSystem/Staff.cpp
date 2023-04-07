@@ -43,10 +43,7 @@ int BeginSchoolYear() {
         switch (option) {
         case 1:
             system("cls");
-            gotoxy(12, 0);
-            cout << "All the year list:\n";
             pHeadSchoolYear->loadFile();
-            pHeadSchoolYear->showSchoolYear();
             pHeadSchoolYear->createSchoolYear();
             break;
         case 2:
