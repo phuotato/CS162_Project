@@ -1,5 +1,5 @@
 #pragma once
-#include "Universal.h"
+#include "Semester.h"
 
 class Class
 {
@@ -61,5 +61,6 @@ public:
 
 private:
 	std::string year;
+	
 };
 void switchSchoolYear();

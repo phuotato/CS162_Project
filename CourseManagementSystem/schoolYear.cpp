@@ -1,13 +1,13 @@
 #pragma once
-#include "Universal.h"
+#include "schoolYear.h"
 
 std::ifstream fin;
 std::ofstream fout;
 
 //Initialize extern variables
-extern schoolYear* curSchoolYear = nullptr;
-extern schoolYear* pHeadSchoolYear = nullptr;
-extern schoolYear* pTailSchoolYear = nullptr;
+extern schoolYear* curSchoolYear;
+extern schoolYear* pHeadSchoolYear;
+extern schoolYear* pTailSchoolYear;
 
 //Constructor for SchoolYear
 schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext(pointer) {}
@@ -110,7 +110,7 @@ bool schoolYear::checkExistSchoolYear(std::string year)
 	return 1;
 }
 
-bool checkCorrectYear(std::string year) {
+bool schoolYear::checkCorrectYear(std::string year) {
 	int length = year.length();
 	if (length != 9) return false;
 	for (int i = 0; i < 4; i++) {
