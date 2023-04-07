@@ -2,6 +2,7 @@
 #include "WelcomePage.h"
 using namespace std;
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+string username{};
 void setcursor(bool visible, DWORD size) // set bool visible = 0 - invisible, bool visible = 1 - visible
 {
 	if (size == 0)
@@ -193,7 +194,7 @@ void login(string folder)
 		ifstream fin;
 		bool flag = 0;
 		loginPage();
-		string username{}, password{};
+		string password{};
 		gotoxy(31, 11);
 		setcursor(1, 10);
 		getline(cin, username);

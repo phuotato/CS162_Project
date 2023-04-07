@@ -1,9 +1,7 @@
 #include "ChangePassword.h"
+extern string username;
 void changePassword(ifstream& fin, ofstream& fout)
 {
-	cout << "Enter the username: ";
-	string username;
-	cin >> username;
 	if (username[0] >= 'a' && username[0] <= 'z')
 		fin.open("../StaffAccount/" + username + ".txt", ios::in);
 	else if (username[0] >= '0' && username[0] <= '9')
