@@ -1,24 +1,23 @@
 #pragma once
 #include "Universal.h"
-#include <iostream>
-#include <fstream>
-#include <direct.h>
+
 std::ifstream fin;
 std::ofstream fout;
 
 //Initialize extern variables
-SchoolYear* pHeadSchoolYear = nullptr;
-SchoolYear* pTailSchoolYear = nullptr;
+extern schoolYear* curSchoolYear = nullptr;
+extern schoolYear* pHeadSchoolYear = nullptr;
+extern schoolYear* pTailSchoolYear = nullptr;
 
 //Constructor for SchoolYear
-SchoolYear::SchoolYear(std::string time, SchoolYear* pointer) :year(time), pNext(pointer) {}
-SchoolYear::SchoolYear() {}
+schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext(pointer) {}
+schoolYear::schoolYear() {}
 
 
 //Create SchoolYear
 
 
-void SchoolYear::createSchoolYear()
+void schoolYear::createSchoolYear()
 {
 	cin.ignore();
 	loadFile();
@@ -40,9 +39,9 @@ void SchoolYear::createSchoolYear()
 			fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
 			fout.close();
 
-			if (!pHeadSchoolYear) pHeadSchoolYear = new SchoolYear(year, nullptr);
-			SchoolYear* tmp = pHeadSchoolYear->pNext;
-			tmp = new SchoolYear(year, nullptr);
+			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
+			schoolYear* tmp = pHeadSchoolYear->pNext;
+			tmp = new schoolYear(year, nullptr);
 			pTailSchoolYear->pNext = tmp;
 			pTailSchoolYear = tmp;
 			if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
@@ -66,7 +65,7 @@ void SchoolYear::createSchoolYear()
 	
 }
 
-void SchoolYear::loadFile()
+void schoolYear::loadFile()
 {
 	fin.open("../Data/School Year/all school year.txt");
 	while (!fin.eof())
@@ -77,23 +76,23 @@ void SchoolYear::loadFile()
 			return;
 		if (!pHeadSchoolYear)
 		{
-			pHeadSchoolYear = new SchoolYear(year, nullptr);
+			pHeadSchoolYear = new schoolYear(year, nullptr);
 			pTailSchoolYear = pHeadSchoolYear;
 		}
 		else
 		{
-			SchoolYear* tmp = new SchoolYear(year, nullptr);
+			schoolYear* tmp = new schoolYear(year, nullptr);
 			pTailSchoolYear->pNext = tmp;
 			pTailSchoolYear = tmp;
 		}
 	}
 }
 
-bool SchoolYear::checkExistSchoolYear(std::string year)
+bool schoolYear::checkExistSchoolYear(std::string year)
 {
 	if (pHeadSchoolYear)
 	{
-		for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 		{
 			if (cur->getYear() == year)
 				return 0;
@@ -106,22 +105,12 @@ bool SchoolYear::checkExistSchoolYear(std::string year)
 //Delete SchoolYear
 
 
-void SchoolYear::deleteSchoolYear()
+void schoolYear::deleteSchoolYear()
 {
 	for (pHeadSchoolYear; pHeadSchoolYear;)
 	{
-		//DeleteClass
 		pHeadSchoolYear->pHeadClass->deleteClass();
-
-		//delete semester
-		//for (semester* pHead = pHeadSchoolYear->getSemester(); pHead;) {
-		//	semester* tmp = pHead->pNext;
-		//	delete pHead;
-		//	pHead = tmp;
-		//}
-
-		//delete schoolYear
-		SchoolYear* tmp = pHeadSchoolYear->pNext;
+		schoolYear* tmp = pHeadSchoolYear->pNext;
 		delete pHeadSchoolYear;
 		pHeadSchoolYear = tmp;
 
@@ -132,9 +121,9 @@ void SchoolYear::deleteSchoolYear()
 //Show SchoolYear
 
 
-void SchoolYear::showSchoolYear()
+void schoolYear::showSchoolYear()
 {
-	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 		std::cout << "\t\t" << cur->getYear() << std::endl;
 }
 
@@ -145,15 +134,14 @@ void SchoolYear::showSchoolYear()
 Class::Class(std::string Name) :Name(Name) {}
 
 //Functions for Class
-void SchoolYear::Add_New_Class() {
+void schoolYear::addNewClass() {
 	bool flag = 0;
-
 	while (true) {
 		std::cout << "Please enter the name of the class you want to create: ";
 		std::cin.ignore();
 		std::string Name;  std::cin >> Name;
 
-		if (CheckExistClass(Name)) {
+		if (checkExistClass(Name)) {
 			std::cout << "This class is already exist.\n";
 			flag = 0;
 		}
@@ -184,8 +172,8 @@ void SchoolYear::Add_New_Class() {
 	}
 }
 
-void SchoolYear::Create_Information_Class() {
-	for (SchoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
+void schoolYear::createInformationClass() {
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
 		std::string year = cur->getYear();											//Find the year to add
 
 		while (true) {
@@ -210,7 +198,7 @@ void SchoolYear::Create_Information_Class() {
 
 }
 
-bool SchoolYear::CheckExistClass(std::string Name)
+bool schoolYear::checkExistClass(std::string Name)
 {
 	if (pHeadClass)
 	{
@@ -238,7 +226,11 @@ std::string Class::getName() {
 	return Name;
 }
 
-std::string SchoolYear::getYear()
+std::string schoolYear::getYear()
 {
 	return year;
+}
+void schoolYear::createSemester()
+{
+	cout << "What is your school year:";
 }

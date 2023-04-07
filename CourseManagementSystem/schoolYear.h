@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "Universal.h"
 
 class Class
 {
@@ -20,12 +20,12 @@ private:
 	std::string Name;
 };
 
-class SchoolYear
+class schoolYear
 {
 public:
 	//Constructor
-	SchoolYear(std::string time, SchoolYear* pointer);
-	SchoolYear();
+	schoolYear(std::string time, schoolYear* pointer);
+	schoolYear();
 
 	//Get attribute
 	std::string getYear();
@@ -35,7 +35,7 @@ public:
 	void loadFile();
 	void createSchoolYear();
 	bool checkExistSchoolYear(std::string year);
-
+	void createSemester();
 	//Delete function
 	void deleteSchoolYear();
 
@@ -43,12 +43,12 @@ public:
 	void showSchoolYear();
 
 	//Create&Information_Class
-	bool CheckExistClass(std::string Name);
-	void Add_New_Class();
-	void Create_Information_Class();
+	bool checkExistClass(std::string Name);
+	void addNewClass();
+	void createInformationClass();
 
 	//Pointer
-	SchoolYear* pNext = nullptr;
+	schoolYear* pNext = nullptr;
 
 	//Class pointer
 	Class* pHeadClass;
@@ -59,4 +59,6 @@ public:
 
 private:
 	std::string year;
+	semester* pHeadSemester = nullptr;
 };
+void switchSchoolYear();

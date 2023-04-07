@@ -1,4 +1,5 @@
 #include "Universal.h"
+#include "WelcomePage.h"
 using namespace std;
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 void setcursor(bool visible, DWORD size) // set bool visible = 0 - invisible, bool visible = 1 - visible
@@ -258,74 +259,4 @@ void login(string folder)
 		Sleep(1000);
 		return;
 	}
-	/*ifstream fin;
-	bool flag = 0;
-	loginPage();
-	string username{}, password{};
-	gotoxy(31, 11);
-	cin.ignore();
-	getline(cin, username);
-	fin.close();
-	gotoxy(31, 16);
-	char key;
-	key = _getch();
-	gotoxy(31, 18);
-	cout << "Press enter to unhide password";
-	gotoxy(31, 16);
-	while (key != 13)
-	{
-		if (key == 8)
-		{
-			if (!password.empty())
-				password.pop_back();
-			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-			COORD current = GetConsoleCursorPosition(h);
-			if (current.X != 31 && current.Y != 17)
-				cout << '\b' << " " << '\b';
-		}
-		else
-		{
-			cout << "*";
-			password += key;
-		}
-		key = _getch();
-	}
-	gotoxy(31, 16);
-	cout << password;
-	gotoxy(31, 19);
-	cout << "                            ";
-	gotoxy(31, 19);
-	cout << "Press enter to sign in:";
-	cin.get();
-
-
-	if (username == "" || password == "")
-	{
-		gotoxy(31, 19);
-		cout << "Invalid username or password\n";
-		continue;
-	}
-	fin.open(folder + username + ".txt", ios::in);
-	string check_username, check_password;
-	fin >> check_username;
-	fin >> check_password;
-	fin.close();
-	if (check_username!=username && check_password != password)
-	{
-		gotoxy(31, 19);
-		cout << "                                                      ";
-		gotoxy(31, 19);
-		cout << "Your password or username wrong!\n";
-		gotoxy(31, 20);
-		cout << "Press any key to login again....";
-		setcursor(0, 0);
-		_getch();
-		system("cls");
-		continue;
-	}
-		gotoxy(31, 19);
-		cout << "                                                       ";
-		gotoxy(31, 19);
-		cout << "Signin succesfully\n";
-		return;*/
 }

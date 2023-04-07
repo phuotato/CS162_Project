@@ -3,9 +3,9 @@
 using namespace std;
 extern std::ifstream fin;
 extern std::ofstream fout;
-extern student* pStudent;
-extern SchoolYear* pHeadSchoolYear;
-extern SchoolYear* pTailSchoolYear;
+//extern student* pStudent;
+extern schoolYear* pHeadSchoolYear;
+extern schoolYear* pTailSchoolYear;
 
 void displayHeader() {
     system("cls");
@@ -50,15 +50,15 @@ int BeginSchoolYear() {
             pHeadSchoolYear->createSchoolYear();
             break;
         case 2:
-            pHeadSchoolYear->Create_Information_Class();
+            pHeadSchoolYear->createInformationClass();
             break;
         case 3: 
             system("cls");
-            pStudent->addStudentto1stClass(pStudent);
+            //pStudent->addStudentto1stClass(pStudent);
             break;
         case 4:
             system("cls");
-            pStudent->viewProfile(pStudent);
+            //pStudent->viewProfile(pStudent);
             break;
         case 5: 
             system("cls");
@@ -67,7 +67,7 @@ int BeginSchoolYear() {
         case 0:
             cout << "\n\t\t Thank you for using the College Management Program!";
             pHeadSchoolYear->deleteSchoolYear();
-            pStudent->deleteStudentList(pStudent);
+            //pStudent->deleteStudentList(pStudent);
             exit(0);
             break;
         default:

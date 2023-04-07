@@ -1,11 +1,18 @@
 #pragma once
 #include <stdlib.h>
 #include <fstream>
+#include <conio.h>
 //Display Header file
-#include "WelcomePage.h"
-
+#include <iostream>
+#include <fstream>
+#include <direct.h>
+#include <string>
+#include <Windows.h>
 //Function Header file
-#include "Staff.h"
 #include "SchoolYear.h"
-#include "ChangePassword.h"
+#include "Course.h"
+#include "Semester.h"
+#include "Staff.h"
 #include "Student.h"
+#include "ChangePassword.h"
+#include "WelcomePage.h"
