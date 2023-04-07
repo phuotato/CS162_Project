@@ -24,9 +24,18 @@ void schoolYear::createSchoolYear()
 	bool flag = 1;
 	while (true)
 	{
-		std::cout << "Enter your school year you want to create(Press enter to stop): ";
+		std::cout << "Enter your school year you want to create(format:yyyy-yyyy) (Press enter to stop): ";
 		std::string year; getline(std::cin, year);
+
+		//checking condition
 		if (year == "") break;
+		if (checkCorrectYear(year) == false) {
+			std::cout << "Please enter the correct year!\n";
+			system("pause");
+			system("cls");
+			continue;
+		}
+
 		if (checkExistSchoolYear(year)!=0)
 		{
 			//Create a new schoolyear and store in linked list
@@ -99,6 +108,17 @@ bool schoolYear::checkExistSchoolYear(std::string year)
 		}
 	}
 	return 1;
+}
+
+bool checkCorrectYear(std::string year) {
+	int length = year.length();
+	if (length != 9) return false;
+	for (int i = 0; i < 4; i++) {
+		if (year[i] < 48 || year[i] > 57 || year[i+5] > 57 || year[i+5] < 48) return false;
+	}
+	if (year[4] != ' ') return false;
+
+	return true;
 }
 
 

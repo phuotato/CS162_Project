@@ -34,7 +34,9 @@ public:
 	//Create function
 	void loadFile();
 	void createSchoolYear();
+	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
+
 	void createSemester();
 	//Delete function
 	void deleteSchoolYear();
@@ -55,10 +57,9 @@ public:
 	Class* pTailClass;
 
 	//Semester pointer
-
+	semester* pHeadSemester = nullptr;
 
 private:
 	std::string year;
-	semester* pHeadSemester = nullptr;
 };
 void switchSchoolYear();
