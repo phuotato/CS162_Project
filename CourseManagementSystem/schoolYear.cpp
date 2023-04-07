@@ -23,6 +23,10 @@ void schoolYear::createSchoolYear()
 	bool flag = 1;
 	while (true)
 	{
+		system("cls");
+		gotoxy(12, 0);
+		cout << "All the year list:\n";
+		showSchoolYear();
 		std::cout << "Enter your school year you want to create(format:yyyy-yyyy) (Press enter to stop): ";
 		std::string year; getline(std::cin, year);
 
@@ -69,6 +73,7 @@ void schoolYear::createSchoolYear()
 			if (choice == 'N' || choice == 'n')
 				return;
 		}
+		system("pause");
 	}
 	
 }
@@ -113,9 +118,11 @@ bool schoolYear::checkCorrectYear(std::string year) {
 	int length = year.length();
 	if (length != 9) return false;
 	for (int i = 0; i < 4; i++) {
-		if (year[i] < 48 || year[i] > 57 || year[i+5] > 57 || year[i+5] < 48) return false;
+		if (year[i] < '0' || year[i] > '9' || year[i + 5] > '9' || year[i + 5] < '0') return false;
 	}
-	if (year[4] != ' ') return false;
+	if (year[4] != '-') return false;
+	if (year[8] - year[3] == -9);
+	else if (year[8] - year[3] != 1) return false;
 
 	return true;
 }
