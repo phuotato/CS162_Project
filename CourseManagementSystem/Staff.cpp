@@ -7,10 +7,6 @@ extern std::ofstream fout;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
 
-void displayHeader() {
-    system("cls");
-    cout << "\n\n\t\t FIT.US Management Program\n\n";
-}
 
 void displayMenu() {
     cout << "\n\t\t-----------------------";
@@ -30,13 +26,17 @@ int BeginSchoolYear() {
     GetWindowRect(console, &r);
 
     // Move console window to center of the screen
+    system("mode con: cols=100 lines=60");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
 
-    displayHeader();
+    drawHeader();
+    cout << "\n\tState: Begin of School Year. \n";
     int option;
 
     do {
         system("cls");
+        drawHeader();
+        cout << "\n\tState: Begin of School Year. \n";
         displayMenu();
         cin >> option;
 
@@ -82,6 +82,5 @@ void Staff()
     system("cls");
     login("../StaffAccount/");
 	system("cls");
-	cout << "Begin of school year: \n";
     BeginSchoolYear();
 }

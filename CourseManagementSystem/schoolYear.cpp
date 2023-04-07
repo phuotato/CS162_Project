@@ -16,7 +16,6 @@ schoolYear::schoolYear() {}
 
 //Create SchoolYear
 
-
 void schoolYear::createSchoolYear()
 {
 	cin.ignore();
@@ -139,7 +138,6 @@ void schoolYear::deleteSchoolYear()
 
 
 //Show SchoolYear
-
 
 void schoolYear::showSchoolYear()
 {

@@ -142,6 +142,7 @@
     <ClCompile Include="ChangePassword.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="WelcomePage.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="ChangePassword.h" />
     <ClInclude Include="Course.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="Graphic.h" />
     <ClInclude Include="Semester.h" />
     <ClInclude Include="Staff.h" />
     <ClInclude Include="Student.h" />
