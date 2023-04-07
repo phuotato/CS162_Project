@@ -1,5 +1,6 @@
 #include "Graphic.h"
 
+
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE console_color;
 
@@ -66,3 +67,42 @@ void drawHeader() {
 	gotoxy(15, 4); cout << " )__)  _)(_   )( | ()/ ) _ (( (__  )    (  )(__)( \\__ \\" << "\n";
 	gotoxy(15, 5); cout << "(__)  (____) (__) \\__ (_) (_)\\___)(_/\\/\\_)(______)(___/" << "\n";
 }
+
+void loadingPage() {
+	cout << "#############################################################" << endl;
+	cout << "#                    _                                      #" << endl;
+	cout << "#                  -=\\`\\                                    #" << endl;
+	cout << "#              |\\ ____\\_\\__                                 #" << endl;
+	cout << "#            -=\\c`""""""" "`)                               #" << endl;
+	cout << "#               `~~~~~/ /~~`\                                #" << endl;
+	cout << "#                 -==/ /                                    #" << endl;
+	cout << "#                   '-'                                     #" << endl;
+	cout << "#                  _  _                                     #" << endl;
+	cout << "#                 ( `   )_                                  #" << endl;
+	cout << "#                (    )    `)                               #" << endl;
+	cout << "#              (_   (_ .  _) _)                             #" << endl;
+	cout << "#                                             _             #" << endl;
+	cout << "#                                            (  )           #" << endl;
+	cout << "#             _ .                         ( `  ) . )        #" << endl;
+	cout << "#           (  _ )_                      (_, _(  ,_)_)      #" << endl;
+	cout << "#         (_  _(_ ,)                                        #" << endl;
+	cout << "#############################################################" << endl;
+	Sleep(2000);
+}
+
+void drawHeader(std::string title) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+	std::cout << std::endl << std::setw(70) << std::right << title << std::endl << std::endl;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+}
+
+void drawDivider(int length, char character, int offset) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+	std::cout << std::setw(offset) << std::setfill(' ') << " " << std::setfill(character) << std::setw(length) << "" << std::setfill(' ') << std::endl;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+}
+
+void drawError(std::string message) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	std::cout << "Error: " << message << std::endl;
+	Set

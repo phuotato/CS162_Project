@@ -3,7 +3,6 @@ using namespace std;
 
 string username{};
 
-
 void welcomePage()
 {
     // set console size and title
@@ -66,7 +65,6 @@ void welcomePage()
 void loginPage()
 {
 	//system("cls");
-	system("color 50");
 	drawHeader();
 	char ch;
 	gotoxy(20, 11);

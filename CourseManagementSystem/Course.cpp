@@ -13,8 +13,10 @@ void student::addStudentto1stClass(student*& headS)
     string classcode;
     cin >> classcode;
     ifstream fin("../StudentProfile/" + classcode + ".csv");
+    loadingPage();
     if (!fin)
     {
+        system("cls");
         cout << "Error loading data! Please try again.";
         return;
     }
@@ -50,6 +52,7 @@ void student::addStudentto1stClass(student*& headS)
         newStudent->pNext = headS;
         headS = newStudent;
     }
+    system("cls");
     cout << "Add students successfully! System will go back to the menu now." << endl << endl;
     system("pause");
 }

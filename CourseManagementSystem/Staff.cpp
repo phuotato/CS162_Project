@@ -28,9 +28,6 @@ int BeginSchoolYear() {
     // Move console window to center of the screen
     system("mode con: cols=100 lines=60");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
-
-    drawHeader();
-    cout << "\n\tState: Begin of School Year. \n";
     int option;
 
     do {
@@ -77,6 +74,7 @@ void Staff()
 {
     cin.get();
     system("cls");
+    system("color 70");
     login("../StaffAccount/");
 	system("cls");
     BeginSchoolYear();

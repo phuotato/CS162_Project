@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <direct.h>
 #include <conio.h>
+#include <iomanip>
 #include "Universal.h"
 
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput);
@@ -11,3 +12,4 @@ void drawHeader();
 void setColor(int color);
 //void setBackgroundColor(int color);
 void drawBox(int x, int y, int width, int height);
+void loadingPage();
