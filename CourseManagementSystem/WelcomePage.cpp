@@ -198,7 +198,7 @@ void login(string folder)
 		gotoxy(31, 19);
 		cout << "                                                       ";
 		gotoxy(31, 19);
-		cout << "Signin succesfully\n";
+		cout << "Sign in successfully\n";
 		setcursor(0, 0);
 		Sleep(300);
 		return;
