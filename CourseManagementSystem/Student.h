@@ -6,7 +6,8 @@ using namespace std;
 class student
 {
 public:
-//	student(int No, string id, string firstName, string lastName, bool gender, date dob, string socialId, student* pointer);
+
+	student(int No, string id, string firstName, string lastName, bool gender, date dob, string socialId, student* pointer);
 
 	student* pNext = nullptr;
 	student* pStudent = nullptr;
