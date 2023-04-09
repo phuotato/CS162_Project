@@ -68,28 +68,53 @@ void drawHeader() {
 	gotoxy(15, 5); std::cout << "(__)  (____) (__) \\__ (_) (_)\\___)(_/\\/\\_)(______)(___/" << "\n";
 }
 
-void loadingPage() {
-	std::cout << "#############################################################" << std::endl;
-	std::cout << "#                    _                                      #" << std::endl;
-	std::cout << "#                  -=\\`\\                                    #" << std::endl;
-	std::cout << "#              |\\ ____\\_\\__                                 #" << std::endl;
-	std::cout << "#            -=\\c`""""""" "`)                               #" << std::endl;
-	std::cout << "#               `~~~~~/ /~~`\                                #" << std::endl;
-	std::cout << "#                 -==/ /                                    #" << std::endl;
-	std::cout << "#                   '-'                                     #" << std::endl;
-	std::cout << "#                  _  _                                     #" << std::endl;
-	std::cout << "#                 ( `   )_                                  #" << std::endl;
-	std::cout << "#                (    )    `)                               #" << std::endl;
-	std::cout << "#              (_   (_ .  _) _)                             #" << std::endl;
-	std::cout << "#                                             _             #" << std::endl;
-	std::cout << "#                                            (  )           #" << std::endl;
-	std::cout << "#             _ .                         ( `  ) . )        #" << std::endl;
-	std::cout << "#           (  _ )_                      (_, _(  ,_)_)      #" << std::endl;
-	std::cout << "#         (_  _(_ ,)                                        #" << std::endl;
-	std::cout << "#############################################################" << std::endl;
-	Sleep(2000);
-}
+//void loadingPage() {
+//	std::cout << "#############################################################" << std::endl;
+//	std::cout << "#                    _                                      #" << std::endl;
+//	std::cout << "#                  -=\\`\\                                    #" << std::endl;
+//	std::cout << "#              |\\ ____\\_\\__                                 #" << std::endl;
+//	std::cout << "#            -=\\c`""""""" "`)                               #" << std::endl;
+//	std::cout << "#               `~~~~~/ /~~`\                                #" << std::endl;
+//	std::cout << "#                 -==/ /                                    #" << std::endl;
+//	std::cout << "#                   '-'                                     #" << std::endl;
+//	std::cout << "#                  _  _                                     #" << std::endl;
+//	std::cout << "#                 ( `   )_                                  #" << std::endl;
+//	std::cout << "#                (    )    `)                               #" << std::endl;
+//	std::cout << "#              (_   (_ .  _) _)                             #" << std::endl;
+//	std::cout << "#                                             _             #" << std::endl;
+//	std::cout << "#                                            (  )           #" << std::endl;
+//	std::cout << "#             _ .                         ( `  ) . )        #" << std::endl;
+//	std::cout << "#           (  _ )_                      (_, _(  ,_)_)      #" << std::endl;
+//	std::cout << "#         (_  _(_ ,)                                        #" << std::endl;
+//	std::cout << "#############################################################" << std::endl;
+//	Sleep(2000);
+//}
 
+void loadingPage() {
+	std::cout << "Loading...\n\n";
+	std::cout << "[                    ] 0%\r";
+	Sleep(100);
+	std::cout << "[=                   ] 10%\r";
+	Sleep(100);
+	std::cout << "[==                  ] 20%\r";
+	Sleep(100);
+	std::cout << "[===                 ] 30%\r";
+	Sleep(100);
+	std::cout << "[====                ] 40%\r";
+	Sleep(100);
+	std::cout << "[=====               ] 50%\r";
+	Sleep(100);
+	std::cout << "[======              ] 60%\r";
+	Sleep(100);
+	std::cout << "[=======             ] 70%\r";
+	Sleep(100);
+	std::cout << "[========            ] 80%\r";
+	Sleep(100);
+	std::cout << "[=========           ] 90%\r";
+	Sleep(100);
+	std::cout << "[==========          ] 100%\r";
+	Sleep(100);
+}
 void drawHeader(std::string title) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 	std::cout << std::endl << std::setw(70) << std::right << title << std::endl << std::endl;

@@ -54,6 +54,7 @@ void student::addStudentto1stClass(student*& headS)
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
 }
+
 void student::viewProfile(student* &headS)
 {
     student* temp = headS;
