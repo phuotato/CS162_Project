@@ -26,8 +26,10 @@ void setColor(int color) {
 }
 
 void setBackgroundColor(int color) {
-	console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(console_color, color);
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+	SetConsoleTextAttribute(hConsole, (csbi.wAttributes & 0xF0) | color);
 }
 
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)

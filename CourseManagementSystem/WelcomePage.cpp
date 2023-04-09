@@ -2,26 +2,26 @@
 #include "Graphic.h"
 #include "Universal.h"
 #include "Staff.h"
-
 std::string username{};
+
 
 void welcomePage()
 {
     // set console size and title
     system("mode con: cols=90 lines=30");
     SetConsoleTitle(TEXT("FIT.HCMUS Management Program"));
-	system("color 70");
+	system("color 47");
+	//setBackgroundColor(0x70); //white background black text
     //header
     drawHeader();
     
     //welcome message
-    //setColor(0); // black text color
+    setColor(0); // black text color
     std::cout << "\n\n\n\n";
     drawBox(20, 10, 40, 8);
     gotoxy(32, 12);
     std::cout << "Welcome to";
     gotoxy(25, 14);
-	//system("color 79");
     //setColor(9); // light blue text color
     std::cout << "FIT.HCMUS Management System.";
     //setColor(15);

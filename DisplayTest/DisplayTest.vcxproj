@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3eb42bde-d9f6-4ddd-8761-d51763149199}</ProjectGuid>
-    <RootNamespace>CourseManagementSystem</RootNamespace>
+    <ProjectGuid>{11b44b6d-3ef0-4602-a261-424cfab47caa}</ProjectGuid>
+    <RootNamespace>DisplayTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -140,28 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ChangePassword.cpp" />
-    <ClCompile Include="Course.cpp" />
-    <ClCompile Include="Date.cpp" />
-    <ClCompile Include="Graphic.cpp" />
-    <ClCompile Include="Semester.cpp" />
-    <ClCompile Include="WelcomePage.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="SchoolYear.cpp" />
-    <ClCompile Include="Staff.cpp" />
-    <ClCompile Include="Universal.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ChangePassword.h" />
-    <ClInclude Include="Course.h" />
-    <ClInclude Include="Date.h" />
-    <ClInclude Include="Graphic.h" />
-    <ClInclude Include="Semester.h" />
-    <ClInclude Include="Staff.h" />
-    <ClInclude Include="Student.h" />
-    <ClInclude Include="WelcomePage.h" />
-    <ClInclude Include="SchoolYear.h" />
-    <ClInclude Include="Universal.h" />
+    <ClCompile Include="DisplayTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
