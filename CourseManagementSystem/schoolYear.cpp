@@ -25,53 +25,62 @@ void schoolYear::createSchoolYear()
 	{
 		system("cls");
 		showSchoolYear();
-		std::cout << "Enter your school year you want to create(format:yyyy-yyyy) (Press enter to stop): ";
-		std::string year; getline(std::cin, year);
+		gotoxy(18, 23);
+		std::cout << "Would you like to create a new school year? (Y/N): ";
+		char option;
+		std::cin >> option;
 
-		//checking condition
-		if (year == "") break;
-		if (checkCorrectYear(year) == false) {
-			std::cout << "Please enter the correct year!\n";
-			system("pause");
-			system("cls");
-			continue;
-		}
-
-		if (checkExistSchoolYear(year)!=0)
+		if (option == 'Y' || option == 'y')
 		{
-			//Create a new schoolyear and store in linked list
-			fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
-			fout << std::endl;
-			fout << year;			//Write down the schoolyear
-			fout.close();
+			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
+			std::string year; getline(std::cin, year);
 
-			//Check folder and write down information for the schoolyear
-			if (_mkdir(("../Data/School Year/" + year).c_str()));
-			fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
-			fout.close();
+			//checking condition
+			if (checkCorrectYear(year) == false) {
+				std::cout << "\t\tPlease enter the correct year!\n";
+				system("pause");
+				system("cls");
+				continue;
+			}
 
-			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
-			schoolYear* tmp = pHeadSchoolYear->pNext;
-			tmp = new schoolYear(year, nullptr);
-			pTailSchoolYear->pNext = tmp;
-			pTailSchoolYear = tmp;
-			if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
-			flag = 1;
+			if (checkExistSchoolYear(year) != 0)
+			{
+				//Create a new schoolyear and store in linked list
+				fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
+				fout << std::endl;
+				fout << year;			//Write down the schoolyear
+				fout.close();
+
+				//Check folder and write down information for the schoolyear
+				if (_mkdir(("../Data/School Year/" + year).c_str()));
+				fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
+				fout.close();
+
+				if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
+				schoolYear* tmp = pHeadSchoolYear->pNext;
+				tmp = new schoolYear(year, nullptr);
+				pTailSchoolYear->pNext = tmp;
+				pTailSchoolYear = tmp;
+				if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
+				flag = 1;
+			}
+			else
+			{
+				std::cout << "\t\tThis school year is already created, please enter another school year\n";
+				flag = 0;
+			}
+			if (flag == 1)
+			{
+				gotoxy(23, 27);
+				std::cout << "Created succesfully\n";
+				std::cout << "\t\tDo you want to add more school year:(Y/N) ";
+				char choice; std::cin >> choice;
+				std::cin.ignore();
+				if (choice == 'N' || choice == 'n')
+					return;
+			}
 		}
-		else
-		{
-			std::cout << "This school year is already created, please enter another school year\n";
-			flag = 0;
-		}
-		if (flag == 1)
-		{
-			std::cout << "Create succesfully\n";
-			std::cout << "Do you want to add more school year:(Y/N || y/n) ";
-			char choice; std::cin >> choice;
-			std::cin.ignore();
-			if (choice == 'N' || choice == 'n')
-				return;
-		}
+		else return;
 		system("pause");
 	}
 	
@@ -150,9 +159,15 @@ void schoolYear::showSchoolYear()
 	gotoxy(30, 3);
 	std::cout << "Created School Years\n";
 	// Draw box to display school years
-	drawBox(10, 6, 60, 16);
+	drawBox(10, 6, 60, 10);
+	int i = 0;
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
-		std::cout << "\t\t" << cur->getYear() << std::endl;
+	{
+		gotoxy(35, 9 + i*2);
+		std::cout << cur->getYear() << std::endl;
+		++i;
+	}
+		
 }
 
 
