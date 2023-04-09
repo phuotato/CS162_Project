@@ -260,24 +260,29 @@ void schoolYear::createSemester()
 {
 	char x;
 	bool flag = 0;
-	std::cout << "Enter school year include your semester:";
-	std::string year;
-	getline(std::cin, year);
+	schoolYear* cur;
 	loadFile(year);
-	while(flag)
-	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+	while (true)
 	{
-		std::string tmp = cur->getYear();
-		if (!tmp.compare(year))
+		std::cout << "Enter school year include your semester:";
+		std::string year;
+		getline(std::cin, year);
+		if (checkCorrectYear(year))
 		{
-			flag = 1;
-			break;
+			std::cout << "Invalid school year. Try other ones\n";
+			continue;
+		}
+		cur = findSchoolYear(year);
+		if (!cur)
+		{
+			std::cout << "This school year don't exist. Try other ones\n";
+			continue;
 		}
 	}
-	if (flag)
+	while (true)
 	{
 		std::cout << "What is semester you want to create: ";
-		while(true)
+		while (true)
 		{
 			std::cout << "Sem:";
 			std::cin >> x;
@@ -298,6 +303,26 @@ void schoolYear::createSemester()
 		std::cout << "Enter the start date:";
 		std::string StartDate;
 		getline(std::cin, StartDate);
+		std::cout << "Enter the end date";
+		std::string EndDate;
+		getline(std::cin, EndDate);
+		semester* dummy = new semester(x - '0', StartDate, EndDate);
+		if (!(cur->pHeadSemester))
+		{
+		cur->pHeadSemester = dummy;
+			cur->pTailSemester = dummy;
+		}
+		else
+		{
+			cur->pTailSemester->pNext = dummy;
+			cur->pTailSemester = dummy;
+		}
+		std::cout << "Create succesfully\n";
+		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
+		char choice; std::cin >> choice;
+		std::cin.ignore();
+		if (choice == 'N' || choice == 'n')
+			return;
 	}
 }
 void schoolYear::loadFile(std::string year)
@@ -334,4 +359,17 @@ bool schoolYear::checkExistSemester(int sem)
 int semester::getSem()
 {
 	return sem;
+}
+schoolYear* schoolYear::findSchoolYear(std::string year)
+{
+	schoolYear* cur = pHeadSchoolYear;
+	for (; cur; cur = cur->pNext)
+	{
+		std::string tmp = cur->getYear();
+		if (!tmp.compare(year))
+		{
+			return cur;
+		}
+	}
+	return nullptr;
 }

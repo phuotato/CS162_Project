@@ -37,6 +37,7 @@ public:
 	void createSemester();
 	bool checkExistSemester(int sem);
 	bool checkCorrectSemester(std::string year);
+	schoolYear* findSchoolYear(std::string year);
 	
 	//Load File Function
 	void loadFile();
