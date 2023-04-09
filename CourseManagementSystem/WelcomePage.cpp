@@ -2,9 +2,8 @@
 #include "Graphic.h"
 #include "Universal.h"
 #include "Staff.h"
-using namespace std;
 
-string username{};
+std::string username{};
 
 void welcomePage()
 {
@@ -30,7 +29,7 @@ void welcomePage()
     // wait for user input to continue
     gotoxy(28, 24);
     std::cout << "Press any key to continue...";
-    cin.get();
+	std::cin.get();
 
     // clear screen and display menu
     system("cls");
@@ -48,7 +47,7 @@ void welcomePage()
 	gotoxy(25, 17);
 	std::cout << "Your choice: ";
 	int option;
-	cin >> option;
+	std::cin >> option;
 	switch (option) {
 	case 1: 
 		Staff();
@@ -133,17 +132,17 @@ void loginPage()
 }
 
 
-void login(string folder)
+void login(std::string folder)
 {
 	while (true)
 	{
-		ifstream fin;
+		std::ifstream fin;
 		bool flag = 0;
 		loginPage();
-		string password{};
+		std::string password{};
 		gotoxy(31, 11);
 		setcursor(1, 10);
-		getline(cin, username);
+		getline(std::cin, username);
 		gotoxy(31, 16);
 		char key;
 		key = _getch();
@@ -173,7 +172,7 @@ void login(string folder)
 		gotoxy(31, 19);
 		std::cout << "Press enter to sign in:";
 		setcursor(0, 0);
-		cin.get();
+		std::cin.get();
 
 
 		if (username == "" || password == "")
@@ -183,8 +182,8 @@ void login(string folder)
 			std::cout << "Invalid username or password\n";
 			continue;
 		}
-		fin.open(folder + username + ".txt", ios::in);
-		string check_username, check_password;
+		fin.open(folder + username + ".txt", std::ios::in);
+		std::string check_username, check_password;
 		fin >> check_username;
 		fin >> check_password;
 		fin.close();

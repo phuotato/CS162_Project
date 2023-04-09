@@ -3,13 +3,13 @@
 #include "Date.h"
 #include "Course.h"
 #include "Graphic.h"
-using namespace std;
+
 student* pStudent = nullptr;
 void student::addStudentto1stClass(student*& headS)
 {
     std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
     string classcode;
-    cin >> classcode;
+    std::cin >> classcode;
     ifstream fin("../StudentProfile/" + classcode + ".csv");
     loadingPage();
     if (!fin)

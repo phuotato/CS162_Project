@@ -1,6 +1,4 @@
 #include "Graphic.h"
-
-
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE console_color;
 

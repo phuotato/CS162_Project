@@ -1,11 +1,11 @@
 #include "ChangePassword.h"
-extern string username;
-void changePassword(ifstream& fin, ofstream& fout)
+extern std::string username;
+void changePassword(std::ifstream& fin, std::ofstream& fout)
 {
 	if (username[0] >= 'a' && username[0] <= 'z')
-		fin.open("../StaffAccount/" + username + ".txt", ios::in);
+		fin.open("../StaffAccount/" + username + ".txt", std::ios::in);
 	else if (username[0] >= '0' && username[0] <= '9')
-		fin.open("../StudentAccount/" + username + ".txt", ios::in);
+		fin.open("../StudentAccount/" + username + ".txt", std::ios::in);
 	if (!fin)
 	{
 		std::cout << "Account Not Found! Please try again." << std::endl << std::endl;
@@ -14,9 +14,9 @@ void changePassword(ifstream& fin, ofstream& fout)
 		return;
 	}
 	std::cout << "Input the password: ";
-	string password, newPass, confirmPass;
-	cin >> password;
-	string check_username, check_password;
+	std::string password, newPass, confirmPass;
+	std::cin >> password;
+	std::string check_username, check_password;
 	fin >> check_username;
 	fin >> check_password;
 	bool condition = false;
@@ -26,15 +26,15 @@ void changePassword(ifstream& fin, ofstream& fout)
 		if (check_username == username && check_password == password)
 		{
 			std::cout << "Enter the new password: ";
-			cin >> newPass;
+			std::cin >> newPass;
 			std::cout << "Confirm your password: ";
-			cin >> confirmPass;
+			std::cin >> confirmPass;
 			if (newPass == confirmPass)
 			{
 				if (username[0] >= 'a' && username[0] <= 'z')
-					fout.open("../StaffAccount/" + username + ".txt", ios::trunc);
+					fout.open("../StaffAccount/" + username + ".txt", std::ios::trunc);
 				else if (username[0] >= '0' && username[0] <= '9')
-					fout.open("../StudentAccount/" + username + ".txt", ios::trunc);
+					fout.open("../StudentAccount/" + username + ".txt", std::ios::trunc);
 				fout << username << std::endl;
 				fout << newPass;
 				condition = true;
@@ -50,7 +50,7 @@ void changePassword(ifstream& fin, ofstream& fout)
 		{
 			std::cout << "Wrong password. Please try again" << std::endl;
 			std::cout << "Input the password: ";
-			cin >> password;
+			std::cin >> password;
 		}
 	}
 	std::cout << std::endl;
