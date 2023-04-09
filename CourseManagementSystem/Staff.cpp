@@ -1,5 +1,9 @@
-#include "schoolYear.h"
-
+#include "SchoolYear.h"
+#include "Student.h"
+#include "WelcomePage.h"
+#include "ChangePassword.h"
+#include "Graphic.h"
+#include "Staff.h"
 using namespace std;
 extern std::ifstream fin;
 extern std::ofstream fout;
@@ -9,15 +13,15 @@ extern schoolYear* pTailSchoolYear;
 
 
 void displayMenu() {
-    cout << "\n\t\t-----------------------";
-    cout << "\n\t\t 1. Create School Year";
-    cout << "\n\t\t 2. Create Classes for 1st-Year Students";
-    cout << "\n\t\t 3. Add 1st-year students to 1st-year classes";
-    cout << "\n\t\t 4. View student profile";
-    cout << "\n\t\t 5. Change Password";
-    cout << "\n\t\t 0. Exit";
-    cout << "\n\t\t-----------------------";
-    cout << "\n\t\t Enter your choice: ";
+    std::cout << "\n\t\t-----------------------";
+    std::cout << "\n\t\t 1. Create School Year";
+    std::cout << "\n\t\t 2. Create Classes for 1st-Year Students";
+    std::cout << "\n\t\t 3. Add 1st-year students to 1st-year classes";
+    std::cout << "\n\t\t 4. View student profile";
+    std::cout << "\n\t\t 5. Change Password";
+    std::cout << "\n\t\t 0. Exit";
+    std::cout << "\n\t\t-----------------------";
+    std::cout << "\n\t\t Enter your choice: ";
 }
 
 int BeginSchoolYear() {
@@ -33,7 +37,7 @@ int BeginSchoolYear() {
     do {
         system("cls");
         drawHeader();
-        cout << "\n\tState: Begin of School Year. \n";
+        std::cout << "\n\tState: Begin of School Year. \n";
         displayMenu();
         cin >> option;
 
@@ -59,13 +63,13 @@ int BeginSchoolYear() {
             changePassword(fin, fout);
             break;
         case 0:
-            cout << "\n\t\t Thank you for using the College Management Program!";
+            std::cout << "\n\t\t Thank you for using the College Management Program!";
             pHeadSchoolYear->deleteSchoolYear();
             pStudent->deleteStudentList(pStudent);
             exit(0);
             break;
         default:
-            cout << "\n\t\t Invalid input.";
+            std::cout << "\n\t\t Invalid input.";
         }
     } while (option != 0);
 }

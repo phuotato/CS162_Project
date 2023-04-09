@@ -1,9 +1,9 @@
 #pragma once
-#include "Universal.h"
+#include <string>
 class semester
 {
 	public:
-	semester(int Sem, int Day1, int Month1, int Year1, int Day2, int Month2, int Year2);
+	semester(int Sem, std::string StartDate, std::string EndDate );
 	semester();
 	void addCourse();
 	int getSem();
@@ -11,8 +11,8 @@ class semester
 	void getInformation();
 private:
 //	course* pHeadCourses = nullptr;
-	date startDate; 
-	date endDate;
+	std::string startDate; 
+	std::string endDate;
 	int sem;
 };
 

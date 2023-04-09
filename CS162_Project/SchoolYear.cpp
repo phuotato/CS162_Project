@@ -18,14 +18,14 @@ void schoolYear::createSemester(string year)
 			fout.close();
 
 			//Create a new semester and store in linked list
-			cout << "Enter the start date of the semester:\n";
-			cout << "Day: "; int day1; cin >> day1;
-			cout << "Month: "; int month1; cin >> month1;
-			cout << "Year: "; int year1; cin >> year1;
-			cout << "Enter the end date of the semester:\n";
-			cout << "Day: "; int day2; cin >> day2;
-			cout << "Month: "; int month2; cin >> month2;
-			cout << "Year: "; int year2; cin >> year2;
+			std::cout << "Enter the start date of the semester:\n";
+			std::cout << "Day: "; int day1; cin >> day1;
+			std::cout << "Month: "; int month1; cin >> month1;
+			std::cout << "Year: "; int year1; cin >> year1;
+			std::cout << "Enter the end date of the semester:\n";
+			std::cout << "Day: "; int day2; cin >> day2;
+			std::cout << "Month: "; int month2; cin >> month2;
+			std::cout << "Year: "; int year2; cin >> year2;
 			
 			//Check folder and write down information for the semester
 			if (_mkdir(("../School Year/" + year + "/Semester " + x).c_str()));
@@ -38,7 +38,7 @@ void schoolYear::createSemester(string year)
 		}
 		else
 		{
-			cout << "What is semester you want to create: ";
+			std::cout << "What is semester you want to create: ";
 			string x;
 			getline(cin, x);
 			if (checkExistSemester(stoi(x)))
@@ -50,12 +50,12 @@ void schoolYear::createSemester(string year)
 				//Create a new semester and store in linked list
 				cout << "Enter the start date of the semester:\n";
 				cout << "Day: "; int day1; cin >> day1;
-				cout << "Month: "; int month1; cin >> month1;
-				cout << "Year: "; int year1; cin >> year1;
-				cout << "Enter the end date of the semester:\n";
-				cout << "Day: "; int day2; cin >> day2;
-				cout << "Month: "; int month2; cin >> month2;
-				cout << "Year: "; int year2; cin >> year2;
+				std::cout << "Month: "; int month1; cin >> month1;
+				std::cout << "Year: "; int year1; cin >> year1;
+				std::cout << "Enter the end date of the semester:\n";
+				std::cout << "Day: "; int day2; cin >> day2;
+				std::cout << "Month: "; int month2; cin >> month2;
+				std::cout << "Year: "; int year2; cin >> year2;
 
 				//Check folder and write down information for the semester
 				if (_mkdir(("../School Year/" + year + "/Semester " + x).c_str()));
@@ -70,14 +70,14 @@ void schoolYear::createSemester(string year)
 			}
 			else
 			{
-				cout << "This semester is already created, please enter another semester\n";
+				std::cout << "This semester is already created, please enter another semester\n";
 				flag = 0;
 			}
 		}
 		if (flag)
 		{
-			cout << "Create succesfully\n";
-			cout << "Do you want to add more semester on this school year:(Y/N || y/n) ";
+			std::cout << "Create succesfully\n";
+			std::cout << "Do you want to add more semester on this school year:(Y/N || y/n) ";
 			char choice; cin >> choice;
 			cin.ignore();
 			if (choice == 'N' || choice == 'n')
@@ -101,7 +101,7 @@ void school::createSchoolYear()
 	{
 		if (!pHeadSchoolYear)
 		{
-			cout << "Enter your school year you want to create: ";
+			std::cout << "Enter your school year you want to create: ";
 			string year; getline(cin, year);
 
 			//Create a new schoolyear and store in linked list
@@ -119,7 +119,7 @@ void school::createSchoolYear()
 		}
 		else
 		{
-			cout << "Enter your school year you want to create: ";
+			std::cout << "Enter your school year you want to create: ";
 			string year; getline(cin, year);
 			if (checkExistSchoolYear(year))
 			{
@@ -140,14 +140,14 @@ void school::createSchoolYear()
 			}
 			else
 			{
-				cout << "This school year is already created, please enter another school year\n";
+				std::cout << "This school year is already created, please enter another school year\n";
 				flag = 0;
 			}
 		}
 		if (flag)
 		{
-			cout << "Create succesfully\n";
-			cout << "Do you want to add more school year:(Y/N || y/n) ";
+			std::cout << "Create succesfully\n";
+			std::cout << "Do you want to add more school year:(Y/N || y/n) ";
 			char choice; cin >> choice;
 			cin.ignore();
 			if (choice == 'N' || choice == 'n')
@@ -167,7 +167,7 @@ void school::createSemesterFromSchoolYear()
 	bool flag = 1;
 	while (true)
 	{
-		cout << "Enter schoolyear include your create semester: ";
+		std::cout << "Enter schoolyear include your create semester: ";
 		string year; getline(cin, year);
 		schoolYear* cur = pHeadSchoolYear;
 		for (; cur; cur = cur->pNext)
@@ -177,7 +177,7 @@ void school::createSemesterFromSchoolYear()
 				break;
 		}
 		cur->createSemester(year);
-		cout << "Do you want to edit other schoolyear:(Y/N || y/n) ";
+		std::cout << "Do you want to edit other schoolyear:(Y/N || y/n) ";
 		char choice; cin >> choice;
 		cin.ignore();
 		if (choice == 'N' || choice == 'n')
@@ -206,7 +206,7 @@ void school::deleteSchoolYear()
 void school::showSchoolYear()
 {
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
-		cout << cur->getYear() << " ";
+		std::cout << cur->getYear() << " ";
 }
 void school::loadFile()
 {
@@ -248,7 +248,7 @@ int semester::getSem()
 }
 void schoolYear::loadFile(string year)
 {
-	fin.open("../School Year/" + year + "/all semester.txt");
+	fin.open("../Data/School Year/" + year + "/all semester.txt");
 	while (!fin.eof())
 	{
 		string sem, day1, month1, year1, day2, month2, year2;

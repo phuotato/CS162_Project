@@ -1,5 +1,5 @@
 #pragma once
-#include <fstream>
-#include <iostream>
+#include "Universal.h"
+
 using namespace std;
 void changePassword(ifstream& fin, ofstream& fout);

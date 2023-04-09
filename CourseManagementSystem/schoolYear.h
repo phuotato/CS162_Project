@@ -1,6 +1,5 @@
 #pragma once
-#include "Semester.h"	 
-
+#include "Semester.h"
 class Class
 {
 public:
@@ -32,12 +31,18 @@ public:
 
 	//Functions
 	//Create function
-	void loadFile();
 	void createSchoolYear();
 	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
-	
 	void createSemester();
+	bool checkExistSemester(int sem);
+	bool checkCorrectSemester(std::string year);
+	
+	//Load File Function
+	void loadFile();
+	//Load all created semester of specific schoolyear
+	void loadFile(std::string year);
+
 	//Delete function
 	void deleteSchoolYear();
 
@@ -58,6 +63,7 @@ public:
 
 	//Semester pointer
 	semester* pHeadSemester = nullptr;
+	semester* pTailSemester = nullptr;
 
 private:
 	std::string year; 

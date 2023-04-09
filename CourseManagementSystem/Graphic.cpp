@@ -52,41 +52,41 @@ void drawBox(int x, int y, int width, int height) {
 		gotoxy(x, y + i);
 		for (int j = 0; j < width; j++) {
 			if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-				cout << "*";
+				std::cout << "*";
 			}
 			else {
-				cout << " ";
+				std::cout << " ";
 			}
 		}
 	}
 }
 
 void drawHeader() {
-	gotoxy(15, 2); cout << " ____  ____  ____  __  _   _  ___  __  __  __  __  ___ " << "\n";
-	gotoxy(15, 3); cout << "( ___)(_  _)(_  _)/  \\( )_( )/ __)(  \\/  )(  )(  )/ __)" << "\n";
-	gotoxy(15, 4); cout << " )__)  _)(_   )( | ()/ ) _ (( (__  )    (  )(__)( \\__ \\" << "\n";
-	gotoxy(15, 5); cout << "(__)  (____) (__) \\__ (_) (_)\\___)(_/\\/\\_)(______)(___/" << "\n";
+	gotoxy(15, 2); std::cout << " ____  ____  ____  __  _   _  ___  __  __  __  __  ___ " << "\n";
+	gotoxy(15, 3); std::cout << "( ___)(_  _)(_  _)/  \\( )_( )/ __)(  \\/  )(  )(  )/ __)" << "\n";
+	gotoxy(15, 4); std::cout << " )__)  _)(_   )( | ()/ ) _ (( (__  )    (  )(__)( \\__ \\" << "\n";
+	gotoxy(15, 5); std::cout << "(__)  (____) (__) \\__ (_) (_)\\___)(_/\\/\\_)(______)(___/" << "\n";
 }
 
 void loadingPage() {
-	cout << "#############################################################" << endl;
-	cout << "#                    _                                      #" << endl;
-	cout << "#                  -=\\`\\                                    #" << endl;
-	cout << "#              |\\ ____\\_\\__                                 #" << endl;
-	cout << "#            -=\\c`""""""" "`)                               #" << endl;
-	cout << "#               `~~~~~/ /~~`\                                #" << endl;
-	cout << "#                 -==/ /                                    #" << endl;
-	cout << "#                   '-'                                     #" << endl;
-	cout << "#                  _  _                                     #" << endl;
-	cout << "#                 ( `   )_                                  #" << endl;
-	cout << "#                (    )    `)                               #" << endl;
-	cout << "#              (_   (_ .  _) _)                             #" << endl;
-	cout << "#                                             _             #" << endl;
-	cout << "#                                            (  )           #" << endl;
-	cout << "#             _ .                         ( `  ) . )        #" << endl;
-	cout << "#           (  _ )_                      (_, _(  ,_)_)      #" << endl;
-	cout << "#         (_  _(_ ,)                                        #" << endl;
-	cout << "#############################################################" << endl;
+	std::cout << "#############################################################" << std::endl;
+	std::cout << "#                    _                                      #" << std::endl;
+	std::cout << "#                  -=\\`\\                                    #" << std::endl;
+	std::cout << "#              |\\ ____\\_\\__                                 #" << std::endl;
+	std::cout << "#            -=\\c`""""""" "`)                               #" << std::endl;
+	std::cout << "#               `~~~~~/ /~~`\                                #" << std::endl;
+	std::cout << "#                 -==/ /                                    #" << std::endl;
+	std::cout << "#                   '-'                                     #" << std::endl;
+	std::cout << "#                  _  _                                     #" << std::endl;
+	std::cout << "#                 ( `   )_                                  #" << std::endl;
+	std::cout << "#                (    )    `)                               #" << std::endl;
+	std::cout << "#              (_   (_ .  _) _)                             #" << std::endl;
+	std::cout << "#                                             _             #" << std::endl;
+	std::cout << "#                                            (  )           #" << std::endl;
+	std::cout << "#             _ .                         ( `  ) . )        #" << std::endl;
+	std::cout << "#           (  _ )_                      (_, _(  ,_)_)      #" << std::endl;
+	std::cout << "#         (_  _(_ ,)                                        #" << std::endl;
+	std::cout << "#############################################################" << std::endl;
 	Sleep(2000);
 }
 
@@ -105,4 +105,4 @@ void drawDivider(int length, char character, int offset) {
 void drawError(std::string message) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 	std::cout << "Error: " << message << std::endl;
-	Set
+}

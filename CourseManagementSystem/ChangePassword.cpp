@@ -8,12 +8,12 @@ void changePassword(ifstream& fin, ofstream& fout)
 		fin.open("../StudentAccount/" + username + ".txt", ios::in);
 	if (!fin)
 	{
-		cout << "Account Not Found! Please try again." << endl << endl;
-		cout << "Process done! The system will go back to the menu." << endl;
+		std::cout << "Account Not Found! Please try again." << std::endl << std::endl;
+		std::cout << "Process done! The system will go back to the menu." << std::endl;
 		system("pause");
 		return;
 	}
-	cout << "Input the password: ";
+	std::cout << "Input the password: ";
 	string password, newPass, confirmPass;
 	cin >> password;
 	string check_username, check_password;
@@ -25,9 +25,9 @@ void changePassword(ifstream& fin, ofstream& fout)
 	{
 		if (check_username == username && check_password == password)
 		{
-			cout << "Enter the new password: ";
+			std::cout << "Enter the new password: ";
 			cin >> newPass;
-			cout << "Confirm your password: ";
+			std::cout << "Confirm your password: ";
 			cin >> confirmPass;
 			if (newPass == confirmPass)
 			{
@@ -35,25 +35,25 @@ void changePassword(ifstream& fin, ofstream& fout)
 					fout.open("../StaffAccount/" + username + ".txt", ios::trunc);
 				else if (username[0] >= '0' && username[0] <= '9')
 					fout.open("../StudentAccount/" + username + ".txt", ios::trunc);
-				fout << username << endl;
+				fout << username << std::endl;
 				fout << newPass;
 				condition = true;
-				cout << "Change password successfully!" << endl;
+				std::cout << "Change password successfully!" << std::endl;
 				fout.close();																//Remember to close text file
 			}
 			else
 			{
-				cout << "Wrong password. Please input again.";
+				std::cout << "Wrong password. Please input again.";
 			}
 		}
 		else
 		{
-			cout << "Wrong password. Please try again" << endl;
-			cout << "Input the password: ";
+			std::cout << "Wrong password. Please try again" << std::endl;
+			std::cout << "Input the password: ";
 			cin >> password;
 		}
 	}
-	cout << endl;
-	cout << "Process done! The system will go back to the menu.";
+	std::cout << std::endl;
+	std::cout << "Process done! The system will go back to the menu.";
 	system("pause");
 }

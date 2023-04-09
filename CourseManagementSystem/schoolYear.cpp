@@ -1,6 +1,7 @@
 #pragma once
-#include "schoolYear.h"
-
+#include "SchoolYear.h"
+#include "Universal.h"
+#include "Graphic.h"
 std::ifstream fin;
 std::ofstream fout;
 
@@ -13,19 +14,18 @@ extern schoolYear* pTailSchoolYear;
 schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext(pointer) {}
 schoolYear::schoolYear() {}
 
-
 //Create SchoolYear
 
 void schoolYear::createSchoolYear()
 {
-	cin.ignore();
+	std::cin.ignore();
 	loadFile();
 	bool flag = 1;
 	while (true)
 	{
 		system("cls");
 		gotoxy(12, 0);
-		cout << "All the year list:\n";
+		std::cout << "All the year list:\n";
 		showSchoolYear();
 		std::cout << "Enter your school year you want to create(format:yyyy-yyyy) (Press enter to stop): ";
 		std::string year; getline(std::cin, year);
@@ -43,7 +43,8 @@ void schoolYear::createSchoolYear()
 		{
 			//Create a new schoolyear and store in linked list
 			fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
-			fout << std::endl << year;													//Write down the schoolyear
+			fout << std::endl;
+			fout << year;			//Write down the schoolyear
 			fout.close();
 
 			//Check folder and write down information for the schoolyear
@@ -257,5 +258,80 @@ std::string schoolYear::getYear()
 }
 void schoolYear::createSemester()
 {
-	cout << "What is your school year:";
+	char x;
+	bool flag = 0;
+	std::cout << "Enter school year include your semester:";
+	std::string year;
+	getline(std::cin, year);
+	loadFile(year);
+	while(flag)
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+	{
+		std::string tmp = cur->getYear();
+		if (!tmp.compare(year))
+		{
+			flag = 1;
+			break;
+		}
+	}
+	if (flag)
+	{
+		std::cout << "What is semester you want to create: ";
+		while(true)
+		{
+			std::cout << "Sem:";
+			std::cin >> x;
+			if ('x' < 1 || x > '3')
+			{
+				std::cout << "Invalid semester. Try other ones\n";
+				continue;
+			}
+			if (checkExistSemester(x - '0'))
+			{
+				std::cout << "This semester was already created. Try other ones\n";
+				continue;
+			}
+		}
+		fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
+		fout << "Semester" << " " << x;														//Write down the semester
+		fout.close();
+		std::cout << "Enter the start date:";
+		std::string StartDate;
+		getline(std::cin, StartDate);
+	}
+}
+void schoolYear::loadFile(std::string year)
+{
+	fin.open("../Data/School Year/" + year + "/all semester.txt");
+	while (!fin.eof())
+	{
+		std::string sem, startDate, endDate;
+		getline(fin, sem, ',');
+		getline(fin, startDate, ',');
+		getline(fin, endDate, '\n');
+		semester* dummy = new semester(stoi(sem), startDate, endDate);
+		if (!pHeadSemester)
+		{
+			pHeadSemester = dummy;
+			pTailSemester = dummy;
+		}
+		else
+		{
+			pTailSemester->pNext = dummy;
+			pTailSemester = dummy;
+		}
+	}
+}
+bool schoolYear::checkExistSemester(int sem)
+{
+	for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
+	{
+		if (sem == cur->getSem())
+			return 1;
+	}
+	return 0;
+}
+int semester::getSem()
+{
+	return sem;
 }
