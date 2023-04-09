@@ -24,8 +24,6 @@ void schoolYear::createSchoolYear()
 	while (true)
 	{
 		system("cls");
-		gotoxy(12, 0);
-		std::cout << "All the year list:\n";
 		showSchoolYear();
 		std::cout << "Enter your school year you want to create(format:yyyy-yyyy) (Press enter to stop): ";
 		std::string year; getline(std::cin, year);
@@ -149,6 +147,10 @@ void schoolYear::deleteSchoolYear()
 
 void schoolYear::showSchoolYear()
 {
+	gotoxy(30, 3);
+	std::cout << "Created School Years\n";
+	// Draw box to display school years
+	drawBox(10, 6, 60, 16);
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 		std::cout << "\t\t" << cur->getYear() << std::endl;
 }
