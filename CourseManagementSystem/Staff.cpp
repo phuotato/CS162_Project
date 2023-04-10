@@ -17,27 +17,26 @@ int state = 1;
 //3: End Semester
 
 void StartSchoolYearMenu() {
-    setColor(14); //yellow
+    SetColor(7, 1);
     std::cout << "\n\tState: Beginning of School Year. \n";
-
+    
     //!!! chua code xong
     //!!!can them code de chon nam va the hien nam da chon
-    std::cout << "\n\tCurrent Year: ";  
+    std::cout << "\tCurrent Year: ";  
 
-
-    setColor(15); //white
+    SetColor(7, 0);
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|              MENU OPTIONS                        |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 1. Create School Year                            |";
     std::cout << "\n\t\t| 2. Create Classes for 1st-Year Students          |";
     std::cout << "\n\t\t| 3. Add 1st-year students to 1st-year classes     |";
+    std::cout << "\n\t\t| 4. Begin a new Semester                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 4. View student profile                          |";
-    std::cout << "\n\t\t| 5. View a list of classes                        |";
-    std::cout << "\n\t\t| 6. View a list of students in a class            |";
+    std::cout << "\n\t\t| 5. View student profile                          |";
+    std::cout << "\n\t\t| 6. View a list of classes                        |";
+    std::cout << "\n\t\t| 7. View a list of students in a class            |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 7. Begin a new Semester                          |";
     std::cout << "\n\t\t| 8. Change Password                               |";
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
@@ -50,7 +49,7 @@ void BeginSchoolYear() {
     GetWindowRect(console, &r);
 
     // Move console window to center of the screen
-    system("mode con: cols=110 lines=80");
+    system("mode con: cols=100 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
 
@@ -76,14 +75,14 @@ void BeginSchoolYear() {
             drawHeader();
             pStudent->addStudentto1stClass(pStudent);
             break;
-        case 4:
+        case 4: //change state to begin semester and return
+            state = 2;
+            return;
+        case 5:
             system("cls");
             drawHeader();
             pStudent->viewProfile(pStudent);
             break;
-        case 7: //change state to begin semester and return
-            state = 2;
-            return;
         case 8: 
             system("cls");
             drawHeader();

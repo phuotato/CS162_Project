@@ -21,6 +21,15 @@ void gotoxy(short a, short b) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 
+
+void SetColor(int backgound_color, int text_color)
+{
+	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	int color_code = backgound_color * 16 + text_color;
+	SetConsoleTextAttribute(hStdout, color_code);
+}
+
 void setColor(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
@@ -29,7 +38,7 @@ void setBackgroundColor(int color) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(hConsole, &csbi);
-	SetConsoleTextAttribute(hConsole, (csbi.wAttributes & 0xF0) | color);
+	SetConsoleTextAttribute(hConsole, color);
 }
 
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
@@ -63,10 +72,10 @@ void drawBox(int x, int y, int width, int height) {
 }
 
 void drawHeader() {
-	gotoxy(15, 2); std::cout << " ____  ____  ____  __  _   _  ___  __  __  __  __  ___ " << "\n";
-	gotoxy(15, 3); std::cout << "( ___)(_  _)(_  _)/  \\( )_( )/ __)(  \\/  )(  )(  )/ __)" << "\n";
-	gotoxy(15, 4); std::cout << " )__)  _)(_   )( | ()/ ) _ (( (__  )    (  )(__)( \\__ \\" << "\n";
-	gotoxy(15, 5); std::cout << "(__)  (____) (__) \\__ (_) (_)\\___)(_/\\/\\_)(______)(___/" << "\n";
+	gotoxy(20, 2); std::cout << " ____  __  ____    _  _   ___  _  _  _  _  ____  " << "\n";
+	gotoxy(20, 3); std::cout << "(  __)(  )(_  _)  / )( \\ / __)( \\/ )/ )( \\/ ___) " << "\n";
+	gotoxy(20, 4); std::cout << " ) _)  )(   )(  _ ) __ (( (__ / \\/ \\) \\/ (\\___ \\ " << "\n";
+	gotoxy(20, 5); std::cout << "(__)  (__) (__)(_)\\_)(_/ \\___)\\_)(_/\\____/(____/ " << "\n";
 }
 
 //void loadingPage() {

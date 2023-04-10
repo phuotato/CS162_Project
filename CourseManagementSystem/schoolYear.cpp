@@ -25,16 +25,17 @@ void schoolYear::createSchoolYear()
 	{
 		system("cls");
 		showSchoolYear();
-		gotoxy(18, 23);
-		std::cout << "Would you like to create a new school year? (Y/N): ";
+		std::cout << "\n\n\nWould you like to create a new school year? (Y/N): ";
 		char option;
 		std::cin >> option;
+		std::cin.ignore();
 
 		if (option == 'Y' || option == 'y')
 		{
 			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
 			std::cin.ignore();
 			std::string year; getline(std::cin, year);
+			std::cin.ignore();
 
 			//checking condition
 			if (checkCorrectYear(year) == false) {
@@ -108,6 +109,7 @@ void schoolYear::loadFile()
 			pTailSchoolYear = tmp;
 		}
 	}
+	fin.close();
 }
 
 bool schoolYear::checkExistSchoolYear(std::string year)
@@ -159,16 +161,12 @@ void schoolYear::showSchoolYear()
 {
 	gotoxy(30, 3);
 	std::cout << "Created School Years\n";
-	// Draw box to display school years
-	drawBox(10, 6, 60, 10);
-	int i = 0;
+	std::cout << "\n\t\t+--------------------------------------------------+";
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
-		gotoxy(35, 9 + i*2);
-		std::cout << cur->getYear() << std::endl;
-		++i;
+		std::cout << "\n\t\t|                 " << cur->getYear() << "                        |";
 	}
-		
+	std::cout << "\n\t\t+--------------------------------------------------+";
 }
 
 
@@ -216,16 +214,11 @@ void schoolYear::addNewClass() {
 		std::cin.ignore();
 
 		//Find the schoolYear
-		fin.open("../Data/School Year/all school year.txt");
-		std::string curYear;
-		while (!fin.eof())
-		{
-			getline(fin, curYear);
-			if (curYear == "")																		//Check if the file is empty or not
-				return;
-			if (curYear == Year) {
+		schoolYear* cur = pHeadSchoolYear;
+		for (; cur; cur = cur->pNext) {
+			if (cur->getYear() == Year) {
 				flag = 1;
-				return;
+				break;
 			}
 		}
 
@@ -235,7 +228,6 @@ void schoolYear::addNewClass() {
 			return;
 		}
 		flag = 0;
-		fin.close();
 
 		//Enter the class code
 		std::cout << "Please enter the name of the class you want to create: ";
@@ -244,11 +236,18 @@ void schoolYear::addNewClass() {
 
 		//Check the class
 		pHeadClass->LoadFile(Year);
-		if (checkExistClass(Name)) {
+		if (checkExistClass(Name) == 0) {
 			std::cout << "This class is already exist.\n";
-			flag = 0;
+			return;
 		}
 
+		//Check the class if correct to add
+		else if (pHeadClass->CheckClasses(Name, Year) == 0) {
+			std::cout << "Please enter the class correctly.\n";
+			return;
+		}
+		
+		//Add	
 		else {
 			//Create dummy node and initialize
 			if (!pHeadClass) pHeadClass = new Class("");
@@ -268,21 +267,16 @@ void schoolYear::addNewClass() {
 			}
 
 			//Add Class into the text file
-			fout.open("../Data/School Year/" + curYear + "/Class.txt", std::ios::app);
+			fout.open("../Data/School Year/" + Year + "/Class.txt", std::ios::app);
 			fout << Name;
+			fout << "\n";
 			fout.close();
-			flag = 1;
 		}
 
-		if (flag == 1)
-		{
-			std::cout << "Create succesfully\n";
-			std::cout << "Do you want to add more school year:(Y/N || y/n) ";
-			char choice; std::cin >> choice;
-			std::cin.ignore();
-			if (choice == 'N' || choice == 'n')
-				return;
-		}
+		loadingPage();
+		system("cls");
+		std::cout << "Create succesfully\n";
+		return;
 	}
 }
 
@@ -347,6 +341,7 @@ void Class::Choices() {
 		std::cout << "\n\t\t+--------------------------------------------------+";
 		std::cout << "\n\t\t Enter your choice: ";
 		std::cin >> k;
+		if (k == 0) break;
 		switch (k) {
 			case 1:
 				pHeadSchoolYear->createInformationClass();
@@ -362,6 +357,22 @@ void Class::Choices() {
 		system("cls");
 	}
 	while (k != 0);
+}
+
+bool Class::CheckClasses(std::string curName, std::string curYear) {
+	int length = curName.length();
+	if (length < 4) return 0;
+
+	for (int i = 0; i < 2; i++) {
+		if (curName[i] < '0' || curName[i] > '9') return 0;
+		if (curName[i] != curYear[i+2]) return 0;
+	}
+	if (curName[2] < 'A' && curName[2] > 'Z') return 0;
+
+	for (int i = 3; i < length; i++) {
+		if (curName[i] > '0' && curName[i] <= '9') return 1;
+	}
+	return 0;
 }
 
 //Other functions
