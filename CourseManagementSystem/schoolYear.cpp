@@ -25,18 +25,19 @@ void schoolYear::createSchoolYear()
 	{
 		system("cls");
 		showSchoolYear();
-		std::cout << "\n\n\nWould you like to create a new school year? (Y/N): ";
+		std::cout << "\n\n\n\t\tWould you like to create a new school year? (Y/N): ";
 		char option;
 		std::cin >> option;
 
 		if (option == 'Y' || option == 'y')
 		{
 			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
+			std::cin.ignore();
 			std::string year; getline(std::cin, year);
 
 			//checking condition
 			if (checkCorrectYear(year) == false) {
-				std::cout << "\t\tPlease enter the correct year!\n";
+				std::cout << "\n\t\tPlease enter the correct year!\n";
 				system("pause");
 				system("cls");
 				continue;
@@ -70,8 +71,7 @@ void schoolYear::createSchoolYear()
 			}
 			if (flag == 1)
 			{
-				gotoxy(23, 27);
-				std::cout << "Created succesfully\n";
+				std::cout << "\n\n\n\t\tCreated succesfully\n";
 				std::cout << "\t\tDo you want to add more school year:(Y/N) ";
 				char choice; std::cin >> choice;
 				std::cin.ignore();
