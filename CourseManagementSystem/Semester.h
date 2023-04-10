@@ -1,14 +1,16 @@
 #pragma once
-#include <string>
+#include "Universal.h"
+#include "Course.h"
 class semester
 {
 	public:
 	semester(int Sem, std::string StartDate, std::string EndDate );
 	semester();
-	void addCourse();
 	int getSem();
-	semester* pNext;
+	semester* pNext=nullptr;
 	void getInformation();
+	void addCourse();
+	//Function create
 private:
 //	course* pHeadCourses = nullptr;
 	std::string startDate; 

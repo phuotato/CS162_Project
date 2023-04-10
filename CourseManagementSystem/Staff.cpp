@@ -163,7 +163,7 @@ void BeginSemester() {
 
 void Staff()
 {
-    cin.get();
+    std::cin.get();
     system("cls");
     //login("../StaffAccount/");
 	system("cls");
