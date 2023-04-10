@@ -13,9 +13,12 @@ public:
 	void deleteClass();
 	void LoadFile(std::string curYear);
 	void Choices();
+	
+	//Minor function
+	bool CheckClasses(std::string curName, std::string curYear);
 
 	//Pointer
-	Class* pNext;
+	Class* pNext=nullptr;
 
 private:
 	std::string Name;
