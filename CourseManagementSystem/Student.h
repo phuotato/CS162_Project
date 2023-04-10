@@ -16,7 +16,8 @@ public:
 	student(int no, string id, string firstname, string lastname, bool gender, int day, int month, int year, string socialId, student* pointer) :
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dob(day, month, year), socialId(socialId), pNext(pointer) {}
-	void addStudentto1stClass(student*& headS);
+	void addStudentto1stClass_Console(student*& headS);
+	void addStudentto1stClass_File(student*& headS);
 	void viewProfile(student*& headS);
 	void deleteStudentList(student*& headS);
 private: 
