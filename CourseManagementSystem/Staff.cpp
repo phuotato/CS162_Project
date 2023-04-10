@@ -64,7 +64,7 @@ void BeginSchoolYear() {
         case 1:
             system("cls");
             drawHeader();
-            pHeadSchoolYear->loadFile();
+            pHeadSchoolYear->deleteSchoolYear();
             pHeadSchoolYear->createSchoolYear();
             break;
         case 2:

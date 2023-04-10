@@ -32,14 +32,12 @@ void schoolYear::createSchoolYear()
 
 		if (option == 'Y' || option == 'y')
 		{
-			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
-			std::cin.ignore();
+			std::cout << "Enter new school year (e.g. 2022-2023): ";
 			std::string year; getline(std::cin, year);
-			std::cin.ignore();
 
 			//checking condition
 			if (checkCorrectYear(year) == false) {
-				std::cout << "\n\t\tPlease enter the correct year!\n";
+				std::cout << "Please enter the correct year!\n";
 				system("pause");
 				system("cls");
 				continue;
@@ -68,21 +66,17 @@ void schoolYear::createSchoolYear()
 			}
 			else
 			{
-				std::cout << "\t\tThis school year is already created, please enter another school year\n";
+				std::cout << "This school year is already created, please enter another school year\n";
 				flag = 0;
 			}
 			if (flag == 1)
 			{
-				std::cout << "\n\n\n\t\tCreated succesfully\n";
-				std::cout << "\t\tDo you want to add more school year:(Y/N) ";
-				char choice; std::cin >> choice;
-				std::cin.ignore();
-				if (choice == 'N' || choice == 'n')
-					return;
+				std::cout << "Created succesfully\n";
+				system("pause");
+				return;
 			}
 		}
 		else return;
-		system("pause");
 	}
 	
 }
@@ -267,8 +261,25 @@ void schoolYear::addNewClass() {
 
 			//Add Class into the text file
 			fout.open("../Data/School Year/" + Year + "/Class.txt", std::ios::app);
-			fout << Name;
 			fout << "\n";
+			fout << Name;
+			fout.close();
+
+			//Create folder for class
+			if (_mkdir(("../Data/School Year/" + Year + "/Class").c_str()));
+
+			//Create CSV file for class
+			fout.open("../Data/School Year/" + Year + "/Class/" + Name + ".csv");
+
+			//Create column
+			fout << "Student ID,";
+			fout << "No,";
+			fout << "First Name,";
+			fout << "Last Name,";
+			fout << "Gender,";
+			fout << "Date of Birth,";
+			fout << "Social ID,";
+
 			fout.close();
 		}
 
