@@ -58,7 +58,7 @@ void BeginSchoolYear() {
         system("cls");
         drawHeader();
         BeginSchoolYearMenu();
-        cin >> option;
+        std::cin >> option;
 
         switch (option) {
         case 1:
@@ -153,7 +153,7 @@ void BeginSemester() {
         system("cls");
         drawHeader();
         BeginSemesterMenu();
-        cin >> option;
+        std::cin >> option;
 
         switch (option) {
         case 1:
