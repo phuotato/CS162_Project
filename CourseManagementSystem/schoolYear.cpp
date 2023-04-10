@@ -25,8 +25,7 @@ void schoolYear::createSchoolYear()
 	{
 		system("cls");
 		showSchoolYear();
-		gotoxy(18, 23);
-		std::cout << "Would you like to create a new school year? (Y/N): ";
+		std::cout << "\n\n\nWould you like to create a new school year? (Y/N): ";
 		char option;
 		std::cin >> option;
 
@@ -158,16 +157,12 @@ void schoolYear::showSchoolYear()
 {
 	gotoxy(30, 3);
 	std::cout << "Created School Years\n";
-	// Draw box to display school years
-	drawBox(10, 6, 60, 10);
-	int i = 0;
+	std::cout << "\n\t\t+--------------------------------------------------+";
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
-		gotoxy(35, 9 + i*2);
-		std::cout << cur->getYear() << std::endl;
-		++i;
+		std::cout << "\n\t\t|                 " << cur->getYear() << "                        |";
 	}
-		
+	std::cout << "\n\t\t+--------------------------------------------------+";
 }
 
 
