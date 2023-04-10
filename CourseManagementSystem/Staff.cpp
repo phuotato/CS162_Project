@@ -109,6 +109,38 @@ void BeginSchoolYear() {
     } while (option != 0);
 }
 
+void BeginSemesterMenu() {
+    SetColor(7, 1);
+    std::cout << "\n\tState: Beginning of Semester. \n";
+
+    //!!! chua code xong
+    std::cout << "\tCurrent Year: ";
+    std::cout << "\n\tCurrent Semester: ";
+
+    SetColor(7, 0);
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t|                MENU OPTIONS                      |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 1. Create a semester                             |";
+    std::cout << "\n\t\t| 2. Add a course                                  |";
+    std::cout << "\n\t\t| 3. Update course information                     |";
+    std::cout << "\n\t\t| 4. Add a student to the course                   |";
+    std::cout << "\n\t\t| 5. Remove a student from the course              |";
+    std::cout << "\n\t\t| 6. Delete a course                               |";
+    std::cout << "\n\t\t| 7. End Semester                                  |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 8. View student profile                          |";
+    std::cout << "\n\t\t| 9. View a list of classes                        |";
+    std::cout << "\n\t\t| 10. View a list of courses                       |";
+    std::cout << "\n\t\t| 11. View a list of students in a course          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 12. Change Password                              |";
+    std::cout << "\n\t\t| 0. Exit                                          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t Enter your choice: ";
+}
+
+
 void EndSemesterMenu() {
     SetColor(7, 1);
     std::cout << "\n\tState: End of Semester. \n";
@@ -163,37 +195,6 @@ void EndSemester() {
             return;
         }
     } while (option != 0);
-}
-
-void BeginSemesterMenu() {
-    SetColor(7, 1);
-    std::cout << "\n\tState: Beginning of Semester. \n";
-
-    //!!! chua code xong
-    std::cout << "\tCurrent Year: ";
-    std::cout << "\n\tCurrent Semester: ";
-
-    SetColor(7, 0);
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t|                MENU OPTIONS                      |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 1. Create a semester                             |";
-    std::cout << "\n\t\t| 2. Add a course                                  |";
-    std::cout << "\n\t\t| 3. Update course information                     |";
-    std::cout << "\n\t\t| 4. Add a student to the course                   |";
-    std::cout << "\n\t\t| 5. Remove a student from the course              |";
-    std::cout << "\n\t\t| 6. Delete a course                               |";
-    std::cout << "\n\t\t| 7. End Semester                                  |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 8. View student profile                          |";
-    std::cout << "\n\t\t| 9. View a list of classes                        |";
-    std::cout << "\n\t\t| 10. View a list of courses                       |";
-    std::cout << "\n\t\t| 11. View a list of students in a course          |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 12. Change Password                              |";
-    std::cout << "\n\t\t| 0. Exit                                          |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t Enter your choice: ";
 }
 
 void BeginSemester() {
