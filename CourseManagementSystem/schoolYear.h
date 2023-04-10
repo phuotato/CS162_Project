@@ -11,6 +11,8 @@ public:
 
 	//Function for class
 	void deleteClass();
+	void LoadFile(std::string curYear);
+	void Choices();
 
 	//Pointer
 	Class* pNext;

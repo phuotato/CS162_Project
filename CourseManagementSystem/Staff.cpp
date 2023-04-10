@@ -67,7 +67,8 @@ void BeginSchoolYear() {
             pHeadSchoolYear->createSchoolYear();
             break;
         case 2:
-            pHeadSchoolYear->createInformationClass();
+            pHeadSchoolYear->loadFile(); 
+            pHeadSchoolYear->pHeadClass->Choices();
             break;
         case 3: 
             system("cls");
