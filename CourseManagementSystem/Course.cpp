@@ -8,9 +8,9 @@ student* pStudent = nullptr;
 void student::addStudentto1stClass(student*& headS)
 {
     std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
-    string classcode;
+    std::string classcode;
     std::cin >> classcode;
-    ifstream fin("../StudentProfile/" + classcode + ".csv");
+    std::ifstream fin("../StudentProfile/" + classcode + ".csv");
     loadingPage();
     if (!fin)
     {
@@ -18,26 +18,26 @@ void student::addStudentto1stClass(student*& headS)
         std::cout << "Error loading data! Please try again.";
         return;
     }
-    string redundant;
+    std::string redundant;
     getline(fin, redundant);
     while (!fin.eof())
     {
         int no;
-        string id, firstname, lastname, socialId;
+        std::string id, firstname, lastname, socialId;
         bool gender;
         date dob;
         getline(fin, id, ',');
-        string getNO;
+        std::string getNO;
         getline(fin, getNO, ',');
         if (fin.eof())
             break;
         no = stoi(getNO);
         getline(fin, firstname, ',');
         getline(fin, lastname, ',');
-        string getGender;
+        std::string getGender;
         getline(fin, getGender, ',');
         gender = stoi(getGender);
-        string getDay, getMonth, getYear;
+        std::string getDay, getMonth, getYear;
         getline(fin, getDay, '/');
         getline(fin, getMonth, '/');
         getline(fin, getYear, ',');
@@ -58,10 +58,10 @@ void student::addStudentto1stClass(student*& headS)
 void student::viewProfile(student* &headS)
 {
     student* temp = headS;
-    string username;
+    std::string username;
     std::cout << "Input the student ID: ";
-    cin.ignore();
-    getline(cin, username);
+    std::cin.ignore();
+    getline(std::cin, username);
     if (!headS)
     {
         std::cout << "No information currently! Please load the data first." << std::endl << std::endl;

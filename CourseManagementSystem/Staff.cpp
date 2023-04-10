@@ -58,7 +58,7 @@ void BeginSchoolYear() {
         system("cls");
         drawHeader();
         StartSchoolYearMenu();
-        cin >> option;
+        std::cin >> option;
 
         switch (option) {
         case 1:
@@ -111,7 +111,7 @@ void BeginSchoolYear() {
 
 void Staff()
 {
-    cin.get();
+    std::cin.get();
     system("cls");
     //login("../StaffAccount/");
 	system("cls");

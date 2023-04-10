@@ -33,6 +33,7 @@ void schoolYear::createSchoolYear()
 		if (option == 'Y' || option == 'y')
 		{
 			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
+			std::cin.ignore();
 			std::string year; getline(std::cin, year);
 
 			//checking condition
@@ -422,6 +423,10 @@ void schoolYear::createSemester()
 		std::cout << "Enter the end date";
 		std::string EndDate;
 		getline(std::cin, EndDate);
+		if (_mkdir(("../School Year/" + year + "/Semester " + x).c_str()));
+		fout.open("../School Year/" + year + "/Semester " + x + "/information.txt");
+		fout << StartDate << "," << EndDate << std::endl;
+		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
 		if (!(cur->pHeadSemester))
 		{

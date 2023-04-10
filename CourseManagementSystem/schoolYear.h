@@ -15,7 +15,7 @@ public:
 	void Choices();
 
 	//Pointer
-	Class* pNext;
+	Class* pNext=nullptr;
 
 private:
 	std::string Name;
