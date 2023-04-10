@@ -177,29 +177,99 @@ void schoolYear::showSchoolYear()
 Class::Class(std::string Name) :Name(Name) {}
 
 //Functions for Class
+
+void Class::LoadFile(std::string curYear)
+{
+	fin.open("../Data/School Year/" + curYear + "/Class.txt");
+	while (!fin.eof())
+	{
+		std::string curName;
+		getline(fin, curName);
+		if (curName == "")															//Check if the file is empty or not
+			return;
+		schoolYear* CurYear = pHeadSchoolYear;
+		for (; CurYear; CurYear = CurYear->pNext) {
+			if (CurYear->getYear() == curYear) break;
+		}
+
+		if (!CurYear->pHeadClass)
+		{
+			CurYear->pHeadClass = new Class(curName);
+			CurYear->pTailClass = CurYear->pHeadClass;
+		}
+		else
+		{
+			Class* tmp = new Class(curName);
+			CurYear->pTailClass->pNext = tmp;
+			CurYear->pTailClass = tmp;
+		}
+	}
+}
+
 void schoolYear::addNewClass() {
 	bool flag = 0;
 	while (true) {
-		std::cout << "Please enter the name of the class you want to create: ";
+		//Enter the schoolYear to add
+		std::cout << "Please enter the school year you want to add: ";
+		std::string Year; std::cin >> Year;
 		std::cin.ignore();
-		std::string Name;  std::cin >> Name;
 
+		//Find the schoolYear
+		fin.open("../Data/School Year/all school year.txt");
+		std::string curYear;
+		while (!fin.eof())
+		{
+			getline(fin, curYear);
+			if (curYear == "")																		//Check if the file is empty or not
+				return;
+			if (curYear == Year) {
+				flag = 1;
+				return;
+			}
+		}
+
+		if (flag != 1) {
+			std::cout << "There is no school year similar to what you input.\n";
+			std::cout << "Consider to add new school year.\n";
+			return;
+		}
+		flag = 0;
+		fin.close();
+
+		//Enter the class code
+		std::cout << "Please enter the name of the class you want to create: ";
+		std::string Name;  std::cin >> Name;
+		std::cin.ignore();
+
+		//Check the class
+		pHeadClass->LoadFile(Year);
 		if (checkExistClass(Name)) {
 			std::cout << "This class is already exist.\n";
 			flag = 0;
 		}
 
 		else {
+			//Create dummy node and initialize
 			if (!pHeadClass) pHeadClass = new Class("");
 			pTailClass = pHeadClass;
-			Class* tmp = pTailClass->pNext;
+			Class* tmp = pTailClass;
 
-			tmp = new Class(Name);
+			//Add the new class
+			tmp->pNext = new Class(Name);
 			pTailClass = tmp->pNext;
+			pTailClass->getName() = Name;
+			pTailClass->pNext = nullptr;
+
+			//Delete dummy node
 			if (pHeadClass->getName() == "") {
 				delete pHeadClass;
 				pHeadClass = tmp;
 			}
+
+			//Add Class into the text file
+			fout.open("../Data/School Year/" + curYear + "/Class.txt", std::ios::app);
+			fout << Name;
+			fout.close();
 			flag = 1;
 		}
 
@@ -221,10 +291,9 @@ void schoolYear::createInformationClass() {
 
 		while (true) {
 			fin.open(".. /Data/School Year/" + year + "/Class.txt");
-			if (!fin.eof()) return;
+			if (!fin) return;
 			std::string ClassName;													//Read in class
 			getline(fin, ClassName, ' ');
-			if (ClassName == ".") break;
 			fin.ignore();
 
 			if (!pHeadClass) pHeadClass = new Class("");
@@ -262,6 +331,36 @@ void Class::deleteClass() {
 		pHeadSchoolYear->pHeadClass = tmp;
 
 	}
+}
+
+void Class::Choices() {
+	system("cls");
+	int k;
+	do {
+		std::cout << "\n\t\t+--------------------------------------------------+";
+		std::cout << "\n\t\t|              MENU OPTIONS                        |";
+		std::cout << "\n\t\t+--------------------------------------------------+";
+		std::cout << "\n\t\t| 1. Load all classes in all school year           |";
+		std::cout << "\n\t\t| 2. Add more class                                |";
+		std::cout << "\n\t\t| 0. Exit                                          |";
+		std::cout << "\n\t\t+--------------------------------------------------+";
+		std::cout << "\n\t\t Enter your choice: ";
+		std::cin >> k;
+		switch (k) {
+			case 1:
+				pHeadSchoolYear->createInformationClass();
+				break;
+			case 2:
+				pHeadSchoolYear->addNewClass();
+				break;
+			default:
+				std::cout << "You have entered wrong! Try again.\n";
+				break;
+		}
+		Sleep(1000);
+		system("cls");
+	}
+	while (k != 0);
 }
 
 //Other functions
