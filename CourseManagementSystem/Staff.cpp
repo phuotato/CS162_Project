@@ -74,7 +74,7 @@ void BeginSchoolYear() {
         case 3: 
             system("cls");
             drawHeader();
-            pStudent->addStudentto1stClass(pStudent);
+            pStudent->addStudentto1stClass_Console(pStudent);
             break;
         case 4: //change state to begin semester and return
             state = 2;
