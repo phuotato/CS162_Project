@@ -109,6 +109,62 @@ void BeginSchoolYear() {
     } while (option != 0);
 }
 
+void EndSemesterMenu() {
+    SetColor(7, 1);
+    std::cout << "\n\tState: End of Semester. \n";
+
+    //!!! chua code xong
+    std::cout << "\tCurrent Year: ";
+    std::cout << "\n\tCurrent Semester: ";
+
+    SetColor(7, 0);
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t|                MENU OPTIONS                      |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 1. Export list of students in a course to CSV    |";
+    std::cout << "\n\t\t| 2. Import scoreboard of a course                 |";
+    std::cout << "\n\t\t| 3. View the scoreboard of a course               |";
+    std::cout << "\n\t\t| 4. Update a student's result                     |";
+    std::cout << "\n\t\t| 5. View the scoreboard of a class                |";
+    std::cout << "\n\t\t| 6. End ?                                         |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 8. View student profile                          |";
+    std::cout << "\n\t\t| 9. View a list of classes                        |";
+    std::cout << "\n\t\t| 10. View a list of courses                       |";
+    std::cout << "\n\t\t| 11. View a list of students in a course          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 12. Change Password                              |";
+    std::cout << "\n\t\t| 0. Exit                                          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t Enter your choice: ";
+}
+
+void EndSemester() {
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+
+    // Move console window to center of the screen
+    system("mode con: cols=80 lines=80");
+    MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
+    int option;
+
+    do {
+        system("cls");
+        drawHeader();
+        EndSemesterMenu();
+        std::cin >> option;
+
+        switch (option) {
+        case 1:
+            std::cout << "hi";
+            break;
+        case 7:
+            return;
+        }
+    } while (option != 0);
+}
+
 void BeginSemesterMenu() {
     SetColor(7, 1);
     std::cout << "\n\tState: Beginning of Semester. \n";
@@ -127,13 +183,14 @@ void BeginSemesterMenu() {
     std::cout << "\n\t\t| 4. Add a student to the course                   |";
     std::cout << "\n\t\t| 5. Remove a student from the course              |";
     std::cout << "\n\t\t| 6. Delete a course                               |";
+    std::cout << "\n\t\t| 7. End Semester                                  |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 7. View student profile                          |";
-    std::cout << "\n\t\t| 8. View a list of classes                        |";
-    std::cout << "\n\t\t| 9. View a list of courses                        |";
-    std::cout << "\n\t\t| 10. View a list of students in a course          |";
+    std::cout << "\n\t\t| 8. View student profile                          |";
+    std::cout << "\n\t\t| 9. View a list of classes                        |";
+    std::cout << "\n\t\t| 10. View a list of courses                       |";
+    std::cout << "\n\t\t| 11. View a list of students in a course          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 11. Change Password                              |";
+    std::cout << "\n\t\t| 12. Change Password                              |";
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t Enter your choice: ";
@@ -157,6 +214,10 @@ void BeginSemester() {
 
         switch (option) {
         case 1:
+            std::cout << "hi";
+            break;
+        case 7:
+            return;
         }
     } while (option != 0);
 }
@@ -169,4 +230,6 @@ void Staff()
 	system("cls");
     BeginSchoolYear();
     BeginSemester();
+    EndSemester();
+
 }

@@ -8,19 +8,19 @@ student* pStudent = nullptr;
 void student::addStudentto1stClass_Console(student*& headS)
 {
     std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
-    string classcode;
+    std::string classcode;
     std::cin.ignore();
     std::getline(std::cin, classcode);
     char choice = 'N';
     while (choice == 'N' || choice == 'n')
     {
         int no;
-        string id, firstname, lastname, socialId;
+        std::string id, firstname, lastname, socialId;
         bool gender;
         date dob;
         std::cout << "Student: ";
         std::getline(std::cin, id);
-        string getNO;
+        std::string getNO;
         std::cout << "No: ";
         std::getline(std::cin, getNO);
         no = stoi(getNO);
@@ -29,11 +29,11 @@ void student::addStudentto1stClass_Console(student*& headS)
         std::cout << "Last name: ";
         std::getline(std::cin, lastname);
         std::cout << "Gender: ";
-        string getGender;
+        std::string getGender;
         std::getline(std::cin, getGender);
         gender = stoi(getGender);
         std::cout << "Date of birth (DD/MM/YYYY): ";
-        string getDay, getMonth, getYear;
+        std::string getDay, getMonth, getYear;
         std::getline(std::cin, getDay);
         std::getline(std::cin, getMonth);
         std::getline(std::cin, getYear);
@@ -59,9 +59,9 @@ void student::addStudentto1stClass_Console(student*& headS)
 void student::addStudentto1stClass_File(student*& headS)
 {
     std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
-    string classcode;
+    std::string classcode;
     std::getline(std::cin, classcode);
-    ifstream fin("../StudentProfile/" + classcode + ".csv");
+    std::ifstream fin("../StudentProfile/" + classcode + ".csv");
     loadingPage();
     if (!fin)
     {
@@ -69,34 +69,34 @@ void student::addStudentto1stClass_File(student*& headS)
         std::cout << "Error loading data! Please try again.";
         return;
     }
-    string redundant;
-    getline(fin, redundant);
+    std::string redundant;
+    std::getline(fin, redundant);
     while (!fin.eof())
     {
         int no;
-        string id, firstname, lastname, socialId;
+        std::string id, firstname, lastname, socialId;
         bool gender;
         date dob;
-        getline(fin, id, ',');
-        string getNO;
-        getline(fin, getNO, ',');
+        std::getline(fin, id, ',');
+        std::string getNO;
+        std::getline(fin, getNO, ',');
         if (fin.eof())
             break;
         no = stoi(getNO);
-        getline(fin, firstname, ',');
-        getline(fin, lastname, ',');
-        string getGender;
-        getline(fin, getGender, ',');
+        std::getline(fin, firstname, ',');
+        std::getline(fin, lastname, ',');
+        std::string getGender;
+        std::getline(fin, getGender, ',');
         gender = stoi(getGender);
-        string getDay, getMonth, getYear;
-        getline(fin, getDay, '/');
-        getline(fin, getMonth, '/');
-        getline(fin, getYear, ',');
+        std::string getDay, getMonth, getYear;
+        std::getline(fin, getDay, '/');
+        std::getline(fin, getMonth, '/');
+        std::getline(fin, getYear, ',');
         int day = stoi(getDay);
         int month = stoi(getMonth);
         int year = stoi(getYear);
         fin.ignore();
-        getline(fin, socialId);
+        std::getline(fin, socialId);
         student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
         newStudent->pNext = headS;
         headS = newStudent;
@@ -109,10 +109,10 @@ void student::addStudentto1stClass_File(student*& headS)
 void student::viewProfile(student*& headS)
 {
     student* temp = headS;
-    string username;
+    std::string username;
     std::cout << "Input the student ID: ";
-    cin.ignore();
-    getline(cin, username);
+    std::cin.ignore();
+    std::getline(std::cin, username);
     if (!headS)
     {
         std::cout << "No information currently! Please load the data first." << std::endl << std::endl;
