@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangePassword.h" />
+    <ClInclude Include="Class.h" />
     <ClInclude Include="Course.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Graphic.h" />

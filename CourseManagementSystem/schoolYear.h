@@ -1,28 +1,6 @@
 #pragma once
 #include "Semester.h"
-class Class
-{
-public:
-	//Constructor
-	Class(std::string Name);
-	Class();
-	//Get attribute
-	std::string getName();
-
-	//Function for class
-	void deleteClass();
-	void LoadFile(std::string curYear);
-	void Choices();
-	
-	//Minor function
-	bool CheckClasses(std::string curName, std::string curYear);
-
-	//Pointer
-	Class* pNext=nullptr;
-
-private:
-	std::string Name;
-};
+#include "Student.h"
 
 class schoolYear
 {

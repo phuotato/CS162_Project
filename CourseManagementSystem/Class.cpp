@@ -1,19 +1,65 @@
 #include "Universal.h"
+#include "SchoolYear.h"
 #include "Student.h"
 #include "Date.h"
 #include "Course.h"
 #include "Graphic.h"
-
+#include "Class.h"
+extern schoolYear* pHeadSchoolYear;
 student* pStudent = nullptr;
-void student::addStudentto1stClass_Console(student*& headS)
+void Class::getOption()
 {
-    std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t|              MENU OPTIONS                        |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 1. Add students directly on the screen           |";
+    std::cout << "\n\t\t| 2. Add students by inputting a CSV file          |";
+    std::cout << "\n\t\t| 0. Exit                                          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t Enter your choice: ";
+    int choice;
+    std::cin >> choice;
+    bool condition = true;
+    while (condition)
+    {
+        switch (choice){
+        case 1: {
+            condition = false;
+            addStudentto1stClass_Console();
+            break;
+        }
+        case 2: {
+            condition = false;
+            addStudentto1stClass_File();
+            break;
+        }
+        case 0:
+            return;
+        default: {
+        
+            std::cout << "Option Not Found!" << "\n";
+            std::cout << "Please input the available option: " << "\n";
+        }
+        }
+    }
+}
+void Class::addStudentto1stClass_Console()
+{
+    // from the classcode -> find the corresponding schoolyear
+    std::cout << "Enter the class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
     std::string classcode;
     std::cin.ignore();
     std::getline(std::cin, classcode);
+    std::string year = classcode.substr(0, 2);
+    int temp = stoi(year) + 1;
+    std::string schoolyear = "20" + year + "-" + "20" + std::to_string(temp); 
+
+    
+
     char choice = 'N';
     while (choice == 'N' || choice == 'n')
     {
+        // get information of that student
         int no;
         std::string id, firstname, lastname, socialId;
         bool gender;
@@ -42,7 +88,7 @@ void student::addStudentto1stClass_Console(student*& headS)
         int year = stoi(getYear);
         std::getline(std::cin, socialId);
         student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
-        newStudent->pNext = headS;
+        newStudent->pNext = pHeadSchoolYear->pHeadClass->headS; // cannot access the year of pHeadSchoolYear!
         headS = newStudent;
         std::cout << "Would you like to quick inputting students by using a CSV file?" << "\n";
         std::cout << "Enter Y (or y) to quick inputting students by using a CSV file." << "\n";
@@ -50,13 +96,14 @@ void student::addStudentto1stClass_Console(student*& headS)
         std::cout << "Enter 0 to stop inputting." << "\n";
         std::cin >> choice;
         std::cin.ignore();
+        
         if (choice == 'Y' || choice == 'y')
         {
-            addStudentto1stClass_File(headS);
+            addStudentto1stClass_File();
         }
     }
 }
-void student::addStudentto1stClass_File(student*& headS)
+void Class::addStudentto1stClass_File()
 {
     std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
     std::string classcode;
