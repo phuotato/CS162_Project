@@ -215,7 +215,7 @@ void BeginSemester() {
 
         switch (option) {
         case 1:
-            std::cout << "hi";
+            pHeadSchoolYear->createSemester();
             break;
         case 7:
             return;

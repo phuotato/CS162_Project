@@ -31,7 +31,9 @@
 //    cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
 //    string classcode;
 //    cin >> classcode;
-//    fin.open("StudentProfile/" + classcode + ".csv");
+//    
+// 
+// ("StudentProfile/" + classcode + ".csv");
 //    if (!fin)
 //    {
 //        cout << "Error loading data! Please try again.";
