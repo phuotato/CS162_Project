@@ -11,6 +11,9 @@ extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
 
+extern Class* pHeadClass;
+extern Class* pTailClass;
+
 int state = 1;
 //1: Begin School Year
 //2: Begin Semester
@@ -68,8 +71,7 @@ void BeginSchoolYear() {
             pHeadSchoolYear->createSchoolYear();
             break;
         case 2:
-            pHeadSchoolYear->loadFile(); 
-            pHeadSchoolYear->pHeadClass->Choices();
+            pHeadClass->Choices();
             break;
         case 3: 
             system("cls");

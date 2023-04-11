@@ -34,16 +34,9 @@ public:
 	void showSchoolYear();
 
 	//Create&Information_Class
-	bool checkExistClass(std::string Name);
-	void addNewClass();
-	void createInformationClass();
 
 	//Pointer
 	schoolYear* pNext = nullptr;
-
-	//Class pointer
-	Class* pHeadClass;
-	Class* pTailClass;
 
 	//Semester pointer
 	semester* pHeadSemester = nullptr;

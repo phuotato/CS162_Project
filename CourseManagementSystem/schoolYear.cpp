@@ -10,6 +10,10 @@ extern schoolYear* curSchoolYear;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
 
+extern Class* pHeadClass;
+extern Class* pTailClass;
+extern Class* curClass;
+
 //Constructor for SchoolYear
 schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext(pointer) {}
 schoolYear::schoolYear() {}
@@ -32,7 +36,7 @@ void schoolYear::createSchoolYear()
 
 		if (option == 'Y' || option == 'y')
 		{
-			std::cout << "Enter new school year (e.g. 2022-2023): ";
+			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
 			std::string year; getline(std::cin, year);
 
 			//checking condition
@@ -139,7 +143,6 @@ void schoolYear::deleteSchoolYear()
 {
 	for (pHeadSchoolYear; pHeadSchoolYear;)
 	{
-		pHeadSchoolYear->pHeadClass->deleteClass();
 		schoolYear* tmp = pHeadSchoolYear->pNext;
 		delete pHeadSchoolYear;
 		pHeadSchoolYear = tmp;
@@ -170,57 +173,33 @@ Class::Class(std::string Name) :Name(Name) {}
 
 //Functions for Class
 
-void Class::LoadFile(std::string curYear)
+void Class::LoadFile()
 {
-	fin.open("../Data/School Year/" + curYear + "/Class.txt");
+	fin.open("../Data/Class/Class.txt");
 	while (!fin.eof())
 	{
 		std::string curName;
 		getline(fin, curName);
 		if (curName == "")															//Check if the file is empty or not
 			return;
-		schoolYear* CurYear = pHeadSchoolYear;
-		for (; CurYear; CurYear = CurYear->pNext) {
-			if (CurYear->getYear() == curYear) break;
-		}
 
-		if (!CurYear->pHeadClass)
+		if (!pHeadClass)
 		{
-			CurYear->pHeadClass = new Class(curName);
-			CurYear->pTailClass = CurYear->pHeadClass;
+			pHeadClass = new Class(curName);
+			pTailClass = pHeadClass;
 		}
 		else
 		{
 			Class* tmp = new Class(curName);
-			CurYear->pTailClass->pNext = tmp;
-			CurYear->pTailClass = tmp;
+			pTailClass->pNext = tmp;
+			pTailClass = tmp;
 		}
 	}
 }
 
-void schoolYear::addNewClass() {
+void Class::addNewClass() {
 	bool flag = 0;
 	while (true) {
-		//Enter the schoolYear to add
-		std::cout << "Please enter the school year you want to add: ";
-		std::string Year; std::cin >> Year;
-		std::cin.ignore();
-
-		//Find the schoolYear
-		schoolYear* cur = pHeadSchoolYear;
-		for (; cur; cur = cur->pNext) {
-			if (cur->getYear() == Year) {
-				flag = 1;
-				break;
-			}
-		}
-
-		if (flag != 1) {
-			std::cout << "There is no school year similar to what you input.\n";
-			std::cout << "Consider to add new school year.\n";
-			return;
-		}
-		flag = 0;
 
 		//Enter the class code
 		std::cout << "Please enter the name of the class you want to create: ";
@@ -228,14 +207,14 @@ void schoolYear::addNewClass() {
 		std::cin.ignore();
 
 		//Check the class
-		pHeadClass->LoadFile(Year);
+		pHeadClass->LoadFile();
 		if (checkExistClass(Name) == 0) {
 			std::cout << "This class is already exist.\n";
 			return;
 		}
 
 		//Check the class if correct to add
-		else if (pHeadClass->CheckClasses(Name, Year) == 0) {
+		else if (pHeadClass->CheckClasses(Name) == 0) {
 			std::cout << "Please enter the class correctly.\n";
 			return;
 		}
@@ -260,16 +239,16 @@ void schoolYear::addNewClass() {
 			}
 
 			//Add Class into the text file
-			fout.open("../Data/School Year/" + Year + "/Class.txt", std::ios::app);
+			fout.open("../Data/Class/Class.txt", std::ios::app);
 			fout << "\n";
 			fout << Name;
 			fout.close();
 
 			//Create folder for class
-			if (_mkdir(("../Data/School Year/" + Year + "/Class").c_str()));
+			//if (_mkdir(("../Data/Class/" + Name).c_str()));
 
 			//Create CSV file for class
-			fout.open("../Data/School Year/" + Year + "/Class/" + Name + ".csv");
+			fout.open("../Data/Class/" + Name + ".csv");
 
 			//Create column
 			fout << "Student ID,";
@@ -290,32 +269,29 @@ void schoolYear::addNewClass() {
 	}
 }
 
-void schoolYear::createInformationClass() {
-	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
-		std::string year = cur->getYear();											//Find the year to add
+void Class::createInformationClass() {
+	fin.open(".. /Data/Class/Class.txt");
 
-		while (true) {
-			fin.open(".. /Data/School Year/" + year + "/Class.txt");
-			if (!fin) return;
-			std::string ClassName;													//Read in class
-			getline(fin, ClassName, ' ');
-			fin.ignore();
+	while (true) {
+			
+		if (!fin) return;
+		std::string ClassName;													//Read in class
+		getline(fin, ClassName, ' ');
+		fin.ignore();
 
-			if (!pHeadClass) pHeadClass = new Class("");
-			Class* tmp = pHeadClass;
-			tmp->pNext = new Class(ClassName);
+		if (!pHeadClass) pHeadClass = new Class("");
+		Class* tmp = pHeadClass;
+		tmp->pNext = new Class(ClassName);
 
-			pTailClass = tmp;
-			if (pHeadClass->getName() == "") delete pHeadClass;
-
-			fin.close();
-		}
+		pTailClass = tmp;
+		if (pHeadClass->getName() == "") delete pHeadClass;
 
 	}
 
+	fin.close();
 }
 
-bool schoolYear::checkExistClass(std::string Name)
+bool Class::checkExistClass(std::string Name)
 {
 	if (pHeadClass)
 	{
@@ -329,11 +305,11 @@ bool schoolYear::checkExistClass(std::string Name)
 }
 
 void Class::deleteClass() {
-	for (; pHeadSchoolYear->pHeadClass;)
+	for (;pHeadClass;)
 	{
-		Class* tmp = pHeadSchoolYear->pHeadClass;
-		delete pHeadSchoolYear->pHeadClass;
-		pHeadSchoolYear->pHeadClass = tmp;
+		Class* tmp = pHeadClass->pNext;
+		delete pHeadClass;
+		pHeadClass = tmp;
 
 	}
 }
@@ -354,10 +330,10 @@ void Class::Choices() {
 		if (k == 0) break;
 		switch (k) {
 			case 1:
-				pHeadSchoolYear->createInformationClass();
+				pHeadClass->createInformationClass();
 				break;
 			case 2:
-				pHeadSchoolYear->addNewClass();
+				pHeadClass->addNewClass();
 				break;
 			default:
 				std::cout << "You have entered wrong! Try again.\n";
@@ -369,13 +345,12 @@ void Class::Choices() {
 	while (k != 0);
 }
 
-bool Class::CheckClasses(std::string curName, std::string curYear) {
+bool Class::CheckClasses(std::string curName) {
 	int length = curName.length();
 	if (length < 4) return 0;
 
 	for (int i = 0; i < 2; i++) {
 		if (curName[i] < '0' || curName[i] > '9') return 0;
-		if (curName[i] != curYear[i+2]) return 0;
 	}
 	if (curName[2] < 'A' && curName[2] > 'Z') return 0;
 
