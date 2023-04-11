@@ -12,13 +12,17 @@ public:
 
 	//Function for class
 	void deleteClass();
-	void LoadFile(std::string curYear);
+	void LoadFile();
 	void Choices();
 	void getOption();
 	void addStudentto1stClass_Console();
 	void addStudentto1stClass_File();
+	void addNewClass();
+	void createInformationClass();
+	
 	//Minor function
-	bool CheckClasses(std::string curName, std::string curYear);
+	bool CheckClasses(std::string curName);
+	bool checkExistClass(std::string Name);
 
 	//Pointer
 	Class* pNext = nullptr;

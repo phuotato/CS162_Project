@@ -33,8 +33,6 @@ public:
 	//Show SchoolYear
 	void showSchoolYear();
 
-	//Create&Information_Class
-
 	//Pointer
 	schoolYear* pNext = nullptr;
 

@@ -1,6 +1,7 @@
 //setting up all linked lists used in this program
 
 #include "schoolYear.h"
+#include "Class.h"
 
 
 //Declare global variables

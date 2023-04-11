@@ -4,6 +4,7 @@
 #include "ChangePassword.h"
 #include "Graphic.h"
 #include "Staff.h"
+#include "Class.h"
 
 extern std::ifstream fin;
 extern std::ofstream fout;
