@@ -15,8 +15,8 @@ extern Class* pTailClass;
 student* pStudent = nullptr;
 
 //I/O command
-std::ifstream fin;
-std::ofstream fout;
+extern std::ifstream fin;
+extern std::ofstream fout;
 
 //Constructor for Class
 Class::Class(std::string Name) :Name(Name) {}
@@ -214,7 +214,7 @@ std::string Class::getName() {
 }
 
 
-void Class::getOption()
+/*void Class::getOption()
 {
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|              MENU OPTIONS                        |";
@@ -359,7 +359,7 @@ void Class::addStudentto1stClass_File()
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
 }
-
+*/
 void student::viewProfile(student*& headS)
 {
     student* temp = headS;

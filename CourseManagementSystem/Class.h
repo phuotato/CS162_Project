@@ -14,9 +14,9 @@ public:
 	void deleteClass();
 	void LoadFile();
 	void Choices();
-	void getOption();
-	void addStudentto1stClass_Console();
-	void addStudentto1stClass_File();
+	//void getOption();
+	//void addStudentto1stClass_Console();
+	//void addStudentto1stClass_File();
 	void addNewClass();
 	void createInformationClass();
 	
