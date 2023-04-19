@@ -217,11 +217,10 @@ void BeginSemester() {
 void EndSemesterMenu() {
     SetColor(7, 1);
     std::cout << "\n\tState: End of Semester. \n";
-
-    //!!! chua code xong
     std::cout << "\tCurrent Year: ";
+    std::cout << curSchoolYear->year;
     std::cout << "\n\tCurrent Semester: ";
-
+    
     SetColor(7, 0);
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|                MENU OPTIONS                      |";

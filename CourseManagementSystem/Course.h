@@ -4,7 +4,6 @@ class course
 {
 private:
 	struct studentScore {
-		int No;
 		std::string studentID;
 		std::string firstName;
 		std::string lastName;
@@ -19,6 +18,6 @@ public:
 	course* pNext = nullptr;
 
 	//function
-	void ExportClass(std::string filename);
-	void ImportScoreboard(std::string filename);
+	void ExportClass();
+	void ImportScoreboard();
 };
