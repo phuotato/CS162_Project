@@ -1,13 +1,15 @@
 //setting up all linked lists used in this program
-
-#include "schoolYear.h"
+#include "SchoolYear.h"
 #include "Class.h"
+#include "Semester.h"
 
 
 //Declare global variables
 schoolYear* pHeadSchoolYear = nullptr;
 schoolYear* pTailSchoolYear = nullptr;
 schoolYear* curSchoolYear = nullptr;
+
+semester* curSemester = nullptr;
 
 Class* pHeadClass = nullptr;
 Class* pTailClass = nullptr;

@@ -11,14 +11,10 @@ extern std::ofstream fout;
 extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
-
+extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 
-int state = 1;
-//1: Begin School Year
-//2: Begin Semester
-//3: End Semester
 
 void CreateSchoolYearMenu() {
     drawHeader();
@@ -26,7 +22,7 @@ void CreateSchoolYearMenu() {
     std::cout << "\n\tCreate a new school year or choose an existing one to continue.";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 1. Create School Year                            |";
-    std::cout << "\n\t\t| 2. Choose existing School Year                   |";
+    std::cout << "\n\t\t| 2. Choose existing School Year                   |"; //chua lam
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t Enter your choice: ";
@@ -34,11 +30,9 @@ void CreateSchoolYearMenu() {
 
 void BeginSchoolYearMenu() {
     SetColor(7, 1);
-    std::cout << "\n\tState: Beginning of School Year. \n";
-    
-    //!!! chua code xong
-    //!!!can them code de chon nam va the hien nam da chon
-    std::cout << "\tCurrent Year: ";  
+    std::cout << "\n\tState: Beginning of School Year.";
+    std::cout << "\n\tCurrent Year: ";
+    std::cout << curSchoolYear->year;
 
     SetColor(7, 0);
     std::cout << "\n\t\t+--------------------------------------------------+";
@@ -50,9 +44,8 @@ void BeginSchoolYearMenu() {
     std::cout << "\n\t\t| 4. Begin a new Semester                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 5. View student profile                          |";
-    // chua co 6 7
-    std::cout << "\n\t\t| 6. View a list of classes                        |";
-    std::cout << "\n\t\t| 7. View a list of students in a class            |";
+    std::cout << "\n\t\t| 6. View a list of classes                        |"; //chua co
+    std::cout << "\n\t\t| 7. View a list of students in a class            |"; //chua co
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 8. Change Password                               |";
     std::cout << "\n\t\t| 0. Exit                                          |";
@@ -79,10 +72,12 @@ void BeginSchoolYear() {
             drawHeader();
             pHeadSchoolYear->deleteSchoolYear();
             pHeadSchoolYear->createSchoolYear();
+            curSchoolYear = pTailSchoolYear;
             break;
         case 2:
             system("cls");
             drawHeader();
+            //chua lam
             break;
         case 0:
             system("cls");
@@ -120,7 +115,6 @@ void BeginSchoolYear() {
             //temporarily removed 
             break;
         case 4: //change state to begin semester and return
-            state = 2;
             return;
         case 5:
             system("cls");
@@ -152,19 +146,23 @@ void BeginSchoolYear() {
     } while (option != 0);
 }
 
+void CreateSemesterMenu() {
+    
+}
+
 void BeginSemesterMenu() {
     SetColor(7, 1);
-    std::cout << "\n\tState: Beginning of Semester. \n";
-
-    //!!! chua code xong
-    std::cout << "\tCurrent Year: ";
+    std::cout << "\n\tState: Beginning of Semester.";
+    std::cout << "\n\tCurrent Year: ";
+    std::cout << curSchoolYear->year;
     std::cout << "\n\tCurrent Semester: ";
+    
 
     SetColor(7, 0);
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|                MENU OPTIONS                      |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 1. Create a semester                             |";
+    //std::cout << "\n\t\t| 1. Create a semester                             |";
     std::cout << "\n\t\t| 2. Add a course                                  |";
     std::cout << "\n\t\t| 3. Update course information                     |";
     std::cout << "\n\t\t| 4. Add a student to the course                   |";
@@ -193,6 +191,11 @@ void BeginSemester() {
     system("mode con: cols=80 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
+    drawHeader();
+
+    std::cout << "\n\tChoose a semester to continue.";
+    std::cout << "\n\t\t Enter your choice: ";
+    pHeadSchoolYear->createSemester();
 
     do {
         system("cls");
@@ -203,7 +206,7 @@ void BeginSemester() {
         switch (option) {
         case 1:
             system("cls");
-            pHeadSchoolYear->createSemester();
+            //pHeadSchoolYear->createSemester();
             break;
         case 7:
             return;

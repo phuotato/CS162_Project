@@ -5,6 +5,8 @@
 class schoolYear
 {
 public:
+	std::string year;
+
 	//Constructor
 	schoolYear(std::string time, schoolYear* pointer);
 	schoolYear();
@@ -43,7 +45,6 @@ public:
 	semester* pTailSemester = nullptr;
 
 private:
-	std::string year;
 	int numSem = 0;
 	
 };
