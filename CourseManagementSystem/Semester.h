@@ -1,6 +1,7 @@
 #pragma once
 #include "Universal.h"
 #include "Course.h"
+#include "Course.h"
 class semester
 {
 	public:
@@ -16,5 +17,6 @@ private:
 	std::string startDate; 
 	std::string endDate;
 	int sem;
+	course* pHeadCourse = nullptr;
 };
 
