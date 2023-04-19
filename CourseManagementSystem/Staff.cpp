@@ -20,6 +20,18 @@ int state = 1;
 //2: Begin Semester
 //3: End Semester
 
+void CreateSchoolYearMenu() {
+    drawHeader();
+
+    std::cout << "\n\tCreate a new school year or choose an existing one to continue.";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t| 1. Create School Year                            |";
+    std::cout << "\n\t\t| 2. Choose existing School Year                   |";
+    std::cout << "\n\t\t| 0. Exit                                          |";
+    std::cout << "\n\t\t+--------------------------------------------------+";
+    std::cout << "\n\t\t Enter your choice: ";
+}
+
 void BeginSchoolYearMenu() {
     SetColor(7, 1);
     std::cout << "\n\tState: Beginning of School Year. \n";
@@ -32,7 +44,7 @@ void BeginSchoolYearMenu() {
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|                 MENU OPTIONS                     |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 1. Create School Year                            |";
+    //std::cout << "\n\t\t| 1. Create School Year                            |";
     std::cout << "\n\t\t| 2. Create Classes for 1st-Year Students          |";
     std::cout << "\n\t\t| 3. Add 1st-year students to 1st-year classes     |";
     std::cout << "\n\t\t| 4. Begin a new Semester                          |";
@@ -58,6 +70,34 @@ void BeginSchoolYear() {
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
 
+    system("cls");
+    CreateSchoolYearMenu();
+    std::cin >> option;
+    switch (option) {
+        case 1:
+            system("cls");
+            drawHeader();
+            pHeadSchoolYear->deleteSchoolYear();
+            pHeadSchoolYear->createSchoolYear();
+            break;
+        case 2:
+            system("cls");
+            drawHeader();
+            break;
+        case 0:
+            system("cls");
+            drawBox(25, 5, 50, 16);
+            gotoxy(40, 10);
+            std::cout << "Thank you for using\n";
+            gotoxy(45, 12);
+            std::cout << "FIT.HCMUS\n";
+            gotoxy(40, 14);
+            std::cout << "Management Program!\n\n\n\n\n\n";
+            break;
+        default:
+            std::cout << "\n\t\t Invalid input.";
+    }
+
     do {
         system("cls");
         drawHeader();
@@ -65,12 +105,12 @@ void BeginSchoolYear() {
         std::cin >> option;
 
         switch (option) {
-        case 1:
+        /*case 1:
             system("cls");
             drawHeader();
             pHeadSchoolYear->deleteSchoolYear();
             pHeadSchoolYear->createSchoolYear();
-            break;
+            break;*/
         case 2:
             pHeadClass->Choices();
             break;
@@ -144,6 +184,33 @@ void BeginSemesterMenu() {
 }
 
 
+void BeginSemester() {
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+
+    // Move console window to center of the screen
+    system("mode con: cols=80 lines=80");
+    MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
+    int option;
+
+    do {
+        system("cls");
+        drawHeader();
+        BeginSemesterMenu();
+        std::cin >> option;
+
+        switch (option) {
+        case 1:
+            system("cls");
+            pHeadSchoolYear->createSemester();
+            break;
+        case 7:
+            return;
+        }
+    } while (option != 0);
+}
+
 void EndSemesterMenu() {
     SetColor(7, 1);
     std::cout << "\n\tState: End of Semester. \n";
@@ -200,32 +267,6 @@ void EndSemester() {
     } while (option != 0);
 }
 
-void BeginSemester() {
-    HWND console = GetConsoleWindow();
-    RECT r;
-    GetWindowRect(console, &r);
-
-    // Move console window to center of the screen
-    system("mode con: cols=80 lines=80");
-    MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
-    int option;
-
-    do {
-        system("cls");
-        drawHeader();
-        BeginSemesterMenu();
-        std::cin >> option;
-
-        switch (option) {
-        case 1:
-            system("cls");
-            pHeadSchoolYear->createSemester();
-            break;
-        case 7:
-            return;
-        }
-    } while (option != 0);
-}
 
 void Staff()
 {
