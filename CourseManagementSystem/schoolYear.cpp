@@ -198,9 +198,14 @@ void schoolYear::createSemester()
 			std::cout << "This school year don't exist. Try other ones\n";
 			continue;
 		}
+		cur->loadFile(year);
+		if (!cur->checkAvaiSemester())
+		{
+			std::cout << "This school year is full of semester\n";
+			continue;
+		}
 		break;
 	}
-	cur->loadFile(year);
 	while (true)
 	{
 		std::cout << "What is semester you want to create: ";
@@ -208,7 +213,7 @@ void schoolYear::createSemester()
 		{
 			std::cout << "Sem:";
 			std::cin >> x;
-			if ('x' < 1 || x > '3')
+			if ('x' < '1' || x > '3')
 			{
 				std::cout << "Invalid semester. Try other ones\n";
 				continue;
@@ -238,6 +243,7 @@ void schoolYear::createSemester()
 		fout << x <<"," << StartDate << "," << EndDate << std::endl;														//Write down the semester
 		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
+		cur->increaseSem();
 		if (!(cur->pHeadSemester))
 		{
 		cur->pHeadSemester = dummy;
@@ -254,6 +260,12 @@ void schoolYear::createSemester()
 		std::cin.ignore();
 		if (choice == 'N' || choice == 'n')
 			return;
+		if (!cur->checkAvaiSemester())
+		{
+			std::cout << "This school year is full of semester\n";
+			system("pause");
+			return;
+		}
 	}
 }
 void schoolYear::loadFile(std::string year)
@@ -273,11 +285,13 @@ void schoolYear::loadFile(std::string year)
 		{
 			pHeadSemester = dummy;
 			pTailSemester = dummy;
+			++numSem;
 		}
 		else
 		{
 			pTailSemester->pNext = dummy;
 			pTailSemester = dummy;
+			++numSem;
 		}
 	}
 	fin.close();
@@ -307,4 +321,15 @@ schoolYear* schoolYear::findSchoolYear(std::string year)
 		}
 	}
 	return nullptr;
+}
+
+void schoolYear::increaseSem()
+{
+	++numSem;
+}
+bool schoolYear::checkAvaiSemester()
+{
+	if (numSem == 3)
+		return 0;
+	return 1;
 }

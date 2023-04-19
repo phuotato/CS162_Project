@@ -20,6 +20,8 @@ public:
 	void createSemester();
 	bool checkExistSemester(int sem);
 	bool checkCorrectSemester(std::string year);
+	bool checkAvaiSemester();
+	void increaseSem();
 	schoolYear* findSchoolYear(std::string year);
 	
 	//Load File Function
@@ -41,7 +43,8 @@ public:
 	semester* pTailSemester = nullptr;
 
 private:
-	std::string year; 
+	std::string year;
+	int numSem = 0;
 	
 };
 void switchSchoolYear();
