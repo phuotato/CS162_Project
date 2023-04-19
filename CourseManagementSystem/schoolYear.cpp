@@ -184,7 +184,8 @@ void schoolYear::createSemester()
 	std::cin.ignore();
 	while (true)
 	{
-		std::cout << "Enter school year include your semester:";
+		//std::cout << "\n\t\tEnter school year include your semester:";
+		std::cout << "\n\t\tEnter school year:";
 		getline(std::cin, year);
 		if (!checkCorrectYear(year))
 		{

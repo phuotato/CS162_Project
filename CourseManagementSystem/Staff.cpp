@@ -218,6 +218,7 @@ void BeginSemester() {
 
         switch (option) {
         case 1:
+            system("cls");
             pHeadSchoolYear->createSemester();
             break;
         case 7:
