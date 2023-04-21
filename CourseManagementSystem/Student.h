@@ -11,9 +11,8 @@ private:
 	date dob;
 
 public:
-	//ua cai cho nay de lam gi nua z mn?
-	//student(int No, std::string id, std::string firstName, std::string lastName, bool gender, date dob, std::string socialId, student* pointer);
-
+	
+	
 	student* pNext = nullptr;
 	student* pStudent = nullptr;
 
@@ -22,10 +21,13 @@ public:
 	student(int no, std::string id, std::string firstname, std::string lastname, bool gender, int day, int month, int year, std::string socialId, student* pointer) :
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dob(day, month, year), socialId(socialId), pNext(pointer) {}
+	// Function
+	void viewProfile();
+	bool checkExistFile(std::string id);
 
-	void viewProfile(student*& headS);
-	void deleteStudentList(student*& headS);
-
-
+	std::string getStudentID()
+	{
+		return id;
+	}
 };
 

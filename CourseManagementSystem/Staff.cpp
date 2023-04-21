@@ -112,14 +112,15 @@ void BeginSchoolYear() {
         case 3: 
             system("cls");
             drawHeader();
-            //temporarily removed 
+        //    pHeadClass->getOption();
+        //    not tested yet
             break;
         case 4: //change state to begin semester and return
             return;
         case 5:
             system("cls");
             drawHeader();
-            pStudent->viewProfile(pStudent);
+            pStudent->viewProfile();
             break;
         case 8: 
             system("cls");
@@ -137,7 +138,7 @@ void BeginSchoolYear() {
             std::cout << "Management Program!\n\n\n\n\n\n";
             
             pHeadSchoolYear->deleteSchoolYear();
-            pStudent->deleteStudentList(pStudent);
+            pHeadClass->deleteStudentList();
             exit(0);
             break;
         default:

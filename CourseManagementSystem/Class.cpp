@@ -214,7 +214,7 @@ std::string Class::getName() {
 }
 
 
-/*void Class::getOption()
+void Class::getOption()
 {
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t|              MENU OPTIONS                        |";
@@ -252,26 +252,33 @@ std::string Class::getName() {
 }
 void Class::addStudentto1stClass_Console()
 {
-    // from the classcode -> find the corresponding schoolyear
-    std::cout << "Enter the class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
-    std::string classcode;
-    std::cin.ignore();
-    std::getline(std::cin, classcode);
-    std::string year = classcode.substr(0, 2);
-    int temp = stoi(year) + 1;
-    std::string schoolyear = "20" + year + "-" + "20" + std::to_string(temp); 
-
-    
-
-    char choice = 'N';
-    while (choice == 'N' || choice == 'n')
+    // find class to add students
+    // next task: a function to load data of students in a class (will run once the program starts)
+    // find existed students in the CSV file and show'em out
+    std::string classname;
+    std::cout << "Input the classcode: ";
+    std::getline(std::cin, classname);
+    Class* curClass = pHeadClass;   // need to load the pHeadClass first before use
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classname)
+            break;
+    }
+    if (!curClass)
+    {
+        std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
+        return;
+    }
+    char choice = 'Y';
+    student* curStudent = curClass->headS;
+    while (choice == 'Y' || choice == 'y')
     {
         // get information of that student
         int no;
         std::string id, firstname, lastname, socialId;
         bool gender;
         date dob;
-        std::cout << "Student: ";
+        std::cout << "Student ID: ";
         std::getline(std::cin, id);
         std::string getNO;
         std::cout << "No: ";
@@ -285,7 +292,7 @@ void Class::addStudentto1stClass_Console()
         std::string getGender;
         std::getline(std::cin, getGender);
         gender = stoi(getGender);
-        std::cout << "Date of birth (DD/MM/YYYY): ";
+        std::cout << "Date of birth (DDMMYYYY): ";
         std::string getDay, getMonth, getYear;
         std::getline(std::cin, getDay);
         std::getline(std::cin, getMonth);
@@ -293,36 +300,50 @@ void Class::addStudentto1stClass_Console()
         int day = stoi(getDay);
         int month = stoi(getMonth);
         int year = stoi(getYear);
+        std::cout << "Social ID: ";
         std::getline(std::cin, socialId);
+
+        // link each student node to the current student list of that class
         student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
-        newStudent->pNext = pHeadSchoolYear->pHeadClass->headS; // cannot access the year of pHeadSchoolYear!
-        headS = newStudent;
-        std::cout << "Would you like to quick inputting students by using a CSV file?" << "\n";
-        std::cout << "Enter Y (or y) to quick inputting students by using a CSV file." << "\n";
-        std::cout << "Enter N (or n) to continue inputting on console" << "\n";
-        std::cout << "Enter 0 to stop inputting." << "\n";
+        curStudent= newStudent;
+        curStudent = curStudent->pNext;
+
+        // Save student information to a text file
+        if (!curStudent->checkExistFile(id))
+            exportNewStudentProfile(classname, id, firstname, lastname, no, gender, day, month, year, socialId);
+
+        // Option for user
+        std::cout << "Enter Y (or y) to continue inputting on console" << "\n";
+        std::cout << "Enter N (or N) to stop inputting." << "\n";
         std::cin >> choice;
-        std::cin.ignore();
-        
-        if (choice == 'Y' || choice == 'y')
-        {
-            addStudentto1stClass_File();
-        }
     }
 }
 void Class::addStudentto1stClass_File()
 {
-    std::cout << "Enter your class code (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
+    std::cout << "Enter the class code you want to add students (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
     std::string classcode;
     std::getline(std::cin, classcode);
-    std::ifstream fin("../StudentProfile/" + classcode + ".csv");
-    loadingPage();
+    std::ifstream fin("../Data/Class/" + classcode + ".csv");
+    Class* curClass = pHeadClass;
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classcode)
+        {
+            break;
+        }
+    }
+    if (!curClass)
+    {
+        std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
+        return;
+    }
     if (!fin)
     {
-        system("cls");
         std::cout << "Error loading data! Please try again.";
         return;
     }
+    student* curStudent = curClass->headS;
+    loadingPage();
     std::string redundant;
     std::getline(fin, redundant);
     while (!fin.eof())
@@ -351,62 +372,108 @@ void Class::addStudentto1stClass_File()
         int year = stoi(getYear);
         fin.ignore();
         std::getline(fin, socialId);
+        // Save student information to a text file
+        if (!curStudent->checkExistFile(id))
+            exportNewStudentProfile(classcode, id, firstname, lastname, no, gender, day, month, year, socialId);
         student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
-        newStudent->pNext = headS;
-        headS = newStudent;
+        curStudent = newStudent;
+        curStudent = curStudent->pNext;
     }
+    fin.close();
     system("cls");
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
 }
-*/
-void student::viewProfile(student*& headS)
+bool student::checkExistFile(std::string id)
 {
-    student* temp = headS;
-    std::string username;
-    std::cout << "Input the student ID: ";
-    std::cin.ignore();
-    std::getline(std::cin, username);
-    if (!headS)
+    fin.open("../Data/StudentProfile/" + id + ".txt");
+    if (!fin)
     {
-        std::cout << "No information currently! Please load the data first." << std::endl << std::endl;
-        std::cout << "Process done! The system will go back to the menu." << std::endl;
-        system("pause");
-        return;
+        return false;
     }
-    while (temp != nullptr)
+    else
     {
-        if (temp->id == username)
+        fin.close();
+        return true;
+    }
+}
+void Class::exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID)
+{
+
+    fout.open("../Data/StudentProfile/" + id + ".txt");
+    fout << id << "\n";
+    fout << no << "\n";
+    fout << firstname << "\n";
+    fout << lastname << "\n";
+    fout << day << " " << month << " " << year << "\n";
+    fout << gender << "\n";
+    fout << socialID;
+    fout.close();
+
+}
+void student::viewProfile()
+{
+    char opt = 'Y';
+    while (opt == 'Y' || opt == 'y')
+    {
+        std::string username;
+        std::cout << "Input the student ID: ";
+        std::cin.ignore();
+        std::getline(std::cin, username);
+        if (!checkExistFile(id))
         {
-            std::cout << "Student ID: " << temp->id << std::endl;
-            std::cout << "No: " << temp->no << std::endl;
-            std::cout << "Name: " << temp->firstName << " " << temp->lastName << std::endl;
-            std::cout << "Date of birth: " << temp->dob.getDay() << "/" << temp->dob.getMonth() << "/" << temp->dob.getYear() << std::endl;            std::cout << "Gender: ";
-            if (temp->gender == 0)
-                std::cout << "Male";
-            else
-                std::cout << "Female";
-            std::cout << std::endl;
-            std::cout << "Social ID: " << temp->socialId << std::endl;
-            break;
+            std::cout << "The information of this student isn't available right now. Please complete their information to see later" << "\n";
+            std::cout << "Please input another ID! " << "\n";
+            continue;
         }
+        fin.open("../Data/StudentProfile/" + username + ".txt");
+        std::string id, firstname, lastname, socialId;
+        std::getline(fin, id);
+        std::string getNO;
+        std::getline(fin, getNO);
+        std::getline(fin, firstname);
+        std::getline(fin, lastname);
+        std::string getDay, getMonth, getYear;
+        std::getline(fin, getDay, ' ');
+        std::getline(fin, getMonth, ' ');
+        std::getline(fin, getYear);
+        std::string getGender;
+        std::getline(fin, getGender);
+        std::getline(fin, socialId);
+        fin.close();
+        std::cout << "No: " << getNO << "\n";
+        std::cout << "Student ID: " << id << "\n";
+        std::cout << "Name: " << firstname << " " << lastname << "\n";
+        std::cout << "Gender: ";
+        if (getGender == "0")
+            std::cout << "Male" << "\n";
         else
-            temp = temp->pNext;
+            std::cout << "Female" << "\n";
+        std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
+        std::cout << "Social ID: " << socialId << "\n";
+        std::cout << "Would you like to view other information of another student?" << "\n";
+        std::cout << "Enter Y (or y) to continue viewing." << "\n";
+        std::cout << "Enter N (or N) to stop." << "\n";
+        std::cin >> opt;
     }
-    if (temp == nullptr)
-        std::cout << "No information about this student!" << std::endl;
+
     std::cout << std::endl;
     std::cout << "Process done! The system will go back to the menu." << std::endl;
     system("pause");
 }
 
-void student::deleteStudentList(student*& headS)
+void Class::deleteStudentList()
 {
-    student* cur = headS;
-    while (cur != nullptr)
+    Class* curClass = pHeadClass;
+    while (curClass != nullptr)
     {
-        student* temp = cur;
-        cur = cur->pNext;
-        delete temp;
+        student* curStudent = curClass->headS;
+        while (curStudent != nullptr)
+        {
+            student* temp = curStudent;
+            curStudent = curStudent->pNext;
+            delete temp;
+        }
+        curClass = curClass->pNext;
     }
 }
