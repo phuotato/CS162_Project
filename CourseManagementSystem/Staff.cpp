@@ -76,8 +76,7 @@ void BeginSchoolYear() {
     case 2:
         system("cls");
         drawHeader();
-        pHeadSchoolYear->showSchoolYear();
-
+        pHeadSchoolYear->chooseSchoolYear();
         break;
     case 0:
         system("cls");

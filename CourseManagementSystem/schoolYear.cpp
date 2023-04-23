@@ -43,7 +43,7 @@ void schoolYear::createSchoolYear()
 
 		if (checkExistSchoolYear(year) != 0)
 		{
-			if (checkWhetherSmall(year) == 0) {
+			if (year < pTailSchoolYear->getYear()) {
 				SetColor(7, 12);
 				std::cout << "This year is not the newest one. Please enter the correct one!\n";
 				SetColor(7, 0);
@@ -165,32 +165,48 @@ void schoolYear::deleteSchoolYear()
 
 void schoolYear::showSchoolYear()
 {
-	gotoxy(30, 3);
+	gotoxy(29, 3);
 	std::cout << "School Years' List\n";
-	std::cout << "\n\t\t+--------------------------------------------------+";
+	std::cout << "\n\t\t+-------------------------------------------+";
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
-		std::cout << "\n\t\t|                 " << cur->getYear() << "                        |";
+		std::cout << "\n\t\t|                 " << cur->getYear() << "                 |";
 	}
-	std::cout << "\n\t\t+--------------------------------------------------+";
+	std::cout << "\n\t\t+-------------------------------------------+";
 }
 
-//Input a newest schoolyear
-bool schoolYear::checkWhetherSmall(std::string year) {
-	for (int i = 5; i < 9; i++) {
-		if (year[i] < pTailSchoolYear->getYear()[i]) return 0;
+//Choose schoolYear
+void schoolYear::chooseSchoolYear() {
+	std::string year;
+	system("cls");
+	std::cin.ignore();
+	loadFile();
+	while (true) {
+		showSchoolYear();
+		std::cout << "\n\t\tPlease choose your school year: ";
+		getline(std::cin, year);
+		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
+			if (year == cur->getYear()) {
+				SetColor(7, 2);
+				std::cout << "\n\n\t\t              Found! Getting in";
+				SetColor(7, 0);
+
+				Sleep(2000);
+				curSchoolYear = cur;
+				return;
+			}
+		}
+
+		//False - warning
+		SetColor(7, 12);
+		std::cout << "\n\n\t\t          Please input correctly!";
+		SetColor(7, 0);
+
+		//Clear everything to show back
+		Sleep(2000);
+		system("cls");
 	}
-
-	return 1;
 }
-
-////Choose schoolYear
-//void schoolYear::chooseSchoolYear() {
-//	std::string year;
-//	while (true) {
-//		std::cout << "Please input your schoolYear"
-//	}
-//}
 
 //Other functions
 
