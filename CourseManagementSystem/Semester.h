@@ -4,7 +4,7 @@
 #include "Course.h"
 class semester
 {
-	public:
+public:
 	semester(int Sem, std::string StartDate, std::string EndDate );
 	semester();
 	int getSem();
@@ -13,7 +13,6 @@ class semester
 	void addCourse();
 	//Function create
 private:
-//	course* pHeadCourses = nullptr;
 	std::string startDate; 
 	std::string endDate;
 	int sem;
