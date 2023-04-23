@@ -69,7 +69,6 @@ void BeginSchoolYear() {
     case 1:
         system("cls");
         drawHeader();
-        pHeadSchoolYear->showSchoolYear();
         pHeadSchoolYear->createSchoolYear();
         curSchoolYear = pTailSchoolYear;
         break;
@@ -99,14 +98,9 @@ void BeginSchoolYear() {
         std::cin >> option;
 
         switch (option) {
-        /*case 1:
-            system("cls");
-            drawHeader();
-            pHeadSchoolYear->deleteSchoolYear();
-            pHeadSchoolYear->createSchoolYear();
-            break;*/
         case 1:
-            pHeadClass->Choices();
+            //pHeadClass->Choices();
+            pHeadClass->addNewClass();
             break;
         case 2: 
             system("cls");

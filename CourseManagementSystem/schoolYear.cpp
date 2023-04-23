@@ -23,7 +23,7 @@ schoolYear::schoolYear() {}
 
 void schoolYear::createSchoolYear()
 {
-	std::cin.ignore();
+	std::cin.ignore(); //remove enter
 	loadFile();
 	bool flag = 1;
 	while (true)
@@ -31,22 +31,29 @@ void schoolYear::createSchoolYear()
 		system("cls");
 		showSchoolYear();
 		std::cout << "\n\n\t\tEnter new school year (e.g. 2022-2023): ";
+		std::cout << "\n\t\tOr press enter to go back:";
 		std::string year; getline(std::cin, year);
+		if (year == "") ;
 
 		//checking condition
 		if (checkCorrectYear(year) == false) {
-			std::cout << "Please enter the correct year!\n";
-			system("pause");
+			SetColor(7, 12);
+			std::cout << "\n\n\t\t       Please enter the valid year!\n";
+			SetColor(7, 0);
+
+			Sleep(2000);
 			system("cls");
 			continue;
 		}
 
 		if (checkExistSchoolYear(year) != 0)
-		{
+		{	
+			//Check this is the newest year
 			if (year < pTailSchoolYear->getYear()) {
 				SetColor(7, 12);
-				std::cout << "This year is not the newest one. Please enter the correct one!\n";
+				std::cout << "\n\n\tThis year is not the newest one. Please enter the correct one!\n";
 				SetColor(7, 0);
+
 				Sleep(2000);
 				continue;
 			}
@@ -72,8 +79,9 @@ void schoolYear::createSchoolYear()
 		else
 		{
 			SetColor(7, 12);
-			std::cout << "This school year is already created, please enter another school year\n";
+			std::cout << "\n\n\tThis school year is already created, please enter another school year\n";
 			SetColor(7, 0);
+
 			Sleep(2000);
 			flag = 0;
 		}
@@ -82,6 +90,7 @@ void schoolYear::createSchoolYear()
 			SetColor(7, 2);
 			std::cout << "Created succesfully\n";
 			SetColor(7, 0);
+
 			system("pause");
 			return;
 		}
@@ -134,11 +143,19 @@ bool schoolYear::checkExistSchoolYear(std::string year)
 
 bool schoolYear::checkCorrectYear(std::string year) {
 	int length = year.length();
+
+	//Check length
 	if (length != 9) return false;
+
+	//0->3, 5->8 is number
 	for (int i = 0; i < 4; i++) {
 		if (year[i] < '0' || year[i] > '9' || year[i + 5] > '9' || year[i + 5] < '0') return false;
 	}
+
+	//4-> '-'
 	if (year[4] != '-') return false;
+
+	//are two years consecutive
 	if (year[8] - year[3] == -9);
 	else if (year[8] - year[3] != 1) return false;
 
@@ -178,13 +195,18 @@ void schoolYear::showSchoolYear()
 //Choose schoolYear
 void schoolYear::chooseSchoolYear() {
 	std::string year;
+
 	system("cls");
-	std::cin.ignore();
+	std::cin.ignore(); //Remove enter
+
 	loadFile();
 	while (true) {
 		showSchoolYear();
-		std::cout << "\n\t\tPlease choose your school year: ";
+		std::cout << "\n\t\tPlease choose your school year (Press enter to go back): ";
 		getline(std::cin, year);
+
+		if (year == "") return;
+
 		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
 			if (year == cur->getYear()) {
 				SetColor(7, 2);

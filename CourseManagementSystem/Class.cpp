@@ -8,6 +8,7 @@
 
 //Global variable
 extern schoolYear* pHeadSchoolYear;
+extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 
@@ -49,10 +50,16 @@ void Class::LoadFile()
 
 void Class::addNewClass() {
     bool flag = 0;
+    system("cls");
+
+    SetColor(7, 9);
+    std::cout << "\n\n\t    Current year: " << curSchoolYear->getYear();
+    SetColor(7, 0);
+
     while (true) {
 
         //Enter the class code
-        std::cout << "Please enter the name of the class you want to create: ";
+        std::cout << "\nPlease enter the name of the class you want to create: ";
         std::string Name;  std::cin >> Name;
         std::cin.ignore();
 
@@ -103,8 +110,8 @@ void Class::addNewClass() {
             //Create column
             fout << "No,";
             fout << "Student ID,";
-            fout << "First Name,";
             fout << "Last Name,";
+            fout << "First Name,";
             fout << "Gender,";
             fout << "Date of Birth,";
             fout << "Social ID,";
@@ -173,7 +180,7 @@ void Class::Choices() {
         std::cout << "\n\t\t+--------------------------------------------------+";
         std::cout << "\n\t\t| 1. Load all classes in all school year           |";
         std::cout << "\n\t\t| 2. Add more class                                |";
-        std::cout << "\n\t\t| 0. Exit                                          |";
+        std::cout << "\n\t\t| 0. Go back                                       |";
         std::cout << "\n\t\t+--------------------------------------------------+";
         std::cout << "\n\t\t Enter your choice: ";
         std::cin >> k;
