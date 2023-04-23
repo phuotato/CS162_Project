@@ -101,8 +101,8 @@ void Class::addNewClass() {
             fout.open("../Data/Class/" + Name + ".csv");
 
             //Create column
-            fout << "Student ID,";
             fout << "No,";
+            fout << "Student ID,";
             fout << "First Name,";
             fout << "Last Name,";
             fout << "Gender,";

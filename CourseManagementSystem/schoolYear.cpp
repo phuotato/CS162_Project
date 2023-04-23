@@ -86,6 +86,8 @@ void schoolYear::createSchoolYear()
 	
 }
 
+//load all schoolyear
+
 void schoolYear::loadFile()
 {
 	fin.open("../Data/School Year/all school year.txt");
@@ -110,6 +112,8 @@ void schoolYear::loadFile()
 	fin.close();
 }
 
+//check if exist
+
 bool schoolYear::checkExistSchoolYear(std::string year)
 {
 	if (pHeadSchoolYear)
@@ -122,6 +126,8 @@ bool schoolYear::checkExistSchoolYear(std::string year)
 	}
 	return 1;
 }
+
+//Make sure a valid schoolyear
 
 bool schoolYear::checkCorrectYear(std::string year) {
 	int length = year.length();
@@ -166,7 +172,10 @@ void schoolYear::showSchoolYear()
 	std::cout << "\n\t\t+--------------------------------------------------+";
 }
 
+// Input a newest schoolyear
+bool checkWhetherSmall() {
 
+}
 
 //Other functions
 
@@ -213,7 +222,7 @@ void schoolYear::createSemester()
 		{
 			std::cout << "Sem:";
 			std::cin >> x;
-			if ('x' < '1' || x > '3')
+			if (x < '1' || x > '3')
 			{
 				std::cout << "Invalid semester. Try other ones\n";
 				continue;
@@ -230,6 +239,13 @@ void schoolYear::createSemester()
 		fout.close();
 		std::cout << "Enter the start date: ";
 		std::string StartDate;
+		// Check length string > 10 return
+		// Check string[2] && string[5] == '/'
+		// convert int day -> Date.day
+		// convert int month -> Date.month
+		// convert int year -> Date.year
+		// Check day, month year
+		// Check string[0] [1] [3] [4] [6] [7] [8] [9] number;
 		std::cin.ignore();
 		getline(std::cin, StartDate);
 		std::cout << "Enter the end date: ";
@@ -240,7 +256,7 @@ void schoolYear::createSemester()
 		sem += x;
 		if (_mkdir(("../Data/School Year/" + year + "/Sem" + sem).c_str()));
 		fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
-		fout << x <<"," << StartDate << "," << EndDate << std::endl;														//Write down the semester
+		fout << x <<"," << StartDate << "," << EndDate << std::endl;							//Write down the semester
 		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
 		cur->increaseSem();
