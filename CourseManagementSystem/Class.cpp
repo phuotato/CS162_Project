@@ -101,8 +101,8 @@ void Class::addNewClass() {
             fout.open("../Data/Class/" + Name + ".csv");
 
             //Create column
-            fout << "Student ID,";
             fout << "No,";
+            fout << "Student ID,";
             fout << "First Name,";
             fout << "Last Name,";
             fout << "Gender,";
@@ -252,8 +252,6 @@ void Class::getOption()
 }
 void Class::addStudentto1stClass_Console()
 {
-    // find class to add students
-    // next task: a function to load data of students in a class (will run once the program starts)
     // find existed students in the CSV file and show'em out
     std::string classname;
     std::cout << "Input the classcode: ";
@@ -311,19 +309,51 @@ void Class::addStudentto1stClass_Console()
         // Save student information to a text file
         if (!curStudent->checkExistFile(id))
             exportNewStudentProfile(classname, id, firstname, lastname, no, gender, day, month, year, socialId);
-
+        // Save the info of that student back to the .csv file
+        if (checkClassInfo(classname))
+        {
+            fout.open("../Data/Class" + classname + ".csv", std::ios::app);
+            fout << "Student ID,No,First name,Last name,Gender,Date Of Birth,Social ID" << "\n";
+        }
+        else
+        {
+            fout.open("../Data/Class" + classname + ".csv", std::ios::app);
+            fout << id << "," << no << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
+        }
+        
         // Option for user
         std::cout << "Enter Y (or y) to continue inputting on console" << "\n";
         std::cout << "Enter N (or N) to stop inputting." << "\n";
         std::cin >> choice;
     }
 }
+bool Class::checkClassInfo(std::string classcode)
+{
+    // this function is to check if the class info exists in the Data folder or not
+    fin.open("../Data/Class/" + classcode + ".csv");
+    if (!fin)   // cannot open
+    {
+        fin.close();
+        return false;
+    }
+    else
+    {
+        fin.close();
+        return true;
+    }
+}
 void Class::addStudentto1stClass_File()
 {
-    std::cout << "Enter the class code you want to add students (Example: 22TT2, 22TT1, 21CLC06, 20VP,...):  ";
+    // user input the link of the file
+    std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): " << "\n";
+    std::wcout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1" << "\n";
+    std::string fileName;
+    std::getline(std::cin, fileName);
+    std::ifstream fin(fileName);
     std::string classcode;
-    std::getline(std::cin, classcode);
-    std::ifstream fin("../Data/Class/" + classcode + ".csv");
+    // Find the classcode
+    int pos = fileName.rfind('\\');
+    classcode = fileName.substr(pos + 1);
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
     {
@@ -344,10 +374,18 @@ void Class::addStudentto1stClass_File()
     }
     student* curStudent = curClass->headS;
     loadingPage();
-    std::string redundant;
-    std::getline(fin, redundant);
+    if (checkClassInfo(classcode))
+    {
+        std::cout << "This file has been added before!" << "\n";
+        return;
+    }
+    fout.open(".. /Data/Class/" + classcode + ".csv");  // will make a copy of this .csv to the Data folder
+    std::string redundant;      // the first line of the csv file 
+    std::getline(fin, redundant);   
+    fout << redundant << "\n";
     while (!fin.eof())
     {
+        // info of a student
         int no;
         std::string id, firstname, lastname, socialId;
         bool gender;
@@ -378,8 +416,11 @@ void Class::addStudentto1stClass_File()
         student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
         curStudent = newStudent;
         curStudent = curStudent->pNext;
+        // Save the info of this student to a "copy" file
+        fout << id << "," << no << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
     }
     fin.close();
+    fout.close();
     system("cls");
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
@@ -395,6 +436,52 @@ bool student::checkExistFile(std::string id)
     {
         fin.close();
         return true;
+    }
+}
+void Class::loadStudent()
+{   
+    Class* curClass = pHeadClass;
+    while (curClass != nullptr)
+    {
+        std::string className = curClass->Name;
+        fin.open("../Data/Class/" + className + ".csv");
+        student* curStudent = curClass->headS;
+        while (curStudent != nullptr)
+        {
+            if (!fin)
+                break;
+            std::string redundant;
+            std::getline(fin, redundant);
+            int no;
+            std::string id, firstname, lastname, socialId;
+            bool gender;
+            date dob;
+            std::getline(fin, id, ',');
+            std::string getNO;
+            std::getline(fin, getNO, ',');
+            if (fin.eof())
+                break;
+            no = stoi(getNO);
+            std::getline(fin, firstname, ',');
+            std::getline(fin, lastname, ',');
+            std::string getGender;
+            std::getline(fin, getGender, ',');
+            gender = stoi(getGender);
+            std::string getDay, getMonth, getYear;
+            std::getline(fin, getDay, '/');
+            std::getline(fin, getMonth, '/');
+            std::getline(fin, getYear, ',');
+            int day = stoi(getDay);
+            int month = stoi(getMonth);
+            int year = stoi(getYear);
+            fin.ignore();
+            std::getline(fin, socialId);
+            student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
+            curStudent = newStudent;
+            curStudent = curStudent->pNext;
+        }
+        curClass = curClass->pNext;
+        fin.close();
     }
 }
 void Class::exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID)
@@ -461,7 +548,38 @@ void student::viewProfile()
     std::cout << "Process done! The system will go back to the menu." << std::endl;
     system("pause");
 }
-
+void Class::sortStudentsLexicographically(std::string classcode)
+{
+    Class* curClass = pHeadClass;
+    if (!curClass)
+        return;
+    student* curStudent = curClass->headS;
+    if (!curStudent)
+        return;
+    student* temp = curStudent;
+    while (curStudent != nullptr)
+    {
+        std::string studentNum = curStudent->getStudentID();
+        std::string identify = studentNum.substr(5);
+        int number = stoi(identify);        // this one holds three last digits in the student id
+        while (temp != nullptr)
+        {
+            std::string tempNum = temp->getStudentID();
+            std::string iden = tempNum.substr(5);
+            int num = stoi(iden);        // this one holds three last digits in the student id
+            if (number > num)
+            {
+                curStudent->pNext = temp->pNext;
+                temp->pNext = curStudent;
+                curStudent = temp;
+                // currently wrong :) 
+            }
+            temp = temp->pNext;
+        }
+        curStudent = curStudent->pNext;
+        temp = curStudent;
+    }
+}
 void Class::deleteStudentList()
 {
     Class* curClass = pHeadClass;

@@ -19,6 +19,9 @@ public:
 	void addStudentto1stClass_Console();
 	void exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID);
 	void addStudentto1stClass_File();
+	void loadStudent();
+	bool checkClassInfo(std::string classcode);
+	void sortStudentsLexicographically(std::string classcode);
 	void addNewClass();
 	void createInformationClass();
 
