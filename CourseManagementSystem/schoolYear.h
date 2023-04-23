@@ -19,7 +19,7 @@ public:
 	void createSchoolYear();
 	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
-	bool checkWhetherSmall();
+	bool checkWhetherSmall(std::string year);
 	void createSemester();
 	bool checkExistSemester(int sem);
 	bool checkCorrectSemester(std::string year);

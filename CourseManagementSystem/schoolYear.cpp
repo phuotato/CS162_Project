@@ -30,58 +30,61 @@ void schoolYear::createSchoolYear()
 	{
 		system("cls");
 		showSchoolYear();
-		std::cout << "\n\n\n\t\tWould you like to create a new school year? (Y/N): ";
-		char option;
-		std::cin >> option;
-		std::cin.ignore();
+		std::cout << "\n\n\t\tEnter new school year (e.g. 2022-2023): ";
+		std::string year; getline(std::cin, year);
 
-		if (option == 'Y' || option == 'y')
+		//checking condition
+		if (checkCorrectYear(year) == false) {
+			std::cout << "Please enter the correct year!\n";
+			system("pause");
+			system("cls");
+			continue;
+		}
+
+		if (checkExistSchoolYear(year) != 0)
 		{
-			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
-			std::string year; getline(std::cin, year);
-
-			//checking condition
-			if (checkCorrectYear(year) == false) {
-				std::cout << "Please enter the correct year!\n";
-				system("pause");
-				system("cls");
+			if (checkWhetherSmall(year) == 0) {
+				SetColor(7, 12);
+				std::cout << "This year is not the newest one. Please enter the correct one!\n";
+				SetColor(7, 0);
+				Sleep(2000);
 				continue;
 			}
+			//Create a new schoolyear and store in linked list
+			fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
+			fout << std::endl;
+			fout << year;			//Write down the schoolyear
+			fout.close();
 
-			if (checkExistSchoolYear(year) != 0)
-			{
-				//Create a new schoolyear and store in linked list
-				fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
-				fout << std::endl;
-				fout << year;			//Write down the schoolyear
-				fout.close();
+			//Check folder and write down information for the schoolyear
+			if (_mkdir(("../Data/School Year/" + year).c_str()));
+			fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
+			fout.close();
 
-				//Check folder and write down information for the schoolyear
-				if (_mkdir(("../Data/School Year/" + year).c_str()));
-				fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
-				fout.close();
-
-				if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
-				schoolYear* tmp = pHeadSchoolYear->pNext;
-				tmp = new schoolYear(year, nullptr);
-				pTailSchoolYear->pNext = tmp;
-				pTailSchoolYear = tmp;
-				if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
-				flag = 1;
-			}
-			else
-			{
-				std::cout << "This school year is already created, please enter another school year\n";
-				flag = 0;
-			}
-			if (flag == 1)
-			{
-				std::cout << "Created succesfully\n";
-				system("pause");
-				return;
-			}
+			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
+			schoolYear* tmp = pHeadSchoolYear->pNext;
+			tmp = new schoolYear(year, nullptr);
+			pTailSchoolYear->pNext = tmp;
+			pTailSchoolYear = tmp;
+			if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
+			flag = 1;
 		}
-		else return;
+		else
+		{
+			SetColor(7, 12);
+			std::cout << "This school year is already created, please enter another school year\n";
+			SetColor(7, 0);
+			Sleep(2000);
+			flag = 0;
+		}
+		if (flag == 1)
+		{
+			SetColor(7, 2);
+			std::cout << "Created succesfully\n";
+			SetColor(7, 0);
+			system("pause");
+			return;
+		}
 	}
 	
 }
@@ -163,7 +166,7 @@ void schoolYear::deleteSchoolYear()
 void schoolYear::showSchoolYear()
 {
 	gotoxy(30, 3);
-	std::cout << "Created School Years\n";
+	std::cout << "School Years' List\n";
 	std::cout << "\n\t\t+--------------------------------------------------+";
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
@@ -172,10 +175,22 @@ void schoolYear::showSchoolYear()
 	std::cout << "\n\t\t+--------------------------------------------------+";
 }
 
-// Input a newest schoolyear
-bool checkWhetherSmall() {
+//Input a newest schoolyear
+bool schoolYear::checkWhetherSmall(std::string year) {
+	for (int i = 5; i < 9; i++) {
+		if (year[i] < pTailSchoolYear->getYear()[i]) return 0;
+	}
 
+	return 1;
 }
+
+////Choose schoolYear
+//void schoolYear::chooseSchoolYear() {
+//	std::string year;
+//	while (true) {
+//		std::cout << "Please input your schoolYear"
+//	}
+//}
 
 //Other functions
 
