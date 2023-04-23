@@ -66,30 +66,30 @@ void BeginSchoolYear() {
     CreateSchoolYearMenu();
     std::cin >> option;
     switch (option) {
-        case 1:
-            system("cls");
-            drawHeader();
-            pHeadSchoolYear->deleteSchoolYear();
-            pHeadSchoolYear->createSchoolYear();
-            curSchoolYear = pTailSchoolYear;
-            break;
-        case 2:
-            system("cls");
-            drawHeader();
-            //chua lam
-            break;
-        case 0:
-            system("cls");
-            drawBox(25, 5, 50, 16);
-            gotoxy(40, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(45, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(40, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
-            break;
-        default:
-            std::cout << "\n\t\t Invalid input.";
+    case 1:
+        system("cls");
+        drawHeader();
+        pHeadSchoolYear->showSchoolYear();
+        pHeadSchoolYear->createSchoolYear();
+        curSchoolYear = pTailSchoolYear;
+        break;
+    case 2:
+        system("cls");
+        drawHeader();
+        pHeadSchoolYear->chooseSchoolYear();
+        break;
+    case 0:
+        system("cls");
+        drawBox(25, 5, 50, 16);
+        gotoxy(40, 10);
+        std::cout << "Thank you for using\n";
+        gotoxy(45, 12);
+        std::cout << "FIT.HCMUS\n";
+        gotoxy(40, 14);
+        std::cout << "Management Program!\n\n\n\n\n\n";
+        break;
+    default:
+        std::cout << "\n\t\t Invalid input.";
     }
 
     do {

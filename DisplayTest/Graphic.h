@@ -1,9 +1,9 @@
 #pragma once
+#include <iostream>
 #include <Windows.h>
 #include <direct.h>
 #include <conio.h>
 #include <iomanip>
-#include "Universal.h"
 
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput);
 void setcursor(bool visible, DWORD size);
@@ -23,4 +23,3 @@ void loadingPage();
 //5 = Purple 13 = Light Purple
 //6 = Yellow 14 = Light Yellow
 //7 = White 15 = Bright White
-//Default: SetColor(7, 0)

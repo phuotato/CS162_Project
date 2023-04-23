@@ -14,10 +14,11 @@ public:
 	std::string id, name, className, lecturer;
 	int credit, maxStudent, weekDay, session;
 	
-	studentScore* hScore;
+	studentScore* hScore = nullptr;
 	course* pNext = nullptr;
 
 	//function
 	void ExportClass();
 	void ImportScoreboard();
+	void ViewScoreBoard();
 };
