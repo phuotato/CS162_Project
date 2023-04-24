@@ -243,8 +243,9 @@ bool schoolYear::createSemester()
 	curSchoolYear->loadFile(year);
 	if (!curSchoolYear->checkAvaiSemester())
 	{
-		std::cout << "This school year is full of semester\n";
-		std::cout << "Press any key to back:";
+		gotoxy(17, 15);
+		std::cout << "This school year is full of semester";
+		std::cout << "\n\t\t Press any key to back:";
 		_getch();
 		return 0;
 	}

@@ -12,6 +12,7 @@ extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
 extern schoolYear* curSchoolYear;
+extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 
@@ -151,7 +152,7 @@ void BeginSemesterMenu() {
     std::cout << "\n\tCurrent Year: ";
     std::cout << curSchoolYear->year;
     std::cout << "\n\tCurrent Semester: ";
-    //chua hien semester
+    std::cout << curSemester->getSem();
     
 
     SetColor(7, 0);
@@ -189,6 +190,7 @@ void BeginSemester() {
     int option, choice;
     do
     {
+        system("cls");
         drawHeader();
 
         std::cout << "\n\tCreate a new semester or choose an existing one to continue.";
@@ -202,11 +204,17 @@ void BeginSemester() {
         switch (choice)
         {
         case 1:
-            curSchoolYear->createSemester();
-            break;
+            if (curSchoolYear->createSemester())
+                break;
+            else
+                continue;
         case 2:
-            curSchoolYear->showSemester();
-            break;
+            if (curSchoolYear->showSemester())
+                break;
+            else
+                continue;
+        case 0:
+            continue;
         }
         bool flag{};
         do {
@@ -246,7 +254,7 @@ void BeginSemester() {
                 std::cout << "\n\t\t Invalid input.";
             }
         } while (!flag);
-    } while (!choice);
+    } while (choice);
 }
 
 void EndSemesterMenu() {
