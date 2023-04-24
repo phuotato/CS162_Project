@@ -15,7 +15,7 @@ extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 
-
+void BeginSemester();
 void CreateSchoolYearMenu() {
     drawHeader();
 
@@ -108,8 +108,9 @@ void BeginSchoolYear() {
         //    pHeadClass->getOption();
         //    not tested yet
             break;
-        case 3: //change state to begin semester and return
-            return;
+        case 3: 
+            BeginSemester(); //change state to begin semester and return
+            break;
         case 4:
             system("cls");
             drawHeader();
@@ -170,6 +171,7 @@ void BeginSemesterMenu() {
     std::cout << "\n\t\t| 10. View a list of students in a course          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 11. Change Password                              |";
+    std::cout << "\n\t\t| 12. Back                                         |";
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t Enter your choice: ";
@@ -184,47 +186,67 @@ void BeginSemester() {
     // Move console window to center of the screen
     system("mode con: cols=80 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
-    int option;
-    drawHeader();
-
-    std::cout << "\n\tChoose a semester to continue.";
-    std::cout << "\n\t\t Enter your choice: ";
-    pHeadSchoolYear->createSemester();
-
-    do {
-        system("cls");
+    int option, choice;
+    do
+    {
         drawHeader();
-        BeginSemesterMenu();
-        std::cin >> option;
 
-        switch (option) {
+        std::cout << "\n\tCreate a new semester or choose an existing one to continue.";
+        std::cout << "\n\t\t+--------------------------------------------------+";
+        std::cout << "\n\t\t| 1. Create semester                               |";
+        std::cout << "\n\t\t| 2. Choose existing semester                      |"; //chua lam
+        std::cout << "\n\t\t| 0. Back                                          |";
+        std::cout << "\n\t\t+--------------------------------------------------+";
+        std::cout << "\n\t\t Enter your choice: ";
+        std::cin >> choice;
+        switch (choice)
+        {
         case 1:
-            system("cls");
-            //pHeadSchoolYear->createSemester();
+            curSchoolYear->createSemester();
             break;
-        case 11:
+        case 2:
+            curSchoolYear->showSemester();
+            break;
+        }
+        bool flag{};
+        do {
             system("cls");
             drawHeader();
-            changePassword(fin, fout);
-            break;
-        case 0:
-            system("cls");
-            drawBox(25, 5, 50, 16);
-            gotoxy(40, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(45, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(40, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
+            BeginSemesterMenu();
+            std::cin >> option;
 
-            pHeadSchoolYear->deleteSchoolYear();
-            pHeadClass->deleteStudentList();
-            exit(0);
-            break;
-        default:
-            std::cout << "\n\t\t Invalid input.";
-        }
-    } while (option != 0);
+            switch (option) {
+            case 1:
+                system("cls");
+                //curSchoolYear->createSemester();
+                break;
+            case 11:
+                system("cls");
+                drawHeader();
+                changePassword(fin, fout);
+                break;
+            case 12:
+                flag = 1;
+                break;
+            case 0:
+                system("cls");
+                drawBox(25, 5, 50, 16);
+                gotoxy(40, 10);
+                std::cout << "Thank you for using\n";
+                gotoxy(45, 12);
+                std::cout << "FIT.HCMUS\n";
+                gotoxy(40, 14);
+                std::cout << "Management Program!\n\n\n\n\n\n";
+
+                pHeadSchoolYear->deleteSchoolYear();
+                pHeadClass->deleteStudentList();
+                exit(0);
+                break;
+            default:
+                std::cout << "\n\t\t Invalid input.";
+            }
+        } while (!flag);
+    } while (!choice);
 }
 
 void EndSemesterMenu() {
@@ -309,7 +331,7 @@ void Staff()
     //login("../StaffAccount/");
 	system("cls");
     BeginSchoolYear();
-    BeginSemester();
+//  BeginSemester();
     EndSemester();
 
 }

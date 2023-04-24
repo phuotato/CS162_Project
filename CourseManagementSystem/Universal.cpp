@@ -9,7 +9,7 @@ schoolYear* pHeadSchoolYear = nullptr;
 schoolYear* pTailSchoolYear = nullptr;
 schoolYear* curSchoolYear = nullptr;
 
-semester* curSemester = nullptr;
+semester* curSemester;
 
 Class* pHeadClass = nullptr;
 Class* pTailClass = nullptr;

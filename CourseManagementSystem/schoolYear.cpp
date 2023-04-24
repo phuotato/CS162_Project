@@ -10,7 +10,7 @@ std::ofstream fout;
 extern schoolYear* curSchoolYear;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
-
+extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 extern Class* curClass;
@@ -236,37 +236,17 @@ std::string schoolYear::getYear()
 {
 	return year;
 }
-void schoolYear::createSemester()
+bool schoolYear::createSemester()
 {
 	char x;
-	bool flag = 0;
-	std::string year;
-	schoolYear* cur;
-	loadFile();
-	std::cin.ignore();
-	while (true)
+	if(!pHeadSemester)
+	curSchoolYear->loadFile(year);
+	if (!curSchoolYear->checkAvaiSemester())
 	{
-		//std::cout << "\n\t\tEnter school year include your semester:";
-		std::cout << "\n\t\tEnter school year:";
-		getline(std::cin, year);
-		if (!checkCorrectYear(year))
-		{
-			std::cout << "Invalid school year. Try other ones\n";
-			continue;
-		}
-		cur = findSchoolYear(year);
-		if (!cur)
-		{
-			std::cout << "This school year don't exist. Try other ones\n";
-			continue;
-		}
-		cur->loadFile(year);
-		if (!cur->checkAvaiSemester())
-		{
-			std::cout << "This school year is full of semester\n";
-			continue;
-		}
-		break;
+		std::cout << "This school year is full of semester\n";
+		std::cout << "Press any key to back:";
+		_getch();
+		return 0;
 	}
 	while (true)
 	{
@@ -280,7 +260,7 @@ void schoolYear::createSemester()
 				std::cout << "Invalid semester. Try other ones\n";
 				continue;
 			}
-			if (cur->checkExistSemester(x - '0'))
+			if (curSchoolYear->checkExistSemester(x - '0'))
 			{
 				std::cout << "This semester was already created. Try other ones\n";
 				continue;
@@ -312,28 +292,29 @@ void schoolYear::createSemester()
 		fout << x <<"," << StartDate << "," << EndDate << std::endl;							//Write down the semester
 		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
-		cur->increaseSem();
-		if (!(cur->pHeadSemester))
+		curSchoolYear->increaseSem();
+		if (!(curSchoolYear->pHeadSemester))
 		{
-		cur->pHeadSemester = dummy;
-			cur->pTailSemester = dummy;
+			curSchoolYear->pHeadSemester = dummy;
+			curSchoolYear->pTailSemester = dummy;
 		}
 		else
 		{
-			cur->pTailSemester->pNext = dummy;
-			cur->pTailSemester = dummy;
+			curSchoolYear->pTailSemester->pNext = dummy;
+			curSchoolYear->pTailSemester = dummy;
 		}
 		std::cout << "Create succesfully\n";
 		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
 		char choice; std::cin >> choice;
 		std::cin.ignore();
 		if (choice == 'N' || choice == 'n')
-			return;
-		if (!cur->checkAvaiSemester())
+			return 1;
+		if (!curSchoolYear->checkAvaiSemester())
 		{
 			std::cout << "This school year is full of semester\n";
-			system("pause");
-			return;
+			std::cout << "Press any key to back:";
+			_getch();
+			return 1;
 		}
 	}
 }
@@ -401,4 +382,54 @@ bool schoolYear::checkAvaiSemester()
 	if (numSem == 3)
 		return 0;
 	return 1;
+}
+bool schoolYear::showSemester()
+{
+	if(!pHeadSemester)			//load semester
+		curSchoolYear->loadFile(year);
+
+	if (!pHeadSemester)			//check pHeadSemester null or not
+	{
+		std::cout << "This schoolyear haven't had any semester before\n";
+		system("pause");
+		return 0;
+	}
+	while (true)
+	{
+		system("cls");
+		gotoxy(29, 3);				//show all semester in schoolyear
+		std::cout << "Semester's list\n";
+		std::cout << "\n\t\t+--------------------------------------+";
+		for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
+		{
+			std::cout << "\n\t\t|                Sem " << cur->getSem() << "                 |";
+		}
+		std::cout << "\n\t\t+--------------------------------------+";
+		std::cout << "\n\t\tPlease choose your semester (Press enter to go back): ";
+		std::string sem;
+		std::cin.ignore();
+		getline(std::cin, sem);
+		if (sem == "") return 0;
+
+		for (semester* cur = pHeadSemester; cur; cur = cur->pNext) {
+			if (stoi(sem) == cur->getSem()) {
+				SetColor(7, 2);
+				std::cout << "\n\n\t\t              Found! Getting in";
+				SetColor(7, 0);
+
+				Sleep(2000);
+				curSemester = cur;
+				return 1;
+			}
+		}
+
+		//False - warning
+		SetColor(7, 12);
+		std::cout << "\n\n\t\t          Please input correctly!";
+		SetColor(7, 0);
+
+		//Clear everything to show back
+		Sleep(2000);
+		system("cls");
+	}
 }
