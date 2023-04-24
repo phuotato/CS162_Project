@@ -395,6 +395,7 @@ bool schoolYear::showSemester()
 		system("pause");
 		return 0;
 	}
+	std::cin.ignore();
 	while (true)
 	{
 		system("cls");
@@ -408,7 +409,6 @@ bool schoolYear::showSemester()
 		std::cout << "\n\t\t+--------------------------------------+";
 		std::cout << "\n\t\tPlease choose your semester (Press enter to go back): ";
 		std::string sem;
-		std::cin.ignore();
 		getline(std::cin, sem);
 		if (sem == "") return 0;
 

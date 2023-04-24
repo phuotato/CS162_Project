@@ -15,7 +15,7 @@ extern schoolYear* curSchoolYear;
 extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
-
+extern course* curCourse;
 void BeginSemester();
 void CreateSchoolYearMenu() {
     drawHeader();
@@ -226,7 +226,18 @@ void BeginSemester() {
             switch (option) {
             case 1:
                 system("cls");
-                //curSchoolYear->createSemester();
+                curSemester->addCourse();
+                break;
+            case 2:
+                std::cin.ignore();
+                while(true)
+                {
+                    system("cls");
+                    if(curSemester->showCourse())
+                    curCourse->updateCourse();
+                    else
+                    break;
+                }
                 break;
             case 11:
                 system("cls");
