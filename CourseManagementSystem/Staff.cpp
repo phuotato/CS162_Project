@@ -77,6 +77,9 @@ void BeginSchoolYearMenu() {
     std::cout << "| 7. Change Password                               |";
 
     std::cout << "\n"; gotox(mid - 53 / 2);
+    std::cout << "| 8. Go back to school year                        |";
+
+    std::cout << "\n"; gotox(mid - 53 / 2);
     std::cout << "| 0. Exit                                          |";
 
     std::cout << "\n"; gotox(mid - 53 / 2);
@@ -86,7 +89,7 @@ void BeginSchoolYearMenu() {
     std::cout << "  Enter your choice: ";
 }
 
-void BeginSchoolYear() {
+void SchoolYearMenu() {
     HWND console = GetConsoleWindow();
     RECT r;
     GetWindowRect(console, &r);
@@ -95,10 +98,10 @@ void BeginSchoolYear() {
     set_console_size(156, 80);
     system("mode con: cols=156 lines=80");
     mid = getMidColumns();
-    MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
+    //MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
     short k = 1;
-    while (k!=0) {
+    while (k != 0) {
         system("cls");
         pHeadSchoolYear->deleteSchoolYear();
         CreateSchoolYearMenu();
@@ -133,9 +136,17 @@ void BeginSchoolYear() {
             SetColor(7, 0);
         }
     }
-
+}
+void BeginSchoolYear (bool& flag) {
     //Resize (not automatically)
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+
+    // Move console window to center of the screen
+    system("mode con: cols=156 lines=80");
     mid = getMidColumns();
+    int option;
 
     do {
         system("cls");
@@ -145,17 +156,26 @@ void BeginSchoolYear() {
 
         switch (option) {
         case 1:
-            //pHeadClass->Choices();
+            if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
+                std::cout << "\n\n"; gotox(mid - 52 / 2);
+                SetColor(7, 12);
+                std::cout << "Sorry! You can only add classes in the latest year.";
+                SetColor(7, 0);
+
+                Sleep(2000);
+                continue;
+            }
             pHeadClass->addNewClass();
             break;
         case 2: 
             system("cls");
             drawHeader();
-        //    pHeadClass->getOption();
-        //    not tested yet
+           pHeadClass->getOption();
+        
             break;
         case 3: 
             BeginSemester(); //change state to begin semester and return
+            flag = 0;
             break;
         case 4:
             system("cls");
@@ -167,6 +187,13 @@ void BeginSchoolYear() {
             drawHeader();
             changePassword(fin, fout);
             break;
+        case 8:
+            flag = 1;
+            system("cls");
+
+            pHeadSchoolYear->deleteSchoolYear();
+            pHeadClass->deleteStudentList();
+            return;
         case 0:
             system("cls");
             drawBox(mid - 50 / 2, 5, 50, 16);
@@ -398,7 +425,12 @@ void Staff()
     system("cls");
     //login("../StaffAccount/");
 	system("cls");
-    BeginSchoolYear();
+    bool flag = 1;
+    while (flag != 0) {
+        SchoolYearMenu();
+        BeginSchoolYear(flag);
+    }
+
 //  BeginSemester();
     EndSemester();
 
