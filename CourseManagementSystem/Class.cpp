@@ -6,6 +6,9 @@
 #include "Graphic.h"
 #include "Class.h"
 
+//Constructor
+student::student(int no, std::string id, std::string firstname, std::string lastname, bool gender, std::string dob, std::string socialId)
+    :no(no), id(id), firstName(firstname), lastName(lastname), gender(gender), Date(dob), socialId(socialId) {};
 //Global variable
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
