@@ -13,7 +13,10 @@ public:
 	//Function for class
 	void deleteClass();
 	void LoadFile();
-	void Choices();
+	void addNewClass();
+	void showClassList();
+
+	//Function for students
 	void getOption();		// option to add students
 	void deleteStudentList();
 	void addStudentto1stClass_Console();
@@ -22,8 +25,6 @@ public:
 	void loadStudent();
 	bool checkClassInfo(std::string classcode);
 	void sortStudentsLexicographically(std::string classcode);
-	void addNewClass();
-	void createInformationClass();
 
 	//Minor function
 	bool CheckClasses(std::string curName);

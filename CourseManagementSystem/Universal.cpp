@@ -2,6 +2,7 @@
 #include "SchoolYear.h"
 #include "Class.h"
 #include "Semester.h"
+#include "Graphic.h"
 
 
 //Declare global variables
@@ -15,3 +16,5 @@ course* curCourse = nullptr;
 Class* pHeadClass = nullptr;
 Class* pTailClass = nullptr;
 Class* curClass = nullptr;
+
+int mid = getMidColumns();

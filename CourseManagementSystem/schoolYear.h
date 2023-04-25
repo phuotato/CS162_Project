@@ -16,10 +16,10 @@ public:
 
 	//Functions
 	//Create function
-	void createSchoolYear();
+	void createSchoolYear(short& k);
 	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
-	void chooseSchoolYear();
+	void chooseSchoolYear(short& k);
 	bool createSemester();
 	bool checkExistSemester(int sem);
 	bool checkCorrectSemester(std::string year);

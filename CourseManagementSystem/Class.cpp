@@ -11,6 +11,7 @@ extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
 extern Class* pTailClass;
+extern int mid;
 
 //Struct variable
 student* pStudent = nullptr;
@@ -52,27 +53,36 @@ void Class::addNewClass() {
     bool flag = 0;
     system("cls");
 
+    pHeadClass->LoadFile();
     SetColor(7, 9);
-    std::cout << "\n\n\t    Current year: " << curSchoolYear->getYear();
+    gotoxy(mid - 24 / 2, 2);
+    std::cout << "Current year: " << curSchoolYear->getYear() << std::endl;
     SetColor(7, 0);
+    showClassList();
 
     while (true) {
 
         //Enter the class code
-        std::cout << "\nPlease enter the name of the class you want to create: ";
+        std::cout << "\n"; gotox(mid - 56 / 2);
+        std::cout << "Please enter the name of the class you want to create: ";
         std::string Name;  std::cin >> Name;
         std::cin.ignore();
 
         //Check the class
-
         if (checkExistClass(Name) == 0) {
-            std::cout << "This class is already exist.\n";
+            std::cout << "\n"; gotox(mid - 29 / 2);
+            SetColor(7, 12);
+            std::cout << "This class is already exist.";
+            SetColor(7, 0);
             return;
         }
 
         //Check the class if correct to add
         else if (pHeadClass->CheckClasses(Name) == 0) {
+            std::cout << "\n"; gotox(mid - 35 / 2);
+            SetColor(7, 12);
             std::cout << "Please enter the class correctly.\n";
+            SetColor(7, 0);
             return;
         }
 
@@ -120,32 +130,15 @@ void Class::addNewClass() {
         }
 
         loadingPage();
-        system("cls");
-        std::cout << "Create succesfully\n";
+        
+        std::cout << "\n\n"; gotox(mid - 20 / 2);
+        SetColor(7, 2);
+        std::cout << " Create succesfully\n";
+        SetColor(7, 0);
+
+        Sleep(2000);
         return;
     }
-}
-
-void Class::createInformationClass() {
-    fin.open(".. /Data/Class/Class.txt");
-
-    while (true) {
-
-        if (!fin) return;
-        std::string ClassName;													//Read in class
-        getline(fin, ClassName, ' ');
-        fin.ignore();
-
-        if (!pHeadClass) pHeadClass = new Class("");
-        Class* tmp = pHeadClass;
-        tmp->pNext = new Class(ClassName);
-
-        pTailClass = tmp;
-        if (pHeadClass->getName() == "") delete pHeadClass;
-
-    }
-
-    fin.close();
 }
 
 bool Class::checkExistClass(std::string Name)
@@ -171,36 +164,6 @@ void Class::deleteClass() {
     }
 }
 
-void Class::Choices() {
-    system("cls");
-    int k;
-    do {
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t|              MENU OPTIONS                        |";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t| 1. Load all classes in all school year           |";
-        std::cout << "\n\t\t| 2. Add more class                                |";
-        std::cout << "\n\t\t| 0. Go back                                       |";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t Enter your choice: ";
-        std::cin >> k;
-        if (k == 0) break;
-        switch (k) {
-        case 1:
-            pHeadClass->createInformationClass();
-            break;
-        case 2:
-            pHeadClass->addNewClass();
-            break;
-        default:
-            std::cout << "You have entered wrong! Try again.\n";
-            break;
-        }
-        Sleep(1000);
-        system("cls");
-    } while (k != 0);
-}
-
 bool Class::CheckClasses(std::string curName) {
     int length = curName.length();
     if (length < 4) return 0;
@@ -220,7 +183,30 @@ std::string Class::getName() {
     return Name;
 }
 
+void Class::showClassList() {
+    if (!pHeadClass) {
+        SetColor(7, 12);
+        std::cout << "\n"; gotox(mid - 29 / 2);
+        std::cout << "There is no class currently.\n";
+        SetColor(7, 0);
+        return;
+    }
 
+    gotox(mid - 46 / 2);
+    std::cout << "+-------------------------------------------+\n";
+    for (Class* cur = pHeadClass; cur; cur = cur->pNext) {
+        gotox(mid - 46 / 2);
+        std::cout << "|                                           |";
+        gotox(mid - (cur->getName()).length() / 2);
+        std::cout << cur->getName() << "\n";
+    }
+
+    gotox(mid - 46 / 2);
+    std::cout << "+-------------------------------------------+\n";
+
+}
+
+//Function for students
 void Class::getOption()
 {
     std::cout << "\n\t\t+--------------------------------------------------+";
