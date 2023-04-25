@@ -52,21 +52,32 @@ void Class::LoadFile()
 void Class::addNewClass() {
     bool flag = 0;
     system("cls");
+    std::string year;
 
     pHeadClass->LoadFile();
+    year = curSchoolYear->getYear();
     SetColor(7, 9);
     gotoxy(mid - 24 / 2, 2);
-    std::cout << "Current year: " << curSchoolYear->getYear() << std::endl;
+    std::cout << "Current year: " << year << std::endl;
     SetColor(7, 0);
     showClassList();
 
     while (true) {
 
         //Enter the class code
-        std::cout << "\n"; gotox(mid - 56 / 2);
-        std::cout << "Please enter the name of the class you want to create: ";
-        std::string Name;  std::cin >> Name;
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Please make sure to input valid class (Ex:" << year[2] << year[3] << " from " << year << ")";
+
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Please enter the name of the class you want to create";
+
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Press enter to stop: ";
+        std::string Name;  getline(std::cin, Name);
         std::cin.ignore();
+
+        //if enter then return
+        if (Name == "") return;
 
         //Check the class
         if (checkExistClass(Name) == 0) {
@@ -74,7 +85,9 @@ void Class::addNewClass() {
             SetColor(7, 12);
             std::cout << "This class is already exist.";
             SetColor(7, 0);
-            return;
+
+            Sleep(2000);
+            continue;
         }
 
         //Check the class if correct to add
@@ -83,7 +96,21 @@ void Class::addNewClass() {
             SetColor(7, 12);
             std::cout << "Please enter the class correctly.\n";
             SetColor(7, 0);
-            return;
+
+            Sleep(2000);
+            continue;
+        }
+
+
+        //Check if this class is in current year
+        else if (year[2] != Name[0] || year[3] != Name[1]) {
+            std::cout << "\n"; gotox(mid - 29 / 2);
+            SetColor(7, 12);
+            std::cout << "This class is not in this year.";
+            SetColor(7, 0);
+
+            Sleep(2000);
+            continue;
         }
 
         //Add	
@@ -136,7 +163,7 @@ void Class::addNewClass() {
         std::cout << " Create succesfully\n";
         SetColor(7, 0);
 
-        Sleep(2000);
+        Sleep(500);
         return;
     }
 }
