@@ -98,6 +98,7 @@ bool semester::showCourse()
 	}
 	else
 	{
+		int x = 0;
 		while (true)
 		{
 			system("cls");
@@ -106,7 +107,11 @@ bool semester::showCourse()
 			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
 			for (course* cur = pHeadCourse; cur; cur = cur->pNext)
 			{
-				std::cout << "\n\t\t|                 " << cur->name << "(" << cur->id << ")" << "                 |";
+
+				gotoxy(16, 6 + x); std::cout << "|";
+				gotoxy(34, 6 + x); std::cout << cur->name << "(" << cur->id << ")";
+				gotoxy(93, 6 + x); std::wcout << "|";
+				++x;
 			}
 			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
 			std::cout << "\n\t\tPlease choose your course's id (Press enter to go back): ";
@@ -119,7 +124,7 @@ bool semester::showCourse()
 					std::cout << "\n\n\t\t              Found! Getting in";
 					SetColor(7, 0);
 
-					Sleep(1000);
+					Sleep(500);
 					curCourse = cur;
 					return 1;
 				}
@@ -131,7 +136,7 @@ bool semester::showCourse()
 			SetColor(7, 0);
 
 			//Clear everything to show back
-			Sleep(2000);
+			Sleep(500);
 			system("cls");
 		}
 	}
@@ -173,4 +178,31 @@ void semester::loadCourse()
 			read.close();
 		}
 	}
+}
+void course::showInformation()
+{
+	system("cls");
+	std::cout << "1.Id:" << id << std::endl;
+	std::cout << "2.Name:" << name << std::endl;
+	std::cout << "3.Class name:" << className << std::endl;
+	std::cout << "4.Lecturer:" << lecturer << std::endl;
+	std::cout << "5.Credit:" << credit << std::endl;
+	std::cout << "6.Max student:" << maxStudent << std::endl;
+	std::cout << "7.Day performed per week:" << weekDay << std::endl;
+	std::cout << "8.Session:";
+	switch (session)
+	{
+	case 1:
+		std::cout << "07:30\n";
+		break;
+	case 2:
+		std::cout << "09:30\n";
+		break;
+	case 3:
+		std::cout << "13:30\n";
+	case 4:
+		std::cout << "15:30\n";
+	}
+	std::cout << "Press any key to back:";
+	std::cin.get();
 }

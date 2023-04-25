@@ -235,7 +235,7 @@ void schoolYear::chooseSchoolYear(short& k) {
 				std::cout << "Found! Getting in";
 				SetColor(7, 0);
 
-				Sleep(2000);
+				Sleep(500);
 				curSchoolYear = cur;
 				k = 0;
 				return;
@@ -249,7 +249,7 @@ void schoolYear::chooseSchoolYear(short& k) {
 		SetColor(7, 0);
 
 		//Clear everything to show back
-		Sleep(2000);
+		Sleep(500);
 		system("cls");
 		
 	}
@@ -309,7 +309,6 @@ bool schoolYear::createSemester()
 		getline(std::cin, StartDate);
 		std::cout << "Enter the end date: ";
 		std::string EndDate;
-		std::cin.ignore();
 		getline(std::cin, EndDate);
 		std::string sem;
 		sem += x;
@@ -321,14 +320,15 @@ bool schoolYear::createSemester()
 		curSchoolYear->increaseSem();
 		if (!(curSchoolYear->pHeadSemester))
 		{
-			curSchoolYear->pHeadSemester = dummy;
-			curSchoolYear->pTailSemester = dummy;
+			pHeadSemester = dummy;
+			pTailSemester = dummy;
 		}
 		else
 		{
-			curSchoolYear->pTailSemester->pNext = dummy;
-			curSchoolYear->pTailSemester = dummy;
+			pTailSemester->pNext = dummy;
+			pTailSemester = dummy;
 		}
+		curSemester = pTailSemester;
 		std::cout << "Create succesfully\n";
 		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
 		char choice; std::cin >> choice;
@@ -443,7 +443,7 @@ bool schoolYear::showSemester()
 				std::cout << "\n\n\t\t              Found! Getting in";
 				SetColor(7, 0);
 
-				Sleep(2000);
+				Sleep(500);
 				curSemester = cur;
 				return 1;
 			}

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <direct.h>
 #include <string>
+#include "Graphic.h"
 //Constructor
 course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
     :id(id), name(name), className(className), lecturer(lecturer), credit(credit), maxStudent(maxStudent), weekDay(weekDay), session(session) {};
@@ -163,4 +164,128 @@ void course::updateCourse()
             break;
         }
     }
+}
+
+void course::addStudent()
+{
+    int choice;
+    do
+    {
+        system("cls");
+        drawHeader();
+
+        std::cout << "\n\t\t+--------------------------------------------------+";
+        std::cout << "\n\t\t| 1. Add student mannually                         |";
+        std::cout << "\n\t\t| 2. Import csv file                               |"; //chua lam
+        std::cout << "\n\t\t| 0. Back                                          |";
+        std::cout << "\n\t\t+--------------------------------------------------+";
+        std::cout << "\n\t\t Enter your choice: ";
+        std::cin >> choice;
+        if (choice)
+            addStudent(choice);
+    } while (choice);
+}
+
+void course::addStudent(int choice)
+{
+    if (choice == 1)
+    {
+        char ch = 'Y';
+        do
+        {
+            std::string no, id, firstName, lastName, gender, socialId, dob;
+            std::cin.ignore();
+            std::cout << "\n\t\tNo:"; getline(std::cin, no);
+            std::cout << "\n\t\tStudent id:"; getline(std::cin, id);
+            std::cout << "\n\t\tLast name:"; getline(std::cin, lastName);
+            std::cout << "\n\t\tFirst name:"; getline(std::cin, firstName);
+            std::cout << "\n\t\tGender:"; getline(std::cin, gender);
+            std::cout << "\n\t\tDate of birth:"; getline(std::cin, dob);
+            std::cout << "\n\t\tSocial id:"; getline(std::cin, socialId);
+            if (pHeadStudent)
+            {
+                pTailStudent->pNext = new student(stoi(no), id, firstName, lastName, stoi(gender), dob, socialId);
+                pTailStudent = pTailStudent->pNext;
+            }
+            else
+            {
+                pHeadStudent = new student(stoi(no), id, firstName, lastName, stoi(gender), dob, socialId);
+                pTailStudent = pHeadStudent;
+            }
+            std::cout << "Add successfully. Do you want to add more (Press Y/y to continue, N/n to stop):";
+            std::cin >> ch;
+        } while (ch != 'N' && ch != 'n');
+    }
+    if (choice == 2)
+    {
+        std::cout << "Input your directory:";
+        std::string dir;
+        getline(std::cin, dir);
+        std::ifstream fin(dir);
+        if (!fin.is_open())
+            std::cout << "Khong the mo";
+        else
+        {
+            std::string redundant;
+            getline(fin, redundant);
+            while (!fin.eof())
+            {
+                std::string no, id, firstName, lastName, gender, socialId, dob;
+                getline(fin, no, ',');
+                getline(fin, id, ',');
+                getline(fin, lastName, ',');
+                getline(fin, firstName, ',');
+                getline(fin, gender, ',');
+                getline(fin, dob, ',');
+                getline(fin, socialId);
+                if (pHeadStudent)
+                {
+                    pTailStudent->pNext = new student(stoi(no), id, firstName, lastName, stoi(gender), dob, socialId);
+                    pTailStudent = pTailStudent->pNext;
+                }
+                else
+                {
+                    pHeadStudent= new student(stoi(no), id, firstName, lastName, stoi(gender), dob, socialId);
+                    pTailStudent = pHeadStudent;
+                }
+            }
+        }
+    }
+}
+
+void course::loadClass()
+{
+
+}
+
+void course::showStudent()
+{
+    if (!pHeadStudent)
+    {
+        std::cout << "This class haven't been add any student before";
+        std::cout << "Press any key to continue:";
+        _getch();
+        return;
+    }
+    for (student* cur = pHeadStudent; cur; cur = cur->pNext)
+    {
+        std::cout << "No:" << cur->getNo() << std::endl;
+        std::cout << "Student id:" << cur->getStudentID()<<std::endl;
+        std::cout << "Last name:" << cur->getLastName()<<std::endl;
+        std::cout << "FIrst name:" << cur->getFirstName()<<std::endl;
+        std::cout << "Gender:";
+        switch (cur->getGender())
+        {
+        case 1:
+            std::cout << "Female" << std::endl;
+            break;
+        case 0:
+            std::cout << "Male" << std::endl;
+            break;
+        }
+        std::cout << "Date of birth:" << cur->getDate() << std::endl;
+        std::cout << "Social id:" << cur->getSocialId() << std::endl << std::endl;
+    }
+    std::cout << "Press any key to continue:";
+    _getch();
 }
