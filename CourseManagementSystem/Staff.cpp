@@ -91,7 +91,8 @@ void BeginSchoolYear() {
     default:
         std::cout << "\n\t\t Invalid input.";
     }
-
+    pHeadClass->LoadFile();
+    pHeadClass->loadStudent();
     do {
         system("cls");
         drawHeader();
@@ -106,8 +107,8 @@ void BeginSchoolYear() {
         case 2: 
             system("cls");
             drawHeader();
-        //    pHeadClass->getOption();
-        //    not tested yet
+           pHeadClass->getOption();
+        
             break;
         case 3: 
             BeginSemester(); //change state to begin semester and return
@@ -233,9 +234,9 @@ void BeginSemester() {
                 while(true)
                 {
                     system("cls");
-                    if(curSemester->showCourse())
-                    curCourse->updateCourse();
-                    else
+ //                   if(curSemester->showCourse())
+ //                   curCourse->updateCourse();
+ //                   else
                     break;
                 }
                 break;
