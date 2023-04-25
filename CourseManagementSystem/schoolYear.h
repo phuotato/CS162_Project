@@ -19,8 +19,8 @@ public:
 	void createSchoolYear();
 	bool checkCorrectYear(std::string year);
 	bool checkExistSchoolYear(std::string year);
-	bool checkWhetherSmall();
-	void createSemester();
+	void chooseSchoolYear();
+	bool createSemester();
 	bool checkExistSemester(int sem);
 	bool checkCorrectSemester(std::string year);
 	bool checkAvaiSemester();
@@ -38,6 +38,8 @@ public:
 	//Show SchoolYear
 	void showSchoolYear();
 
+	//Show semester
+	bool showSemester();
 	//Pointer
 	schoolYear* pNext = nullptr;
 

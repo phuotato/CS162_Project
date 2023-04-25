@@ -23,3 +23,4 @@ void loadingPage();
 //5 = Purple 13 = Light Purple
 //6 = Yellow 14 = Light Yellow
 //7 = White 15 = Bright White
+//Default: SetColor(7, 0)

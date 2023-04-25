@@ -10,7 +10,7 @@ std::ofstream fout;
 extern schoolYear* curSchoolYear;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
-
+extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 extern Class* curClass;
@@ -23,65 +23,77 @@ schoolYear::schoolYear() {}
 
 void schoolYear::createSchoolYear()
 {
-	std::cin.ignore();
+	std::cin.ignore(); //remove enter
 	loadFile();
 	bool flag = 1;
 	while (true)
 	{
 		system("cls");
 		showSchoolYear();
-		std::cout << "\n\n\n\t\tWould you like to create a new school year? (Y/N): ";
-		char option;
-		std::cin >> option;
-		std::cin.ignore();
+		std::cout << "\n\n\t\tEnter new school year (e.g. 2022-2023): ";
+		std::cout << "\n\t\tOr press enter to go back:";
+		std::string year; getline(std::cin, year);
+		if (year == "") ;
 
-		if (option == 'Y' || option == 'y')
-		{
-			std::cout << "\t\tEnter new school year (e.g. 2022-2023): ";
-			std::string year; getline(std::cin, year);
+		//checking condition
+		if (checkCorrectYear(year) == false) {
+			SetColor(7, 12);
+			std::cout << "\n\n\t\t       Please enter the valid year!\n";
+			SetColor(7, 0);
 
-			//checking condition
-			if (checkCorrectYear(year) == false) {
-				std::cout << "Please enter the correct year!\n";
-				system("pause");
-				system("cls");
+			Sleep(2000);
+			system("cls");
+			continue;
+		}
+
+		if (checkExistSchoolYear(year) != 0)
+		{	
+			//Check this is the newest year
+			if (year < pTailSchoolYear->getYear()) {
+				SetColor(7, 12);
+				std::cout << "\n\n\tThis year is not the newest one. Please enter the correct one!\n";
+				SetColor(7, 0);
+
+				Sleep(2000);
 				continue;
 			}
+			//Create a new schoolyear and store in linked list
+			fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
+			fout << std::endl;
+			fout << year;			//Write down the schoolyear
+			fout.close();
 
-			if (checkExistSchoolYear(year) != 0)
-			{
-				//Create a new schoolyear and store in linked list
-				fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
-				fout << std::endl;
-				fout << year;			//Write down the schoolyear
-				fout.close();
+			//Check folder and write down information for the schoolyear
+			if (_mkdir(("../Data/School Year/" + year).c_str()));
+			fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
+			fout.close();
 
-				//Check folder and write down information for the schoolyear
-				if (_mkdir(("../Data/School Year/" + year).c_str()));
-				fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
-				fout.close();
-
-				if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
-				schoolYear* tmp = pHeadSchoolYear->pNext;
-				tmp = new schoolYear(year, nullptr);
-				pTailSchoolYear->pNext = tmp;
-				pTailSchoolYear = tmp;
-				if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
-				flag = 1;
-			}
-			else
-			{
-				std::cout << "This school year is already created, please enter another school year\n";
-				flag = 0;
-			}
-			if (flag == 1)
-			{
-				std::cout << "Created succesfully\n";
-				system("pause");
-				return;
-			}
+			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
+			schoolYear* tmp = pHeadSchoolYear->pNext;
+			tmp = new schoolYear(year, nullptr);
+			pTailSchoolYear->pNext = tmp;
+			pTailSchoolYear = tmp;
+			if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
+			flag = 1;
 		}
-		else return;
+		else
+		{
+			SetColor(7, 12);
+			std::cout << "\n\n\tThis school year is already created, please enter another school year\n";
+			SetColor(7, 0);
+
+			Sleep(2000);
+			flag = 0;
+		}
+		if (flag == 1)
+		{
+			SetColor(7, 2);
+			std::cout << "Created succesfully\n";
+			SetColor(7, 0);
+
+			system("pause");
+			return;
+		}
 	}
 	
 }
@@ -131,11 +143,19 @@ bool schoolYear::checkExistSchoolYear(std::string year)
 
 bool schoolYear::checkCorrectYear(std::string year) {
 	int length = year.length();
+
+	//Check length
 	if (length != 9) return false;
+
+	//0->3, 5->8 is number
 	for (int i = 0; i < 4; i++) {
 		if (year[i] < '0' || year[i] > '9' || year[i + 5] > '9' || year[i + 5] < '0') return false;
 	}
+
+	//4-> '-'
 	if (year[4] != '-') return false;
+
+	//are two years consecutive
 	if (year[8] - year[3] == -9);
 	else if (year[8] - year[3] != 1) return false;
 
@@ -162,19 +182,52 @@ void schoolYear::deleteSchoolYear()
 
 void schoolYear::showSchoolYear()
 {
-	gotoxy(30, 3);
-	std::cout << "Created School Years\n";
-	std::cout << "\n\t\t+--------------------------------------------------+";
+	gotoxy(29, 3);
+	std::cout << "School Years' List\n";
+	std::cout << "\n\t\t+-------------------------------------------+";
 	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
-		std::cout << "\n\t\t|                 " << cur->getYear() << "                        |";
+		std::cout << "\n\t\t|                 " << cur->getYear() << "                 |";
 	}
-	std::cout << "\n\t\t+--------------------------------------------------+";
+	std::cout << "\n\t\t+-------------------------------------------+";
 }
 
-// Input a newest schoolyear
-bool checkWhetherSmall() {
+//Choose schoolYear
+void schoolYear::chooseSchoolYear() {
+	std::string year;
 
+	system("cls");
+	std::cin.ignore(); //Remove enter
+
+	loadFile();
+	while (true) {
+		showSchoolYear();
+		std::cout << "\n\t\tPlease choose your school year (Press enter to go back): ";
+		getline(std::cin, year);
+
+		if (year == "") return;
+
+		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
+			if (year == cur->getYear()) {
+				SetColor(7, 2);
+				std::cout << "\n\n\t\t              Found! Getting in";
+				SetColor(7, 0);
+
+				Sleep(2000);
+				curSchoolYear = cur;
+				return;
+			}
+		}
+
+		//False - warning
+		SetColor(7, 12);
+		std::cout << "\n\n\t\t          Please input correctly!";
+		SetColor(7, 0);
+
+		//Clear everything to show back
+		Sleep(2000);
+		system("cls");
+	}
 }
 
 //Other functions
@@ -183,37 +236,18 @@ std::string schoolYear::getYear()
 {
 	return year;
 }
-void schoolYear::createSemester()
+bool schoolYear::createSemester()
 {
 	char x;
-	bool flag = 0;
-	std::string year;
-	schoolYear* cur;
-	loadFile();
-	std::cin.ignore();
-	while (true)
+	if(!pHeadSemester)
+	curSchoolYear->loadFile(year);
+	if (!curSchoolYear->checkAvaiSemester())
 	{
-		//std::cout << "\n\t\tEnter school year include your semester:";
-		std::cout << "\n\t\tEnter school year:";
-		getline(std::cin, year);
-		if (!checkCorrectYear(year))
-		{
-			std::cout << "Invalid school year. Try other ones\n";
-			continue;
-		}
-		cur = findSchoolYear(year);
-		if (!cur)
-		{
-			std::cout << "This school year don't exist. Try other ones\n";
-			continue;
-		}
-		cur->loadFile(year);
-		if (!cur->checkAvaiSemester())
-		{
-			std::cout << "This school year is full of semester\n";
-			continue;
-		}
-		break;
+		gotoxy(17, 15);
+		std::cout << "This school year is full of semester";
+		std::cout << "\n\t\t Press any key to back:";
+		_getch();
+		return 0;
 	}
 	while (true)
 	{
@@ -227,7 +261,7 @@ void schoolYear::createSemester()
 				std::cout << "Invalid semester. Try other ones\n";
 				continue;
 			}
-			if (cur->checkExistSemester(x - '0'))
+			if (curSchoolYear->checkExistSemester(x - '0'))
 			{
 				std::cout << "This semester was already created. Try other ones\n";
 				continue;
@@ -259,28 +293,29 @@ void schoolYear::createSemester()
 		fout << x <<"," << StartDate << "," << EndDate << std::endl;							//Write down the semester
 		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
-		cur->increaseSem();
-		if (!(cur->pHeadSemester))
+		curSchoolYear->increaseSem();
+		if (!(curSchoolYear->pHeadSemester))
 		{
-		cur->pHeadSemester = dummy;
-			cur->pTailSemester = dummy;
+			curSchoolYear->pHeadSemester = dummy;
+			curSchoolYear->pTailSemester = dummy;
 		}
 		else
 		{
-			cur->pTailSemester->pNext = dummy;
-			cur->pTailSemester = dummy;
+			curSchoolYear->pTailSemester->pNext = dummy;
+			curSchoolYear->pTailSemester = dummy;
 		}
 		std::cout << "Create succesfully\n";
 		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
 		char choice; std::cin >> choice;
 		std::cin.ignore();
 		if (choice == 'N' || choice == 'n')
-			return;
-		if (!cur->checkAvaiSemester())
+			return 1;
+		if (!curSchoolYear->checkAvaiSemester())
 		{
 			std::cout << "This school year is full of semester\n";
-			system("pause");
-			return;
+			std::cout << "Press any key to back:";
+			_getch();
+			return 1;
 		}
 	}
 }
@@ -348,4 +383,54 @@ bool schoolYear::checkAvaiSemester()
 	if (numSem == 3)
 		return 0;
 	return 1;
+}
+bool schoolYear::showSemester()
+{
+	if(!pHeadSemester)			//load semester
+		curSchoolYear->loadFile(year);
+
+	if (!pHeadSemester)			//check pHeadSemester null or not
+	{
+		std::cout << "This schoolyear haven't had any semester before\n";
+		system("pause");
+		return 0;
+	}
+	std::cin.ignore();
+	while (true)
+	{
+		system("cls");
+		gotoxy(29, 3);				//show all semester in schoolyear
+		std::cout << "Semester's list\n";
+		std::cout << "\n\t\t+--------------------------------------+";
+		for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
+		{
+			std::cout << "\n\t\t|                Sem " << cur->getSem() << "                 |";
+		}
+		std::cout << "\n\t\t+--------------------------------------+";
+		std::cout << "\n\t\tPlease choose your semester (Press enter to go back): ";
+		std::string sem;
+		getline(std::cin, sem);
+		if (sem == "") return 0;
+
+		for (semester* cur = pHeadSemester; cur; cur = cur->pNext) {
+			if (stoi(sem) == cur->getSem()) {
+				SetColor(7, 2);
+				std::cout << "\n\n\t\t              Found! Getting in";
+				SetColor(7, 0);
+
+				Sleep(2000);
+				curSemester = cur;
+				return 1;
+			}
+		}
+
+		//False - warning
+		SetColor(7, 12);
+		std::cout << "\n\n\t\t          Please input correctly!";
+		SetColor(7, 0);
+
+		//Clear everything to show back
+		Sleep(2000);
+		system("cls");
+	}
 }

@@ -91,7 +91,7 @@ void ViewScoreboard(studentScore* hScore) {
     }
 
     // Draw a box around the entire scoreboard
-    drawBox(1, 1, 92, numStudents + 7);
+    drawBox(1, 1, 94, numStudents + 7);
 
     // Print the header row
     drawBox(2, 2, 90, 3);
