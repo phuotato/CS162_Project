@@ -3,12 +3,13 @@
 #include "Universal.h"
 #include "Staff.h"
 std::string username{};
-
+extern int mid;
 
 void welcomePage()
 {
     // set console size and title
-    system("mode con: cols=90 lines=30");
+    system("mode con: cols=156 lines=60");
+	mid = getMidColumns();
     SetConsoleTitle(TEXT("FIT.HCMUS Management Program"));
 	system("color 70");
     //header
@@ -16,33 +17,33 @@ void welcomePage()
     
     //welcome message
     std::cout << "\n\n\n\n";
-    drawBox(20, 10, 40, 8);
-    gotoxy(32, 12);
+    drawBox(mid-40/2, 10, 40, 8);
+    gotoxy(mid-10/2, 12);
     std::cout << "Welcome to";
-    gotoxy(25, 14);
+    gotoxy(mid-28/2, 14);
 	SetColor(7, 1);
 
     std::cout << "FIT.HCMUS Management System.";
 	SetColor(7, 0);
     // wait for user input to continue
-    gotoxy(28, 24);
+    gotoxy(mid-28/2, 24);
     std::cout << "Press any key to continue...";
 	std::cin.get();
 
     // clear screen and display menu
     system("cls");
     std::cout << "\n\n\n\n";
-    drawBox(20, 7, 35, 10);
-    gotoxy(32, 8);
+    drawBox(mid-35/2, 7, 35, 10);
+    gotoxy(mid-8/2, 8);
     std::cout << "Login as";
-    gotoxy(25, 10);
+    gotoxy(mid-26/2, 10);
     std::cout << "1. Staff";
-    gotoxy(25, 12);
+    gotoxy(mid-26/2, 12);
     std::cout << "2. Student";
-    gotoxy(25, 14);
+    gotoxy(mid-26/2, 14);
     std::cout << "0. Exit";
 	
-	gotoxy(25, 17);
+	gotoxy(mid-26/2, 17);
 	std::cout << "Your choice: ";
 	int option;
 	std::cin >> option;

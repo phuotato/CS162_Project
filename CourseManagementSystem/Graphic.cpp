@@ -21,6 +21,19 @@ void gotoxy(short a, short b) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 
+void gotox(short a) {
+	COORD coordinates{};
+	coordinates = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+	coordinates.X = a;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
+
+void gotoy(short a) {
+	COORD coordinates{};
+	coordinates = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+	coordinates.Y = a;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
 
 void SetColor(int backgound_color, int text_color)
 {
@@ -72,10 +85,11 @@ void drawBox(int x, int y, int width, int height) {
 }
 
 void drawHeader() {
-	gotoxy(20, 2); std::cout << " ____  __  ____    _  _   ___  _  _  _  _  ____  " << "\n";
-	gotoxy(20, 3); std::cout << "(  __)(  )(_  _)  / )( \\ / __)( \\/ )/ )( \\/ ___) " << "\n";
-	gotoxy(20, 4); std::cout << " ) _)  )(   )(  _ ) __ (( (__ / \\/ \\) \\/ (\\___ \\ " << "\n";
-	gotoxy(20, 5); std::cout << "(__)  (__) (__)(_)\\_)(_/ \\___)\\_)(_/\\____/(____/ " << "\n";
+	int Mid = getMidColumns();
+	gotoxy(Mid-49/2, 2); std::cout << " ____  __  ____    _  _   ___  _  _  _  _  ____  " << "\n";
+	gotoxy(Mid-49/2, 3); std::cout << "(  __)(  )(_  _)  / )( \\ / __)( \\/ )/ )( \\/ ___) " << "\n";
+	gotoxy(Mid-49/2, 4); std::cout << " ) _)  )(   )(  _ ) __ (( (__ / \\/ \\) \\/ (\\___ \\ " << "\n";
+	gotoxy(Mid-49/2, 5); std::cout << "(__)  (__) (__)(_)\\_)(_/ \\___)\\_)(_/\\____/(____/ " << "\n";
 }
 
 //void loadingPage() {
@@ -101,29 +115,52 @@ void drawHeader() {
 //}
 
 void loadingPage() {
+	std::cout << "\n"; gotox(getMidColumns() - 13 / 2);
 	std::cout << "Loading...\n\n";
+	gotox(getMidColumns()-27/2);
 	std::cout << "[                    ] 0%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[=                   ] 10%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[==                  ] 20%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[===                 ] 30%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[====                ] 40%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[=====               ] 50%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[======              ] 60%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[=======             ] 70%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[========            ] 80%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[=========           ] 90%\r";
 	Sleep(100);
+
+	gotox(getMidColumns()-27/2);
 	std::cout << "[==========          ] 100%\r";
 	Sleep(100);
+
 }
 void drawHeader(std::string title) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
@@ -140,4 +177,24 @@ void drawDivider(int length, char character, int offset) {
 void drawError(std::string message) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 	std::cout << "Error: " << message << std::endl;
+}
+
+int getMidColumns() {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+	return csbi.dwSize.X/2;
+}
+
+void set_console_size(short x, short y)
+{
+	HANDLE hConsole;
+	SMALL_RECT DisplayArea = { 0, 0, 100, 50 };
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	/*DisplayArea.Right = x;
+	DisplayArea.Bottom = y;*/
+
+	SetConsoleWindowInfo(hConsole, TRUE, &DisplayArea);
 }

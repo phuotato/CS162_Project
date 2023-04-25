@@ -3,6 +3,8 @@
 #include "Universal.h"
 #include "Graphic.h"
 #include "Class.h"
+#include "Display.h"
+
 std::ifstream fin;
 std::ofstream fout;
 
@@ -14,6 +16,7 @@ extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
 extern Class* curClass;
+extern int mid;
 
 //Constructor for SchoolYear
 schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext(pointer) {}
@@ -21,7 +24,7 @@ schoolYear::schoolYear() {}
 
 //Create SchoolYear
 
-void schoolYear::createSchoolYear()
+void schoolYear::createSchoolYear(short& k)
 {
 	std::cin.ignore(); //remove enter
 	loadFile();
@@ -29,16 +32,25 @@ void schoolYear::createSchoolYear()
 	while (true)
 	{
 		system("cls");
+		drawTutorial(15, 2, 30, 23);
+		Tutorial();
 		showSchoolYear();
-		std::cout << "\n\n\t\tEnter new school year (e.g. 2022-2023): ";
-		std::cout << "\n\t\tOr press enter to go back:";
+		
+		std::cout << "\n"; gotox(mid - 41 / 2);
+		std::cout << "Enter new school year (e.g. 2022-2023): ";
+
+		std::cout << "\n"; gotox(mid - 41 / 2);
+		std::cout << "Or press enter to go back:";
 		std::string year; getline(std::cin, year);
-		if (year == "") ;
+
+		//if enter then return
+		if (year == "") return;
 
 		//checking condition
 		if (checkCorrectYear(year) == false) {
 			SetColor(7, 12);
-			std::cout << "\n\n\t\t       Please enter the valid year!\n";
+			std::cout << "\n\n"; gotox(mid - 29/2);
+			std::cout << "Please enter the valid year!";
 			SetColor(7, 0);
 
 			Sleep(2000);
@@ -51,7 +63,8 @@ void schoolYear::createSchoolYear()
 			//Check this is the newest year
 			if (year < pTailSchoolYear->getYear()) {
 				SetColor(7, 12);
-				std::cout << "\n\n\tThis year is not the newest one. Please enter the correct one!\n";
+				std::cout << "\n\n"; gotox(mid - 67 / 2);
+				std::cout << "This year is not the newest one. Please enter the correct one!";
 				SetColor(7, 0);
 
 				Sleep(2000);
@@ -90,6 +103,7 @@ void schoolYear::createSchoolYear()
 			SetColor(7, 2);
 			std::cout << "Created succesfully\n";
 			SetColor(7, 0);
+			k = 0;
 
 			system("pause");
 			return;
@@ -182,18 +196,21 @@ void schoolYear::deleteSchoolYear()
 
 void schoolYear::showSchoolYear()
 {
-	gotoxy(29, 3);
-	std::cout << "School Years' List\n";
-	std::cout << "\n\t\t+-------------------------------------------+";
-	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+	gotoxy(mid-20/2, 3); std::cout << "School Years' List";
+	gotoxy(mid - 46 / 2, 4);  std::cout << "+-------------------------------------------+";
+
+	short i = 5;
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext, i++)
 	{
-		std::cout << "\n\t\t|                 " << cur->getYear() << "                 |";
+		gotoxy(mid - 47 / 2, i); std::cout << "|                 " << cur->getYear() << "                 |";
 	}
-	std::cout << "\n\t\t+-------------------------------------------+";
+
+	gotoxy(mid - 47 / 2, i); std::cout << "+-------------------------------------------+";
+	i++;
 }
 
 //Choose schoolYear
-void schoolYear::chooseSchoolYear() {
+void schoolYear::chooseSchoolYear(short& k) {
 	std::string year;
 
 	system("cls");
@@ -201,8 +218,12 @@ void schoolYear::chooseSchoolYear() {
 
 	loadFile();
 	while (true) {
+		drawTutorial(15, 2, 30, 23);
+		Tutorial();
 		showSchoolYear();
-		std::cout << "\n\t\tPlease choose your school year (Press enter to go back): ";
+
+		std::cout << "\n"; gotox(mid - 58 / 2);
+		std::cout << "Please choose your school year (Press enter to go back): ";
 		getline(std::cin, year);
 
 		if (year == "") return;
@@ -210,23 +231,27 @@ void schoolYear::chooseSchoolYear() {
 		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
 			if (year == cur->getYear()) {
 				SetColor(7, 2);
-				std::cout << "\n\n\t\t              Found! Getting in";
+				std::cout << "\n\n"; gotox(mid - 18 / 2);
+				std::cout << "Found! Getting in";
 				SetColor(7, 0);
 
 				Sleep(2000);
 				curSchoolYear = cur;
+				k = 0;
 				return;
 			}
 		}
 
 		//False - warning
 		SetColor(7, 12);
-		std::cout << "\n\n\t\t          Please input correctly!";
+		std::cout << "\n\n"; gotox(mid - 24 / 2);
+		std::cout << "Please input correctly!";
 		SetColor(7, 0);
 
 		//Clear everything to show back
 		Sleep(2000);
 		system("cls");
+		
 	}
 }
 
