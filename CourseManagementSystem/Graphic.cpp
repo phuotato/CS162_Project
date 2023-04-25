@@ -16,22 +16,37 @@ void setcursor(bool visible, DWORD size) // set bool visible = 0 - invisible, bo
 
 void gotoxy(short a, short b) {
 	COORD coordinates{};
-	coordinates.X = a;
-	coordinates.Y = b;
+	coordinates = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+
+	//Format if the number is negative - then that position minus
+	if (a < 0) coordinates.X += a;
+	else coordinates.X = a;
+
+	if (b < 0) coordinates.Y += b;
+	else coordinates.Y = b;
+	
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 
 void gotox(short a) {
 	COORD coordinates{};
 	coordinates = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
-	coordinates.X = a;
+
+	//Format if the number is negative - then that position minus
+	if (a < 0) coordinates.X += a;
+	else coordinates.X = a;
+
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 
 void gotoy(short a) {
 	COORD coordinates{};
 	coordinates = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
-	coordinates.Y = a;
+
+	//Format if the number is negative - then that position minus
+	if (a < 0) coordinates.Y += a;
+	else coordinates.Y = a;
+
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 

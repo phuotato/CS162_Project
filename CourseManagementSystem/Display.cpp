@@ -47,9 +47,26 @@ void Tutorial() {
 	gotoxy(mid - 24 / 2, 10);
 	std::cout << "Press p - Previous Page";
 
-	gotoxy(mid - 20 / 2, 14);
-	std::cout << "(number) - Nth Page";
+	gotoxy(mid - 23 / 2, 14);
+	std::cout << "(Number) - Change List";
 
 	gotoxy(mid - 22 / 2, 18);
-	std::cout << "Press Enter - Go Back";
+	std::cout << "Press Enter - Confirm";
+}
+
+void Description(short range, short APages, short CPages, short Pcur) {
+	int mid = getMidColumns();
+	SetColor(7, 1);
+	gotox(mid - 12 / 2);
+	std::cout << "Pages: " << CPages << "/" << APages;
+	SetColor(7, 0);
+
+	gotoxy(mid - 44 / 2, -1);
+	if (Pcur % range == 0) std::cout << "Showing " << Pcur - (range-1) << "-" << Pcur;
+	else std::cout << "Showing " << Pcur - (Pcur%range) + 1 << "-" << Pcur;
+
+
+
+	gotox(mid + 44 / 2 - 7 - (range/10) - 1);
+	std::cout << "List: " << range;
 }

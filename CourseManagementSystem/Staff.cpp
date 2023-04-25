@@ -170,7 +170,7 @@ void BeginSchoolYear (bool& flag) {
         case 2: 
             system("cls");
             drawHeader();
-           pHeadClass->getOption();
+            pHeadClass->getOption();
         
             break;
         case 3: 
