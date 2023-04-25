@@ -14,7 +14,12 @@ public:
 	void deleteClass();
 	void LoadFile();
 	void addNewClass();
-	void showClassList();
+	int getAllClass();
+
+	//Function show for class
+	void showClassList(short range, short& Pcur);
+	void showP(short range, short& Pcur);
+	void showingList();
 
 	//Function for students
 	void getOption();		// option to add students

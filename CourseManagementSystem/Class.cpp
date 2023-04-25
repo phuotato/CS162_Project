@@ -5,11 +5,13 @@
 #include "Course.h"
 #include "Graphic.h"
 #include "Class.h"
+#include "Display.h"
 
 //Global variable
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
+extern Class* curClass;
 extern Class* pTailClass;
 extern int mid;
 
@@ -52,17 +54,14 @@ void Class::LoadFile()
 void Class::addNewClass() {
     bool flag = 0;
     system("cls");
-    std::string year;
+    std::cin.ignore();
+    std::string year = curSchoolYear->getYear();
 
     pHeadClass->LoadFile();
-    year = curSchoolYear->getYear();
-    SetColor(7, 9);
-    gotoxy(mid - 24 / 2, 2);
-    std::cout << "Current year: " << year << std::endl;
-    SetColor(7, 0);
-    showClassList();
 
     while (true) {
+
+        showingList();
 
         //Enter the class code
         std::cout << "\n"; gotox(mid - 62 / 2);
@@ -74,7 +73,6 @@ void Class::addNewClass() {
         std::cout << "\n"; gotox(mid - 62 / 2);
         std::cout << "Press enter to stop: ";
         std::string Name;  getline(std::cin, Name);
-        std::cin.ignore();
 
         //if enter then return
         if (Name == "") return;
@@ -210,7 +208,7 @@ std::string Class::getName() {
     return Name;
 }
 
-void Class::showClassList() {
+void Class::showClassList(short range, short& Pcur) {
     if (!pHeadClass) {
         SetColor(7, 12);
         std::cout << "\n"; gotox(mid - 29 / 2);
@@ -219,18 +217,204 @@ void Class::showClassList() {
         return;
     }
 
-    gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+\n";
-    for (Class* cur = pHeadClass; cur; cur = cur->pNext) {
+    short i = 5;
+    short k = 0;
+
+    gotoxy(mid - 46 / 2, 4); std::cout << "+-------------------------------------------+\n";
+    for (; curClass && k < range; curClass = curClass->pNext, i++, k++) {
         gotox(mid - 46 / 2);
         std::cout << "|                                           |";
-        gotox(mid - (cur->getName()).length() / 2);
-        std::cout << cur->getName() << "\n";
+        gotox(mid - (curClass->getName()).length() / 2);
+        std::cout << curClass->getName() << "\n";
+        Pcur++;
     }
 
     gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+\n";
+    std::cout << "+-------------------------------------------+";
 
+    std::cout << "\n"; gotox(mid - 46 / 2);
+    std::cout << "|                                           |";
+
+    std::cout << "\n"; gotox(mid - 46 / 2);
+    std::cout << "+-------------------------------------------+";
+
+}
+
+// Show classP
+void Class::showP(short range, short& Pcur) {
+    curClass = pHeadClass;
+
+    //Check if the last page
+    if (Pcur % range == 0) {
+        for (int i = 0; i < Pcur - range * 2; i++) curClass = curClass->pNext;
+        Pcur -= range * 2;
+    }
+    else {
+        for (int i = 0; i < Pcur - (Pcur % range) - range; i++) curClass = curClass->pNext;
+        Pcur += -(Pcur % range) - range;
+    }
+}
+
+//Get all class
+int Class::getAllClass() {
+    int i = 0;
+    for (Class* cur = pHeadClass; cur; cur = cur->pNext, i++);
+    return --i;
+}
+
+void Class::showingList() {
+    std::string displayk = "N";
+    short range = 5;
+    short Pcur = 0;
+    int APages = getAllClass() / range + 1;
+    curClass = pHeadClass;
+
+    system("cls");
+    while (true) {
+        std::string year;
+        year = curSchoolYear->getYear();
+
+        //Next page
+        if (displayk == "N" || displayk == "n") {
+            if (curClass == nullptr) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the last page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+            //Previous Page
+        else if (displayk == "P" || displayk == "p") {
+            if (Pcur <= range) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the first page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showP(range, Pcur);
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+        //Enter to confirm
+        else if (displayk == "") break;
+
+        //Number
+        else if (displayk[0] <= '9' && displayk[0] >= '0') {
+            int sample = stoi(displayk);
+            if (sample > 10 || sample < 5) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 42 / 2);
+                std::cout << "The range is too big or too small (5~10)!";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                //Reset everything
+                range = sample;
+                Pcur = 0;
+                curSchoolYear = pHeadSchoolYear;
+                APages = getAllClass() / range + 1;
+
+                //Draw again
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+
+        }
+        else {
+            SetColor(7, 12);
+            std::cout << "\n\n"; gotox(mid - 13 / 2);
+            std::cout << "Valid input!";
+            SetColor(7, 0);
+
+            Sleep(2000);
+
+            //Reset the command
+            gotox(mid - 47 / 2);
+            std::cout << "                                                          \r";
+            for (int i = 0; i < 3; i++) {
+                gotoxy(mid - 47 / 2, -1);
+                std::cout << "                                                          \r";
+            }
+
+            gotoxy(mid - 47 / 2, -2);
+        }
+
+        std::cout << "\n\n"; gotox(mid - 41 / 2);
+        std::cout << "Change Setting (command is in tutorial): ";
+        getline(std::cin, displayk);
+    }
 }
 
 //Function for students
