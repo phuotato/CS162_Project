@@ -204,10 +204,10 @@ void BeginSemester() {
         std::cin >> option;
 
         switch (option) {
-        case 1:
-            system("cls");
-            //pHeadSchoolYear->createSemester();
-            break;
+        //case 1:
+        //    system("cls");
+        //    //pHeadSchoolYear->createSemester();
+        //    break;
         case 11:
             system("cls");
             drawHeader();
