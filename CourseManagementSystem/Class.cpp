@@ -147,7 +147,7 @@ void Class::addNewClass() {
             fout << "First Name,";
             fout << "Gender,";
             fout << "Date of Birth,";
-            fout << "Social ID,";
+            fout << "Social ID" << "\n";
 
             fout.close();
         }
@@ -455,6 +455,7 @@ void Class::getOption()
 void Class::addStudentto1stClass_Console()
 {
     std::string classname;
+    system("cls");
     std::cout << "Input the classcode: ";
     std::cin.ignore();
     std::getline(std::cin, classname);
@@ -528,7 +529,7 @@ void Class::addStudentto1stClass_Console()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -579,18 +580,30 @@ bool Class::checkClassInfo(std::string classcode)
 }
 void Class::addStudentto1stClass_File()
 {
+    // this function is for updating the class
+
     // user input the link of the file
     std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): " << "\n";
     std::cout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1" << "\n";
+    std::cout << "\n";
+    std::cout << "Input the link here -> ";
     std::string fileName;
+    std::string directory;
     std::cin.ignore();
-    std::getline(std::cin, fileName);
-    std::ifstream read(fileName);
+    std::getline(std::cin, directory);
+    std::ifstream read(directory);
+    if (!read)
+    {
+        std::cout << "Error loading data! Please try again.";
+        return;
+    }
     std::ofstream write;
     std::string classcode;
     // Find the classcode
-    int pos = fileName.rfind('\\');
-    classcode = fileName.substr(pos + 1);
+    int pos = directory.rfind('\\');
+    fileName = directory.substr(pos + 1);
+    int tmp = fileName.find('.');
+    classcode = fileName.substr(0, tmp);
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
     {
@@ -602,23 +615,13 @@ void Class::addStudentto1stClass_File()
     if (!curClass)
     {
         std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
-        return;
-    }
-    if (!read)
-    {
-        std::cout << "Error loading data! Please try again.";
+        system("pause");
         return;
     }
     student* curStudent = curClass->headS;
-    if (checkClassInfo(classcode))
-    {
-        std::cout << "This file has been added before!" << "\n";
-        return;
-    }
-    write.open("../Data/Class/" + classcode + ".csv");  // will make a copy of this .csv to the Data folder
+    write.open("../Data/Class/" + classcode + ".csv", std::ios::app);  // will make a copy of this .csv to the Data folder
     std::string redundant;      // the first line of the csv file 
-    std::getline(fin, redundant);   
-    write << redundant << "\n";
+    std::getline(read, redundant);   
     int line = 2;
     bool state = true;
     student* tail = nullptr;
@@ -670,7 +673,7 @@ void Class::addStudentto1stClass_File()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -686,9 +689,9 @@ void Class::addStudentto1stClass_File()
     }
     read.close();
     write.close();
-    system("cls");
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
+    system("cls");
 }
 bool student::checkExistFile(std::string id)
 {
