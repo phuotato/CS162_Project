@@ -57,8 +57,6 @@ void Class::addNewClass() {
     std::cin.ignore();
     std::string year = curSchoolYear->getYear();
 
-    pHeadClass->LoadFile();
-
     while (true) {
 
         showingList();
@@ -456,7 +454,6 @@ void Class::getOption()
 }
 void Class::addStudentto1stClass_Console()
 {
-    // find existed students in the CSV file and show'em out
     std::string classname;
     std::cout << "Input the classcode: ";
     std::cin.ignore();
@@ -749,7 +746,7 @@ void Class::loadStudent()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -765,13 +762,8 @@ void Class::exportNewStudentProfile(std::string classcode, std::string id, std::
 {
     std::ofstream write;
     write.open("../Data/StudentProfile/" + id + ".txt");
-    write << id << "\n";
-    write << no << "\n";
-    write << firstname << "\n";
-    write << lastname << "\n";
-    write << day << " " << month << " " << year << "\n";
-    write << gender << "\n";
-    write << socialID;
+    write << no << "," << id << "," << firstname << "," << lastname << "," << gender << day << "/" << month << "/" << year << ",";
+    write << socialID << "," << classcode << "\n";
     write.close();
 
 }

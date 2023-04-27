@@ -147,7 +147,8 @@ void BeginSchoolYear (bool& flag) {
     system("mode con: cols=156 lines=80");
     mid = getMidColumns();
     int option;
-
+    pHeadClass->LoadFile();
+    pHeadClass->loadStudent();
     do {
         system("cls");
         drawHeader();
