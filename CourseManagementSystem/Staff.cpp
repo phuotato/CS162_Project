@@ -183,6 +183,11 @@ void BeginSchoolYear (bool& flag) {
             drawHeader();
             pStudent->viewProfile();
             break;
+        case 6:
+            system("cls");
+            drawHeader();
+            pHeadClass->viewStudentList();
+            break;
         case 7: 
             system("cls");
             drawHeader();
@@ -245,11 +250,12 @@ void BeginSemesterMenu() {
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 7. View student profile                          |";
     std::cout << "\n\t\t| 8. View a list of classes                        |";
-    std::cout << "\n\t\t| 9. View a list of courses                        |";
-    std::cout << "\n\t\t| 10. View a list of students in a course          |";
+    std::cout << "\n\t\t| 9: View a list of students in a class            |";
+    std::cout << "\n\t\t| 10. View a list of courses                       |";
+    std::cout << "\n\t\t| 11. View a list of students in a course          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 11. Change Password                              |";
-    std::cout << "\n\t\t| 12. Back                                         |";
+    std::cout << "\n\t\t| 12. Change Password                              |";
+    std::cout << "\n\t\t| 13. Back                                         |";
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t Enter your choice: ";
@@ -316,12 +322,20 @@ void BeginSemester() {
                     break;
                 }
                 break;
-            case 11:
+            case 7:
+                system("cls");
+                pStudent->viewProfile();
+                break;
+            case 9: 
+                system("cls");
+                pHeadClass->viewStudentList();
+                break;
+            case 12:
                 system("cls");
                 drawHeader();
                 changePassword(fin, fout);
                 break;
-            case 12:
+            case 13:
                 flag = 1;
                 break;
             case 0:
@@ -365,10 +379,11 @@ void EndSemesterMenu() {
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t| 8. View student profile                          |";
     std::cout << "\n\t\t| 9. View a list of classes                        |";
-    std::cout << "\n\t\t| 10. View a list of courses                       |";
-    std::cout << "\n\t\t| 11. View a list of students in a course          |";
+    std::cout << "\n\t\t| 10. View a list of student in a class            |";
+    std::cout << "\n\t\t| 11. View a list of courses                       |";
+    std::cout << "\n\t\t| 12. View a list of students in a course          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 12. Change Password                              |";
+    std::cout << "\n\t\t| 13. Change Password                              |";
     std::cout << "\n\t\t| 0. Exit                                          |";
     std::cout << "\n\t\t+--------------------------------------------------+";
     std::cout << "\n\t\t Enter your choice: ";
@@ -394,7 +409,15 @@ void EndSemester() {
         case 1:
             std::cout << "hi";
             break;
-        case 12:
+        case 8:
+            system("cls");
+            pStudent->viewProfile();
+            break;
+        case 10:
+            system("cls");
+            pHeadClass->viewStudentList();
+            break;
+        case 13:
             system("cls");
             drawHeader();
             changePassword(fin, fout);
