@@ -824,6 +824,11 @@ void student::viewProfile()
 void Class::sortStudentsLexicographically(std::string classcode)
 {
     Class* curClass = pHeadClass;
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classcode)
+            break;
+    }
     if (!curClass)
         return;
     student* curStudent = curClass->headS;
@@ -851,6 +856,28 @@ void Class::sortStudentsLexicographically(std::string classcode)
         curStudent = nextS;
     }
     curClass->headS = sortedList;
+}
+void Class::viewStudentList()
+{
+    std::cout << "Enter the class to see a list of students in that class: ";
+    std::string classcode;
+    std::getline(std::cin, classcode);
+    sortStudentsLexicographically(classcode);
+    Class* curClass = pHeadClass;
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classcode)
+            break;
+    }
+    student* curStudent = curClass->headS;
+    std::cout << "Student List: " << "\n";
+    int i = 1;
+    while (curStudent != nullptr)
+    {
+        std::cout << i << ". " << curStudent->getFirstName() << " " << curStudent->getLastName() << "\n";
+        ++i;
+        curStudent = curStudent->pNext;
+    }
 }
 void Class::deleteStudentList()
 {
