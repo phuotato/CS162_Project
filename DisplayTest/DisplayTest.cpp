@@ -13,6 +13,7 @@ struct studentScore {
 };
 
 void ImportScoreboard(studentScore*& hScore);
+void updateStudentResult(studentScore*& hScore);
 void ViewScoreboard(studentScore* hScore);
 void saveIndividualScore(studentScore* hScore);
 
@@ -20,7 +21,11 @@ int main() {
 	studentScore* hScore = nullptr;
     ImportScoreboard(hScore);
     ViewScoreboard(hScore);
-    saveIndividualScore(hScore);
+    cin.get();
+    system("cls");
+    updateStudentResult(hScore);
+    ViewScoreboard(hScore);
+    //saveIndividualScore(hScore);
 
 }
 
@@ -81,8 +86,37 @@ void ImportScoreboard(studentScore*& hScore)
     std::cout << "Import successful!\n";
 }
 
+void updateStudentResult(studentScore*& hScore)
+{
+    std::string studentID;
+    cout << "Enter student ID: ";
+    getline(cin, studentID, '\n');
+    studentScore* pCur = hScore;
+    while (pCur && pCur->studentID != studentID)
+        pCur = pCur->pNext;
+
+    if (!pCur)
+    {
+        std::cout << "Student not found!\n";
+        return;
+    }
+
+    std::cout << "Enter the updated scores for " << pCur->firstName << " " << pCur->lastName << " (student ID: " << pCur->studentID << ")\n";
+    std::cout << "Total Mark: ";
+    std::cin >> pCur->totalMark;
+    std::cout << "Final Mark: ";
+    std::cin >> pCur->finalMark;
+    std::cout << "Midterm Mark: ";
+    std::cin >> pCur->midtermMark;
+    std::cout << "Other Mark: ";
+    std::cin >> pCur->otherMark;
+
+    std::cout << "Scores updated successfully!\n";
+}
+
+
 void ViewScoreboard(studentScore* hScore) {
-    //system("cls");
+    system("cls");
     // Get the number of students
     int numStudents = 0;
     studentScore* currScore = hScore;
