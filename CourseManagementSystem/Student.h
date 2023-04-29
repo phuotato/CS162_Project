@@ -29,5 +29,13 @@ public:
 	{
 		return id;
 	}
+	std::string getFirstName()
+	{
+		return firstName;
+	}
+	std::string getLastName()
+	{
+		return lastName;
+	}
 };
 

@@ -308,13 +308,13 @@ void schoolYear::ShowingList() {
 
 				//Reset the command
 				gotox(mid - 47 / 2);
-				std::cout << "                                                  ";
-				for (int i = 0; i < 4; i++) {
-					std::cout << "                                                  ";
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
 					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
 				}
 
-				gotoxy(mid - 47 / 2, -1);
+				gotoxy(mid - 47 / 2, -2);
 
 			}
 			else {
@@ -327,7 +327,7 @@ void schoolYear::ShowingList() {
 		}
 		//Previous Page
 		else if (displayk == "P" || displayk == "p") {
-			if (Pcur == range) {
+			if (Pcur <= range) {
 				SetColor(7, 12);
 				std::cout << "\n\n"; gotox(mid - 25 / 2);
 				std::cout << "You are at the first page";
@@ -337,13 +337,13 @@ void schoolYear::ShowingList() {
 
 				//Reset the command
 				gotox(mid - 47 / 2);
-				std::cout << "                                                  ";
-				for (int i = 0; i < 4; i++) {
-					std::cout << "                                                  ";
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
 					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
 				}
 
-				gotoxy(mid - 47 / 2, -1);
+				gotoxy(mid - 47 / 2, -2);
 
 			}
 			else {
@@ -371,13 +371,13 @@ void schoolYear::ShowingList() {
 
 				//Reset the command
 				gotox(mid - 47 / 2);
-				std::cout << "                                                  ";
-				for (int i = 0; i < 4; i++) {
-					std::cout << "                                                  ";
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
 					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
 				}
 
-				gotoxy(mid - 47 / 2, -1);
+				gotoxy(mid - 47 / 2, -2);
 
 			}
 			else {
@@ -403,15 +403,16 @@ void schoolYear::ShowingList() {
 			SetColor(7, 0);
 
 			Sleep(2000);
+
 			//Reset the command
 			gotox(mid - 47 / 2);
-			std::cout << "                                                  ";
-			for (int i = 0; i < 4; i++) {
-				std::cout << "                                                  ";
+			std::cout << "                                                          \r";
+			for (int i = 0; i < 3; i++) {
 				gotoxy(mid - 47 / 2, -1);
+				std::cout << "                                                          \r";
 			}
 
-			gotoxy(mid - 47 / 2, -1);
+			gotoxy(mid - 47 / 2, -2);
 		}
 
 		std::cout << "\n\n"; gotox(mid - 41 / 2);

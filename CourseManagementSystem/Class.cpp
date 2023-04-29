@@ -5,11 +5,13 @@
 #include "Course.h"
 #include "Graphic.h"
 #include "Class.h"
+#include "Display.h"
 
 //Global variable
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
 extern Class* pHeadClass;
+extern Class* curClass;
 extern Class* pTailClass;
 extern int mid;
 
@@ -52,17 +54,12 @@ void Class::LoadFile()
 void Class::addNewClass() {
     bool flag = 0;
     system("cls");
-    std::string year;
-
-    pHeadClass->LoadFile();
-    year = curSchoolYear->getYear();
-    SetColor(7, 9);
-    gotoxy(mid - 24 / 2, 2);
-    std::cout << "Current year: " << year << std::endl;
-    SetColor(7, 0);
-    showClassList();
+    std::cin.ignore();
+    std::string year = curSchoolYear->getYear();
 
     while (true) {
+
+        showingList();
 
         //Enter the class code
         std::cout << "\n"; gotox(mid - 62 / 2);
@@ -74,7 +71,6 @@ void Class::addNewClass() {
         std::cout << "\n"; gotox(mid - 62 / 2);
         std::cout << "Press enter to stop: ";
         std::string Name;  getline(std::cin, Name);
-        std::cin.ignore();
 
         //if enter then return
         if (Name == "") return;
@@ -151,7 +147,7 @@ void Class::addNewClass() {
             fout << "First Name,";
             fout << "Gender,";
             fout << "Date of Birth,";
-            fout << "Social ID,";
+            fout << "Social ID" << "\n";
 
             fout.close();
         }
@@ -210,7 +206,7 @@ std::string Class::getName() {
     return Name;
 }
 
-void Class::showClassList() {
+void Class::showClassList(short range, short& Pcur) {
     if (!pHeadClass) {
         SetColor(7, 12);
         std::cout << "\n"; gotox(mid - 29 / 2);
@@ -219,18 +215,204 @@ void Class::showClassList() {
         return;
     }
 
-    gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+\n";
-    for (Class* cur = pHeadClass; cur; cur = cur->pNext) {
+    short i = 5;
+    short k = 0;
+
+    gotoxy(mid - 46 / 2, 4); std::cout << "+-------------------------------------------+\n";
+    for (; curClass && k < range; curClass = curClass->pNext, i++, k++) {
         gotox(mid - 46 / 2);
         std::cout << "|                                           |";
-        gotox(mid - (cur->getName()).length() / 2);
-        std::cout << cur->getName() << "\n";
+        gotox(mid - (curClass->getName()).length() / 2);
+        std::cout << curClass->getName() << "\n";
+        Pcur++;
     }
 
     gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+\n";
+    std::cout << "+-------------------------------------------+";
 
+    std::cout << "\n"; gotox(mid - 46 / 2);
+    std::cout << "|                                           |";
+
+    std::cout << "\n"; gotox(mid - 46 / 2);
+    std::cout << "+-------------------------------------------+";
+
+}
+
+// Show classP
+void Class::showP(short range, short& Pcur) {
+    curClass = pHeadClass;
+
+    //Check if the last page
+    if (Pcur % range == 0) {
+        for (int i = 0; i < Pcur - range * 2; i++) curClass = curClass->pNext;
+        Pcur -= range * 2;
+    }
+    else {
+        for (int i = 0; i < Pcur - (Pcur % range) - range; i++) curClass = curClass->pNext;
+        Pcur += -(Pcur % range) - range;
+    }
+}
+
+//Get all class
+int Class::getAllClass() {
+    int i = 0;
+    for (Class* cur = pHeadClass; cur; cur = cur->pNext, i++);
+    return --i;
+}
+
+void Class::showingList() {
+    std::string displayk = "N";
+    short range = 5;
+    short Pcur = 0;
+    int APages = getAllClass() / range + 1;
+    curClass = pHeadClass;
+
+    system("cls");
+    while (true) {
+        std::string year;
+        year = curSchoolYear->getYear();
+
+        //Next page
+        if (displayk == "N" || displayk == "n") {
+            if (curClass == nullptr) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the last page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+            //Previous Page
+        else if (displayk == "P" || displayk == "p") {
+            if (Pcur <= range) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the first page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showP(range, Pcur);
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+        //Enter to confirm
+        else if (displayk == "") break;
+
+        //Number
+        else if (displayk[0] <= '9' && displayk[0] >= '0') {
+            int sample = stoi(displayk);
+            if (sample > 10 || sample < 5) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 42 / 2);
+                std::cout << "The range is too big or too small (5~10)!";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                //Reset everything
+                range = sample;
+                Pcur = 0;
+                curSchoolYear = pHeadSchoolYear;
+                APages = getAllClass() / range + 1;
+
+                //Draw again
+                system("cls");
+                drawTutorial(15, 2, 30, 23);
+                Tutorial();
+
+                SetColor(7, 9);
+                gotoxy(mid - 24 / 2, 2);
+                std::cout << "Current year: " << year << std::endl;
+                SetColor(7, 0);
+
+                showClassList(range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+
+        }
+        else {
+            SetColor(7, 12);
+            std::cout << "\n\n"; gotox(mid - 13 / 2);
+            std::cout << "Valid input!";
+            SetColor(7, 0);
+
+            Sleep(2000);
+
+            //Reset the command
+            gotox(mid - 47 / 2);
+            std::cout << "                                                          \r";
+            for (int i = 0; i < 3; i++) {
+                gotoxy(mid - 47 / 2, -1);
+                std::cout << "                                                          \r";
+            }
+
+            gotoxy(mid - 47 / 2, -2);
+        }
+
+        std::cout << "\n\n"; gotox(mid - 41 / 2);
+        std::cout << "Change Setting (command is in tutorial): ";
+        getline(std::cin, displayk);
+    }
 }
 
 //Function for students
@@ -272,8 +454,8 @@ void Class::getOption()
 }
 void Class::addStudentto1stClass_Console()
 {
-    // find existed students in the CSV file and show'em out
     std::string classname;
+    system("cls");
     std::cout << "Input the classcode: ";
     std::cin.ignore();
     std::getline(std::cin, classname);
@@ -347,7 +529,7 @@ void Class::addStudentto1stClass_Console()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -398,18 +580,30 @@ bool Class::checkClassInfo(std::string classcode)
 }
 void Class::addStudentto1stClass_File()
 {
+    // this function is for updating the class
+
     // user input the link of the file
     std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): " << "\n";
     std::cout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1" << "\n";
+    std::cout << "\n";
+    std::cout << "Input the link here -> ";
     std::string fileName;
+    std::string directory;
     std::cin.ignore();
-    std::getline(std::cin, fileName);
-    std::ifstream read(fileName);
+    std::getline(std::cin, directory);
+    std::ifstream read(directory);
+    if (!read)
+    {
+        std::cout << "Error loading data! Please try again.";
+        return;
+    }
     std::ofstream write;
     std::string classcode;
     // Find the classcode
-    int pos = fileName.rfind('\\');
-    classcode = fileName.substr(pos + 1);
+    int pos = directory.rfind('\\');
+    fileName = directory.substr(pos + 1);
+    int tmp = fileName.find('.');
+    classcode = fileName.substr(0, tmp);
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
     {
@@ -421,23 +615,13 @@ void Class::addStudentto1stClass_File()
     if (!curClass)
     {
         std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
-        return;
-    }
-    if (!read)
-    {
-        std::cout << "Error loading data! Please try again.";
+        system("pause");
         return;
     }
     student* curStudent = curClass->headS;
-    if (checkClassInfo(classcode))
-    {
-        std::cout << "This file has been added before!" << "\n";
-        return;
-    }
-    write.open("../Data/Class/" + classcode + ".csv");  // will make a copy of this .csv to the Data folder
+    write.open("../Data/Class/" + classcode + ".csv", std::ios::app);  // will make a copy of this .csv to the Data folder
     std::string redundant;      // the first line of the csv file 
-    std::getline(fin, redundant);   
-    write << redundant << "\n";
+    std::getline(read, redundant);   
     int line = 2;
     bool state = true;
     student* tail = nullptr;
@@ -489,7 +673,7 @@ void Class::addStudentto1stClass_File()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -505,9 +689,9 @@ void Class::addStudentto1stClass_File()
     }
     read.close();
     write.close();
-    system("cls");
     std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
     system("pause");
+    system("cls");
 }
 bool student::checkExistFile(std::string id)
 {
@@ -565,7 +749,7 @@ void Class::loadStudent()
             if (curClass->headS == nullptr)
             {
                 curClass->headS = newStudent;
-                curStudent = headS;
+                curStudent = curClass->headS;
             }
             else
             {
@@ -581,13 +765,8 @@ void Class::exportNewStudentProfile(std::string classcode, std::string id, std::
 {
     std::ofstream write;
     write.open("../Data/StudentProfile/" + id + ".txt");
-    write << id << "\n";
-    write << no << "\n";
-    write << firstname << "\n";
-    write << lastname << "\n";
-    write << day << " " << month << " " << year << "\n";
-    write << gender << "\n";
-    write << socialID;
+    write << no << "," << id << "," << firstname << "," << lastname << "," << gender << day << "/" << month << "/" << year << ",";
+    write << socialID << "," << classcode << "\n";
     write.close();
 
 }
@@ -645,6 +824,11 @@ void student::viewProfile()
 void Class::sortStudentsLexicographically(std::string classcode)
 {
     Class* curClass = pHeadClass;
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classcode)
+            break;
+    }
     if (!curClass)
         return;
     student* curStudent = curClass->headS;
@@ -672,6 +856,28 @@ void Class::sortStudentsLexicographically(std::string classcode)
         curStudent = nextS;
     }
     curClass->headS = sortedList;
+}
+void Class::viewStudentList()
+{
+    std::cout << "Enter the class to see a list of students in that class: ";
+    std::string classcode;
+    std::getline(std::cin, classcode);
+    sortStudentsLexicographically(classcode);
+    Class* curClass = pHeadClass;
+    for (curClass; curClass != nullptr; curClass = curClass->pNext)
+    {
+        if (curClass->Name == classcode)
+            break;
+    }
+    student* curStudent = curClass->headS;
+    std::cout << "Student List: " << "\n";
+    int i = 1;
+    while (curStudent != nullptr)
+    {
+        std::cout << i << ". " << curStudent->getFirstName() << " " << curStudent->getLastName() << "\n";
+        ++i;
+        curStudent = curStudent->pNext;
+    }
 }
 void Class::deleteStudentList()
 {
