@@ -832,8 +832,6 @@ void Class::sortStudentsLexicographically(std::string classcode)
     if (!curClass)
         return;
     student* curStudent = curClass->headS;
-    if (!curStudent)
-        return;
     student* sortedList = nullptr;
     while (curStudent != nullptr)
     {
@@ -861,6 +859,7 @@ void Class::viewStudentList()
 {
     std::cout << "Enter the class to see a list of students in that class: ";
     std::string classcode;
+    std::cin.ignore();
     std::getline(std::cin, classcode);
     sortStudentsLexicographically(classcode);
     Class* curClass = pHeadClass;
@@ -868,6 +867,11 @@ void Class::viewStudentList()
     {
         if (curClass->Name == classcode)
             break;
+    }
+    if (!curClass)
+    {
+        std::cout << "Class Not Found!";
+        return;
     }
     student* curStudent = curClass->headS;
     std::cout << "Student List: " << "\n";
@@ -878,6 +882,7 @@ void Class::viewStudentList()
         ++i;
         curStudent = curStudent->pNext;
     }
+    system("pause");
 }
 void Class::deleteStudentList()
 {
