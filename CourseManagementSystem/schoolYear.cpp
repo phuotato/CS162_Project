@@ -235,7 +235,7 @@ void schoolYear::chooseSchoolYear(short& k) {
 				std::cout << "Found! Getting in";
 				SetColor(7, 0);
 
-				Sleep(2000);
+				Sleep(250);
 				curSchoolYear = cur;
 				k = 0;
 				return;
@@ -249,7 +249,7 @@ void schoolYear::chooseSchoolYear(short& k) {
 		SetColor(7, 0);
 
 		//Clear everything to show back
-		Sleep(2000);
+		Sleep(250);
 		system("cls");
 		
 	}
@@ -443,7 +443,7 @@ bool schoolYear::showSemester()
 				std::cout << "\n\n\t\t              Found! Getting in";
 				SetColor(7, 0);
 
-				Sleep(2000);
+				Sleep(500);
 				curSemester = cur;
 				return 1;
 			}
@@ -455,7 +455,7 @@ bool schoolYear::showSemester()
 		SetColor(7, 0);
 
 		//Clear everything to show back
-		Sleep(2000);
+		Sleep(500);
 		system("cls");
 	}
 }
