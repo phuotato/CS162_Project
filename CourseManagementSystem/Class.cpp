@@ -59,6 +59,7 @@ void Class::addNewClass() {
 
     while (true) {
 
+        //Display pages
         showingList();
 
         //Enter the class code

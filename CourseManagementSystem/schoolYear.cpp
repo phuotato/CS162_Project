@@ -32,6 +32,7 @@ void schoolYear::createSchoolYear(short& k)
 
 	while (true)
 	{
+		//Display pages
 		ShowingList();
 		
 		gotoxy(mid - 41 / 2, -1);
@@ -243,6 +244,7 @@ void schoolYear::chooseSchoolYear(short& k) {
 
 	loadFile();
 	while (true) {
+		//Display Pages
 		ShowingList();
 
 		std::cout << "\n"; gotox(mid - 58 / 2);
