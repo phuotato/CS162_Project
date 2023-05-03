@@ -49,7 +49,7 @@ void semester::addCourse()
 			pTailCourse = pHeadCourse;
 		}
 		// save course ID to textfile
-		fout.open("../Data/School Year/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
+		fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
 		if (!fout.is_open())
 			std::cout << "Khong the mo";
 		else
@@ -64,8 +64,8 @@ void semester::addCourse()
 void semester::saveCoursetoFolder(std::string& name, std::string& id, std::string& className, std::string& lecturer, int& credit, int& maxStudent, std::string& weekDay, int& session, std::string& year, std::string& semester)
 {
 	std::ofstream fout;
-	if (_mkdir(("../Data/School Year/" + year + "/Sem" + semester + "/" + id).c_str()));	// create course folder
-	fout.open("../Data/School Year/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::app);
+	if (_mkdir(("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id).c_str()));	// create course folder
+	fout.open("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::app);
 	if (!fout.is_open())
 	{
 		std::cout << "Khong the mo";
@@ -142,7 +142,7 @@ bool semester::showCourse()
 }
 void semester::loadCourse()
 {
-	std::ifstream fin ("../Data/School Year/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt");
+	std::ifstream fin ("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt");
 	if (!fin.is_open())
 		std::cout << "Khong the mo";
 	else
@@ -151,7 +151,7 @@ void semester::loadCourse()
 		{
 			std::string Id;
 			getline(fin, Id);
-			std::ifstream read("../Data/School Year/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + Id + "/information.txt");
+			std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + Id + "/information.txt");
 			if (!read.is_open())
 				std::cout << "Khong the mo";
 			else
