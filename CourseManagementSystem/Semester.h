@@ -8,6 +8,7 @@ public:
 	semester(int Sem, std::string StartDate, std::string EndDate );
 	semester();
 	int getSem();
+	int sem;
 	semester* pNext=nullptr;
 	void getInformation();
 
@@ -19,7 +20,6 @@ public:
 private:
 	std::string startDate; 
 	std::string endDate;
-	int sem;
 
 	//Course pointer
 	course* pHeadCourse = nullptr;

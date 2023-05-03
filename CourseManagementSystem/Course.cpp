@@ -1,10 +1,17 @@
 #include "Course.h"
+#include "schoolYear.h"
 #include <fstream>
 #include <direct.h>
 #include <string>
+
+//global variable
+extern schoolYear* curSchoolYear;
+extern semester* curSemester;
+
 //Constructor
 course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
     :id(id), name(name), className(className), lecturer(lecturer), credit(credit), maxStudent(maxStudent), weekDay(weekDay), session(session) {};
+
 void course::ExportClass()
 {
     std::ofstream fout;
@@ -84,6 +91,102 @@ void course::ImportScoreboard()
 
     fin.close();
     std::cout << "Import successful!\n";
+}
+
+void course::updateStudentResult()
+{
+    std::string studentID;
+    std::cout << "Enter student ID: ";
+    getline(std::cin, studentID, '\n');
+    studentScore* pCur = hScore;
+    while (pCur && pCur->studentID != studentID)
+        pCur = pCur->pNext;
+
+    if (!pCur)
+    {
+        std::cout << "Student not found!\n";
+        return;
+    }
+
+    std::cout << "Enter the updated scores for " << pCur->firstName << " " << pCur->lastName << " (student ID: " << pCur->studentID << ")\n";
+    std::cout << "Total Mark: ";
+    std::cin >> pCur->totalMark;
+    std::cout << "Final Mark: ";
+    std::cin >> pCur->finalMark;
+    std::cout << "Midterm Mark: ";
+    std::cin >> pCur->midtermMark;
+    std::cout << "Other Mark: ";
+    std::cin >> pCur->otherMark;
+
+    std::cout << "Scores updated successfully!\n";
+}
+
+
+void course::ViewScoreboard() {
+    system("cls");
+    // Get the number of students
+    int numStudents = 0;
+    studentScore* currScore = hScore;
+    while (currScore != nullptr) {
+        numStudents++;
+        currScore = currScore->pNext;
+    }
+
+    // Draw a box around the entire scoreboard
+    drawBox(1, 1, 94, numStudents + 7);
+
+    // Print the header row
+    drawBox(2, 2, 90, 3);
+    gotoxy(4, 3);
+    std::cout << std::left << std::setw(10) << "No."
+        << std::setw(12) << "ID"
+        << std::setw(20) << "Name"
+        << std::setw(12) << "Total"
+        << std::setw(12) << "Final"
+        << std::setw(12) << "Midterm"
+        << std::setw(12) << "Other";
+
+    // Iterate over the linked list and print each student's data
+    currScore = hScore;
+    int row = 5; // start at row 5
+    int no = 1;
+    while (currScore != nullptr) {
+        // Print the row number
+        gotoxy(4, row);
+        std::cout << std::left << std::setw(10) << no;
+
+        // Print the student data
+        std::cout << std::setw(12) << currScore->studentID
+            << std::setw(20) << currScore->firstName + " " + currScore->lastName
+            << std::setw(12) << currScore->totalMark
+            << std::setw(12) << currScore->finalMark
+            << std::setw(12) << currScore->midtermMark
+            << std::setw(12) << currScore->otherMark;
+
+        currScore = currScore->pNext;
+        row++;
+        no++;
+    }
+
+    // Draw a box around the bottom of the scoreboard
+    drawBox(2, row, 90, 3);
+}
+
+void course::saveIndividualScore() {
+    // Iterate over the linked list of students
+    studentScore* currScore = hScore;
+    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
+    fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
+    while (currScore != nullptr) {
+        fout << currScore->totalMark << ","
+            << currScore->finalMark << ","
+            << currScore->midtermMark << ","
+            << currScore->otherMark << "\n";
+        fout.close();
+        currScore = currScore->pNext;
+    }
+
+    std::cout << "\n\t\tSaving successful!\n";
 }
 
 void course::updateCourse()

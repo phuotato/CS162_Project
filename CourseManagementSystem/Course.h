@@ -1,5 +1,6 @@
 #pragma once
 #include "Universal.h"
+#include "Graphic.h"
 class course
 {
 private:
@@ -20,8 +21,12 @@ public:
 	course* pNext = nullptr;
 
 	//function
+	
+	void updateCourse();
 	void ExportClass();
 	void ImportScoreboard();
-	void ViewScoreBoard();
-	void updateCourse();
+	void updateStudentResult();
+	void ViewScoreboard();
+	void saveIndividualScore();
+
 };

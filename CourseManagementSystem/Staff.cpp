@@ -17,6 +17,8 @@ extern Class* pHeadClass;
 extern Class* pTailClass;
 extern course* curCourse;
 extern int mid;
+
+
 void BeginSemester();
 void CreateSchoolYearMenu() {
     drawHeader();
@@ -268,7 +270,7 @@ void BeginSemester() {
     GetWindowRect(console, &r);
 
     // Move console window to center of the screen
-    system("mode con: cols=80 lines=80");
+    system("mode con: cols=156 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option, choice;
     do
