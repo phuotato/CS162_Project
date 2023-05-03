@@ -27,7 +27,8 @@ public:
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dob(day, month, year), socialId(socialId), pNext(pointer) {}
 	// Function
-	void viewProfile();
+	void viewProfile_Staff();
+	void viewProfile_Student(std::string username);
 	bool checkExistFile(std::string id);
 
 	std::string getStudentID()
