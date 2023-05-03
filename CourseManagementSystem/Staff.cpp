@@ -324,6 +324,51 @@ void BeginSemester() {
                     break;
                 }
                 break;
+            case 3:
+                std::cin.ignore();
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->showCourse())
+                        curCourse->addStudentMenu();
+                    else
+                        break;
+                }
+                break;
+            case 5:
+                std::cin.ignore();
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->showCourse())
+                        curSemester->deleteCourse();
+                    else
+                        break;
+                }
+                break;
+            case 9:
+                std::cin.ignore();
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->showCourse())
+                        curCourse->showInfo();
+                    else
+                        break;
+                }
+                break;
+            case 10:
+                std::cin.ignore();
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->showCourse())
+                        curCourse->showStudent();
+                    else
+                        break;
+                }
+                break;
+            case 11:
             case 7:
                 system("cls");
                 pStudent->viewProfile();

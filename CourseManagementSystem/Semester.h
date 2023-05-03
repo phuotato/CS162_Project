@@ -15,14 +15,16 @@ public:
 	//Course function
 	bool showCourse();
 	void addCourse();
+	void deleteCourse();
 	void saveCoursetoFolder(std::string& name, std::string& id, std::string& className, std::string& lecturer, int& credit, int& maxStudent, std::string& weekDay, int& session, std::string& year, std::string& semester);
 	void loadCourse();
-private:
-	std::string startDate; 
-	std::string endDate;
 
 	//Course pointer
 	course* pHeadCourse = nullptr;
 	course* pTailCourse = nullptr;
+private:
+	std::string startDate; 
+	std::string endDate;
+
 };
 

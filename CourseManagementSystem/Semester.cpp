@@ -104,9 +104,13 @@ bool semester::showCourse()
 			gotoxy(50, 3);				//show all course in semester
 			std::cout << "Courses's list\n";
 			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
+			int x = 0;
 			for (course* cur = pHeadCourse; cur; cur = cur->pNext)
 			{
-				std::cout << "\n\t\t|                 " << cur->name << "(" << cur->id << ")" << "                 |";
+				gotoxy(16, 6 + x); std::cout << "|";
+				gotoxy(34, 6 + x); std::cout << cur->name << "(" << cur->id << ")";
+				gotoxy(93, 6 + x); std::cout << "|";
+				++x;
 			}
 			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
 			std::cout << "\n\t\tPlease choose your course's id (Press enter to go back): ";
@@ -119,7 +123,7 @@ bool semester::showCourse()
 					std::cout << "\n\n\t\t              Found! Getting in";
 					SetColor(7, 0);
 
-					Sleep(1000);
+					Sleep(500);
 					curCourse = cur;
 					return 1;
 				}
@@ -131,7 +135,7 @@ bool semester::showCourse()
 			SetColor(7, 0);
 
 			//Clear everything to show back
-			Sleep(2000);
+			Sleep(500);
 			system("cls");
 		}
 	}
@@ -172,5 +176,27 @@ void semester::loadCourse()
 			}
 			read.close();
 		}
+	}
+}
+
+void semester::deleteCourse()
+{
+	if (pHeadCourse == curCourse)
+	{
+		pHeadCourse = pHeadCourse->pNext;
+		if (!pHeadCourse)
+			pTailCourse = pHeadCourse;
+		delete curCourse;
+	}
+	for (course* tmp = pHeadCourse; tmp->pNext; )
+	{
+		if (tmp->pNext == curCourse)
+		{
+			tmp->pNext = tmp->pNext->pNext;
+			if (!tmp->pNext)
+				pTailCourse = tmp;
+			delete curCourse;
+		}
+
 	}
 }
