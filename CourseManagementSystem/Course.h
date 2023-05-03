@@ -24,10 +24,8 @@ public:
 	student* pTailStudent = nullptr;
 	//function
 	
-	void updateCourse();
 	void ExportClass();
 	void ImportScoreboard();
-	void ViewScoreBoard();
 	void updateCourse();
 	void addStudentMenu();
 	void addStudent(int choice);

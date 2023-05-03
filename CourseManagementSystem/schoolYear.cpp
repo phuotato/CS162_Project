@@ -72,14 +72,14 @@ void schoolYear::createSchoolYear(short& k)
 				continue;
 			}
 			//Create a new schoolyear and store in linked list
-			fout.open("../Data/School Year/all school year.txt", std::ios::app);				//Open file stored all year of school
+			fout.open("../Data/SchoolYear/all school year.txt", std::ios::app);				//Open file stored all year of school
 			fout << std::endl;
 			fout << year;			//Write down the schoolyear
 			fout.close();
 
 			//Check folder and write down information for the schoolyear
-			if (_mkdir(("../Data/School Year/" + year).c_str()));
-			fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);
+			if (_mkdir(("../Data/SchoolYear/" + year).c_str()));
+			fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);
 			fout.close();
 
 			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
@@ -461,7 +461,7 @@ bool schoolYear::createSemester()
 			}
 			break;
 		}
-		fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
+		fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
 		fout << "Semester " << x << std::endl;														//Write down the semester
 		fout.close();
 		std::cout << "Enter the start date: ";
@@ -481,8 +481,8 @@ bool schoolYear::createSemester()
 		getline(std::cin, EndDate);
 		std::string sem;
 		sem += x;
-		if (_mkdir(("../Data/School Year/" + year + "/Sem" + sem).c_str()));
-		fout.open("../Data/School Year/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
+		if (_mkdir(("../Data/SchoolYear/" + year + "/Sem" + sem).c_str()));
+		fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
 		fout << x <<"," << StartDate << "," << EndDate << std::endl;							//Write down the semester
 		fout.close();
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
@@ -514,7 +514,7 @@ bool schoolYear::createSemester()
 }
 void schoolYear::loadFile(std::string year)
 {
-	fin.open("../Data/School Year/" + year + "/all semester.txt", std::ios::in);
+	fin.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::in);
 	while (!fin.eof())
 	{
 		std::string sem,startDate, endDate, redundant;

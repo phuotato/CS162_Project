@@ -335,6 +335,8 @@ void BeginSemester() {
                         break;
                 }
                 break;
+            case 4:
+                //remove student in course
             case 5:
                 std::cin.ignore();
                 while (true)
@@ -346,16 +348,17 @@ void BeginSemester() {
                         break;
                 }
                 break;
+            case 6:
+                //End semester (add score)
+            case 7:
+                system("cls");
+                pStudent->viewProfile();
+                break;
+            case 8:
+                //Show list of class
             case 9:
-                std::cin.ignore();
-                while (true)
-                {
-                    system("cls");
-                    if (curSemester->showCourse())
-                        curCourse->showInfo();
-                    else
-                        break;
-                }
+                system("cls");
+                pHeadClass->viewStudentList();
                 break;
             case 10:
                 std::cin.ignore();
@@ -369,14 +372,15 @@ void BeginSemester() {
                 }
                 break;
             case 11:
-            case 7:
-                system("cls");
-                pStudent->viewProfile();
-                break;
-            case 9: 
-                system("cls");
-                pHeadClass->viewStudentList();
-                break;
+                std::cin.ignore();
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->showCourse())
+                        curCourse->showInfo();
+                    else
+                        break;
+                }
             case 12:
                 system("cls");
                 drawHeader();
