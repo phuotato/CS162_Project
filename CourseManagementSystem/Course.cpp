@@ -176,7 +176,7 @@ void course::ViewScoreboard() {
 void course::saveIndividualScore() {
     // Iterate over the linked list of students
     studentScore* currScore = hScore;
-    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
+    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
     fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
     while (currScore != nullptr) {
         fout << currScore->totalMark << ","
