@@ -30,7 +30,8 @@ public:
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dat(dob), socialId(socialId){}
 	// Function
-	void viewProfile();
+	void viewProfile_Staff();
+	void viewProfile_Student(std::string username);
 	bool checkExistFile(std::string id);
 
 	std::string getStudentID()
