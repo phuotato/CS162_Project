@@ -13,6 +13,7 @@ public:
 
 	//Get attribute
 	std::string getYear();
+	int getAllSchoolYear();
 
 	//Functions
 	//Create function
@@ -36,7 +37,9 @@ public:
 	void deleteSchoolYear();
 
 	//Show SchoolYear
-	void showSchoolYear();
+	void showSchoolYearAll(short range, short& Pcur);
+	void showP(short range, short& Pcur);
+	void ShowingList();
 
 	//Show semester
 	bool showSemester();

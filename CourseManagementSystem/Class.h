@@ -14,7 +14,12 @@ public:
 	void deleteClass();
 	void LoadFile();
 	void addNewClass();
-	void showClassList();
+	int getAllClass();
+
+	//Function show for class
+	void showClassList(short range, short& Pcur);
+	void showP(short range, short& Pcur);
+	void showingList();
 
 	//Function for students
 	void getOption();		// option to add students
@@ -23,12 +28,13 @@ public:
 	void exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID);
 	void addStudentto1stClass_File();
 	void loadStudent();
-	bool checkClassInfo(std::string classcode);
 	void sortStudentsLexicographically(std::string classcode);
+	void viewStudentList();
 
 	//Minor function
 	bool CheckClasses(std::string curName);
 	bool checkExistClass(std::string Name);
+	bool checkClassInfo(std::string classcode);
 
 	//Pointer
 	Class* pNext = nullptr;

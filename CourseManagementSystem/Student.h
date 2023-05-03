@@ -2,6 +2,11 @@
 #include "Universal.h"
 #include "Date.h"
 
+//std::ifstream Classin("Data/Class");
+//std::ifstream Processin("Data/schoolYear/
+
+
+
 class student
 {
 private:

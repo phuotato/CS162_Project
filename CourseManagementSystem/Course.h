@@ -1,5 +1,6 @@
 #pragma once
 #include "Universal.h"
+#include "Graphic.h"
 #include "Student.h"
 class course
 {
@@ -22,6 +23,8 @@ public:
 	student* pHeadStudent = nullptr;
 	student* pTailStudent = nullptr;
 	//function
+	
+	void updateCourse();
 	void ExportClass();
 	void ImportScoreboard();
 	void ViewScoreBoard();
@@ -30,6 +33,10 @@ public:
 	void addStudent(int choice);
 	void showStudent();
 	void showInfo();
+	void updateStudentResult();
+	void ViewScoreboard();
+	void saveIndividualScore();
+
 };
 
 int compareString(std::string a, std::string b, std::string c, std::string d);

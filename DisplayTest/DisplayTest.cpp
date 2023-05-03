@@ -13,20 +13,26 @@ struct studentScore {
 };
 
 void ImportScoreboard(studentScore*& hScore);
+void updateStudentResult(studentScore*& hScore);
 void ViewScoreboard(studentScore* hScore);
-void viewScoreboard2(studentScore* hScore);
+void saveIndividualScore(studentScore* hScore);
 
 int main() {
 	studentScore* hScore = nullptr;
     ImportScoreboard(hScore);
     ViewScoreboard(hScore);
-    //viewScoreboard2(hScore);
+    cin.get();
+    system("cls");
+    updateStudentResult(hScore);
+    ViewScoreboard(hScore);
+    //saveIndividualScore(hScore);
+
 }
 
 
 void ImportScoreboard(studentScore*& hScore)
 {
-    std::ifstream fin("../Scoreboard/PH212_22TT2_scoreboard.csv");
+    std::ifstream fin("../InputFile/PH212_22TT2_scoreboard.csv");
     if (!fin)
     {
         std::cout << "Error loading file! Please try again.";
@@ -80,8 +86,37 @@ void ImportScoreboard(studentScore*& hScore)
     std::cout << "Import successful!\n";
 }
 
+void updateStudentResult(studentScore*& hScore)
+{
+    std::string studentID;
+    cout << "Enter student ID: ";
+    getline(cin, studentID, '\n');
+    studentScore* pCur = hScore;
+    while (pCur && pCur->studentID != studentID)
+        pCur = pCur->pNext;
+
+    if (!pCur)
+    {
+        std::cout << "Student not found!\n";
+        return;
+    }
+
+    std::cout << "Enter the updated scores for " << pCur->firstName << " " << pCur->lastName << " (student ID: " << pCur->studentID << ")\n";
+    std::cout << "Total Mark: ";
+    std::cin >> pCur->totalMark;
+    std::cout << "Final Mark: ";
+    std::cin >> pCur->finalMark;
+    std::cout << "Midterm Mark: ";
+    std::cin >> pCur->midtermMark;
+    std::cout << "Other Mark: ";
+    std::cin >> pCur->otherMark;
+
+    std::cout << "Scores updated successfully!\n";
+}
+
+
 void ViewScoreboard(studentScore* hScore) {
-    //system("cls");
+    system("cls");
     // Get the number of students
     int numStudents = 0;
     studentScore* currScore = hScore;
@@ -129,56 +164,21 @@ void ViewScoreboard(studentScore* hScore) {
     // Draw a box around the bottom of the scoreboard
     drawBox(2, row, 90, 3);
 }
+void saveIndividualScore(studentScore* hScore) {
+    // Iterate over the linked list of students
+    studentScore* currScore = hScore;
+    while (currScore != nullptr) {
+        std::ofstream fout("../Data/StudentProfile/" + currScore->studentID + ".csv", fstream::app);
 
-void viewScoreboard2(studentScore* hScore) {
-    const int numColumns = 8;
-    const int columnWidth = 12;
-
-    // Calculate the total width of the table
-    int tableWidth = numColumns * columnWidth + (numColumns + 1) * 2;
-
-    // Draw the table header
-    drawBox(2, 2, tableWidth, 3);
-    gotoxy(4, 3);
-    std::cout << "No.";
-    gotoxy(8, 3);
-    std::cout << "Student ID";
-    gotoxy(22, 3);
-    std::cout << "First Name";
-    gotoxy(36, 3);
-    std::cout << "Last Name";
-    gotoxy(50, 3);
-    std::cout << "Total Mark";
-    gotoxy(64, 3);
-    std::cout << "Final Mark";
-    gotoxy(78, 3);
-    std::cout << "Midterm Mark";
-    gotoxy(92, 3);
-    std::cout << "Other Mark";
-
-    // Draw the table rows
-    int row = 4;
-    int count = 1;
-    studentScore* pCurrent = hScore;
-    while (pCurrent != nullptr) {
-        drawBox(2, row, tableWidth, 1);
-        gotoxy(4, row);
-        std::cout << count++;
-        gotoxy(8, row);
-        std::cout << pCurrent->studentID;
-        gotoxy(22, row);
-        std::cout << pCurrent->firstName;
-        gotoxy(36, row);
-        std::cout << pCurrent->lastName;
-        gotoxy(50, row);
-        std::cout << pCurrent->totalMark;
-        gotoxy(64, row);
-        std::cout << pCurrent->finalMark;
-        gotoxy(78, row);
-        std::cout << pCurrent->midtermMark;
-        gotoxy(92, row);
-        std::cout << pCurrent->otherMark;
-        pCurrent = pCurrent->pNext;
-        row++;
+        //fout << "Course ID,Year,Semester,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
+        fout <<  "PH212, 2022, 2,"
+            << currScore->totalMark << ","
+            << currScore->finalMark << ","
+            << currScore->midtermMark << ","
+            << currScore->otherMark << "\n";
+        fout.close();
+        currScore = currScore->pNext;
     }
+
+    std::cout << "\n\t\tSaving successful!\n";
 }
