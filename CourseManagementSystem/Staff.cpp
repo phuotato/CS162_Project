@@ -183,7 +183,7 @@ void BeginSchoolYear (bool& flag) {
         case 4:
             system("cls");
             drawHeader();
-            pStudent->viewProfile();
+           pStudent->viewProfile_Staff();
             break;
         case 6:
             system("cls");
@@ -352,7 +352,7 @@ void BeginSemester() {
                 //End semester (add score)
             case 7:
                 system("cls");
-                pStudent->viewProfile();
+                pStudent->viewProfile_Staff();
                 break;
             case 8:
                 //Show list of class
@@ -462,7 +462,7 @@ void EndSemester() {
             break;
         case 8:
             system("cls");
-            pStudent->viewProfile();
+            pStudent->viewProfile_Staff();
             break;
         case 10:
             system("cls");
