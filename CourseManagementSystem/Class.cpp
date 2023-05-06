@@ -19,8 +19,6 @@ extern int mid;
 student* pStudent = nullptr;
 
 //I/O command
-extern std::ifstream fin;
-extern std::ofstream fout;
 
 //Constructor for Class
 Class::Class(std::string Name) :Name(Name) {}
@@ -29,6 +27,7 @@ Class::Class(std::string Name) :Name(Name) {}
 
 void Class::LoadFile()
 {
+    std::ifstream fin;
     fin.open("../Data/Class/Class.txt");
     while (!fin.eof())
     {
@@ -49,6 +48,7 @@ void Class::LoadFile()
             pTailClass = tmp;
         }
     }
+    fin.close();
 }
 
 void Class::addNewClass() {
@@ -56,7 +56,7 @@ void Class::addNewClass() {
     system("cls");
     std::cin.ignore();
     std::string year = curSchoolYear->getYear();
-
+    std::ofstream fout;
     while (true) {
 
         //Display pages

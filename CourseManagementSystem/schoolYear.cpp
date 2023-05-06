@@ -5,9 +5,6 @@
 #include "Class.h"
 #include "Display.h"
 
-std::ifstream fin;
-std::ofstream fout;
-
 //Initialize extern variables
 extern schoolYear* curSchoolYear;
 extern schoolYear* pHeadSchoolYear;
@@ -29,7 +26,7 @@ void schoolYear::createSchoolYear(short& k)
 	std::cin.ignore(); //remove enter
 	loadFile();
 	bool flag = 1;
-
+	std::ofstream fout;
 	while (true)
 	{
 		//Display pages
@@ -119,6 +116,7 @@ void schoolYear::createSchoolYear(short& k)
 
 void schoolYear::loadFile()
 {
+	std::ifstream fin;
 	fin.open("../Data/SchoolYear/all school year.txt");
 	while (!fin.eof())
 	{
@@ -431,6 +429,7 @@ std::string schoolYear::getYear()
 }
 bool schoolYear::createSemester()
 {
+	std::ofstream fout;
 	char x;
 	if(!pHeadSemester)
 	curSchoolYear->loadFile(year);
@@ -514,6 +513,7 @@ bool schoolYear::createSemester()
 }
 void schoolYear::loadFile(std::string year)
 {
+	std::ifstream fin;
 	fin.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::in);
 	while (!fin.eof())
 	{

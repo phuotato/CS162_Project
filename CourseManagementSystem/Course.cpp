@@ -1,5 +1,6 @@
 #include "Course.h"
 #include "schoolYear.h"
+#include "Semester.h"
 #include <fstream>
 #include <direct.h>
 #include <string>
@@ -192,6 +193,7 @@ void course::saveIndividualScore() {
 
 void course::updateCourse()
 {
+    std::ofstream fout;
     while(true)
     {
         system("cls");
@@ -267,6 +269,21 @@ void course::updateCourse()
             break;
         }
     }
+    // save course ID to textfile
+    fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
+    if (!fout.is_open())
+        std::cout << "Khong the mo";
+    else
+    {
+        for (course* tmp = curSemester->pHeadCourse; tmp; tmp=tmp->pNext)
+        {
+            fout << tmp->id << std::endl;
+        }
+    }
+    fout.close();
+    std::string sem = std::to_string(curSemester->getSem());
+    std::string wd = std::to_string (weekDay);
+    curSemester->saveCoursetoFolder(name, id, className, lecturer, credit, maxStudent, wd, session, curSchoolYear->year, sem);// function call
 }
 
 void course::addStudentMenu()

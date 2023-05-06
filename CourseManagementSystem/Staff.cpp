@@ -6,8 +6,7 @@
 #include "Staff.h"
 #include "Class.h"
 
-extern std::ifstream fin;
-extern std::ofstream fout;
+
 extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
@@ -151,6 +150,8 @@ void BeginSchoolYear (bool& flag) {
     int option;
     pHeadClass->LoadFile();
     pHeadClass->loadStudent();
+    std::ifstream fin;
+    std::ofstream fout;
     do {
         system("cls");
         drawHeader();
@@ -190,7 +191,7 @@ void BeginSchoolYear (bool& flag) {
             drawHeader();
             pHeadClass->viewStudentList();
             break;
-        case 7: 
+        case 7:
             system("cls");
             drawHeader();
             changePassword(fin, fout);
@@ -302,6 +303,8 @@ void BeginSemester() {
             continue;
         }
         bool flag{};
+        std::ifstream fin;
+        std::ofstream fout;
         do {
             system("cls");
             drawHeader();
@@ -449,7 +452,8 @@ void EndSemester() {
     system("mode con: cols=80 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
-
+    std::ifstream fin;
+    std::ofstream fout;
     do {
         system("cls");
         drawHeader();
