@@ -6,8 +6,7 @@
 #include "Staff.h"
 #include "Class.h"
 
-extern std::ifstream fin;
-extern std::ofstream fout;
+
 extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
@@ -18,18 +17,17 @@ extern Class* pTailClass;
 extern course* curCourse;
 extern int mid;
 
-
+//functions
 void BeginSemester();
 void CreateSchoolYearMenu() {
     drawHeader();
+    drawBox(mid - 53 / 2, 8, 53, 9);
 
     gotoxy(mid - 65 / 2, 7); std::cout <<  "Create a new school year or choose an existing one to continue.";
-    gotoxy(mid - 53 / 2, 8); std::cout <<  "+--------------------------------------------------+";
-    gotoxy(mid - 53 / 2, 9); std::cout <<  "| 1. Create School Year                            |";
-    gotoxy(mid - 53 / 2, 10); std::cout << "| 2. Choose existing School Year                   |";
-    gotoxy(mid - 53 / 2, 11); std::cout << "| 0. Exit                                          |";
-    gotoxy(mid - 53 / 2, 12); std::cout << "+--------------------------------------------------+";
-    gotoxy(mid - 53 / 2, 13); std::cout << "  Enter your choice: ";
+    gotoxy(mid - 49 / 2, 10); std::cout <<  "1. Create School Year                            ";
+    gotoxy(mid - 49 / 2, 12); std::cout << "2. Choose existing School Year                   ";
+    gotoxy(mid - 49 / 2, 14); std::cout << "0. EXIT                                          ";
+    gotoxy(mid - 53 / 2, 17); std::cout << "  Enter your choice: ";
 }
 
 void BeginSchoolYearMenu() {
@@ -42,52 +40,46 @@ void BeginSchoolYearMenu() {
     std::cout << curSchoolYear->year;
 
     SetColor(7, 0);
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    drawBox(mid - 53 / 2, 10, 52, 15);
+    gotoxy(mid - 13 / 2, 11);
+    std::cout << "MENU OPTIONS";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "|                 MENU OPTIONS                     |";
+    std::cout << "\n"; drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "1. Create Classes for 1st-Year Students";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 1. Create Classes for 1st-Year Students          |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "2. Add 1st-year students to 1st-year classes";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 2. Add 1st-year students to 1st-year classes     |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "3. Begin a new Semester";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 3. Begin a new Semester                          |";
+    std::cout << "\n";
+    drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "4. View student profile";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 4. View student profile                          |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "5. View a list of classes";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 5. View a list of classes                        |"; //chua co
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "6. View a list of students in a class"; //chua co
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 6. View a list of students in a class            |"; //chua co
+    std::cout << "\n";
+    drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "7. Change Password";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 7. Change Password                               |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "8. Go back to school year";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 8. Go back to school year                        |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "0. Exit";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 0. Exit                                          |";
-
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
-
-    std::cout << "\n"; gotox(mid - 53 / 2);
+    std::cout << "\n\n"; gotox(mid - 53 / 2);
     std::cout << "  Enter your choice: ";
 }
 
@@ -151,6 +143,8 @@ void BeginSchoolYear (bool& flag) {
     int option;
     pHeadClass->LoadFile();
     pHeadClass->loadStudent();
+    std::ifstream fin;
+    std::ofstream fout;
     do {
         system("cls");
         drawHeader();
@@ -159,22 +153,14 @@ void BeginSchoolYear (bool& flag) {
 
         switch (option) {
         case 1:
-            if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
-                std::cout << "\n\n"; gotox(mid - 52 / 2);
-                SetColor(7, 12);
-                std::cout << "Sorry! You can only add classes in the latest year.";
-                SetColor(7, 0);
-
-                Sleep(2000);
-                continue;
-            }
-            pHeadClass->addNewClass();
+            if (pHeadClass->checkLatestYear() != 0) pHeadClass->addNewClass();
             break;
         case 2: 
-            system("cls");
-            drawHeader();
-            pHeadClass->getOption();
-        
+            if (pHeadClass->checkLatestYear() != 0) {
+                system("cls");
+                drawHeader();
+                pHeadClass->getOption();
+            }
             break;
         case 3: 
             BeginSemester(); //change state to begin semester and return
@@ -183,14 +169,18 @@ void BeginSchoolYear (bool& flag) {
         case 4:
             system("cls");
             drawHeader();
-            pStudent->viewProfile();
+            pStudent->viewProfile_Staff();
+            break;
+        case 5:
+            std::cin.ignore();
+            pHeadClass->showingList();
             break;
         case 6:
             system("cls");
             drawHeader();
             pHeadClass->viewStudentList();
             break;
-        case 7: 
+        case 7:
             system("cls");
             drawHeader();
             changePassword(fin, fout);
@@ -198,9 +188,10 @@ void BeginSchoolYear (bool& flag) {
         case 8:
             flag = 1;
             system("cls");
+            std::cin.ignore();
 
             pHeadSchoolYear->deleteSchoolYear();
-            pHeadClass->deleteStudentList();
+            //pHeadClass->deleteStudentList();
             return;
         case 0:
             system("cls");
@@ -278,13 +269,13 @@ void BeginSemester() {
         system("cls");
         drawHeader();
 
-        std::cout << "\n\tCreate a new semester or choose an existing one to continue.";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t| 1. Create semester                               |";
-        std::cout << "\n\t\t| 2. Choose existing semester                      |"; //chua lam
-        std::cout << "\n\t\t| 0. Back                                          |";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t Enter your choice: ";
+        gotoxy(mid - 61 / 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
+        gotoxy(mid - 53 / 2, 8); std::cout << "+--------------------------------------------------+";
+        gotoxy(mid - 53 / 2, 9); std::cout << "| 1. Create semester                               |";
+        gotoxy(mid - 53 / 2, 10); std::cout << "| 2. Choose existing semester                      |"; //chua lam
+        gotoxy(mid - 53 / 2, 11); std::cout << "| 0. Back                                          |";
+        gotoxy(mid - 53 / 2, 12); std::cout << "+--------------------------------------------------+";
+        gotoxy(mid - 61 / 2, 13); std::cout << "Enter your choice: ";
         std::cin >> choice;
         switch (choice)
         {
@@ -302,6 +293,8 @@ void BeginSemester() {
             continue;
         }
         bool flag{};
+        std::ifstream fin;
+        std::ofstream fout;
         do {
             system("cls");
             drawHeader();
@@ -352,7 +345,7 @@ void BeginSemester() {
                 //End semester (add score)
             case 7:
                 system("cls");
-                pStudent->viewProfile();
+                pStudent->viewProfile_Staff();
                 break;
             case 8:
                 //Show list of class
@@ -449,7 +442,8 @@ void EndSemester() {
     system("mode con: cols=80 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option;
-
+    std::ifstream fin;
+    std::ofstream fout;
     do {
         system("cls");
         drawHeader();
@@ -462,7 +456,7 @@ void EndSemester() {
             break;
         case 8:
             system("cls");
-            pStudent->viewProfile();
+            pStudent->viewProfile_Staff();
             break;
         case 10:
             system("cls");

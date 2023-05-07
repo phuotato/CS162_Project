@@ -13,9 +13,12 @@ void changePassword(std::ifstream& fin, std::ofstream& fout)
 		system("pause");
 		return;
 	}
+	std::cout << "You can go back to the menu at any time by press the Enter button!" << "\n\n";
 	std::cout << "Input the password: ";
 	std::string password, newPass, confirmPass;
 	std::cin >> password;
+	if (password == " ")
+		return;
 	std::string check_username, check_password;
 	fin >> check_username;
 	fin >> check_password;
@@ -27,8 +30,10 @@ void changePassword(std::ifstream& fin, std::ofstream& fout)
 		{
 			std::cout << "Enter the new password: ";
 			std::cin >> newPass;
+			if (newPass == " ")	return;
 			std::cout << "Confirm your password: ";
 			std::cin >> confirmPass;
+			if (confirmPass == " ") return;
 			if (newPass == confirmPass)
 			{
 				if (username[0] >= 'a' && username[0] <= 'z')
@@ -51,6 +56,8 @@ void changePassword(std::ifstream& fin, std::ofstream& fout)
 			std::cout << "Wrong password. Please try again" << std::endl;
 			std::cout << "Input the password: ";
 			std::cin >> password;
+			if (password == " ")
+				return;
 		}
 	}
 	std::cout << std::endl;

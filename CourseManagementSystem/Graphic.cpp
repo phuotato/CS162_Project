@@ -88,15 +88,38 @@ void drawBox(int x, int y, int width, int height) {
 	for (int i = 0; i < height; i++) {
 		gotoxy(x, y + i);
 		for (int j = 0; j < width; j++) {
-			if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-				std::cout << "*";
+			if (i == 0 && j == width - 1) {
+				std::cout << char(191); //top right corner
+			}
+			else if (i == 0 && j == 0) {
+				std::cout << char(218);	//top left corner
+			}
+			else if (i == height - 1 && j == 0) {
+				std::cout << char(192); //bottom right corner
+			}
+			else if (i == height - 1 && j == width - 1) {
+				std::cout << char(217); //bottom left corner
+			}
+			else if (i == 0 || i == height - 1) {
+				std::cout << char(196);
 			}
 			else {
-				std::cout << " ";
+				if (j == width - 1 || j == 0) std::cout << char(179);
+				else gotox(x + width - 1);
 			}
 		}
 
 	}
+}
+
+void drawLine(int length, short x) {
+	gotox(x);
+	std::cout << char(195);
+	for (int i = 1; i < length-1; i++) {
+		std::cout << char(196);
+	}
+	std::cout << char(180);
+	gotox(x);
 }
 
 void drawHeader() {

@@ -15,6 +15,7 @@ public:
 	void LoadFile();
 	void addNewClass();
 	int getAllClass();
+	bool checkLatestYear();
 
 	//Function show for class
 	void showClassList(short range, short& Pcur);

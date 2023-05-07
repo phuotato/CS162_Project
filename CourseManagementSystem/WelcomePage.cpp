@@ -8,7 +8,7 @@ extern int mid;
 void welcomePage()
 {
     // set console size and title
-    system("mode con: cols=156 lines=60");
+    system("mode con: cols=156 lines=50");
 	mid = getMidColumns();
     SetConsoleTitle(TEXT("FIT.HCMUS Management Program"));
 	system("color 70");
@@ -17,7 +17,7 @@ void welcomePage()
     
     //welcome message
     std::cout << "\n\n\n\n";
-    drawBox(mid-40/2, 10, 40, 8);
+    drawBox(mid-40/2, 10, 40, 7);
     gotoxy(mid-10/2, 12);
     std::cout << "Welcome to";
     gotoxy(mid-28/2, 14);
@@ -33,15 +33,15 @@ void welcomePage()
     // clear screen and display menu
     system("cls");
     std::cout << "\n\n\n\n";
-    drawBox(mid-35/2, 7, 35, 10);
-    gotoxy(mid-8/2, 8);
+	drawBox(mid - 35 / 2, 8, 35, 9);
+    gotoxy(mid-8/2, 6);
     std::cout << "Login as";
     gotoxy(mid-26/2, 10);
     std::cout << "1. Staff";
     gotoxy(mid-26/2, 12);
     std::cout << "2. Student";
     gotoxy(mid-26/2, 14);
-    std::cout << "0. Exit";
+    std::cout << "0. EXIT"; //character i make the box break
 	
 	gotoxy(mid-26/2, 17);
 	std::cout << "Your choice: ";

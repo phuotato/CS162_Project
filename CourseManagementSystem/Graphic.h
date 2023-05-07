@@ -11,6 +11,7 @@ void drawError(std::string message);
 void drawDivider(int length, char character, int offset);
 void SetColor(int backgound_color, int text_color);
 void drawBox(int x, int y, int width, int height);
+void drawLine(int length, short x);
 void loadingPage();
 int getMidColumns();
 void set_console_size(short x, short y);
