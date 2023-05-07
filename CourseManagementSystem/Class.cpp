@@ -10,6 +10,7 @@
 //Global variable
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
+extern schoolYear* pTailSchoolYear;
 extern Class* pHeadClass;
 extern Class* curClass;
 extern Class* pTailClass;
@@ -185,6 +186,19 @@ void Class::addNewClass() {
         Sleep(500);
         return;
     }
+}
+
+bool Class::checkLatestYear() {
+    if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
+        std::cout << "\n\n"; gotox(mid - 52 / 2);
+        SetColor(7, 12);
+        std::cout << "Sorry! You can only add classes in the latest year.";
+        SetColor(7, 0);
+
+        Sleep(2000);
+        return 0;
+    }
+    else return 1;
 }
 
 bool Class::checkExistClass(std::string Name)
@@ -434,14 +448,20 @@ void Class::showingList() {
 //Function for students
 void Class::getOption()
 {
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t|              MENU OPTIONS                        |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 1. Add students directly on the screen           |";
-    std::cout << "\n\t\t| 2. Add students by inputting a CSV file          |";
-    std::cout << "\n\t\t| 0. Exit                                          |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t Enter your choice: ";
+    drawBox(mid - 53 / 2, 6, 53, 7);
+
+    gotoxy(mid-13/2, -5);
+    std::cout << "MENU OPTIONS\n";
+
+    drawLine(53, mid - 53 / 2);
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "1. Add students directly on the screen\n";
+
+    gotox(mid - 49 / 2); std::cout << "2. Add students by inputting a CSV file\n";
+    gotox(mid - 49 / 2); std::cout << "0. Exit\n\n";
+    gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
+
     int choice;
     std::cin >> choice;
     bool condition = true;
@@ -450,6 +470,9 @@ void Class::getOption()
         switch (choice){
         case 1: {
             condition = false;
+            gotoxy(mid - 49 / 2, -1);
+            std::cout << "                                  ";
+            gotox(mid - 49 / 2);
             addStudentto1stClass_Console();
             break;
         }
@@ -471,10 +494,13 @@ void Class::getOption()
 void Class::addStudentto1stClass_Console()
 {
     std::string classname;
-    system("cls");
-    std::cout << "Input the classcode: ";
+    std::cout << "Input the classcode (Press enter to go back): ";
+
     std::cin.ignore();
     std::getline(std::cin, classname);
+
+    if (classname == "") return;
+
     Class* curClass = pHeadClass;   // need to load the pHeadClass first before use
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
     {
@@ -483,32 +509,49 @@ void Class::addStudentto1stClass_Console()
     }
     if (!curClass)
     {
+        std::cout << "\n\n"; gotox(mid - 119 / 2);
+        SetColor(7, 4);
         std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
+        SetColor(7, 0);
+
+        Sleep(2000);
         return;
     }
+
     char choice = 'Y';
     student* curStudent = curClass->headS;
     student* tail = nullptr;
     while (choice == 'Y' || choice == 'y')
     {
         system("cls");
+        drawHeader();
+        std::cout << "\n\n"; gotox(mid - 49 / 2);
         // get information of that student
-        std::cout << "Input the following information of the student: " << "\n";
+        SetColor(7, 9);
+        std::cout << "Input the following information of the student: \n";
+        SetColor(7, 0);
         int no;
         std::string id, firstname, lastname, socialId;
         bool gender;
         date dob;
         std::string getNO;
+
+        gotox(mid - 36 / 2);
         std::cout << "No: ";
         std::getline(std::cin, getNO);
         no = stoi(getNO);
+
+        gotox(mid - 36 / 2);
         std::cout << "Student ID: ";
         std::getline(std::cin, id);
         while (curStudent != nullptr)       // check whether that student ID exists in the student list or not
         {
             if (curStudent->getStudentID() == id)
             {
-                std::cout << "This student's already in this class! Please try again." << "\n";
+                std::cout << "\n\n"; gotox(mid - 56 / 2);
+                SetColor(7, 4);
+                std::cout << "This student's already in this class! Please try again.\n";
+                SetColor(7, 0);
                 choice = 'N';
                 break;       
             }
@@ -519,14 +562,21 @@ void Class::addStudentto1stClass_Console()
 
         if (choice == 'Y' || choice == 'y')
         {
+            gotox(mid - 36 / 2);
             std::cout << "First name: ";
             std::getline(std::cin, firstname);
+
+            gotox(mid - 36 / 2);
             std::cout << "Last name: ";
             std::getline(std::cin, lastname);
+
+            gotox(mid - 36 / 2);
             std::cout << "Gender (Male: 0 | Female: 1): ";
             std::string getGender;
             std::getline(std::cin, getGender);
             gender = stoi(getGender);
+
+            gotox(mid - 36 / 2);
             std::cout << "Date of birth (DDMMYYYY - For example: 01012004): ";
             std::string getDay, getMonth, getYear;
             std::string getDOB;
@@ -537,6 +587,8 @@ void Class::addStudentto1stClass_Console()
             int day = stoi(getDay);
             int month = stoi(getMonth);
             int year = stoi(getYear);
+
+            gotox(mid - 36 / 2);
             std::cout << "Social ID: ";
             std::getline(std::cin, socialId);
 
@@ -569,10 +621,26 @@ void Class::addStudentto1stClass_Console()
                 write << no << "," << id << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
                 write.close();
             }
+
+            //Loading
+            std::cout << "\n\n"; gotox(mid - 48 / 2);
+            loadingPage();
+            gotox(mid - 27 / 2); std::cout << "                            ";
+            gotoxy(mid - 10 / 2, -2); std::cout << "         ";
+            SetColor(7, 2);
+            gotox(mid - 20 / 2);
+            std::cout << "Added Succesfully";
+            SetColor(7, 0);
+            Sleep(1000);
+
+            gotox(mid - 20 / 2); std::cout << "                   ";
+
         }
         // Option for user
-        std::cout << "Enter Y (or y) to continue inputting on console" << "\n";
-        std::cout << "Enter N (or N) to stop inputting." << "\n";
+
+        gotox(mid - 50 / 2);
+        std::cout << "Enter Y (or y) to continue inputting on console\r\n";
+        gotox(mid-50/2); std::cout << "Enter N (or N) to stop inputting." << "\n";
         std::cin >> choice;
         curStudent = curClass->headS;       // reset pointer
         std::cin.ignore();
@@ -599,10 +667,10 @@ void Class::addStudentto1stClass_File()
     // this function is for updating the class
 
     // user input the link of the file
-    std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): " << "\n";
-    std::cout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1" << "\n";
-    std::cout << "\n";
-    std::cout << "Input the link here -> ";
+    std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): \n";
+    std::cout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1\n\n";
+
+    std::cout << "Input the link here: ";
     std::string fileName;
     std::string directory;
     std::cin.ignore();

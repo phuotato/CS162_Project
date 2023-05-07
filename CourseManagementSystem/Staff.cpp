@@ -153,22 +153,14 @@ void BeginSchoolYear (bool& flag) {
 
         switch (option) {
         case 1:
-            if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
-                std::cout << "\n\n"; gotox(mid - 52 / 2);
-                SetColor(7, 12);
-                std::cout << "Sorry! You can only add classes in the latest year.";
-                SetColor(7, 0);
-
-                Sleep(2000);
-                continue;
-            }
-            pHeadClass->addNewClass();
+            if (pHeadClass->checkLatestYear() != 0) pHeadClass->addNewClass();
             break;
         case 2: 
-            system("cls");
-            drawHeader();
-            pHeadClass->getOption();
-        
+            if (pHeadClass->checkLatestYear() != 0) {
+                system("cls");
+                drawHeader();
+                pHeadClass->getOption();
+            }
             break;
         case 3: 
             BeginSemester(); //change state to begin semester and return
