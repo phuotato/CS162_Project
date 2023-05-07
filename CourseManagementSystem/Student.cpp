@@ -6,7 +6,7 @@
 #include "Graphic.h"
 #include "Class.h"
 #include "Display.h"
-
+#include <sstream>
 //Global variable
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
@@ -15,6 +15,63 @@ extern Class* pHeadClass;
 extern Class* curClass;
 extern Class* pTailClass;
 extern int mid;
+
+void student::readStudentScore() {
+    std::ifstream fin("/Data/SchoolYear/2020-2021/Sem1/22CTT2_CS162/" + id + ".csv");
+    if (!fin) {
+        std::cerr << "Error: could not open file.\n";
+        return;
+    }
+
+    std::string line;
+    std::getline(fin, line); // skip the header row
+
+    courseScore* currScore = nullptr;
+
+    while (std::getline(fin, line)) {
+        std::stringstream ss(line);
+        std::string field;
+        int fieldIndex = 0;
+
+        std::string courseID;
+        int totalMark = 0;
+        int finalMark = 0;
+        int midtermMark = 0;
+        int otherMark = 0;
+
+        while (std::getline(ss, field, ',')) {
+            switch (fieldIndex) {
+            case 0:
+                courseID = field;
+                break;
+            case 1:
+                totalMark = std::stoi(field);
+                break;
+            case 2:
+                finalMark = std::stoi(field);
+                break;
+            case 3:
+                midtermMark = std::stoi(field);
+                break;
+            case 4:
+                otherMark = std::stoi(field);
+                break;
+            }
+            fieldIndex++;
+        }
+
+        if (currScore == nullptr) {
+            hScore = new courseScore{ courseID, totalMark, finalMark, midtermMark, otherMark };
+            currScore = hScore;
+        }
+        else {
+            currScore->pNext = new courseScore{ courseID, totalMark, finalMark, midtermMark, otherMark };
+            currScore = currScore->pNext;
+        }
+    }
+
+    fin.close();
+}
 
 void student::viewProfile_Staff()
 {
@@ -80,10 +137,10 @@ void student::viewProfile_Staff()
     system("pause");
 }
 
-void student::viewProfile_Student(std::string username)
+void student::viewProfile_Student()
 {
     std::ifstream read;
-    read.open("../Data/StudentProfile/" + username + ".csv");
+    read.open("../Data/StudentProfile/" + id + ".csv");
     if (!read)
     {
         std::cout << "Your profile is not available to view now!" << "\n";
@@ -120,3 +177,63 @@ void student::viewProfile_Student(std::string username)
     std::cout << "Process done! The system will go back to the menu." << std::endl;
     system("pause");
 }
+
+void student::viewCourseList() {
+    system("cls");
+    std::cout << "List of Courses:" << std::endl;
+    courseScore* currScore = hScore;
+    while (currScore != nullptr) {
+        std::cout << currScore->courseID << std::endl;
+        currScore = currScore->pNext;
+    }
+}
+
+
+void student::viewScoreboard() {
+    system("cls");
+    // Get the number of courses
+    int numCourses = 0;
+    courseScore* currScore = hScore;
+    while (currScore != nullptr) {
+        numCourses++;
+        currScore = currScore->pNext;
+    }
+
+    // Draw a box around the entire scoreboard
+    drawBox(1, 1, 94, numCourses + 7);
+
+    // Print the header row
+    drawBox(2, 2, 90, 3);
+    gotoxy(4, 3);
+    std::cout << std::left << std::setw(10) << "No."
+        << std::setw(20) << "Course ID"
+        << std::setw(12) << "Total"
+        << std::setw(12) << "Final"
+        << std::setw(12) << "Midterm"
+        << std::setw(12) << "Other";
+
+    // Iterate over the linked list and print each course's data
+    currScore = hScore;
+    int row = 5; // start at row 5
+    int no = 1;
+    while (currScore != nullptr) {
+        // Print the row number
+        gotoxy(4, row);
+        std::cout << std::left << std::setw(10) << no;
+
+        // Print the course data
+        std::cout << std::setw(20) << currScore->courseID
+            << std::setw(12) << currScore->totalMark
+            << std::setw(12) << currScore->finalMark
+            << std::setw(12) << currScore->midtermMark
+            << std::setw(12) << currScore->otherMark;
+
+        currScore = currScore->pNext;
+        row++;
+        no++;
+    }
+
+    // Draw a box around the bottom of the scoreboard
+    drawBox(2, row, 90, 3);
+}
+

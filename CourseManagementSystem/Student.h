@@ -13,14 +13,23 @@ private:
 	bool gender;
 	date dob;
 
+	struct courseScore {
+		std::string courseID;
+		int totalMark;
+		int finalMark;
+		int midtermMark;
+		int otherMark;
+		courseScore* pNext = nullptr;
+	};
+	courseScore* hScore;
+
 public:
-	
-	
 	student* pNext = nullptr;
 	student* pStudent = nullptr;
 
 	//Constructor
 	student(){}
+	student(std::string id) : id(id){};
 	student(int no, std::string id, std::string firstname, std::string lastname, bool gender, int day, int month, int year, std::string socialId, student* pointer) :
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dob(day, month, year), socialId(socialId), pNext(pointer) {}
@@ -28,9 +37,12 @@ public:
 		no(no), id(id), firstName(firstname), lastName(lastname), gender(gender),
 		dat(dob), socialId(socialId){}
 	// Function
+	void readStudentScore();
 	void viewProfile_Staff();
-	void viewProfile_Student(std::string username);
+	void viewProfile_Student();
 	bool checkExistFile(std::string id);
+	void viewCourseList();
+	void viewScoreboard();
 
 	std::string getStudentID()
 	{
