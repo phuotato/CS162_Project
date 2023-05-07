@@ -28,6 +28,7 @@ Class::Class(std::string Name) :Name(Name) {}
 void Class::LoadFile()
 {
     std::ifstream fin;
+    if (pHeadClass) return; //if there is a LL, don't load
     fin.open("../Data/Class/Class.txt");
     while (!fin.eof())
     {
@@ -56,6 +57,27 @@ void Class::addNewClass() {
     system("cls");
     std::cin.ignore();
     std::string year = curSchoolYear->getYear();
+    //Delete Class that not in that year
+    //Create dummy
+    Class* tmp = pHeadClass;
+    pHeadClass = new Class("Test");
+    pHeadClass->pNext = tmp;
+
+    for (curClass = pHeadClass; curClass;) {
+        if (curClass->pNext->getName()[0] != year[2] || curClass->pNext->getName()[1] != year[3]) {
+            Class* tmp = curClass->pNext->pNext;
+            delete curClass->pNext;
+            curClass->pNext = tmp;
+        }
+        else if (curClass->pNext->pNext) curClass = curClass->pNext;
+        else break;
+    }
+    //Delete dummy
+    tmp = pHeadClass->pNext;
+    delete pHeadClass;
+    pHeadClass = tmp;
+    tmp = nullptr;
+
     std::ofstream fout;
     while (true) {
 
@@ -219,24 +241,17 @@ void Class::showClassList(short range, short& Pcur) {
     short i = 5;
     short k = 0;
 
-    gotoxy(mid - 46 / 2, 4); std::cout << "+-------------------------------------------+\n";
+    gotoy(5);
     for (; curClass && k < range; curClass = curClass->pNext, i++, k++) {
-        gotox(mid - 46 / 2);
-        std::cout << "|                                           |";
-        gotox(mid - (curClass->getName()).length() / 2);
+        gotox(mid - ((curClass->getName()).length()+1) / 2);
         std::cout << curClass->getName() << "\n";
         Pcur++;
     }
+    drawBox(mid - 46 / 2, 4, 46, k + 4);
 
-    gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+";
-
-    std::cout << "\n"; gotox(mid - 46 / 2);
-    std::cout << "|                                           |";
-
-    std::cout << "\n"; gotox(mid - 46 / 2);
-    std::cout << "+-------------------------------------------+";
-
+    gotoy(-2);
+    drawLine(46, mid - 46 / 2);
+    std::cout << "\n\n"; gotox(mid - 46 / 2);
 }
 
 // Show classP
@@ -296,7 +311,7 @@ void Class::showingList() {
             }
             else {
                 system("cls");
-                drawTutorial(15, 2, 30, 23);
+                drawBox(15, 2, 30, 23);
                 Tutorial();
 
                 SetColor(7, 9);
@@ -331,7 +346,7 @@ void Class::showingList() {
             }
             else {
                 system("cls");
-                drawTutorial(15, 2, 30, 23);
+                drawBox(15, 2, 30, 23);
                 Tutorial();
 
                 SetColor(7, 9);
@@ -373,12 +388,12 @@ void Class::showingList() {
                 //Reset everything
                 range = sample;
                 Pcur = 0;
-                curSchoolYear = pHeadSchoolYear;
+                curClass = pHeadClass;
                 APages = getAllClass() / range + 1;
 
                 //Draw again
                 system("cls");
-                drawTutorial(15, 2, 30, 23);
+                drawBox(15, 2, 30, 23);
                 Tutorial();
 
                 SetColor(7, 9);

@@ -17,18 +17,17 @@ extern Class* pTailClass;
 extern course* curCourse;
 extern int mid;
 
-
+//functions
 void BeginSemester();
 void CreateSchoolYearMenu() {
     drawHeader();
+    drawBox(mid - 53 / 2, 8, 53, 9);
 
     gotoxy(mid - 65 / 2, 7); std::cout <<  "Create a new school year or choose an existing one to continue.";
-    gotoxy(mid - 53 / 2, 8); std::cout <<  "+--------------------------------------------------+";
-    gotoxy(mid - 53 / 2, 9); std::cout <<  "| 1. Create School Year                            |";
-    gotoxy(mid - 53 / 2, 10); std::cout << "| 2. Choose existing School Year                   |";
-    gotoxy(mid - 53 / 2, 11); std::cout << "| 0. Exit                                          |";
-    gotoxy(mid - 53 / 2, 12); std::cout << "+--------------------------------------------------+";
-    gotoxy(mid - 53 / 2, 13); std::cout << "  Enter your choice: ";
+    gotoxy(mid - 49 / 2, 10); std::cout <<  "1. Create School Year                            ";
+    gotoxy(mid - 49 / 2, 12); std::cout << "2. Choose existing School Year                   ";
+    gotoxy(mid - 49 / 2, 14); std::cout << "0. EXIT                                          ";
+    gotoxy(mid - 53 / 2, 17); std::cout << "  Enter your choice: ";
 }
 
 void BeginSchoolYearMenu() {
@@ -41,52 +40,46 @@ void BeginSchoolYearMenu() {
     std::cout << curSchoolYear->year;
 
     SetColor(7, 0);
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    drawBox(mid - 53 / 2, 10, 52, 15);
+    gotoxy(mid - 13 / 2, 11);
+    std::cout << "MENU OPTIONS";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "|                 MENU OPTIONS                     |";
+    std::cout << "\n"; drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "1. Create Classes for 1st-Year Students";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 1. Create Classes for 1st-Year Students          |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "2. Add 1st-year students to 1st-year classes";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 2. Add 1st-year students to 1st-year classes     |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "3. Begin a new Semester";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 3. Begin a new Semester                          |";
+    std::cout << "\n";
+    drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "4. View student profile";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 4. View student profile                          |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "5. View a list of classes";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 5. View a list of classes                        |"; //chua co
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "6. View a list of students in a class"; //chua co
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 6. View a list of students in a class            |"; //chua co
+    std::cout << "\n";
+    drawLine(52, mid - 52 / 2);
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "7. Change Password";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 7. Change Password                               |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "8. Go back to school year";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 8. Go back to school year                        |";
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "0. Exit";
 
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "| 0. Exit                                          |";
-
-    std::cout << "\n"; gotox(mid - 53 / 2);
-    std::cout << "+--------------------------------------------------+";
-
-    std::cout << "\n"; gotox(mid - 53 / 2);
+    std::cout << "\n\n"; gotox(mid - 53 / 2);
     std::cout << "  Enter your choice: ";
 }
 
@@ -184,7 +177,11 @@ void BeginSchoolYear (bool& flag) {
         case 4:
             system("cls");
             drawHeader();
-           pStudent->viewProfile_Staff();
+            pStudent->viewProfile_Staff();
+            break;
+        case 5:
+            std::cin.ignore();
+            pHeadClass->showingList();
             break;
         case 6:
             system("cls");
@@ -199,9 +196,10 @@ void BeginSchoolYear (bool& flag) {
         case 8:
             flag = 1;
             system("cls");
+            std::cin.ignore();
 
             pHeadSchoolYear->deleteSchoolYear();
-            pHeadClass->deleteStudentList();
+            //pHeadClass->deleteStudentList();
             return;
         case 0:
             system("cls");
@@ -279,13 +277,13 @@ void BeginSemester() {
         system("cls");
         drawHeader();
 
-        std::cout << "\n\tCreate a new semester or choose an existing one to continue.";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t| 1. Create semester                               |";
-        std::cout << "\n\t\t| 2. Choose existing semester                      |"; //chua lam
-        std::cout << "\n\t\t| 0. Back                                          |";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t Enter your choice: ";
+        gotoxy(mid - 61 / 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
+        gotoxy(mid - 53 / 2, 8); std::cout << "+--------------------------------------------------+";
+        gotoxy(mid - 53 / 2, 9); std::cout << "| 1. Create semester                               |";
+        gotoxy(mid - 53 / 2, 10); std::cout << "| 2. Choose existing semester                      |"; //chua lam
+        gotoxy(mid - 53 / 2, 11); std::cout << "| 0. Back                                          |";
+        gotoxy(mid - 53 / 2, 12); std::cout << "+--------------------------------------------------+";
+        gotoxy(mid - 61 / 2, 13); std::cout << "Enter your choice: ";
         std::cin >> choice;
         switch (choice)
         {

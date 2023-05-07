@@ -23,7 +23,7 @@ public:
 	void chooseSchoolYear(short& k);
 	bool createSemester();
 	bool checkExistSemester(int sem);
-	bool checkCorrectSemester(std::string year);
+	bool checkCorrectSemester(std::string year); //This function is no where be found???
 	bool checkAvaiSemester();
 	void increaseSem();
 	schoolYear* findSchoolYear(std::string year);
@@ -54,4 +54,3 @@ private:
 	int numSem = 0;
 	
 };
-void switchSchoolYear();

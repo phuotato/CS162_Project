@@ -116,6 +116,7 @@ void schoolYear::createSchoolYear(short& k)
 
 void schoolYear::loadFile()
 {
+	if (pHeadSchoolYear) return;	//if there is a LL, dont load
 	std::ifstream fin;
 	fin.open("../Data/SchoolYear/all school year.txt");
 	while (!fin.eof())
@@ -198,24 +199,20 @@ void schoolYear::deleteSchoolYear()
 
 void schoolYear::showSchoolYearAll(short range, short& Pcur)
 {
-	gotoxy(mid-20/2, 3); std::cout << "School Years' List";
-	gotoxy(mid - 46 / 2, 4);  std::cout << "+-------------------------------------------+";
+	gotoxy(mid-19/2, 3); std::cout << "School Years' List";
+
 
 	short i = 5;
 	short k = 0;
 	for (; curSchoolYear && k < range; curSchoolYear = curSchoolYear->pNext, i++, k++)
 	{
-		gotoxy(mid - 47 / 2, i); std::cout << "|                 " << curSchoolYear->getYear() << "                 |";
+		gotoxy(mid - 10 / 2, i); std::cout <<curSchoolYear->getYear();
 		Pcur++;
 	}
-
-	gotoxy(mid - 46 / 2, i); std::cout << "+-------------------------------------------+";
-
-	std::cout << "\n"; gotox(mid - 46 / 2);
-	std::cout << "|                                           |";
-
-	std::cout << "\n"; gotox(mid - 46 / 2);
-	std::cout << "+-------------------------------------------+";
+	drawBox(mid - 46 / 2, 4, 46, k + 4);
+	gotoy(-2);
+	drawLine(46, mid - 46 / 2);
+	std::cout << "\n\n"; gotox(mid - 46 / 2);
 }
 
 void schoolYear::showP(short range, short& Pcur)
@@ -319,7 +316,7 @@ void schoolYear::ShowingList() {
 			}
 			else {
 				system("cls");
-				drawTutorial(15, 2, 30, 23);
+				drawBox(15, 2, 30, 23);
 				Tutorial();
 				showSchoolYearAll(range, Pcur);
 				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
@@ -348,7 +345,7 @@ void schoolYear::ShowingList() {
 			}
 			else {
 				system("cls");
-				drawTutorial(15, 2, 30, 23);
+				drawBox(15, 2, 30, 23);
 				Tutorial();
 				showP(range, Pcur);
 				showSchoolYearAll(range, Pcur);
@@ -389,7 +386,7 @@ void schoolYear::ShowingList() {
 
 				//Draw again
 				system("cls");
-				drawTutorial(15, 2, 30, 23);
+				drawBox(15, 2, 30, 23);
 				Tutorial();
 				showSchoolYearAll(range, Pcur);
 				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
@@ -584,23 +581,31 @@ bool schoolYear::showSemester()
 
 	if (!pHeadSemester)			//check pHeadSemester null or not
 	{
-		std::cout << "This schoolyear haven't had any semester before\n";
-		system("pause");
+		std::cout << "\n";
+		gotox(mid - 48 / 2); std::cout << "This schoolyear haven't had any semester before\n\n";
+		gotox(mid - 28 / 2); 
+		SetColor(7, 4); system("pause");
+		SetColor(7, 0);
 		return 0;
 	}
 	std::cin.ignore();
 	while (true)
 	{
 		system("cls");
-		gotoxy(29, 3);				//show all semester in schoolyear
-		std::cout << "Semester's list\n";
-		std::cout << "\n\t\t+--------------------------------------+";
+
+		//show all semester in schoolyear
+		drawHeader();
+		std::cout << "\n\n";
+		gotox(mid - 41 / 2); std::cout << "+------------             -------------+";
+		gotox(mid - 17 / 2); SetColor(7, 9); std::cout << "Semester's list\n"; SetColor(7, 0);
+		gotox(mid - 41 / 2); std::cout << "|                                      |\n";
 		for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
 		{
-			std::cout << "\n\t\t|                Sem " << cur->getSem() << "                 |";
+			gotox(mid - 41 / 2); std::cout << "|                Sem " << cur->getSem() << "                 |\n";
 		}
-		std::cout << "\n\t\t+--------------------------------------+";
-		std::cout << "\n\t\tPlease choose your semester (Press enter to go back): ";
+		gotox(mid - 41 / 2); std::cout << "|                                      |\n";
+		gotox(mid - 41 / 2); std::cout << "+--------------------------------------+\n";
+		gotox(mid - 55 / 2); std::cout << "Please choose your semester (Press enter to go back): ";
 		std::string sem;
 		getline(std::cin, sem);
 		if (sem == "") return 0;
