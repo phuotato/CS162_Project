@@ -485,8 +485,9 @@ void Class::getOption()
             return;
         default: {
         
+            std::cout << "\n"; gotox(mid - 49 / 2);
             std::cout << "Option Not Found!" << "\n";
-            std::cout << "Please input the available option: " << "\n";
+            gotox(mid - 49 / 2); std::cout << "Please input the available option:\n";
         }
         }
     }
@@ -532,7 +533,7 @@ void Class::addStudentto1stClass_Console()
         SetColor(7, 0);
         int no;
         std::string id, firstname, lastname, socialId;
-        bool gender;
+        int gender;
         date dob;
         std::string getNO;
 
@@ -577,9 +578,16 @@ void Class::addStudentto1stClass_Console()
             gender = stoi(getGender);
             while (gender < 0 || gender > 1)
             {
-                gotox(mid - 36 / 2);
-                std::cout << "Invalid gender! Please input the correct one. " << "\n";
-                std::cout << "Gender (Male: 0 | Female: 1): ";
+                gotox(mid - 46 / 2);
+                SetColor(7, 4);
+                std::cout << "Invalid gender! Please input the correct one!";
+                SetColor(7, 0);
+                Sleep(1000);
+
+                //Reset
+                gotox(mid - 46 / 2); std::cout << "                                             ";
+                gotoxy(mid + 24 / 2, -1); std::cout << "         ";
+                gotox(mid + 24 / 2);
                 std::cin >> getGender;
                 gender = stoi(getGender);
             }
@@ -597,8 +605,17 @@ void Class::addStudentto1stClass_Console()
             int year = stoi(getYear);
             while (!checkValidDate(day, month, year))
             {
-                std::cout << "Invalid Date! Please input the correct one. " << "\n";
-                std::cout << "Date of birth (DDMMYYYY - For example: 01012004): ";
+                gotox(mid - 46 / 2);
+                SetColor(7, 4);
+                std::cout << "Invalid Date! Please input the correct one!";
+                SetColor(7, 0);
+                Sleep(1000);
+
+                //Reset
+                gotox(mid - 46 / 2); std::cout << "                                             ";
+                gotoxy(mid + 54 / 2, -1); std::cout << "         ";
+                gotox(mid + 54 / 2);
+
                 std::string getDay, getMonth, getYear;
                 std::string getDOB;
                 std::getline(std::cin, getDOB);
