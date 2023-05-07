@@ -1,6 +1,7 @@
 #include "Course.h"
 #include "schoolYear.h"
 #include "Semester.h"
+#include "Graphic.h"
 #include <fstream>
 #include <direct.h>
 #include <string>
@@ -9,7 +10,6 @@
 extern schoolYear* curSchoolYear;
 extern semester* curSemester;
 
-#include "Graphic.h"
 //Constructor
 course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
     :id(id), name(name), className(className), lecturer(lecturer), credit(credit), maxStudent(maxStudent), weekDay(weekDay), session(session) {};
@@ -194,7 +194,6 @@ void course::saveIndividualScore() {
         fout.close();
         currScore = currScore->pNext;
     }
-
     std::cout << "\n\t\tSaving successful!\n";
 }
 

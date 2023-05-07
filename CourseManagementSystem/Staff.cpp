@@ -490,9 +490,6 @@ void EndSemester() {
 
 void Staff()
 {
-    std::cin.get();
-    system("cls");
-    //login("../StaffAccount/");
 	system("cls");
     bool flag = 1;
     while (flag != 0) {

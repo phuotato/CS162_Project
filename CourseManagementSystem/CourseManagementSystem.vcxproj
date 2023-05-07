@@ -147,6 +147,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Semester.cpp" />
+    <ClCompile Include="StudentAcc.cpp" />
     <ClCompile Include="WelcomePage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SchoolYear.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Semester.h" />
     <ClInclude Include="Staff.h" />
     <ClInclude Include="Student.h" />
+    <ClInclude Include="StudentAcc.h" />
     <ClInclude Include="WelcomePage.h" />
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Universal.h" />

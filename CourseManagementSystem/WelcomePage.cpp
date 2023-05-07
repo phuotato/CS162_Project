@@ -2,6 +2,7 @@
 #include "Graphic.h"
 #include "Universal.h"
 #include "Staff.h"
+#include "StudentAcc.h"
 std::string username{};
 extern int mid;
 
@@ -49,10 +50,16 @@ void welcomePage()
 	std::cin >> option;
 	switch (option) {
 	case 1: 
+		std::cin.get();
+		system("cls");
+		//login("../StaffAccount/");
 		Staff();
 		break;
 	case 2:
+		std::cin.get();
+		system("cls");
 		login("../StudentAccount/");
+		StudentAcc();
 		break;
 	case 0: 
 		exit(0);
