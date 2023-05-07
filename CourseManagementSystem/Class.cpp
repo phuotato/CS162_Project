@@ -848,8 +848,8 @@ void Class::loadStudent()
 void Class::exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID)
 {
     std::ofstream write;
-    write.open("../Data/StudentProfile/" + id + ".txt");
-    write << no << "," << id << "," << firstname << "," << lastname << "," << gender << day << "/" << month << "/" << year << ",";
+    write.open("../Data/StudentProfile/" + id + ".csv");
+    write << no << "," << id << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",";
     write << socialID << "," << classcode << "\n";
     write.close();
 

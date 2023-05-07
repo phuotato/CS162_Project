@@ -17,7 +17,7 @@ course::course(std::string id, std::string name, std::string className, std::str
 void course::ExportClass()
 {
     std::ofstream fout;
-    fout.open("../Scoreboard/" + id + "_scoreboard.csv");
+    fout.open("../InputFile/" + id + "_scoreboard.csv");
 
     //File header
     fout << "No,Student ID,First name,Last name" << "\n";
@@ -41,24 +41,29 @@ void course::ExportClass()
 
 void course::ImportScoreboard()
 {
-    std::ifstream fin("../Scoreboard/" + id + "_scoreboard.csv");
+    std::ifstream fin("../InputFile/" + id + "_scoreboard.csv");
     if (!fin)
     {
         std::cout << "Error loading file! Please try again.";
         return;
     }
+    if (_mkdir(("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + id).c_str())); //create folder of that course if not exist
+    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + id + "/score.csv");
+    fout << "No,Student ID,First name,Last name,Total,Final,Midterm,Other" << "\n"; // first line of the CSV
     std::string header;
     std::getline(fin, header); // ignore the header row of csv
 
     while (!fin.eof())
     {
-        std::string studentID, firstName, lastName, totalMarkStr, finalMarkStr, midtermMarkStr, otherMarkStr;
+        std::string getNo,studentID, firstName, lastName, totalMarkStr, finalMarkStr, midtermMarkStr, otherMarkStr;
         double totalMark, finalMark, midtermMark, otherMark;
 
         std::getline(fin, studentID, ',');
         if (studentID.empty() || fin.eof()) // check if we have reached the end of the file
             break;
-
+        
+        // get information from the file
+        std::getline(fin, getNo, ',');
         std::getline(fin, firstName, ',');
         std::getline(fin, lastName, ',');
         std::getline(fin, totalMarkStr, ',');
@@ -89,9 +94,11 @@ void course::ImportScoreboard()
                 pCur = pCur->pNext;
             pCur->pNext = newScore;
         }
+        // Save the score to the score.csv
+        fout << getNo << "," << studentID << "," << firstName << "," << lastName << "," << totalMark << "," << finalMark << "," << midtermMark << "," << otherMark << "\n";
     }
-
-    fin.close();
+    fin.close();    
+    saveIndividualScore();      // save score after importing 
     std::cout << "Import successful!\n";
 }
 
@@ -177,9 +184,9 @@ void course::ViewScoreboard() {
 void course::saveIndividualScore() {
     // Iterate over the linked list of students
     studentScore* currScore = hScore;
-    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
-    fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
     while (currScore != nullptr) {
+        std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
+        fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
         fout << currScore->totalMark << ","
             << currScore->finalMark << ","
             << currScore->midtermMark << ","
