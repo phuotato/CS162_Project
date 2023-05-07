@@ -575,6 +575,14 @@ void Class::addStudentto1stClass_Console()
             std::string getGender;
             std::getline(std::cin, getGender);
             gender = stoi(getGender);
+            while (gender < 0 || gender > 1)
+            {
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid gender! Please input the correct one. " << "\n";
+                std::cout << "Gender (Male: 0 | Female: 1): ";
+                std::cin >> getGender;
+                gender = stoi(getGender);
+            }
 
             gotox(mid - 36 / 2);
             std::cout << "Date of birth (DDMMYYYY - For example: 01012004): ";
@@ -587,10 +595,30 @@ void Class::addStudentto1stClass_Console()
             int day = stoi(getDay);
             int month = stoi(getMonth);
             int year = stoi(getYear);
+            while (!checkValidDate(day, month, year))
+            {
+                std::cout << "Invalid Date! Please input the correct one. " << "\n";
+                std::cout << "Date of birth (DDMMYYYY - For example: 01012004): ";
+                std::string getDay, getMonth, getYear;
+                std::string getDOB;
+                std::getline(std::cin, getDOB);
+                getDay = getDOB.substr(0, 2);
+                getMonth = getDOB.substr(2, 2);
+                getYear = getDOB.substr(4);
+                int day = stoi(getDay);
+                int month = stoi(getMonth);
+                int year = stoi(getYear);
+            }
 
             gotox(mid - 36 / 2);
             std::cout << "Social ID: ";
             std::getline(std::cin, socialId);
+            while (socialId.length() != 12)
+            {
+                std::cout << "Invalid social ID! Social ID should have exactly 12 digits! Please input the correct one!";
+                std::cout << "Social ID: ";
+                std::getline(std::cin, socialId);
+            }
 
             // link each student node to the current student list of that class
             student* newStudent = new student(no, id, firstname, lastname, gender, day, month, year, socialId, nullptr);
@@ -739,6 +767,9 @@ void Class::addStudentto1stClass_File()
         std::string getGender;
         std::getline(read, getGender, ',');
         gender = stoi(getGender);
+        if (gender < 0 || gender > 1)
+            state = false;
+
         std::string getDay, getMonth, getYear;
         std::getline(read, getDay, '/');
         std::getline(read, getMonth, '/');
@@ -746,8 +777,14 @@ void Class::addStudentto1stClass_File()
         int day = stoi(getDay);
         int month = stoi(getMonth);
         int year = stoi(getYear);
+        if (!checkValidDate(day, month, year))
+            state = false;
+
         read.ignore();
         std::getline(read, socialId);
+        if (socialId.length() != 12)
+            state = false;
+
         // Save student information to a text file
         if (state)
         {
@@ -767,6 +804,8 @@ void Class::addStudentto1stClass_File()
             // Save the info of this student to a "copy" file
             write << no << "," << id << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
         }
+        else
+            std::cout << "At line: " << line << ": wrong data format. System will ignore this line of data!" << "\n";
         ++line;                         
         curStudent = curClass->headS;       // reset conditions for the next turn
         state = true;   

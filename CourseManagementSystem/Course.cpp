@@ -79,9 +79,13 @@ void course::ImportScoreboard()
         }
         catch (const std::exception& e) {
             std::cout << "Error: Invalid data format in file. Please check again.\n";
-            return;
+            continue;
         }
-
+        if (totalMark > 10 || totalMark < 0 || finalMark > 10 || finalMark < 0 || midtermMark > 10 || midtermMark < 0 || otherMark > 10 || otherMark < 0)
+        {
+            std::cout << "Error: Invalid data format in file!" << "\n";
+            continue;
+        }
         studentScore* newScore = new studentScore{ studentID, firstName, lastName, totalMark, finalMark, midtermMark, otherMark, nullptr };
         if (!hScore)
         {
