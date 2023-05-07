@@ -432,27 +432,49 @@ bool schoolYear::createSemester()
 	curSchoolYear->loadFile(year);
 	if (!curSchoolYear->checkAvaiSemester())
 	{
-		gotoxy(17, 15);
-		std::cout << "This school year is full of semester";
-		std::cout << "\n\t\t Press any key to back:";
+		std::cout << "\n\n"; gotox(mid - 37 / 2);
+		SetColor(7, 4);
+		std::cout << "This school year is full of semester\n";
+		SetColor(7, 0);
+
+		gotox(mid - 23/2);
+		std::cout << "Press any key to back:";
 		_getch();
 		return 0;
 	}
 	while (true)
 	{
+		gotox(mid - 61 / 2);
 		std::cout << "What is semester you want to create: ";
 		while (true)
 		{
-			std::cout << "Sem:";
+			gotox(mid + 15 / 2); std::cout << "                    ";
+			gotox(mid + 15 / 2); std::cout << "Sem:";
 			std::cin >> x;
 			if (x < '1' || x > '3')
 			{
-				std::cout << "Invalid semester. Try other ones\n";
+				SetColor(7, 4);
+				std::cout << "\n"; gotox(mid - 34 / 2);
+				std::cout << "Invalid semester. Try other ones";
+				SetColor(7, 0);
+				Sleep(1000);
+
+				//Reset
+				gotox(mid - 34 / 2); std::cout << "                                 ";
+				gotoy(-2);
 				continue;
 			}
 			if (curSchoolYear->checkExistSemester(x - '0'))
 			{
-				std::cout << "This semester was already created. Try other ones\n";
+				SetColor(7, 4);
+				std::cout << "\n"; gotox(mid - 16 / 2);
+				std::cout << "Already created";
+				SetColor(7, 0);
+				Sleep(1000);
+
+				//Reset
+				gotox(mid - 16 / 2); std::cout << "               ";
+				gotoy(-2);
 				continue;
 			}
 			break;
@@ -460,7 +482,7 @@ bool schoolYear::createSemester()
 		fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
 		fout << "Semester " << x << std::endl;														//Write down the semester
 		fout.close();
-		std::cout << "Enter the start date: ";
+		gotox(mid - 61 / 2); std::cout << "Enter the start date: ";
 		std::string StartDate;
 		// Check length string > 10 return
 		// Check string[2] && string[5] == '/'
@@ -471,16 +493,19 @@ bool schoolYear::createSemester()
 		// Check string[0] [1] [3] [4] [6] [7] [8] [9] number;
 		std::cin.ignore();
 		getline(std::cin, StartDate);
-		std::cout << "Enter the end date: ";
+
+		gotox(mid - 61 / 2); std::cout << "Enter the end date: ";
 		std::string EndDate;
 		std::cin.ignore();
 		getline(std::cin, EndDate);
+
 		std::string sem;
 		sem += x;
 		if (_mkdir(("../Data/SchoolYear/" + year + "/Sem" + sem).c_str()));
 		fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
-		fout << x <<"," << StartDate << "," << EndDate << std::endl;							//Write down the semester
+		fout << x << "," << StartDate << "," << EndDate << std::endl;							//Write down the semester
 		fout.close();
+
 		semester* dummy = new semester(x - '0', StartDate, EndDate);
 		curSchoolYear->increaseSem();
 		if (!(curSchoolYear->pHeadSemester))
@@ -493,7 +518,18 @@ bool schoolYear::createSemester()
 			curSchoolYear->pTailSemester->pNext = dummy;
 			curSchoolYear->pTailSemester = dummy;
 		}
-		std::cout << "Create succesfully\n";
+		std::cout << "\n\n"; gotox(mid - 48 / 2);
+		loadingPage();
+		gotox(mid - 27 / 2); std::cout << "                            ";
+		gotoxy(mid - 10 / 2, -2); std::cout << "         ";
+		SetColor(7, 2);
+		gotox(mid - 20 / 2);
+		std::cout << "Created Succesfully";
+		SetColor(7, 0);
+		Sleep(1000);
+		system("cls");
+
+		//----------fix later--------------------
 		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
 		char choice; std::cin >> choice;
 		std::cin.ignore();
@@ -596,24 +632,25 @@ bool schoolYear::showSemester()
 		//show all semester in schoolyear
 		drawHeader();
 		std::cout << "\n\n";
-		gotox(mid - 41 / 2); std::cout << "+------------             -------------+";
-		gotox(mid - 17 / 2); SetColor(7, 9); std::cout << "Semester's list\n"; SetColor(7, 0);
-		gotox(mid - 41 / 2); std::cout << "|                                      |\n";
+		gotox(mid - 17 / 2); SetColor(7, 9); std::cout << "Semester's list\n\n"; SetColor(7, 0);
+
+		short k = 0;
 		for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
 		{
-			gotox(mid - 41 / 2); std::cout << "|                Sem " << cur->getSem() << "                 |\n";
+			gotox(mid - 6 / 2); std::cout << "Sem " << cur->getSem() << "\n";
+			k++;
 		}
-		gotox(mid - 41 / 2); std::cout << "|                                      |\n";
-		gotox(mid - 41 / 2); std::cout << "+--------------------------------------+\n";
-		gotox(mid - 55 / 2); std::cout << "Please choose your semester (Press enter to go back): ";
+		drawBox(mid - 53 / 2, 9, 53, 2 + k);
+		std::cout << "\n"; gotox(mid - 55 / 2);
+		std::cout << "Please choose your semester (Press enter to go back): ";
 		std::string sem;
 		getline(std::cin, sem);
 		if (sem == "") return 0;
 
 		for (semester* cur = pHeadSemester; cur; cur = cur->pNext) {
 			if (stoi(sem) == cur->getSem()) {
-				SetColor(7, 2);
-				std::cout << "\n\n\t\t              Found! Getting in";
+				SetColor(7, 2); std::cout << "\n\n";
+				gotox(mid - 18/2); std::cout << "Found! Getting in";
 				SetColor(7, 0);
 
 				Sleep(500);
@@ -623,8 +660,8 @@ bool schoolYear::showSemester()
 		}
 
 		//False - warning
-		SetColor(7, 12);
-		std::cout << "\n\n\t\t          Please input correctly!";
+		SetColor(7, 12); std::cout << "\n\n";
+		gotox(mid - 24 / 2); std::cout << "Please input correctly!";
 		SetColor(7, 0);
 
 		//Clear everything to show back

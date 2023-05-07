@@ -80,18 +80,29 @@ void student::viewProfile_Staff()
     while (opt == 'Y' || opt == 'y')
     {
         system("cls");
+        drawHeader();
+
         std::string username;
+        std::cout << "\n\n"; gotox(mid - 53 / 2);
         std::cout << "Input the student ID: ";
         std::getline(std::cin, username);
+
         std::ifstream read;
         read.open("../Data/StudentProfile/" + username + ".csv");
         if (!read)
         {
-            std::cout << "The information of this student isn't available right now. Please complete the information to see later" << "\n";
-            std::cout << "\n";  // split 
-            std::cout << "Enter Y (or y) to continue viewing." << "\n";
-            std::cout << "Enter N (or N) to stop." << "\n";
-            std::cout << "Your choice -> ";
+            std::cout << "\n";
+            SetColor(7, 4);
+            gotox(mid - 35/2); std::cout << "There is no student with this id";
+            SetColor(7, 0);
+            Sleep(1000);
+
+            //Reset the warning
+            gotox(mid - 35 / 2); std::cout << "                                ";
+
+            gotox(mid - 53 / 2); std::cout << "Enter Y (or y) to continue viewing.\n";
+            gotox(mid - 53 / 2); std::cout << "Enter N (or N) to stop.\n";
+            gotox(mid - 53 / 2); std::cout << "Your choice -> ";
             std::cin >> opt;
             std::cin.ignore();
             continue;
@@ -102,39 +113,44 @@ void student::viewProfile_Staff()
         std::getline(read, id, ',');
         std::getline(read, firstname, ',');
         std::getline(read, lastname, ',');
+
         std::string getGender;
         std::getline(read, getGender, ',');
+
         std::string getDay, getMonth, getYear;
         std::getline(read, getDay, '/');
         std::getline(read, getMonth, '/');
         std::getline(read, getYear, ',');
         std::getline(read, socialId, ',');
+
         std::string classcode;
         std::getline(read, classcode, '\n');
+
         read.close();
-        std::cout << "No: " << getNO << "\n";
-        std::cout << "Student ID: " << id << "\n";
-        std::cout << "Name: " << firstname << " " << lastname << "\n";
-        std::cout << "Class: " << classcode << "\n";
-        std::cout << "Gender: ";
+        gotox(mid - 53 / 2); std::cout << "No: " << getNO << "\n";
+        gotox(mid - 53 / 2); std::cout << "Student ID: " << id << "\n";
+        gotox(mid - 53 / 2); std::cout << "Name: " << firstname << " " << lastname << "\n";
+        gotox(mid - 53 / 2); std::cout << "Class: " << classcode << "\n";
+        gotox(mid - 53 / 2); std::cout << "Gender: ";
         if (getGender == "0")
             std::cout << "Male" << "\n";
         else
             std::cout << "Female" << "\n";
-        std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
-        std::cout << "Social ID: " << socialId << "\n";
-        std::cout << "Would you like to view other information of another student?" << "\n";
-        std::cout << "\n";
-        std::cout << "Enter Y (or y) to continue viewing." << "\n";
-        std::cout << "Enter N (or N) to stop." << "\n";
-        std::cout << "Your choice -> ";
+
+        gotox(mid - 53 / 2); std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
+        gotox(mid - 53 / 2); std::cout << "Social ID: " << socialId << "\n";
+
+        gotox(mid - 53 / 2); std::cout << "Would you like to view other information of another student? (Y/N):";
+
         std::cin >> opt;
         std::cin.ignore();
     }
 
-    std::cout << std::endl;
-    std::cout << "Process done! The system will go back to the menu." << std::endl;
-    system("pause");
+    std::cout << "\n\n"; gotox(mid - 51 / 2);
+    SetColor(7, 2);
+    std::cout << "Process done! The system will go back to the menu.";
+    SetColor(7, 0);
+    Sleep(1000);
 }
 
 void student::viewProfile_Student()

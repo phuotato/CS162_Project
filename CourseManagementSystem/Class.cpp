@@ -695,9 +695,13 @@ void Class::addStudentto1stClass_File()
     // this function is for updating the class
 
     // user input the link of the file
-    std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): \n";
+    //std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): \n";
+    system("cls");
+    drawHeader();
+    gotox(mid - 86/2);
     std::cout << "For example: 22TT1.csv means that the students added will belong to the class 22TT1\n\n";
 
+    gotox(mid - 60 / 2);
     std::cout << "Input the link here: ";
     std::string fileName;
     std::string directory;
@@ -706,7 +710,10 @@ void Class::addStudentto1stClass_File()
     std::ifstream read(directory);
     if (!read)
     {
+        std::cout << "\n\n"; gotox(mid - 38/2);
+        SetColor(7, 4);
         std::cout << "Error loading data! Please try again.";
+        SetColor(7, 0);
         return;
     }
     std::ofstream write;
@@ -726,8 +733,11 @@ void Class::addStudentto1stClass_File()
     }
     if (!curClass)
     {
-        std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!" << "\n";
-        system("pause");
+        SetColor(7, 4);
+        std::cout << "\n\n"; gotox(mid - 119 / 2);
+        std::cout << "Cannot find the class you've entered! Return to menu to add this class to the semester or reenter the available class!\n";
+        SetColor(7, 0);
+        gotox(mid - 28/2); system("pause");
         return;
     }
     student* curStudent = curClass->headS;
@@ -753,7 +763,10 @@ void Class::addStudentto1stClass_File()
         {
             if (curStudent->getStudentID() == id)
             {
+                SetColor(7, 4);
+                gotox(mid - 60 / 2);
                 std::cout << "At line " << line << ", student ID " << id << " already exists in the list" << "\n";
+                SetColor(7, 0);
                 state = false;
                 break;
             }
@@ -812,8 +825,15 @@ void Class::addStudentto1stClass_File()
     }
     read.close();
     write.close();
-    std::cout << "Add students successfully! System will go back to the menu now." << std::endl << std::endl;
-    system("pause");
+    std::cout << "\n\n"; gotox(mid - 48 / 2);
+    loadingPage();
+    gotox(mid - 27 / 2); std::cout << "                            ";
+    gotoxy(mid - 10 / 2, -2); std::cout << "         ";
+    SetColor(7, 2);
+    gotox(mid - 20 / 2);
+    std::cout << "Added Succesfully";
+    SetColor(7, 0);
+    Sleep(1000);
     system("cls");
 }
 bool student::checkExistFile(std::string id)
@@ -930,10 +950,12 @@ void Class::sortStudentsLexicographically(std::string classcode)
 }
 void Class::viewStudentList()
 {
+    std::cout << "\n"; gotox(mid - 58 / 2);
     std::cout << "Enter the class to see a list of students in that class: ";
     std::string classcode;
     std::cin.ignore();
     std::getline(std::cin, classcode);
+
     sortStudentsLexicographically(classcode);
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
@@ -943,19 +965,20 @@ void Class::viewStudentList()
     }
     if (!curClass)
     {
+        std::cout << "\n\n"; gotox(mid - 17 / 2);
+        SetColor(7, 4);
         std::cout << "Class Not Found!";
+        SetColor(7, 0);
+        Sleep(1000);
         return;
     }
     student* curStudent = curClass->headS;
-    std::cout << "Student List: " << "\n";
-    int i = 1;
-    while (curStudent != nullptr)
-    {
-        std::cout << i << ". " << curStudent->getFirstName() << " " << curStudent->getLastName() << "\n";
-        ++i;
-        curStudent = curStudent->pNext;
-    }
-    system("pause");
+    //Clear to show the list
+    system("cls");
+
+    //Showing list
+    showingStudentList(curStudent);
+
 }
 
 void Class::deleteStudentList()
@@ -971,5 +994,178 @@ void Class::deleteStudentList()
             delete temp;
         }
         curClass = curClass->pNext;
+    }
+}
+
+void Class::showStudents(student*& pHead, short range, short& Pcur) {
+    gotoxy(mid - 15 / 2, 3);
+    std::cout << "Student's List";
+
+    short i = 5;
+    short k = 0;
+    for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
+    {
+        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getFirstName() << " " << pHead->getLastName() << "\n";
+        Pcur++;
+    }
+    drawBox(mid - 46 / 2, 4, 46, k + 4);
+    gotoy(-2);
+    drawLine(46, mid - 46 / 2);
+    std::cout << "\n\n"; gotox(mid - 46 / 2);
+}
+
+void Class::showPStudents(student*& pHead, short range, short& Pcur) {
+    //Check if the last page
+    if (Pcur % range == 0) {
+        for (int i = 0; i < Pcur - range * 2; i++) pHead = pHead->pNext;
+        Pcur -= range * 2;
+    }
+    else {
+        for (int i = 0; i < Pcur - (Pcur % range) - range; i++) pHead = pHead->pNext;
+        Pcur += -(Pcur % range) - range;
+    }
+}
+
+int Class::getAllStudents(student* pHead) {
+    int i = 0;
+    for (; pHead; pHead = pHead->pNext, i++);
+    return --i;
+}
+
+void Class::showingStudentList(student* pHead) {
+    std::string displayk = "N";
+    short range = 10;
+    short Pcur = 0;
+    int APages = getAllStudents(pHead) / range + 1;
+    student* pTail = pHead;
+    student* cur = pHead;
+    for (; pTail->pNext; pTail = pTail->pNext);
+
+    system("cls");
+    while (true) {
+
+        //Next page
+        if (displayk == "N" || displayk == "n") {
+            if (cur == nullptr) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the last page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial();
+                showStudents(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+        //Previous Page
+        else if (displayk == "P" || displayk == "p") {
+            if (Pcur <= range) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 25 / 2);
+                std::cout << "You are at the first page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial();
+                cur = pHead;
+                showPStudents(cur, range, Pcur);
+                showStudents(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+        }
+        //Enter to confirm
+        else if (displayk == "") break;
+
+        //Number
+        else if (displayk[0] <= '9' && displayk[0] >= '0') {
+            int sample = stoi(displayk);
+            if (sample > 25 || sample < 10) {
+                SetColor(7, 12);
+                std::cout << "\n\n"; gotox(mid - 42 / 2);
+                std::cout << "The range is too big or too small (10~25)!";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+                for (int i = 0; i < 3; i++) {
+                    gotoxy(mid - 47 / 2, -1);
+                    std::cout << "                                                          \r";
+                }
+
+                gotoxy(mid - 47 / 2, -2);
+
+            }
+            else {
+                //Reset everything
+                range = sample;
+                Pcur = 0;
+                cur = pHead;
+                APages = getAllStudents(cur) / range + 1;
+
+                //Draw again
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial();
+                showStudents(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+            }
+
+        }
+        else {
+            SetColor(7, 12);
+            std::cout << "\n\n"; gotox(mid - 13 / 2);
+            std::cout << "Valid input!";
+            SetColor(7, 0);
+
+            Sleep(2000);
+
+            //Reset the command
+            gotox(mid - 47 / 2);
+            std::cout << "                                                          \r";
+            for (int i = 0; i < 3; i++) {
+                gotoxy(mid - 47 / 2, -1);
+                std::cout << "                                                          \r";
+            }
+
+            gotoxy(mid - 47 / 2, -2);
+        }
+
+        std::cout << "\n\n"; gotox(mid - 41 / 2);
+        std::cout << "Change Setting (command is in tutorial): ";
+        getline(std::cin, displayk);
     }
 }

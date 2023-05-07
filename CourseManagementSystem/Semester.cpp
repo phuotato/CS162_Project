@@ -68,7 +68,7 @@ void semester::saveCoursetoFolder(std::string& name, std::string& id, std::strin
 	fout.open("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::app);
 	if (!fout.is_open())
 	{
-		std::cout << "Khong the mo";
+		std::cout << "Open UnSuccessfully";
 	}
 	else
 	{

@@ -30,7 +30,13 @@ public:
 	void addStudentto1stClass_File();
 	void loadStudent();
 	void sortStudentsLexicographically(std::string classcode);
+
+	//View Students
 	void viewStudentList();
+	void showingStudentList(student* pHead);
+	void showStudents(student*& pHead, short range, short& Pcur);
+	int getAllStudents(student* pHead);
+	void showPStudents(student*& pHead, short range, short& Pcur);
 
 	//Minor function
 	bool CheckClasses(std::string curName);
