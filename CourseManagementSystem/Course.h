@@ -24,13 +24,15 @@ public:
 	student* pTailStudent = nullptr;
 	//function
 	
-	void ExportClass();
-	void ImportScoreboard();
+	
 	void updateCourse();
 	void addStudentMenu();
 	void addStudent(int choice);
 	void showStudent();
 	void showInfo();
+	//scoreboard functions
+	void ExportClass();
+	void ImportScoreboard();
 	void updateStudentResult();
 	void ViewScoreboard();
 	void saveIndividualScore();
