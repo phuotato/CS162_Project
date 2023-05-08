@@ -101,7 +101,8 @@ void course::ImportScoreboard()
         // Save the score to the score.csv
         fout << getNo << "," << studentID << "," << firstName << "," << lastName << "," << totalMark << "," << finalMark << "," << midtermMark << "," << otherMark << "\n";
     }
-    fin.close();    
+    fin.close(); 
+    fout.close();
     saveIndividualScore();      // save score after importing 
     std::cout << "Import successful!\n";
 }
@@ -138,15 +139,21 @@ void course::updateStudentResult()
 void course::ViewScoreboard() {
     system("cls");
     // Get the number of students
-    int numStudents = 0;
+ /*   int numStudents = 0;
     studentScore* currScore = hScore;
     while (currScore != nullptr) {
         numStudents++;
         currScore = currScore->pNext;
     }
-
+    */
+    std::cout << "The format of a course ID is NameOfCourse_Classcode. For example: CS162_22CTT2" << "\n\n";
+    std::cout << "Enter the course ID: ";
+    std::string courseID;
+    std::getline(std::cin, courseID);
+    std::ifstream fin("../Data/SchoolYear/score.csv");
+    std::string firstname, lastname, studentID, totalMark, midtermMark, finalMark, otherMark, No;
     // Draw a box around the entire scoreboard
-    drawBox(1, 1, 94, numStudents + 7);
+ //   drawBox(1, 1, 94, numStudents + 7);
 
     // Print the header row
     drawBox(2, 2, 90, 3);
@@ -160,23 +167,32 @@ void course::ViewScoreboard() {
         << std::setw(12) << "Other";
 
     // Iterate over the linked list and print each student's data
-    currScore = hScore;
     int row = 5; // start at row 5
     int no = 1;
-    while (currScore != nullptr) {
+    std::string firstline;
+    std::getline(fin, firstline);
+    while (!fin.eof()) {
+        std::getline(fin, No, ',');
+        std::getline(fin, studentID, ',');
+        std::getline(fin, firstname, ',');
+        std::getline(fin, lastname, ',');
+        std::getline(fin, totalMark, ',');
+        std::getline(fin, finalMark, ',');
+        std::getline(fin, midtermMark, ',');
+        std::getline(fin, otherMark, '\n');
+        if (fin.eof())
+            break;
         // Print the row number
         gotoxy(4, row);
         std::cout << std::left << std::setw(10) << no;
 
         // Print the student data
-        std::cout << std::setw(12) << currScore->studentID
-            << std::setw(20) << currScore->firstName + " " + currScore->lastName
-            << std::setw(12) << currScore->totalMark
-            << std::setw(12) << currScore->finalMark
-            << std::setw(12) << currScore->midtermMark
-            << std::setw(12) << currScore->otherMark;
-
-        currScore = currScore->pNext;
+        std::cout << std::setw(12) << studentID
+            << std::setw(20) << firstname + " " + lastname
+            << std::setw(12) << totalMark
+            << std::setw(12) << finalMark
+            << std::setw(12) << midtermMark
+            << std::setw(12) << otherMark;
         row++;
         no++;
     }

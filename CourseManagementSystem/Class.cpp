@@ -499,7 +499,7 @@ void Class::addStudentto1stClass_Console()
 {
     std::string classname;
     std::cout << "Input the classcode (Press enter to go back): ";
-
+    
     std::cin.ignore();
     std::getline(std::cin, classname);
 
@@ -778,7 +778,7 @@ void Class::addStudentto1stClass_File()
         // info of a student
         int no;
         std::string id, firstname, lastname, socialId;
-        bool gender;
+        int gender;
         date dob;
         std::string getNO;
         std::getline(read, getNO, ',');
@@ -808,7 +808,6 @@ void Class::addStudentto1stClass_File()
         gender = stoi(getGender);
         if (gender < 0 || gender > 1)
             state = false;
-
         std::string getDay, getMonth, getYear;
         std::getline(read, getDay, '/');
         std::getline(read, getMonth, '/');
@@ -860,6 +859,7 @@ void Class::addStudentto1stClass_File()
     std::cout << "Added Succesfully";
     SetColor(7, 0);
     Sleep(1000);
+    system("pause");
     system("cls");
 }
 bool student::checkExistFile(std::string id)
