@@ -487,7 +487,10 @@ void Class::getOption()
         
             std::cout << "\n"; gotox(mid - 49 / 2);
             std::cout << "Option Not Found!" << "\n";
-            gotox(mid - 49 / 2); std::cout << "Please input the available option:\n";
+            gotox(mid - 49 / 2); std::cout << "Please input the available option!\n";
+            gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
+            std::cin >> choice;
+            std::cin.ignore();
         }
         }
     }
@@ -588,7 +591,7 @@ void Class::addStudentto1stClass_Console()
                 gotox(mid - 46 / 2); std::cout << "                                             ";
                 gotoxy(mid + 24 / 2, -1); std::cout << "         ";
                 gotox(mid + 24 / 2);
-                std::cin >> getGender;
+                std::getline(std::cin, getGender);
                 gender = stoi(getGender);
             }
 
@@ -622,9 +625,9 @@ void Class::addStudentto1stClass_Console()
                 getDay = getDOB.substr(0, 2);
                 getMonth = getDOB.substr(2, 2);
                 getYear = getDOB.substr(4);
-                int day = stoi(getDay);
-                int month = stoi(getMonth);
-                int year = stoi(getYear);
+                day = stoi(getDay);
+                month = stoi(getMonth);
+                year = stoi(getYear);
             }
 
             gotox(mid - 36 / 2);
@@ -632,7 +635,11 @@ void Class::addStudentto1stClass_Console()
             std::getline(std::cin, socialId);
             while (socialId.length() != 12)
             {
-                std::cout << "Invalid social ID! Social ID should have exactly 12 digits! Please input the correct one!";
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid social ID! Social ID should have exactly 12 digits! \n";
+                gotox(mid - 36 / 2);
+                std::cout << "Please input the correct one! \n";
+                gotox(mid - 36 / 2);
                 std::cout << "Social ID: ";
                 std::getline(std::cin, socialId);
             }
@@ -686,6 +693,8 @@ void Class::addStudentto1stClass_Console()
         gotox(mid - 50 / 2);
         std::cout << "Enter Y (or y) to continue inputting on console\r\n";
         gotox(mid-50/2); std::cout << "Enter N (or N) to stop inputting." << "\n";
+        gotox(mid - 50 / 2);
+        std::cout << "Your choice -> ";
         std::cin >> choice;
         curStudent = curClass->headS;       // reset pointer
         std::cin.ignore();

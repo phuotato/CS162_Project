@@ -13,4 +13,5 @@ private:
 	int month;
 	int year;
 };
+bool isLeap(int year);
 bool checkValidDate(int d, int m, int y);
