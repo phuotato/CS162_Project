@@ -12,8 +12,15 @@ public:
 	semester* pNext=nullptr;
 	void getInformation();
 
+	//Show function
+	bool viewCourse();
+	void showingCourseList(course* pHead);
+	void showCourses(course*& pHead, short range, short& Pcur);
+	int getAllCourses(course* pHead);
+	void showPCourses(course*& pHead, short range, short& Pcur);
+
 	//Course function
-	bool showCourse();
+	
 	void addCourse();
 	void deleteCourse();
 	void saveCoursetoFolder(std::string& name, std::string& id, std::string& className, std::string& lecturer, int& credit, int& maxStudent, std::string& weekDay, int& session, std::string& year, std::string& semester);

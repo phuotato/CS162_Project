@@ -48,24 +48,43 @@ void changePassword(std::ifstream& fin, std::ofstream& fout)
 				fout.close();																//Remember to close text file
 
 				//Display
-				std::cout << "\n"; gotox(mid - 30 / 2);
+				std::cout << "\n"; gotox(mid - 48 / 2);
+				loadingPage();
+				gotox(mid - 27 / 2); std::cout << "                            ";
+				gotoxy(mid - 10 / 2, -2); std::cout << "         ";
+				SetColor(7, 2);
+				gotox(mid - 30 / 2);
 				std::cout << "Change password successfully!\n";
+				SetColor(7, 0);
+				Sleep(1000);
 			}
 			else
 			{
+				std::cout << "\n"; gotox(mid - 36/2);
+				SetColor(7, 4);
 				std::cout << "Wrong password. Please input again.";
+				SetColor(7, 0);
+				Sleep(1000);
+
+				gotox(mid - 36 / 2); std::cout << "                                   ";
+				gotoxy(mid - 5 / 2, -2); std::cout << "                      ";
+				gotox(mid - 5 / 2);
 			}
 		}
 		else
 		{
-			std::cout << "Wrong password. Please try again" << std::endl;
-			std::cout << "Input the password: ";
+			std::cout << "\n"; gotox(mid - 36 / 2);
+			SetColor(7, 4);
+			std::cout << "Wrong password. Please try again";
+			SetColor(7, 0);
+			Sleep(1000);
+
+			gotox(mid - 36 / 2); std::cout << "                                   ";
+			gotoxy(mid + 39 / 2, -2); std::cout << "                      ";
+			gotox(mid + 39 / 2);
 			std::cin >> password;
 			if (password == "")
 				return;
 		}
 	}
-	std::cout << std::endl;
-	std::cout << "Process done! The system will go back to the menu.";
-	system("pause");
 }

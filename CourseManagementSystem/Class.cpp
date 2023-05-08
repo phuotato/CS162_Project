@@ -64,7 +64,7 @@ void Class::addNewClass() {
     pHeadClass = new Class("Test");
     pHeadClass->pNext = tmp;
 
-    for (curClass = pHeadClass; curClass;) {
+    for (curClass = pHeadClass; curClass && curClass->pNext;) {
         if (curClass->pNext->getName()[0] != year[2] || curClass->pNext->getName()[1] != year[3]) {
             Class* tmp = curClass->pNext->pNext;
             delete curClass->pNext;
@@ -78,12 +78,19 @@ void Class::addNewClass() {
     delete pHeadClass;
     pHeadClass = tmp;
     tmp = nullptr;
+    curClass = pHeadClass;
 
     std::ofstream fout;
     while (true) {
+        system("cls");
 
         //Display pages
-        showingList();
+        if (curClass != nullptr) showingList();
+        else {
+            drawHeader();
+            std::cout << "\n"; gotox(mid - 29/2);
+            SetColor(7, 4); std::cout << "There is no class currently!"; SetColor(7, 0);
+        }
 
         //Enter the class code
         std::cout << "\n"; gotox(mid - 62 / 2);
@@ -486,9 +493,16 @@ void Class::getOption()
         default: {
         
             std::cout << "\n"; gotox(mid - 49 / 2);
-            std::cout << "Option Not Found!" << "\n";
-            gotox(mid - 49 / 2); std::cout << "Please input the available option!\n";
-            gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
+            std::cout << "Option Not Found!\n";
+            gotox(mid - 49 / 2); std::cout << "Please input the available option!";
+            Sleep(1000);
+
+            //Reset
+            gotox(mid - 49 / 2); std::cout << "                                  ";
+            gotoxy(mid - 49 / 2, -1); std::cout << "                                   ";
+            gotoxy(mid - 11 / 2, -2); std::cout << "                 ";
+            gotox(mid - 11 / 2);
+
             std::cin >> choice;
             std::cin.ignore();
         }

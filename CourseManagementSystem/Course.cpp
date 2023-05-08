@@ -9,6 +9,7 @@
 //global variable
 extern schoolYear* curSchoolYear;
 extern semester* curSemester;
+extern int mid;
 
 //Constructor
 course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
@@ -223,14 +224,18 @@ void course::updateCourse()
     while(true)
     {
         system("cls");
+        //header
+        drawHeader();
+
+        std::cout << "\n"; gotox(mid - 49 / 2);
         std::cout << "1.Id:" << id << std::endl;
-        std::cout << "2.Name:" << name << std::endl;
-        std::cout << "3.Class name:" << className << std::endl;
-        std::cout << "4.Lecturer:" << lecturer << std::endl;
-        std::cout << "5.Credit:" << credit << std::endl;
-        std::cout << "6.Max student:" << maxStudent << std::endl;
-        std::cout << "7.Day performed per week:" << weekDay << std::endl;
-        std::cout << "8.Session:";
+        gotox(mid - 49 / 2); std::cout << "2.Name:" << name << std::endl;
+        gotox(mid - 49 / 2); std::cout << "3.Class name:" << className << std::endl;
+        gotox(mid - 49 / 2); std::cout << "4.Lecturer:" << lecturer << std::endl;
+        gotox(mid - 49 / 2); std::cout << "5.Credit:" << credit << std::endl;
+        gotox(mid - 49 / 2); std::cout << "6.Max student:" << maxStudent << std::endl;
+        gotox(mid - 49 / 2); std::cout << "7.Day performed per week:" << weekDay << std::endl;
+        gotox(mid - 49 / 2); std::cout << "8.Session:";
         switch (session)
         {
         case 1:
@@ -241,55 +246,66 @@ void course::updateCourse()
             break;
         case 3:
             std::cout << "13:30\n";
+            break;
         case 4:
             std::cout << "15:30\n";
         }
-        std::cout << "Chose the number you want to edit (Press enter to back):";
+        gotox(mid - 49 / 2); std::cout << "Choose the number you want to edit (Press enter to stop): ";
         std::string choice; getline(std::cin, choice);
-        if (choice == "")
-            break;
+        if (choice == "") break;
+
+        while (choice <= "0" || choice >= "9" || choice.length() >= 2) {
+            if (choice == "") break;
+
+            std::cout << "\n"; gotox(mid - 24 / 2);
+            SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
+
+            Sleep(1000);
+
+            //Reset
+            gotox(mid - 24 / 2); std::cout << "                       ";
+            gotoxy(mid + 68 / 2, -2); std::cout << "                ";
+            gotox(mid + 68 / 2);
+
+            getline(std::cin, choice);
+        }
+
         int ch = stoi(choice);
         std::string New;
         int NEw;
+        gotox(mid - 49 / 2); std::cout << "Input the New one:";
+
         switch (ch)
         {
         case 1:
-            std::cout << "Input the New one:";
             getline(std::cin, New);
             id = New;
             break;
         case 2:
-            std::cout << "Input the New one:";
             getline(std::cin, New);
             name = New;
             break;
         case 3:
-            std::cout << "Input the New one:";
             getline(std::cin, New);
             className = New;
             break;
         case 4:
-            std::cout << "Input the New one:";
             getline(std::cin, New);
             lecturer = New;
             break;
         case 5:
-            std::cout << "Input the New one:";
             std::cin>>NEw;
             credit = NEw;
             break;
         case 6:
-            std::cout << "Input the New one:";
             std::cin >> NEw;
             maxStudent = NEw;
             break;
         case 7:
-            std::cout << "Input the New one:";
             std::cin >> NEw;
             weekDay = NEw;
             break;
         case 8:
-            std::cout << "Input the New one:";
             std::cin >> NEw;
             session = NEw;
             break;
@@ -298,7 +314,7 @@ void course::updateCourse()
     // save course ID to textfile
     fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
     if (!fout.is_open())
-        std::cout << "Khong the mo";
+        std::cout << "Open unsuccessfully";
     else
     {
         for (course* tmp = curSemester->pHeadCourse; tmp; tmp=tmp->pNext)
@@ -319,16 +335,25 @@ void course::addStudentMenu()
     {
         system("cls");
         drawHeader();
-
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t| 1. Add student manually                          |";
-        std::cout << "\n\t\t| 2. Import csv file                               |"; //chua lam
-        std::cout << "\n\t\t| 0. Back                                          |";
-        std::cout << "\n\t\t+--------------------------------------------------+";
-        std::cout << "\n\t\t Enter your choice: ";
+        drawBox(mid - 53 / 2, 8, 53, 5);
+        
+        gotoxy(mid - 49 / 2, 9); std::cout << "1. Add student manually\n";
+        gotox(mid - 49 / 2); std::cout << "2. Import csv file\n"; //chua lam
+        gotox(mid - 49 / 2); std::cout << "0. Back\n\n";
+        gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
         std::cin >> choice;
-        if (choice)
-            addStudent(choice);
+        if (choice < 0 || choice > 2) {
+            std::cout << "\n"; gotox(mid - 24 / 2);
+            SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
+
+            Sleep(1000);
+
+            //Reset
+            gotox(mid - 24 / 2); std::cout << "                       ";
+            gotoxy(mid - 9 / 2, -2); std::cout << "               ";
+            gotox(mid - 9 / 2);
+        }
+        else addStudent(choice);
     } while (choice);
 }
 
@@ -342,21 +367,30 @@ void course::addStudent(int choice)
             system("cls");
             bool gender;
             std::string id, firstname, lastname, dob, socialId;
-            system("cls");
+            //header
+            drawHeader();
+
+            std::cout << "\n"; gotox(mid - 49 / 2);
             std::cout << "Id:";
             std::cin.ignore();
             getline(std::cin, id);
-            std::cout << "Frist name:";
+
+            gotox(mid - 49 / 2); std::cout << "First name:";
             getline(std::cin, firstname);
-            std::cout << "Last name:";
+
+            gotox(mid - 49 / 2); std::cout << "Last name:";
             getline(std::cin, lastname);
-            std::cout << "Gender:";
+
+            gotox(mid - 49 / 2); std::cout << "Gender:";
             std::cin >> gender;
-            std::cout << "Date of birth(dd/mm/yyyy):";
+
+            gotox(mid - 49 / 2); std::cout << "Date of birth(dd/mm/yyyy):";
             std::cin.ignore();
             getline(std::cin, dob);
-            std::cout << "Social id:";
+
+            gotox(mid - 49 / 2); std::cout << "Social id:";
             getline(std::cin, socialId);
+
             if (pHeadStudent)
             {
                 if (compareString(lastname, pHeadStudent->getLastName(), firstname, pHeadStudent->getFirstName()) <= 0)
@@ -394,15 +428,36 @@ void course::addStudent(int choice)
                 pHeadStudent= new student(1, id, firstname, lastname, gender, dob, socialId);
                 pTailStudent = pHeadStudent;
             }
-            std::cout << "Add student successfully. Do you want to add more (Y/y to continue N/n to stop):";
+
+            std::cout << "\n"; gotox(mid - 48 / 2);
+            loadingPage();
+            gotox(mid - 27 / 2); std::cout << "                            ";
+            gotoxy(mid - 10 / 2, -2); std::cout << "         ";
+            
+            SetColor(7, 2); gotox(mid - 26 / 2);
+            std::cout << "Add student successfully!";
+            SetColor(7, 0);
+
+            //Reset
+            gotox(mid - 26 / 2); std::cout << "                         ";
+            gotoxy(mid - 49 / 2, -1);
+
+            std::cout << "Do you want to add more (Y/y to continue N/n to stop): ";
             std::cin >> ch;
         }
         else
         {
+            system("cls");
+            //header
+            drawHeader();
+            
+            std::cout << "\n"; gotox(mid - 49 / 2);
             std::cout << "Input the directory:";
             std::string dir;
             std::cin.ignore();
             getline(std::cin, dir);
+
+            std::cout << "\n";
             std::ifstream fin;
             fin.open(dir);
             {
@@ -459,6 +514,7 @@ void course::addStudent(int choice)
                         }
                         if (pHeadStudent && id == pHeadStudent->getStudentID())
                         {
+                            gotox(mid - 49 / 2);
                             std::cout << "Error! Line " << count << " is already add in this course\n";
                             student* tmp = pHeadStudent;
                             pHeadStudent = pHeadStudent->pNext;
@@ -471,7 +527,16 @@ void course::addStudent(int choice)
                 }
             }
             fin.close();
-            std::cout << "Add student successfully. Press any key to back:";
+
+            std::cout << "\n"; gotox(mid - 26 / 2);
+            SetColor(7, 4); std::cout << "Add student successfully!"; SetColor(7, 0);
+            Sleep(1000);
+
+            //Reset
+            gotox(mid - 26 / 2); std::cout << "                         ";
+            gotox(mid - 28 / 2);
+
+            std::cout << "Press any key to go back...";
             _getch();
             break;
         }

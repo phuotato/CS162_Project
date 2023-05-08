@@ -3,12 +3,14 @@
 #include "Universal.h"
 #include "Course.h"
 #include "Graphic.h"
+#include "Display.h"
+
 //Extern variables
 extern semester* curSemester;
 extern schoolYear* curSchoolYear;
 extern course* curCourse;
-//std::ifstream fin;
-//std::ifstream fout;
+extern int mid;
+
 semester::semester(int Sem, std::string StartDate, std::string EndDate)
 	:sem(Sem), startDate(StartDate), endDate(EndDate) {}
 semester::semester() {}
@@ -20,22 +22,45 @@ void semester::addCourse()
 	char choice = 'Y';
 	while (choice == 'Y' || choice == 'y')
 	{
+		system("cls");
 		std::cin.ignore();
+		//header
+		drawHeader();
+		std::cout << "\n"; gotox(mid - 16 / 2);
+		SetColor(7, 9);
+		std::cout << "Create Course\n\n";
+		SetColor(7, 0);
+
+		gotox(mid - 49/2);
 		std::cout << "Enter the name of the course: ";		// get information about the course
 		std::string name; getline(std::cin, name, '\n');
+
+		gotox(mid - 49 / 2);
 		std::cout << "Enter the course's ID: ";
 		std::string ID; getline(std::cin, ID);
+
+		gotox(mid - 49 / 2);
 		std::cout << "Enter the classname: ";
 		std::string className; getline(std::cin, className);
+
+		gotox(mid - 49 / 2);
 		std::cout << "Enter the lecturer of the course: ";
 		std::string lecturer; getline(std::cin, lecturer);
+
+		gotox(mid - 49 / 2);
 		std::cout << "Input the course's credit: ";
 		int credit; std::cin >> credit;
+
+		gotox(mid - 49 / 2);
 		std::cout << "Input the maximum student of this course: ";
 		int maxStudent; std::cin >> maxStudent;
 		std::cin.ignore();
+
+		gotox(mid - 49 / 2);
 		std::cout << "Which day will the course be performed? ";
 		std::string weekDay; getline(std::cin, weekDay);
+
+		gotox(mid - 49 / 2);
 		std::cout << "Enter the session that the course will be performed (1: 07:30, 2: 09:30, 3: 13:30, 4: 15:30): ";
 		int session; std::cin >> session;
 		if (pHeadCourse)
@@ -50,14 +75,29 @@ void semester::addCourse()
 		}
 		// save course ID to textfile
 		fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
-		if (!fout.is_open())
-			std::cout << "Khong the mo";
-		else
-			fout << ID << std::endl;
+		if (!fout.is_open()) {
+			std::cout << "\n"; gotox(mid - 21 / 2);
+			SetColor(7, 4); std::cout << "Error in saving file"; SetColor(7, 0);
+		}
+		else fout << ID << std::endl;
 		fout.close();
 		std::string sem = std::to_string(curSemester->getSem());
 		saveCoursetoFolder(name, ID, className, lecturer, credit, maxStudent, weekDay, session, curSchoolYear->year, sem);// function call
-		std::cout << "Would you like to add more courses for this semester? Enter Y (or y) to continue adding or enter N (or n) to stop the process: ";
+
+		loadingPage();
+
+		std::cout << "\n\n"; gotox(mid - 20 / 2);
+		SetColor(7, 2);
+		std::cout << " Create succesfully";
+		SetColor(7, 0);
+
+		Sleep(500);
+		//Reset
+		gotox(mid - 20 / 2); std::cout << "                            ";
+		gotoxy(mid - 26 / 2, -2); std::cout << "                           ";
+		gotoxy(mid - 12 / 2, -2); std::cout << "                           ";
+
+		gotoxy(mid - 49 / 2, -1); std::cout << "Would you like to add more courses for this semester?(Y/N) : ";
 		std::cin >> choice;
 	}
 }
@@ -84,15 +124,192 @@ void semester::saveCoursetoFolder(std::string& name, std::string& id, std::strin
 	fout.close();
 }
 
-bool semester::showCourse()
+int semester::getAllCourses(course* pHead) {
+	int i = 0;
+	for (course* cur = pHead; cur; cur = cur->pNext, i++);
+	return --i;
+}
+
+void semester::showCourses(course*& pHead, short range, short& Pcur) {
+	gotoxy(mid - 15 / 2, 3);
+	std::cout << "Courses' List";
+
+	short i = 5;
+	short k = 0;
+	for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
+	{
+		int lengthn = pHead->name.length();
+		int lengthid = pHead->id.length();
+		gotoxy(mid - (lengthid+lengthn) / 2, i);  std::cout << pHead->name << "(" << pHead->id << ")\n";
+		Pcur++;
+	}
+	drawBox(mid - 46 / 2, 4, 46, k + 4);
+	gotoy(-2);
+	drawLine(46, mid - 46 / 2);
+	std::cout << "\n\n"; gotox(mid - 46 / 2);
+}
+
+void semester::showPCourses(course*& pHead, short range, short& Pcur) {
+	//Check if the last page
+	if (Pcur % range == 0) {
+		for (int i = 0; i < Pcur - range * 2; i++) pHead = pHead->pNext;
+		Pcur -= range * 2;
+	}
+	else {
+		for (int i = 0; i < Pcur - (Pcur % range) - range; i++) pHead = pHead->pNext;
+		Pcur += -(Pcur % range) - range;
+	}
+}
+
+void semester::showingCourseList(course* pHead) {
+	std::string displayk = "N";
+	short range = 5;
+	short Pcur = 0;
+	int APages = getAllCourses(pHead) / range + 1;
+	course* pTail = pHead;
+	course* cur = pHead;
+	for (; pTail->pNext; pTail = pTail->pNext);
+
+	system("cls");
+	while (true) {
+
+		//Next page
+		if (displayk == "N" || displayk == "n") {
+			if (cur == nullptr) {
+				SetColor(7, 12);
+				std::cout << "\n\n"; gotox(mid - 25 / 2);
+				std::cout << "You are at the last page";
+				SetColor(7, 0);
+
+				Sleep(2000);
+
+				//Reset the command
+				gotox(mid - 47 / 2);
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
+					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
+				}
+
+				gotoxy(mid - 47 / 2, -2);
+
+			}
+			else {
+				system("cls");
+				drawBox(15, 2, 30, 23);
+				Tutorial();
+				showCourses(cur, range, Pcur);
+				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+			}
+		}
+		//Previous Page
+		else if (displayk == "P" || displayk == "p") {
+			if (Pcur <= range) {
+				SetColor(7, 12);
+				std::cout << "\n\n"; gotox(mid - 25 / 2);
+				std::cout << "You are at the first page";
+				SetColor(7, 0);
+
+				Sleep(2000);
+
+				//Reset the command
+				gotox(mid - 47 / 2);
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
+					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
+				}
+
+				gotoxy(mid - 47 / 2, -2);
+
+			}
+			else {
+				system("cls");
+				drawBox(15, 2, 30, 23);
+				Tutorial();
+				cur = pHead;
+				showPCourses(cur, range, Pcur);
+				showCourses(cur, range, Pcur);
+				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+			}
+		}
+		//Enter to confirm
+		else if (displayk == "") break;
+
+		//Number
+		else if (displayk[0] <= '9' && displayk[0] >= '0') {
+			int sample = stoi(displayk);
+			if (sample > 10 || sample < 5) {
+				SetColor(7, 12);
+				std::cout << "\n\n"; gotox(mid - 42 / 2);
+				std::cout << "The range is too big or too small (5~10)!";
+				SetColor(7, 0);
+
+				Sleep(2000);
+
+				//Reset the command
+				gotox(mid - 47 / 2);
+				std::cout << "                                                          \r";
+				for (int i = 0; i < 3; i++) {
+					gotoxy(mid - 47 / 2, -1);
+					std::cout << "                                                          \r";
+				}
+
+				gotoxy(mid - 47 / 2, -2);
+
+			}
+			else {
+				//Reset everything
+				range = sample;
+				Pcur = 0;
+				cur = pHead;
+				APages = getAllCourses(cur) / range + 1;
+
+				//Draw again
+				system("cls");
+				drawBox(15, 2, 30, 23);
+				Tutorial();
+				showCourses(cur, range, Pcur);
+				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+			}
+
+		}
+		else {
+			SetColor(7, 12);
+			std::cout << "\n\n"; gotox(mid - 13 / 2);
+			std::cout << "Valid input!";
+			SetColor(7, 0);
+
+			Sleep(2000);
+
+			//Reset the command
+			gotox(mid - 47 / 2);
+			std::cout << "                                                          \r";
+			for (int i = 0; i < 3; i++) {
+				gotoxy(mid - 47 / 2, -1);
+				std::cout << "                                                          \r";
+			}
+
+			gotoxy(mid - 47 / 2, -2);
+		}
+
+		std::cout << "\n\n"; gotox(mid - 41 / 2);
+		std::cout << "Change Setting (command is in tutorial): ";
+		getline(std::cin, displayk);
+	}
+}
+
+bool semester::viewCourse()
 {
 	if (!pHeadCourse)
 		curSemester->loadCourse();
 	if (!pHeadCourse)
 	{
-		gotoxy(17, 30);
-		std::cout << "This semster haven't had any course before";
-		std::cout << "\n\t\t Press any to continue:";
+		gotoxy(mid - 43 / 2, 5);
+		SetColor(7, 4);
+		std::cout << "This semster haven't had any course before\n";
+		SetColor(7, 0);
+		gotox(mid - 43 / 2); std::cout << "Press any keys to continue:";
 		std::cin.get();
 		return 0;
 	}
@@ -101,26 +318,23 @@ bool semester::showCourse()
 		while (true)
 		{
 			system("cls");
-			gotoxy(50, 3);				//show all course in semester
-			std::cout << "Courses's list\n";
-			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
+			//show all course in semester
+			showingCourseList(pHeadCourse);
+			
 			int x = 0;
-			for (course* cur = pHeadCourse; cur; cur = cur->pNext)
-			{
-				gotoxy(16, 6 + x); std::cout << "|";
-				gotoxy(34, 6 + x); std::cout << cur->name << "(" << cur->id << ")";
-				gotoxy(93, 6 + x); std::cout << "|";
-				++x;
-			}
-			std::cout << "\n\t\t+----------------------------------------------------------------------------+";
-			std::cout << "\n\t\tPlease choose your course's id (Press enter to go back): ";
+
+			std::cout << "\n"; gotox(mid - 58 / 2);
+			std::cout << "Please choose your course's id (Press enter to go back): ";
 			std::string Id;
 			getline(std::cin, Id);
+
 			if (Id == "") return 0;
+
 			for (course* cur = pHeadCourse; cur; cur = cur->pNext) {
 				if (cur->id == Id) {
+					std::cout << "\n"; gotox(mid - 18 / 2);
 					SetColor(7, 2);
-					std::cout << "\n\n\t\t              Found! Getting in";
+					std::cout << "Found! Getting in";
 					SetColor(7, 0);
 
 					Sleep(500);
@@ -130,8 +344,9 @@ bool semester::showCourse()
 			}
 
 			//False - warning
+			std::cout << "\n"; gotox(mid - 24 / 2);
 			SetColor(7, 12);
-			std::cout << "\n\n\t\t          Please input correctly!";
+			std::cout << "Please input correctly!";
 			SetColor(7, 0);
 
 			//Clear everything to show back

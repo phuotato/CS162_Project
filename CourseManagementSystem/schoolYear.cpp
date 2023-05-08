@@ -612,7 +612,7 @@ bool schoolYear::checkAvaiSemester()
 }
 bool schoolYear::showSemester()
 {
-	if(!pHeadSemester)			//load semester
+	if (!pHeadSemester)			//load semester
 		curSchoolYear->loadFile(year);
 
 	if (!pHeadSemester)			//check pHeadSemester null or not

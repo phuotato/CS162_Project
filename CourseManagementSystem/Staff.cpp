@@ -223,35 +223,73 @@ void CreateSemesterMenu() {
 
 void BeginSemesterMenu() {
     SetColor(7, 1);
-    std::cout << "\n\tState: Beginning of Semester.";
-    std::cout << "\n\tCurrent Year: ";
+    std::cout << "\n"; gotox(mid - 74 / 2);
+    std::cout << "State: Beginning of Semester.";
+
+    std::cout << "\n"; gotox(mid - 74 / 2);
+    std::cout << "Current Year: ";
     std::cout << curSchoolYear->year;
-    std::cout << "\n\tCurrent Semester: ";
+
+    std::cout << "\n"; gotox(mid - 74 / 2);
+    std::cout << "Current Semester: ";
     std::cout << curSemester->getSem();
     
-
     SetColor(7, 0);
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t|                MENU OPTIONS                      |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 1. Add a course                                  |";
-    std::cout << "\n\t\t| 2. Update course information                     |";
-    std::cout << "\n\t\t| 3. Add a student to the course                   |";
-    std::cout << "\n\t\t| 4. Remove a student from the course              |";
-    std::cout << "\n\t\t| 5. Delete a course                               |";
-    std::cout << "\n\t\t| 6. End Semester                                  |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 7. View student profile                          |";
-    std::cout << "\n\t\t| 8. View a list of classes                        |";
-    std::cout << "\n\t\t| 9: View a list of students in a class            |";
-    std::cout << "\n\t\t| 10. View a list of courses                       |";
-    std::cout << "\n\t\t| 11. View a list of students in a course          |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t| 12. Change Password                              |";
-    std::cout << "\n\t\t| 13. Back                                         |";
-    std::cout << "\n\t\t| 0. Exit                                          |";
-    std::cout << "\n\t\t+--------------------------------------------------+";
-    std::cout << "\n\t\t Enter your choice: ";
+    drawBox(mid - 53 / 2, 11, 53, 20);
+
+    gotoxy(mid - 13 / 2, 12);
+    std::cout << "MENU OPTIONS\n";
+
+    drawLine(53, mid - 53 / 2);
+ 
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "1. Add a course";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "2. Update course information";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "3. Add a student to the course";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "4. Remove a student from the course";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "5. Delete a course";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "6. End Semester\n";
+    
+    drawLine(53, mid - 53 / 2);
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "7. View student profile";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "8. View a list of classes";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "9: View a list of students in a class";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "10. View a list of courses";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "11. View a list of students in a course\n";
+
+    drawLine(53, mid - 53 / 2);
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "12. Change Password";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "13. Back";
+
+    std::cout << "\n"; gotox(mid - 49 / 2);
+    std::cout << "0. Exit";
+
+    std::cout << "\n\n"; gotox(mid - 49 / 2);
+    std::cout << "Enter your choice: ";
 }
 
 
@@ -272,7 +310,7 @@ void BeginSemester() {
 
         gotoxy(mid - 61 / 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
         gotoxy(mid - 49 / 2, 9); std::cout << "1. Create semester";
-        gotoxy(mid - 49 / 2, 10); std::cout << "2. Choose existing semester"; //chua lam
+        gotoxy(mid - 49 / 2, 10); std::cout << "2. Choose existing semester";
         gotoxy(mid - 49 / 2, 11); std::cout << "0. Back";
         gotoxy(mid - 61 / 2, 13); std::cout << "Enter your choice: ";
         std::cin >> choice;
@@ -310,7 +348,7 @@ void BeginSemester() {
                 while(true)
                 {
                     system("cls");
-                    if(curSemester->showCourse())
+                    if(curSemester->viewCourse())
                     curCourse->updateCourse();
                     else
                     break;
@@ -321,7 +359,7 @@ void BeginSemester() {
                 while (true)
                 {
                     system("cls");
-                    if (curSemester->showCourse())
+                    if (curSemester->viewCourse())
                         curCourse->addStudentMenu();
                     else
                         break;
@@ -334,7 +372,7 @@ void BeginSemester() {
                 while (true)
                 {
                     system("cls");
-                    if (curSemester->showCourse())
+                    if (curSemester->viewCourse())
                         curSemester->deleteCourse();
                     else
                         break;
@@ -347,7 +385,9 @@ void BeginSemester() {
                 pStudent->viewProfile_Staff();
                 break;
             case 8:
-                //Show list of class
+                std::cin.ignore();
+                pHeadClass->showingList();
+                break;
             case 9:
                 system("cls");
                 pHeadClass->viewStudentList();
@@ -357,7 +397,7 @@ void BeginSemester() {
                 while (true)
                 {
                     system("cls");
-                    if (curSemester->showCourse())
+                    if (curSemester->viewCourse())
                         curCourse->showStudent();
                     else
                         break;
@@ -368,7 +408,7 @@ void BeginSemester() {
                 while (true)
                 {
                     system("cls");
-                    if (curSemester->showCourse())
+                    if (curSemester->viewCourse())
                         curCourse->showInfo();
                     else
                         break;
