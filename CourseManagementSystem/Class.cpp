@@ -650,11 +650,15 @@ void Class::addStudentto1stClass_Console()
             while (socialId.length() != 12)
             {
                 gotox(mid - 36 / 2);
-                std::cout << "Invalid social ID! Social ID should have exactly 12 digits! \n";
+                SetColor(7, 4); std::cout << "Invalid social ID! Social ID should have exactly 12 digits!"; SetColor(7, 0);
+                Sleep(1000);
+
+                //Reset
                 gotox(mid - 36 / 2);
-                std::cout << "Please input the correct one! \n";
-                gotox(mid - 36 / 2);
-                std::cout << "Social ID: ";
+                std::cout << "                                                           ";
+                gotoxy(mid - 14 / 2, -1); std::cout << "           ";
+                gotox(mid - 14 / 2);
+
                 std::getline(std::cin, socialId);
             }
 
@@ -856,8 +860,12 @@ void Class::addStudentto1stClass_File()
             // Save the info of this student to a "copy" file
             write << no << "," << id << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
         }
-        else
+        else {
+            SetColor(7, 4);
+            gotox(mid - 60 / 2);
             std::cout << "At line: " << line << ": wrong data format. System will ignore this line of data!" << "\n";
+            SetColor(7, 0);
+        }
         ++line;                         
         curStudent = curClass->headS;       // reset conditions for the next turn
         state = true;   
@@ -873,6 +881,8 @@ void Class::addStudentto1stClass_File()
     std::cout << "Added Succesfully";
     SetColor(7, 0);
     Sleep(1000);
+    gotox(mid - 20 / 2); std::cout << "                       ";
+    gotox(mid - 20 / 2);
     system("pause");
     system("cls");
 }

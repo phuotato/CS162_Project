@@ -398,7 +398,7 @@ void BeginSemester() {
                 {
                     system("cls");
                     if (curSemester->viewCourse())
-                        curCourse->showStudent();
+                        curCourse->showStudent(); //Check sau
                     else
                         break;
                 }
@@ -413,6 +413,7 @@ void BeginSemester() {
                     else
                         break;
                 }
+                break;
             case 12:
                 system("cls");
                 drawHeader();

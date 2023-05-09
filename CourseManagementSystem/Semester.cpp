@@ -105,7 +105,7 @@ void semester::saveCoursetoFolder(std::string& name, std::string& id, std::strin
 {
 	std::ofstream fout;
 	if (_mkdir(("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id).c_str()));	// create course folder
-	fout.open("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::app);
+	fout.open("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::trunc);
 	if (!fout.is_open())
 	{
 		std::cout << "Open UnSuccessfully";
@@ -277,7 +277,7 @@ void semester::showingCourseList(course* pHead) {
 		else {
 			SetColor(7, 12);
 			std::cout << "\n\n"; gotox(mid - 13 / 2);
-			std::cout << "Valid input!";
+			std::cout << "Invalid input!";
 			SetColor(7, 0);
 
 			Sleep(2000);

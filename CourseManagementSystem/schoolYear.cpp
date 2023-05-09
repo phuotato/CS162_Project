@@ -496,8 +496,8 @@ bool schoolYear::createSemester()
 
 		gotox(mid - 61 / 2); std::cout << "Enter the end date: ";
 		std::string EndDate;
-		std::cin.ignore();
 		getline(std::cin, EndDate);
+		std::cin.ignore();
 
 		std::string sem;
 		sem += x;
@@ -512,11 +512,13 @@ bool schoolYear::createSemester()
 		{
 			curSchoolYear->pHeadSemester = dummy;
 			curSchoolYear->pTailSemester = dummy;
+			curSemester = dummy;
 		}
 		else
 		{
 			curSchoolYear->pTailSemester->pNext = dummy;
 			curSchoolYear->pTailSemester = dummy;
+			curSemester = dummy;
 		}
 		std::cout << "\n\n"; gotox(mid - 48 / 2);
 		loadingPage();
@@ -527,21 +529,22 @@ bool schoolYear::createSemester()
 		std::cout << "Created Succesfully";
 		SetColor(7, 0);
 		Sleep(1000);
-		system("cls");
 
-		//----------fix later--------------------
-		std::cout << "Do you want to add more semester :(Y/N || y/n) ";
-		char choice; std::cin >> choice;
-		std::cin.ignore();
-		if (choice == 'N' || choice == 'n')
-			return 1;
-		if (!curSchoolYear->checkAvaiSemester())
-		{
-			std::cout << "This school year is full of semester\n";
-			std::cout << "Press any key to back:";
-			_getch();
-			return 1;
-		}
+		////Reset
+		//gotox(mid - 20 / 2); std::cout << "                        ";
+		//gotox(mid - 61 / 2);
+		//std::cout << "Do you want to add more semester :(Y/N || y/n) ";
+		//char choice; std::cin >> choice;
+		//std::cin.ignore();
+		//if (choice == 'N' || choice == 'n')
+		//	return 1;
+		//if (!curSchoolYear->checkAvaiSemester())
+		//{
+		//	std::cout << "This school year is full of semester\n";
+		//	std::cout << "Press any key to back:";
+		//	_getch();
+		//	return 1;
+		//}
 	}
 }
 void schoolYear::loadFile(std::string year)

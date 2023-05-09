@@ -312,7 +312,7 @@ void course::updateCourse()
         }
     }
     // save course ID to textfile
-    fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
+    fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::trunc);
     if (!fout.is_open())
         std::cout << "Open unsuccessfully";
     else
@@ -342,7 +342,7 @@ void course::addStudentMenu()
         gotox(mid - 49 / 2); std::cout << "0. Back\n\n";
         gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
         std::cin >> choice;
-        if (choice < 0 || choice > 2) {
+        if (choice <= 0 || choice > 2) {
             std::cout << "\n"; gotox(mid - 24 / 2);
             SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
 
@@ -582,6 +582,15 @@ int compareString(std::string a, std::string b, std::string c, std::string d)
 void course::showStudent()
 {
     system("cls");
+    drawHeader();
+    if (!pHeadStudent) {
+        std::cout << "\n"; gotox(mid - 38 / 2);
+        SetColor(7, 4); std::cout << "There are no students in this course!"; SetColor(7, 0);
+
+        Sleep(1000);
+        return;
+    }
+
     for (student* cur = pHeadStudent; cur; cur = cur->pNext)
     {
         std::cout << "No:" << cur->getNo() << std::endl;
@@ -601,6 +610,7 @@ void course::showStudent()
         std::cout << "Date of birth:" << cur->getDate() << std::endl;
         std::cout << "Social id:" << cur->getSocialId() << std::endl << std::endl;
     }
+
     std::cout << "Press any key to coninue";
     _getch();
 }
@@ -608,13 +618,35 @@ void course::showStudent()
 void course::showInfo()
 {
     system("cls");
+    //header
+    drawHeader();
+    std::cout << "\n"; gotox(mid - 16 / 2);
+    SetColor(7, 9);
+    std::cout << "Information of Course\n\n";
+    SetColor(7, 0);
+
+    gotox(mid - 49 / 2);
     std::cout << "1.Id:" << id << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "2.Name:" << name << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "3.Class name:" << className << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "4.Lecturer:" << lecturer << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "5.Credit:" << credit << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "6.Max student:" << maxStudent << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "7.Day performed per week:" << weekDay << std::endl;
+
+    gotox(mid - 49 / 2);
     std::cout << "8.Session:";
     switch (session)
     {
@@ -629,6 +661,12 @@ void course::showInfo()
     case 4:
         std::cout << "15:30\n";
     }
+
+    std::cout << "\n"; gotox(mid - 23 / 2);
+    SetColor(7, 2);
     std::cout << "Press any key to back:";
+    SetColor(7, 0);
+
+    drawBox(mid - 53 / 2, 9, 53, 9);
     _getch();
 }
