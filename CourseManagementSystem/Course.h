@@ -33,6 +33,7 @@ public:
 	//scoreboard functions
 	void ExportClass();
 	void ImportScoreboard();
+	void showScoreBoardOfClass();
 	void updateStudentResult();
 	void ViewScoreboard();
 	void saveIndividualScore();

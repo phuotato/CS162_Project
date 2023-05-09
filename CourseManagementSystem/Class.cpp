@@ -509,6 +509,28 @@ void Class::getOption()
         }
     }
 }
+bool checkValidName(std::string name)
+{
+    if (name[0] == ' ')
+        return false;
+    for (int i = 0; i < name.length(); ++i)
+    {
+        if (!(name[i] >= 'a' && name[i] <= 'z' || name[i] >= 'A' && name[i] <= 'Z' || name[i] == ' '))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool checkValidNum(std::string num)
+{
+    for (int i = 0; i < num.length(); ++i)
+    {
+        if (!(num[i] >= '0' && num[i] <= '9'))
+            return false;
+    }
+    return true;
+}
 void Class::addStudentto1stClass_Console()
 {
     std::string classname;
@@ -557,6 +579,14 @@ void Class::addStudentto1stClass_Console()
         gotox(mid - 36 / 2);
         std::cout << "No: ";
         std::getline(std::cin, getNO);
+        while (!checkValidNum(getNO))
+        {
+            gotox(mid - 36 / 2);
+            std::cout << "Invalid input! Please try again! \n";
+            gotox(mid - 36 / 2);
+            std::cout << "No: ";
+            std::getline(std::cin, getNO);
+        }
         no = stoi(getNO);
 
         gotox(mid - 36 / 2);
@@ -583,15 +613,40 @@ void Class::addStudentto1stClass_Console()
             gotox(mid - 36 / 2);
             std::cout << "First name: ";
             std::getline(std::cin, firstname);
+            while (!checkValidName(firstname))
+            {
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid input! Please try again!\n";
+                gotox(mid - 36 / 2);
+                std::cout << "First name: ";
+                std::getline(std::cin, firstname);
+            }
+            
 
             gotox(mid - 36 / 2);
             std::cout << "Last name: ";
             std::getline(std::cin, lastname);
+            while (!checkValidName(lastname))
+            {
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid input! Please try again!\n";
+                gotox(mid - 36 / 2);
+                std::cout << "Last name: ";
+                std::getline(std::cin, lastname);
+            }
 
             gotox(mid - 36 / 2);
             std::cout << "Gender (Male: 0 | Female: 1): ";
             std::string getGender;
             std::getline(std::cin, getGender);
+            while (!checkValidNum(getGender))
+            {
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid input! Please try again! \n";
+                gotox(mid - 36 / 2);
+                std::cout << "Gender (Male: 0 | Female: 1): ";
+                std::getline(std::cin, getGender);
+            }
             gender = stoi(getGender);
             while (gender < 0 || gender > 1)
             {
@@ -614,6 +669,14 @@ void Class::addStudentto1stClass_Console()
             std::string getDay, getMonth, getYear;
             std::string getDOB;
             std::getline(std::cin, getDOB);
+            while (getDOB.length() != 8)        // check exact 8 digits
+            {
+                gotox(mid - 36 / 2);
+                std::cout << "Invalid input! Please try again! \n";
+                gotox(mid - 36 / 2);
+                std::cout << "Date of birth (DDMMYYYY - For example: 01012004): ";
+                std::getline(std::cin, getDOB);
+            }
             getDay = getDOB.substr(0, 2);
             getMonth = getDOB.substr(2, 2);
             getYear = getDOB.substr(4);
@@ -710,7 +773,7 @@ void Class::addStudentto1stClass_Console()
 
         gotox(mid - 50 / 2);
         std::cout << "Enter Y (or y) to continue inputting on console\r\n";
-        gotox(mid-50/2); std::cout << "Enter N (or N) to stop inputting." << "\n";
+        gotox(mid-50/2); std::cout << "Enter any other character except Y and y to stop inputting!" << "\n";
         gotox(mid - 50 / 2);
         std::cout << "Your choice -> ";
         std::cin >> choice;
@@ -739,7 +802,6 @@ void Class::addStudentto1stClass_File()
     // this function is for updating the class
 
     // user input the link of the file
-    //std::cout << "Enter the link to the CSV file (Note that the name of the file should be the name of the class that the students belong to): \n";
     system("cls");
     drawHeader();
     gotox(mid - 86/2);
@@ -800,9 +862,14 @@ void Class::addStudentto1stClass_File()
         date dob;
         std::string getNO;
         std::getline(read, getNO, ',');
-        std::getline(read, id, ',');
         if (read.eof())
             break;
+        if (!checkValidNum(getNO))
+            state = false;
+        else
+            no = stoi(getNO);
+        std::getline(read, id, ',');
+
         while (curStudent != nullptr)       // check whether that student ID exists in the student list or not
         {
             if (curStudent->getStudentID() == id)
@@ -818,14 +885,23 @@ void Class::addStudentto1stClass_File()
                 tail = curStudent;
             curStudent = curStudent->pNext;
         }
-        no = stoi(getNO);
+
         std::getline(read, firstname, ',');
+        if (!checkValidName(firstname))
+            state = false;
         std::getline(read, lastname, ',');
+        if (!checkValidName(lastname))
+            state = false;
         std::string getGender;
         std::getline(read, getGender, ',');
-        gender = stoi(getGender);
-        if (gender < 0 || gender > 1)
+        if (!checkValidNum(getGender))
             state = false;
+        else
+        {
+            gender = stoi(getGender);
+            if (gender < 0 || gender > 1)
+                state = false;
+        }
         std::string getDay, getMonth, getYear;
         std::getline(read, getDay, '/');
         std::getline(read, getMonth, '/');

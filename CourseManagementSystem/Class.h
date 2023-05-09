@@ -50,3 +50,4 @@ private:
 	std::string Name;
 	student* headS = nullptr;
 };
+bool checkValidName(std::string name);
