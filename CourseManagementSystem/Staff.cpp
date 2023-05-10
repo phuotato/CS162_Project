@@ -5,6 +5,7 @@
 #include "Graphic.h"
 #include "Staff.h"
 #include "Class.h"
+#include "Display.h"
 
 
 extern student* pStudent;
@@ -19,15 +20,19 @@ extern int mid;
 
 //functions
 void BeginSemester();
-void CreateSchoolYearMenu() {
+void CreateSchoolYearMenu(std::string*& content) {
+    content = new std::string[3];
+    content[2] = "0. Exit";
+    content[1] = "2. Choose existing School Year";
+    content[0] = "1. Create School Year";
+
     drawHeader();
     drawBox(mid - 53 / 2, 8, 53, 9);
 
     gotoxy(mid - 65 / 2, 7); std::cout <<  "Create a new school year or choose an existing one to continue.";
     gotoxy(mid - 49 / 2, 10); std::cout <<  "1. Create School Year                            ";
     gotoxy(mid - 49 / 2, 12); std::cout << "2. Choose existing School Year                   ";
-    gotoxy(mid - 49 / 2, 14); std::cout << "0. EXIT                                          ";
-    gotoxy(mid - 53 / 2, 17); std::cout << "  Enter your choice: ";
+    gotoxy(mid - 49 / 2, 14); std::cout << "0. Exit                                          ";
 }
 
 void BeginSchoolYearMenu() {
@@ -93,21 +98,23 @@ void SchoolYearMenu() {
     system("mode con: cols=156 lines=80");
     mid = getMidColumns();
     //MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
-    int option;
+    int option=0;
     short k = 1;
+    std::string* content = nullptr;
     while (k != 0) {
         system("cls");
         pHeadSchoolYear->deleteSchoolYear();
-        CreateSchoolYearMenu();
-        std::cin >> option;
+        CreateSchoolYearMenu(content);
+        option = movingBar(mid-51/2, 10, 10 + option*2, mid+51/2, 14, 2, content);
+
         switch (option) {
-        case 1:
+        case 2:
             system("cls");
             drawHeader();
             pHeadSchoolYear->createSchoolYear(k);
             curSchoolYear = pTailSchoolYear;
             break;
-        case 2:
+        case 1:
             system("cls");
             drawHeader();
             pHeadSchoolYear->chooseSchoolYear(k);
@@ -123,11 +130,6 @@ void SchoolYearMenu() {
             std::cout << "Management Program!\n\n\n\n\n\n";
             exit(0);
             break;
-        default:
-            std::cout << "\n\n"; gotox(mid - 15 / 2);
-            SetColor(7, 12);
-            std::cout << "Invalid input.";
-            SetColor(7, 0);
         }
     }
 }

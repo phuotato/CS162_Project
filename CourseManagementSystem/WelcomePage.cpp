@@ -42,7 +42,7 @@ void welcomePage()
     gotoxy(mid-26/2, 12);
     std::cout << "2. Student";
     gotoxy(mid-26/2, 14);
-    std::cout << "0. EXIT"; //character i make the box break
+    std::cout << "0. Exit"; //character i make the box break
 	
 	gotoxy(mid-26/2, 17);
 	std::cout << "Your choice: ";

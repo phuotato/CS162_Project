@@ -1,7 +1,10 @@
 #pragma once
+#include <string>
 
-void drawTutorial(int x, int y, int width, int height);
+int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, std::string* content);
 
-void Tutorial();
+int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::string* content); //input at the first row of the setting
+
+void Tutorial(std::string*& content);
 
 void Description(short range, short APages, short CPages, short Pcur);
