@@ -163,6 +163,7 @@ void semester::showPCourses(course*& pHead, short range, short& Pcur) {
 
 void semester::showingCourseList(course* pHead) {
 	std::string displayk = "N";
+	std::string* content;
 	short range = 5;
 	short Pcur = 0;
 	int APages = getAllCourses(pHead) / range + 1;
@@ -197,7 +198,7 @@ void semester::showingCourseList(course* pHead) {
 			else {
 				system("cls");
 				drawBox(15, 2, 30, 23);
-				Tutorial();
+				Tutorial(content);
 				showCourses(cur, range, Pcur);
 				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
 			}
@@ -226,7 +227,7 @@ void semester::showingCourseList(course* pHead) {
 			else {
 				system("cls");
 				drawBox(15, 2, 30, 23);
-				Tutorial();
+				Tutorial(content);
 				cur = pHead;
 				showPCourses(cur, range, Pcur);
 				showCourses(cur, range, Pcur);
@@ -268,7 +269,7 @@ void semester::showingCourseList(course* pHead) {
 				//Draw again
 				system("cls");
 				drawBox(15, 2, 30, 23);
-				Tutorial();
+				Tutorial(content);
 				showCourses(cur, range, Pcur);
 				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
 			}

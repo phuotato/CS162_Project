@@ -1,40 +1,202 @@
 #include "Display.h"
 #include "Graphic.h"
+#include <string>
 
-void drawTutorial(int x, int y, int width, int height) {
-	char horizontalLine = '-';
-	char verticalLine = '|';
-	char topLeftCorner = '+';
-	char topRightCorner = '+';
-	char bottomLeftCorner = '+';
-	char bottomRightCorner = '+';
+int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, std::string* content) {
+	int mid = 15 + 30 / 2;
+	int xp = x;
+	int count = (yp - y) / steep;
+	char c = 1;
 
-	// Draw the top line of the box
-	gotoxy(x, y);
-	std::cout << topLeftCorner;
-	for (int i = 1; i < width - 1; i++) {
-		std::cout << horizontalLine;
+	SetColor(4, 0);
+	gotoxy(x, yp);
+	for (int i = 0; i < limitx - x; i++) std::cout << " ";
+	gotox(mid - content[count].length() / 2); std::cout << content[count];
+	SetColor(7, 0);
+
+
+	while (true) {
+		if (_kbhit())
+		{
+			if (c == -32) // c = 224 is the special for keystrokes
+			{
+				c = _getch();
+				if (c == 72) //up
+				{
+					if (yp != y) {
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+
+						//Calculate new bar
+						yp -= steep;
+						count--;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+					else
+					{
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+
+						//Calculate new bar
+						yp = limity;
+						count = (limity - y) / steep;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+				}
+				else if (c == 80) //down
+				{
+					if (yp != limity) {
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+
+						//Calculate new bar
+						yp += steep;
+						count++;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+					else
+					{
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+
+						//Calculate new bar
+						yp = y;
+						count = 0;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(mid - content[count].length() / 2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+				}
+			}
+		}
+		else if (c == 13) {
+			return (limity - yp) / steep;
+		}
+		else c = _getch();
 	}
-	std::cout << topRightCorner;
 
-	// Draw the sides of the box
-	for (int i = 1; i < height - 1; i++) {
-		gotoxy(x, y + i);
-		std::cout << verticalLine;
-		gotoxy(x + width - 1, y + i);
-		std::cout << verticalLine;
-	}
-
-	// Draw the bottom line of the box
-	gotoxy(x, y + height - 1);
-	std::cout << bottomLeftCorner;
-	for (int i = 1; i < width - 1; i++) {
-		std::cout << horizontalLine;
-	}
-	std::cout << bottomRightCorner;
 }
 
-void Tutorial() {
+int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::string* content) {
+	int xp = x;
+	int count = (yp-y)/steep;
+	char c = 1;
+
+	SetColor(4, 0);
+	gotoxy(x, yp);
+	for (int i = 0; i < limitx - x; i++) std::cout << " ";
+	gotox(x + 2); std::cout << content[count];
+	SetColor(7, 0);
+
+
+	while (true) {
+		if (_kbhit())
+		{
+			if (c == -32) // c = 224 is the special for keystrokes
+			{
+				c = _getch();
+				if (c == 72) //up
+				{
+					if (yp != y) {
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x + 2); std::cout << content[count];
+
+						//Calculate new bar
+						yp -= steep;
+						count--;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+					else
+					{
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+
+						//Calculate new bar
+						yp = limity;
+						count = (limity - y) / steep;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+				}
+				else if (c == 80) //down
+				{
+					if (yp != limity) {
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+
+						//Calculate new bar
+						yp += steep;
+						count++;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+					else
+					{
+						//Reset
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+
+						//Calculate new bar
+						yp = y;
+						count = 0;
+						SetColor(4, 0);
+						gotoxy(x, yp);
+						for (int i = 0; i < limitx - x; i++) std::cout << " ";
+						gotox(x+2); std::cout << content[count];
+						SetColor(7, 0);
+					}
+				}
+			}
+		}
+		else if (c == 13) {
+			return (limity - yp) / steep;
+		}
+		else c = _getch();
+	}
+
+}
+
+void Tutorial(std::string*& content) {
+	content = new std::string[4];
 	int mid = 15 + 30 / 2;
 	gotoxy(mid - 9/2, 2);
 	SetColor(7, 1);
@@ -43,15 +205,19 @@ void Tutorial() {
 
 	gotoxy(mid - 20 / 2, 6);
 	std::cout << "Press n - Next Page";
+	content[0] = "Press n - Next Page";
 
 	gotoxy(mid - 24 / 2, 10);
 	std::cout << "Press p - Previous Page";
+	content[1] = "Press p - Previous Page";
 
 	gotoxy(mid - 23 / 2, 14);
 	std::cout << "(Number) - Change List";
+	content[2] = "(Number) - Change List";
 
 	gotoxy(mid - 22 / 2, 18);
 	std::cout << "Press Enter - Confirm";
+	content[3] = "Press Enter - Confirm";
 }
 
 void Description(short range, short APages, short CPages, short Pcur) {

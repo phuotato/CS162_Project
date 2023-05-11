@@ -299,6 +299,7 @@ int Class::getAllClass() {
 
 void Class::showingList() {
     std::string displayk = "N";
+    std::string* content;
     short range = 5;
     short Pcur = 0;
     int APages = getAllClass() / range + 1;
@@ -333,7 +334,7 @@ void Class::showingList() {
             else {
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
 
                 SetColor(7, 9);
                 gotoxy(mid - 24 / 2, 2);
@@ -368,7 +369,7 @@ void Class::showingList() {
             else {
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
 
                 SetColor(7, 9);
                 gotoxy(mid - 24 / 2, 2);
@@ -415,7 +416,7 @@ void Class::showingList() {
                 //Draw again
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
 
                 SetColor(7, 9);
                 gotoxy(mid - 24 / 2, 2);
@@ -1162,6 +1163,7 @@ int Class::getAllStudents(student* pHead) {
 
 void Class::showingStudentList(student* pHead) {
     std::string displayk = "N";
+    std::string* content;
     short range = 10;
     short Pcur = 0;
     int APages = getAllStudents(pHead) / range + 1;
@@ -1196,7 +1198,7 @@ void Class::showingStudentList(student* pHead) {
             else {
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
                 showStudents(cur, range, Pcur);
                 Description(range, APages, (Pcur - 1) / range + 1, Pcur);
             }
@@ -1225,7 +1227,7 @@ void Class::showingStudentList(student* pHead) {
             else {
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
                 cur = pHead;
                 showPStudents(cur, range, Pcur);
                 showStudents(cur, range, Pcur);
@@ -1267,7 +1269,7 @@ void Class::showingStudentList(student* pHead) {
                 //Draw again
                 system("cls");
                 drawBox(15, 2, 30, 23);
-                Tutorial();
+                Tutorial(content);
                 showStudents(cur, range, Pcur);
                 Description(range, APages, (Pcur - 1) / range + 1, Pcur);
             }
