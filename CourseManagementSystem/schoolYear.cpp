@@ -198,7 +198,6 @@ void schoolYear::showSchoolYearAll(short range, short& Pcur)
 {
 	gotoxy(mid-19/2, 3); std::cout << "School Years' List";
 
-
 	short i = 5;
 	short k = 0;
 	for (; curSchoolYear && k < range; curSchoolYear = curSchoolYear->pNext, i++, k++)

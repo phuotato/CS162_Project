@@ -196,14 +196,36 @@ void student::viewProfile_Student()
 
 void student::viewCourseList() {
     system("cls");
-    std::cout << "List of Courses:" << std::endl;
+
+    //Get the number of courses
+    int numCourses = 0;
     courseScore* currScore = hScore;
     while (currScore != nullptr) {
-        std::cout << currScore->courseID << std::endl;
+        numCourses++;
         currScore = currScore->pNext;
     }
-}
 
+    //Outer Box
+    drawBox(1, 1, 50, numCourses + 5);
+
+    // Print the header
+    gotoxy(3, 2);
+    std::cout << "List of Courses:";
+
+    // Print the course IDs
+    currScore = hScore;
+    int row = 4;
+    while (currScore != nullptr) {
+        gotoxy(3, row);
+        std::cout << currScore->courseID;
+        currScore = currScore->pNext;
+        row++;
+    }
+
+    gotoxy(3, row + 2);
+    std::cout << "Press any key to go back: ";
+    system("pause");
+}
 
 void student::viewScoreboard() {
     system("cls");
@@ -251,5 +273,7 @@ void student::viewScoreboard() {
 
     // Draw a box around the bottom of the scoreboard
     drawBox(2, row, 90, 3);
+    std::cout << "\n\n\nPress any key to back:";
+    system("pause");
 }
 
