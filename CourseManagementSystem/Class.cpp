@@ -580,7 +580,7 @@ void Class::addStudentto1stClass_Console()
         gotox(mid - 36 / 2);
         std::cout << "No: ";
         std::getline(std::cin, getNO);
-        while (!checkValidNum(getNO))
+        while (!checkValidNum(getNO))           // check if valid number
         {
             gotox(mid - 36 / 2);
             std::cout << "Invalid input! Please try again! \n";
@@ -853,6 +853,7 @@ void Class::addStudentto1stClass_File()
     std::getline(read, redundant);   
     int line = 2;
     bool state = true;
+    bool dups = false;
     student* tail = nullptr;
     while (!read.eof())
     {
@@ -879,7 +880,7 @@ void Class::addStudentto1stClass_File()
                 gotox(mid - 60 / 2);
                 std::cout << "At line " << line << ", student ID " << id << " already exists in the list" << "\n";
                 SetColor(7, 0);
-                state = false;
+                dups = true;
                 break;
             }
             if (curStudent->pNext == nullptr)
@@ -919,7 +920,7 @@ void Class::addStudentto1stClass_File()
             state = false;
 
         // Save student information to a text file
-        if (state)
+        if (state)         
         {
             if (!curStudent->checkExistFile(id))
                 exportNewStudentProfile(classcode, id, firstname, lastname, no, gender, day, month, year, socialId);
@@ -937,7 +938,7 @@ void Class::addStudentto1stClass_File()
             // Save the info of this student to a "copy" file
             write << no << "," << id << "," << firstname << "," << lastname << "," << gender << "," << day << "/" << month << "/" << year << ",'" << socialId << "\n";
         }
-        else {
+        else if (state == false && dups == false) {
             SetColor(7, 4);
             gotox(mid - 60 / 2);
             std::cout << "At line: " << line << ": wrong data format. System will ignore this line of data!" << "\n";
@@ -946,6 +947,7 @@ void Class::addStudentto1stClass_File()
         ++line;                         
         curStudent = curClass->headS;       // reset conditions for the next turn
         state = true;   
+        dups = false;
     }
     read.close();
     write.close();
@@ -966,7 +968,7 @@ void Class::addStudentto1stClass_File()
 bool student::checkExistFile(std::string id)
 {
     std::ifstream read;
-    read.open("../Data/StudentProfile/" + id + ".txt");
+    read.open("../Data/StudentProfile/" + id + ".csv");
     if (!read)
     {
         return false;
