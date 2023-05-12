@@ -483,7 +483,7 @@ void BeginSemester() {
                 {
                     system("cls");
                     if (curSemester->viewCourse())
-                        curCourse->showStudent(); //Check sau
+                        curCourse->showInfo();
                     else
                         break;
                 }
@@ -494,7 +494,7 @@ void BeginSemester() {
                 {
                     system("cls");
                     if (curSemester->viewCourse())
-                        curCourse->showInfo();
+                        curCourse->showStudent(); //Check sau
                     else
                         break;
                 }
