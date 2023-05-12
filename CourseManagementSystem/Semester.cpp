@@ -56,7 +56,7 @@ void semester::addCourse()
 		std::cin.ignore();
 
 		gotox(mid - 49 / 2);
-		std::cout << "Which day will the course be performed? ";
+		std::cout << "Which day will the course be performed? FRI-SAT ";
 		std::string weekDay; getline(std::cin, weekDay);
 
 		gotox(mid - 49 / 2);

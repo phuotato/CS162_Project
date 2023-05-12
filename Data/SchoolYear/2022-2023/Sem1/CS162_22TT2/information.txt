@@ -1,4 +1,4 @@
-CS162
+CS162_22TT2
 Introduction to computer science II
 22TT2
 Dinh Ba Tien
