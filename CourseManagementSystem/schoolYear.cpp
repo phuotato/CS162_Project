@@ -20,17 +20,14 @@ schoolYear::schoolYear(std::string time, schoolYear* pointer) :year(time), pNext
 schoolYear::schoolYear() {}
 
 //Create SchoolYear
-
 void schoolYear::createSchoolYear(short& k)
 {
 	loadFile();
-	bool flag = 1;
 	std::ofstream fout;
 	while (true)
 	{
-		//Display pages
 		ShowingList();
-		
+
 		std::cout << "\n"; gotox(mid - 41 / 2);
 		std::cout << "Enter new school year (e.g. 2022-2023): \r";
 
@@ -38,14 +35,13 @@ void schoolYear::createSchoolYear(short& k)
 		std::cout << "Or press enter to go back:";
 		std::string year; getline(std::cin, year);
 
-		//if enter then return
-		if (year == "") return;
+		if (year.empty())
+			return;
 
-		//checking condition
-		if (checkCorrectYear(year) == false) {
+		if (!checkCorrectYear(year)) {
 			SetColor(7, 12);
-			std::cout << "\n\n"; gotox(mid - 29/2);
-			std::cout << "Please enter the valid year!";
+			std::cout << "\n\n"; gotox(mid - 29 / 2);
+			std::cout << "Please enter a valid year!";
 			SetColor(7, 0);
 
 			Sleep(2000);
@@ -54,8 +50,7 @@ void schoolYear::createSchoolYear(short& k)
 		}
 
 		if (checkExistSchoolYear(year) != 0)
-		{	
-			//Check this is the newest year
+		{
 			if (year < pTailSchoolYear->getYear()) {
 				SetColor(7, 12);
 				std::cout << "\n\n"; gotox(mid - 50 / 2);
@@ -65,48 +60,46 @@ void schoolYear::createSchoolYear(short& k)
 				Sleep(2000);
 				continue;
 			}
-			//Create a new schoolyear and store in linked list
-			fout.open("../Data/SchoolYear/all school year.txt", std::ios::app);				//Open file stored all year of school
+
+			fout.open("../Data/SchoolYear/all school year.txt", std::ios::app);
 			fout << std::endl;
-			fout << year;			//Write down the schoolyear
+			fout << year;
 			fout.close();
 
-			//Check folder and write down information for the schoolyear
-			if (_mkdir(("../Data/SchoolYear/" + year).c_str()));
-			fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);
-			fout.close();
+			if (_mkdir(("../Data/SchoolYear/" + year).c_str()) == 0) {
+				fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);
+				fout.close();
 
-			if (!pHeadSchoolYear) pHeadSchoolYear = new schoolYear(year, nullptr);
-			schoolYear* tmp = pHeadSchoolYear->pNext;
-			tmp = new schoolYear(year, nullptr);
-			pTailSchoolYear->pNext = tmp;
-			pTailSchoolYear = tmp;
-			if (!pHeadSchoolYear) pHeadSchoolYear = pTailSchoolYear;
-			flag = 1;
+				schoolYear* tmp = new schoolYear(year, nullptr);
+				if (!pHeadSchoolYear) {
+					pHeadSchoolYear = tmp;
+					pTailSchoolYear = tmp;
+				}
+				else {
+					pTailSchoolYear->pNext = tmp;
+					pTailSchoolYear = tmp;
+				}
+
+				SetColor(7, 2);
+				std::cout << "\n\n"; gotox(mid - 20 / 2);
+				std::cout << "Created successfully\n";
+				SetColor(7, 0);
+				k = 0;
+
+				loadingPage();
+				return;
+			}
 		}
 		else
 		{
 			SetColor(7, 12);
 			std::cout << "\n\n"; gotox(mid - 50 / 2);
-			std::cout << "This school year is already created, please enter another school year";
+			std::cout << "This school year has already been created. Please enter another school year.";
 			SetColor(7, 0);
 
 			Sleep(2000);
-			flag = 0;
-		}
-		if (flag == 1)
-		{
-			SetColor(7, 2);
-			std::cout << "\n\n"; gotox(mid - 20 / 2);
-			std::cout << "Created succesfully\n";
-			SetColor(7, 0);
-			k = 0;
-
-			loadingPage();
-			return;
 		}
 	}
-	
 }
 
 //load all schoolyear
@@ -223,7 +216,7 @@ void schoolYear::showP(short range, short& Pcur)
 	}
 	else {
 		for (int i = 0; i < Pcur - (Pcur % range) - range; i++) curSchoolYear = curSchoolYear->pNext;
-		Pcur += -(Pcur % range) - range;
+		Pcur -= (Pcur % range) + range;
 	}
 }
 
@@ -247,8 +240,8 @@ void schoolYear::chooseSchoolYear(short& k) {
 		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext) {
 			if (year == cur->getYear()) {
 				SetColor(7, 2);
-				std::cout << "\n\n"; gotox(mid - 18 / 2);
-				std::cout << "Found! Getting in";
+				std::cout << "\n\n"; gotox(mid - 11 / 2);
+				std::cout << "Getting in";
 				SetColor(7, 0);
 
 				Sleep(250);
@@ -415,10 +408,10 @@ bool schoolYear::createSemester()
 	std::ofstream fout;
 	char x;
 	if(!pHeadSemester)
-	curSchoolYear->loadFile(year);
+	curSchoolYear->loadFileSemester(year);
 	if (!curSchoolYear->checkAvaiSemester())
 	{
-		std::cout << "\n\n"; gotox(mid - 37 / 2);
+		gotoxy(mid - 37 / 2, 14);
 		SetColor(7, 4);
 		std::cout << "This school year is full of semester\n";
 		SetColor(7, 0);
@@ -430,7 +423,7 @@ bool schoolYear::createSemester()
 	}
 	while (true)
 	{
-		gotox(mid - 61 / 2);
+		gotoxy(mid - 61 / 2, 13);
 		std::cout << "What is semester you want to create: ";
 		while (true)
 		{
@@ -533,7 +526,7 @@ bool schoolYear::createSemester()
 		//}
 	}
 }
-void schoolYear::loadFile(std::string year)
+void schoolYear::loadFileSemester(std::string year)
 {
 	std::ifstream fin;
 	fin.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::in);
@@ -603,7 +596,7 @@ bool schoolYear::checkAvaiSemester()
 bool schoolYear::showSemester()
 {
 	if (!pHeadSemester)			//load semester
-		loadFile(year);
+		loadFileSemester(year);
 
 	if (!pHeadSemester)			//check pHeadSemester null or not
 	{

@@ -1,3 +1,0 @@
-Course, Total
-CS162, 7
-MTH252, 8
