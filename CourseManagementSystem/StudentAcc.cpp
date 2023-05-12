@@ -16,7 +16,7 @@ extern Class* pHeadClass;
 extern Class* pTailClass;
 extern course* curCourse;
 extern std::string username;
-student curStudent(username);
+student curStudent;
 extern int mid;
 
 void drawStudentMenu(){
@@ -95,6 +95,7 @@ void StudentMenu() {
 }
 
 void StudentAcc() {
+    curStudent.setID(username);
     curStudent.readStudentScore();
     StudentMenu();
 }

@@ -4,7 +4,7 @@
 #include "Staff.h"
 #include "StudentAcc.h"
 #include "Display.h"
-std::string username{};
+extern std::string username{};
 extern int mid;
 
 void welcomePage()
