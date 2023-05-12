@@ -36,7 +36,7 @@ void course::ExportClass()
     }
 
     fout.close();
-
+    gotoxy(mid - 86 / 2, 5);
     std::cout << "Finished exporting to " << id << "_scoreboard.csv\n";
 }
 

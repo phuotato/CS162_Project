@@ -5,8 +5,7 @@
 //std::ifstream Classin("Data/Class");
 //std::ifstream Processin("Data/schoolYear/
 
-class student
-{
+class student{
 private:
 	int no;
 	std::string id, firstName, lastName, socialId, dat;

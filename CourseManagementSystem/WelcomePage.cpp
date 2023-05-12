@@ -51,10 +51,12 @@ void welcomePage()
 	switch (option) {
 	case 1:
 		system("cls");
+        
 		Staff();
 		break;
 	case 2:
 		system("cls");
+        login("../StudentAccout");
 		StudentAcc();
 		break;
 	case 0:
@@ -66,145 +68,112 @@ void welcomePage()
 		
 }
 
+
 void loginPage()
 {
-	//system("cls");
 	drawHeader();
-	char ch;
-	gotoxy(20, 11);
-	std::cout << "Username:";
-	gotoxy(20, 16);
-	std::cout << "Password:";
-	for (int i = 0; i < 30; ++i)
-	{
-		ch = char(196);
-		gotoxy(i + 30, 10);
-		std::cout << ch;
-		gotoxy(i + 30, 12);
-		std::cout << ch;
-	}
-	gotoxy(59, 10);
-	ch = char(191);
-	std::cout << ch;
-	gotoxy(59, 12);
-	ch = char(217);
-	std::cout << ch;
-	gotoxy(30, 10);
-	ch = char(218);
-	std::cout << ch;
-	gotoxy(30, 12);
-	ch = char(192);
-	std::cout << ch;
-	for (int i = 0; i < 1; ++i)
-	{
-		ch = char(179);
-		gotoxy(59, 11 + i);
-		std::cout << ch;
-		gotoxy(30, 11 + i);
-		std::cout << ch;
-	}
-	for (int i = 0; i < 30; ++i)
-	{
-		ch = char(196);
-		gotoxy(i + 30, 15);
-		std::cout << ch;
-		gotoxy(i + 30, 17);
-		std::cout << ch;
-	}
-	gotoxy(59, 15);
-	ch = char(191);
-	std::cout << ch;
-	gotoxy(59, 17);
-	ch = char(217);
-	std::cout << ch;
-	gotoxy(30, 15);
-	ch = char(218);
-	std::cout << ch;
-	gotoxy(30, 17);
-	ch = char(192);
-	std::cout << ch;
-	for (int i = 0; i < 1; ++i)
-	{
-		ch = char(179);
-		gotoxy(59, 16 + i);
-		std::cout << ch;
-		gotoxy(30, 16 + i);
-		std::cout << ch;
-	}
-}
+	int mid = getMidColumns();
+	int x = mid - 20;
+	int y = 11;
 
+	// Draw username label
+	gotoxy(x, y);
+	std::cout << "Username:";
+
+	// Draw username input box
+	drawBox(x + 11, y - 1, 30, 3);
+
+	// Draw password label
+	gotoxy(x, y + 5);
+	std::cout << "Password:";
+
+	// Draw password input box
+	drawBox(x + 11, y + 4, 30, 3);
+}
 
 void login(std::string folder)
 {
-	while (true)
-	{
-		std::ifstream fin;
-		bool flag = 0;
-		loginPage();
-		std::string password{};
-		gotoxy(31, 11);
-		setcursor(1, 10);
-		getline(std::cin, username);
-		gotoxy(31, 16);
-		char key;
-		key = _getch();
-		gotoxy(31, 16);
-		while (key != 13)
-		{
-			if (key == 8)
-			{
-				if (!password.empty())
-					password.pop_back();
-				HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-				COORD current = GetConsoleCursorPosition(h);
-				if (current.X != 31 && current.Y != 17)
-					std::cout << '\b' << " " << '\b';
-			}
-			else
-			{
-				std::cout << "*";
-				password += key;
-			}
-			key = _getch();
-		}
-		gotoxy(31, 16);
-		std::cout << password;
-		gotoxy(31, 19);
-		std::cout << "                                                        ";
-		gotoxy(31, 19);
-		std::cout << "Press enter to sign in:";
-		setcursor(0, 0);
-		std::cin.get();
+    int mid = getMidColumns();
+    int x = mid - 8;
+    int y = 11;
 
+    while (true)
+    {
+        std::ifstream fin;
+        bool flag = false;
+        loginPage();
+        std::string password{};
+        gotoxy(x, y);
+        setcursor(1, 10);
+        getline(std::cin, username);
+        gotoxy(x, y + 5);
+        char key;
+        key = _getch();
+        gotoxy(x, y + 5);
 
-		if (username == "" || password == "")
-		{
-			system("cls");
-			gotoxy(31, 19);
-			std::cout << "Invalid username or password\n";
-			continue;
-		}
-		fin.open(folder + username + ".txt", std::ios::in);
-		std::string check_username, check_password;
-		fin >> check_username;
-		fin >> check_password;
-		fin.close();
-		if (check_username != username || check_password != password)
-		{
-			gotoxy(31, 19);
-			std::cout << "                                                      ";
-			system("cls");
-			gotoxy(31, 19);
-			std::cout << "Your password or username wrong!\n";
-			gotoxy(31, 20);
-			continue;
-		}
-		gotoxy(31, 19);
-		std::cout << "                                                       ";
-		gotoxy(31, 19);
-		std::cout << "Sign in successfully\n";
-		setcursor(0, 0);
-		Sleep(300);
-		return;
-	}
+        while (key != 13)
+        {
+            if (key == 8)
+            {
+                if (!password.empty())
+                    password.pop_back();
+                HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+                COORD current = GetConsoleCursorPosition(h);
+                if (current.X != x && current.Y != y + 5)
+                    std::cout << '\b' << " " << '\b';
+            }
+            else
+            {
+                std::cout << "*";
+                password += key;
+            }
+            key = _getch();
+        }
+
+        gotoxy(x, y + 5);
+        std::cout << password;
+        gotoxy(x, y + 8);
+        std::cout << "                                                        ";
+        gotoxy(x, y + 8);
+        std::cout << "Press enter to sign in:";
+        setcursor(0, 0);
+        std::cin.get();
+
+        if (username.empty() || password.empty())
+        {
+            system("cls");
+            gotoxy(x, y + 8);
+            std::cout << "Invalid username or password\n";
+            continue;
+        }
+
+        fin.open(folder + username + ".txt", std::ios::in);
+        std::string check_username, check_password;
+        fin >> check_username;
+        fin >> check_password;
+        fin.close();
+
+        if (check_username != username || check_password != password)
+        {
+            gotoxy(x, y + 8);
+            std::cout << "                                                      ";
+            system("cls");
+            gotoxy(x, y + 8);
+            std::cout << "Your password or username is wrong!\n";
+            gotoxy(x, y + 9);
+            continue;
+        }
+
+        gotoxy(x, y + 8);
+        std::cout << "                                                       ";
+        gotoxy(x, y + 8);
+        std::cout << "Sign in successfully\n";
+        setcursor(0, 0);
+        Sleep(300);
+        return;
+    }
 }
+
+
+
+
