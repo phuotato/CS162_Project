@@ -483,7 +483,7 @@ void BeginSemester() {
             case 12:
                 system("cls");
                 drawHeader();
-                changePassword(fin, fout);
+                changePassword(fin,fout);
                 break;
             case 13:
                 flag = 1;

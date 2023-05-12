@@ -369,22 +369,16 @@ bool semester::viewCourse()
 void semester::loadCourse()
 {
 	std::ifstream fin ("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt");
-	if (!fin.is_open())
-		std::cout << "Khong the mo";
-	else
-	{
 		while(!fin.eof())
 		{
 			std::string Id;
 			getline(fin, Id);
 			std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + Id + "/information.txt");
-			if (!read.is_open())
-				std::cout << "Khong the mo";
-			else
+			if(read.is_open())
 			{
-				std::string redundant,name, className, lecturer;
+				std::string redundant, name, className, lecturer;
 				int credit, maxStudent, weekDay, session;
-				getline(read,redundant);
+				getline(read, redundant);
 				getline(read, name);
 				getline(read, className);
 				getline(read, lecturer);
@@ -402,7 +396,6 @@ void semester::loadCourse()
 			}
 			read.close();
 		}
-	}
 }
 
 void semester::deleteCourse()
@@ -414,15 +407,29 @@ void semester::deleteCourse()
 			pTailCourse = pHeadCourse;
 		delete curCourse;
 	}
-	for (course* tmp = pHeadCourse; tmp->pNext; )
+	for (course* tmp = pHeadCourse; tmp->pNext; tmp=tmp->pNext)
 	{
 		if (tmp->pNext == curCourse)
 		{
+			std::string folderPath = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + tmp->pNext->id ;
+			std::string fileName = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + tmp->pNext->id + "/information.txt";
+			const char* c = fileName.c_str();
+			remove(c);
+			if (_rmdir(folderPath.c_str()) == 0);
 			tmp->pNext = tmp->pNext->pNext;
 			if (!tmp->pNext)
 				pTailCourse = tmp;
 			delete curCourse;
+			std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::trunc);
+			if (fout.is_open())
+			{
+				for (course* tmp = curSemester->pHeadCourse; tmp; tmp = tmp->pNext)
+				{
+					fout << tmp->id << std::endl;
+				}
+			}
+			break;
 		}
-
+		std::cout << "\nDelete successfully\n";
 	}
 }
