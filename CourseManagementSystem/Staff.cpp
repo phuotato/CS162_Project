@@ -363,13 +363,14 @@ void BeginSemester() {
     system("mode con: cols=156 lines=80");
     MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
     int option, choice = 0;
-    std::string* content = new std::string[3];
-    content[0] = "1. Create semester";
-    content[1] = "2. Choose existing semester";
-    content[2] = "0. Back";
 
     do
     {
+        std::string* content = new std::string[3];
+        content[0] = "1. Create semester";
+        content[1] = "2. Choose existing semester";
+        content[2] = "0. Back";
+
         system("cls");
         drawHeader();
         drawBox(mid - 53 / 2, 8, 53, 5);
@@ -429,7 +430,6 @@ void BeginSemester() {
                 curSemester->addCourse();
                 break;
             case 14:
-                std::cin.ignore();
                 while(true)
                 {
                     system("cls");
@@ -440,7 +440,6 @@ void BeginSemester() {
                 }
                 break;
             case 13:
-                std::cin.ignore();
                 while (true)
                 {
                     system("cls");
@@ -453,7 +452,6 @@ void BeginSemester() {
             case 12:
                 //remove student in course
             case 11:
-                std::cin.ignore();
                 while (true)
                 {
                     system("cls");
@@ -470,7 +468,6 @@ void BeginSemester() {
                 pStudent->viewProfile_Staff();
                 break;
             case 7:
-                std::cin.ignore();
                 pHeadClass->showingList();
                 break;
             case 6:
@@ -478,7 +475,6 @@ void BeginSemester() {
                 pHeadClass->viewStudentList();
                 break;
             case 5:
-                std::cin.ignore();
                 while (true)
                 {
                     system("cls");
@@ -489,7 +485,6 @@ void BeginSemester() {
                 }
                 break;
             case 4:
-                std::cin.ignore();
                 while (true)
                 {
                     system("cls");
@@ -519,10 +514,16 @@ void BeginSemester() {
 
                 pHeadSchoolYear->deleteSchoolYear();
                 pHeadClass->deleteStudentList();
+                delete[] content;
+
                 exit(0);
                 break;
             }
         } while (!flag);
+
+        delete[] content;
+        choice = 1;
+
     } while (choice);
 }
 
@@ -568,30 +569,27 @@ void EndSemesterMenu() {
     drawLine(53, mid - 53 / 2);
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "8. View student profile";
+    std::cout << "7. View student profile";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "9. View a list of classes";
+    std::cout << "8. View a list of classes";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "10. View a list of student in a class";
+    std::cout << "9. View a list of student in a class";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "11. View a list of courses";
+    std::cout << "10. View a list of courses";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "12. View a list of students in a course\n";
+    std::cout << "11. View a list of students in a course\n";
 
     drawLine(53, mid - 53 / 2);
     
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "13. Change Password";
+    std::cout << "12. Change Password";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
     std::cout << "0. Exit";
-
-    std::cout << "\n\n"; gotox(mid - 49 / 2);
-    std::cout << "Enter your choice: ";
 }
 
 void EndSemester() {
@@ -605,41 +603,84 @@ void EndSemester() {
     int option;
     std::ifstream fin;
     std::ofstream fout;
+    std::string* content = new std::string[15];
+
+    content[0] = "1. Export list of students in a course to CSV";
+    content[1] = "2. Import scoreboard of a course";
+    content[2] = "3. View the scoreboard of a course";
+    content[3] = "4. Update a student's result";
+    content[4] = "5. View the scoreboard of a class";
+    content[5] = "6. End ?";
+    content[6] = "-";
+    content[7] = "7. View student profile";
+    content[8] = "8. View a list of classes";
+    content[9] = "9. View a list of student in a class";
+    content[10] = "10. View a list of courses";
+    content[11] = "11. View a list of students in a course";
+    content[12] = "-";
+    content[13] = "12. Change Password";;
+    content[14] = "0. Exit";
+
     do {
         system("cls");
         drawHeader();
         EndSemesterMenu();
-        std::cin >> option;
+        option = movingBar(mid - 51 / 2, 14, 14, mid + 51 / 2, 28, 1, content);
 
         switch (option) {
-        case 1:
+        case 13:
             std::cout << "hi";
             break;
-        case 8:
+        case 7:
             system("cls");
             pStudent->viewProfile_Staff();
             break;
-        case 10:
+        case 6:
+            pHeadClass->showingList();
+            break;
+        case 5:
             system("cls");
             pHeadClass->viewStudentList();
             break;
-        case 13:
+        case 4:
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->showInfo();
+                else
+                    break;
+            }
+            break;
+        case 3:
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->showStudent(); //Check sau
+                else
+                    break;
+            }
+            break;
+        case 1:
             system("cls");
             drawHeader();
             changePassword(fin, fout);
             break;
         case 0:
             system("cls");
-            drawBox(25, 5, 50, 16);
-            gotoxy(40, 10);
+            drawBox(mid - 50 / 2, 5, 50, 16);
+            gotoxy(mid - 19 / 2, 10);
             std::cout << "Thank you for using\n";
-            gotoxy(45, 12);
+            gotoxy(mid - 9 / 2, 12);
             std::cout << "FIT.HCMUS\n";
-            gotoxy(40, 14);
+            gotoxy(mid - 19 / 2, 14);
             std::cout << "Management Program!\n\n\n\n\n\n";
 
             pHeadSchoolYear->deleteSchoolYear();
             pHeadClass->deleteStudentList();
+            delete[] content;
+
             exit(0);
             break;
         default:
