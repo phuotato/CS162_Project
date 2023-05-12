@@ -38,6 +38,8 @@ public:
 	void ViewScoreboard();
 	void saveIndividualScore(course* curCourse);
 
+	// Supportive function
+	bool checkExistScoringFile(std::string direct);
 };
 
 int compareString(std::string a, std::string b, std::string c, std::string d);

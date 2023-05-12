@@ -200,6 +200,46 @@ void course::updateStudentResult()
     std::cin >> pCur->otherMark;
 
     std::cout << "Scores updated successfully!\n";
+
+    // update mssv.csv
+    std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + pCur->studentID + ".csv";
+    std::ifstream read(direct);
+    std::ofstream write(direct);
+    std::string temp;
+    while (std::getline(read, temp))
+    {
+        int posComma = temp.find(',');
+        std::string ID = temp.substr(0, posComma);
+        if (ID == courseID)
+        {
+            write << courseID << "," << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
+            break;
+        }
+    }
+    read.close();
+    write.close();
+
+    // update score.csv
+    std::ofstream write("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
+    std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
+    while (std::getline(read, temp))
+    {
+        int pos1 = temp.find(',');
+        int pos2 = temp.find(',', pos1 + 1);
+        int pos3 = temp.find(',', pos2 + 1);
+        int pos4 = temp.find(',', pos3 + 1);
+        std::string tmpID = temp.substr(pos1 + 1, pos2 - pos1 - 1);
+        if (tmpID == studentID)
+        {
+            // Rewrite the information in this line No->StudentID->FirstName->LastName->.....
+            write << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
+                << temp.substr(pos2 + 1, pos3 - pos2 - 1) << "," << temp.substr(pos3 + 1, pos4 - pos3 - 1) << ","
+                << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
+            break;
+        }
+    }
+    read.close();
+    write.close();
 }
 
 
@@ -257,14 +297,29 @@ void course::ViewScoreboard() {
     // Draw a box around the bottom of the scoreboard
     drawBox(2, row, 90, 3);
 }
-
+bool course::checkExistScoringFile(std::string direct)
+{
+    std::ifstream read(direct);
+    if (!read)
+    {
+        read.close();
+        return false;
+    }
+    else
+    {
+        read.close();
+        return true;
+    }
+}
 void course::saveIndividualScore(course* curCourse) {
     // Iterate over the linked list of students
     studentScore* currScore = curCourse->hScore;
     while (currScore != nullptr) {
-        std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
-        fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
-        fout << currScore->totalMark << ","
+        std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv";
+        std::ofstream fout(direct, std::fstream::app);
+        if (!checkExistScoringFile(direct))
+            fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
+        fout << curCourse->id << "," << currScore->totalMark << ","
             << currScore->finalMark << ","
             << currScore->midtermMark << ","
             << currScore->otherMark << "\n";
