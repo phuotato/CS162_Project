@@ -221,8 +221,8 @@ void course::updateStudentResult()
     write.close();
 
     // update score.csv
-    std::ofstream write("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
-    std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
+    std::ofstream writeScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
+    std::ifstream readScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
     while (std::getline(read, temp))
     {
         int pos1 = temp.find(',');
@@ -233,14 +233,14 @@ void course::updateStudentResult()
         if (tmpID == studentID)
         {
             // Rewrite the information in this line No->StudentID->FirstName->LastName->.....
-            write << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
+            writeScore << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
                 << temp.substr(pos2 + 1, pos3 - pos2 - 1) << "," << temp.substr(pos3 + 1, pos4 - pos3 - 1) << ","
                 << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
             break;
         }
     }
-    read.close();
-    write.close();
+    readScore.close();
+    writeScore.close();
 }
 
 
