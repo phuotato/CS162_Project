@@ -56,7 +56,7 @@ void welcomePage()
 		break;
 	case 2:
 		system("cls");
-        login("../StudentAccout");
+        login("../StudentAccount/");
 		StudentAcc();
 		break;
 	case 0:
