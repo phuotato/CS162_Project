@@ -7,7 +7,7 @@
 #include "Class.h"
 #include "Display.h"
 
-
+//global varibles
 extern student* pStudent;
 extern schoolYear* pHeadSchoolYear;
 extern schoolYear* pTailSchoolYear;
@@ -18,9 +18,32 @@ extern Class* pTailClass;
 extern course* curCourse;
 extern int mid;
 
-//functions
+//declare
+void SchoolYearMenu(std::string*& content);
+void SchoolYear();
+void BeginSchoolYearMenu();
+void BeginSchoolYear(bool& flag);
+void CreateSemesterMenu(); //function gi day?????
+void BeginSemesterMenu();
 void BeginSemester();
-void CreateSchoolYearMenu(std::string*& content) {
+void EndSemesterMenu();
+void EndSemester();
+
+//main
+void Staff()
+{
+    system("cls");
+    bool flag = 1;
+    while (flag != 0) {
+        SchoolYear();
+        BeginSchoolYear(flag);
+    }
+    //  BeginSemester();
+    EndSemester();
+}
+
+//define
+void SchoolYearMenu(std::string*& content) {
     content = new std::string[3];
     content[2] = "0. Exit";
     content[1] = "2. Choose existing School Year";
@@ -33,6 +56,52 @@ void CreateSchoolYearMenu(std::string*& content) {
     gotoxy(mid - 49 / 2, 10); std::cout <<  "1. Create School Year                            ";
     gotoxy(mid - 49 / 2, 12); std::cout << "2. Choose existing School Year                   ";
     gotoxy(mid - 49 / 2, 14); std::cout << "0. Exit                                          ";
+}
+
+void SchoolYear() {
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+
+    // Move console window to center of the screen
+    set_console_size(156, 80);
+    system("mode con: cols=156 lines=80");
+    mid = getMidColumns();
+    //MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
+    int option = 0;
+    short k = 1;
+    std::string* content = nullptr;
+    while (k != 0) {
+        system("cls");
+        pHeadSchoolYear->deleteSchoolYear();
+        SchoolYearMenu(content);
+        option = movingBar(mid - 51 / 2, 10, 10 + option * 2, mid + 51 / 2, 14, 2, content);
+
+        switch (option) {
+        case 2:
+            system("cls");
+            drawHeader();
+            pHeadSchoolYear->createSchoolYear(k);
+            curSchoolYear = pTailSchoolYear;
+            break;
+        case 1:
+            system("cls");
+            drawHeader();
+            pHeadSchoolYear->chooseSchoolYear(k);
+            break;
+        case 0:
+            system("cls");
+            drawBox(mid - 50 / 2, 5, 50, 16);
+            gotoxy(mid - 19 / 2, 10);
+            std::cout << "Thank you for using\n";
+            gotoxy(mid - 9 / 2, 12);
+            std::cout << "FIT.HCMUS\n";
+            gotoxy(mid - 19 / 2, 14);
+            std::cout << "Management Program!\n\n\n\n\n\n";
+            exit(0);
+            break;
+        }
+    }
 }
 
 void BeginSchoolYearMenu() {
@@ -88,52 +157,7 @@ void BeginSchoolYearMenu() {
     std::cout << "  Enter your choice: ";
 }
 
-void SchoolYearMenu() {
-    HWND console = GetConsoleWindow();
-    RECT r;
-    GetWindowRect(console, &r);
-
-    // Move console window to center of the screen
-    set_console_size(156, 80);
-    system("mode con: cols=156 lines=80");
-    mid = getMidColumns();
-    //MoveWindow(console, (GetSystemMetrics(SM_CXSCREEN) - r.right) / 2, (GetSystemMetrics(SM_CYSCREEN) - r.bottom) / 2, r.right, r.bottom, TRUE);
-    int option=0;
-    short k = 1;
-    std::string* content = nullptr;
-    while (k != 0) {
-        system("cls");
-        pHeadSchoolYear->deleteSchoolYear();
-        CreateSchoolYearMenu(content);
-        option = movingBar(mid-51/2, 10, 10 + option*2, mid+51/2, 14, 2, content);
-
-        switch (option) {
-        case 2:
-            system("cls");
-            drawHeader();
-            pHeadSchoolYear->createSchoolYear(k);
-            curSchoolYear = pTailSchoolYear;
-            break;
-        case 1:
-            system("cls");
-            drawHeader();
-            pHeadSchoolYear->chooseSchoolYear(k);
-            break;
-        case 0:
-            system("cls");
-            drawBox(mid - 50 / 2, 5, 50, 16);
-            gotoxy(mid - 19 / 2, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(mid - 9 / 2, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(mid - 19 / 2, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
-            exit(0);
-            break;
-        }
-    }
-}
-void BeginSchoolYear (bool& flag) {
+void BeginSchoolYear(bool& flag) {
     //Resize (not automatically)
     HWND console = GetConsoleWindow();
     RECT r;
@@ -174,6 +198,7 @@ void BeginSchoolYear (bool& flag) {
             pStudent->viewProfile_Staff();
             break;
         case 5:
+            system("cls");
             std::cin.ignore();
             pHeadClass->showingList();
             break;
@@ -220,7 +245,7 @@ void BeginSchoolYear (bool& flag) {
 }
 
 void CreateSemesterMenu() {
-    
+    //gi z??
 }
 
 void BeginSemesterMenu() {
@@ -293,8 +318,6 @@ void BeginSemesterMenu() {
     std::cout << "\n\n"; gotox(mid - 49 / 2);
     std::cout << "Enter your choice: ";
 }
-
-
 void BeginSemester() {
     HWND console = GetConsoleWindow();
     RECT r;
@@ -530,16 +553,3 @@ void EndSemester() {
 }
 
 
-void Staff()
-{
-	system("cls");
-    bool flag = 1;
-    while (flag != 0) {
-        SchoolYearMenu();
-        BeginSchoolYear(flag);
-    }
-
-//  BeginSemester();
-    EndSemester();
-
-}

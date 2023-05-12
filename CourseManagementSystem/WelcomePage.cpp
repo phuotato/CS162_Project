@@ -28,8 +28,7 @@ void welcomePage()
 	SetColor(7, 0);
     // wait for user input to continue
     gotoxy(mid-28/2, 24);
-    std::cout << "Press any key to continue...";
-	std::cin.get();
+	system("pause");
 
     // clear screen and display menu
     system("cls");
@@ -44,28 +43,25 @@ void welcomePage()
     gotoxy(mid-26/2, 14);
     std::cout << "0. Exit"; //character i make the box break
 	
-	gotoxy(mid-26/2, 17);
+	gotoxy(mid - 26 / 2, 17);
 	std::cout << "Your choice: ";
 	int option;
 	std::cin >> option;
+	std::cin.ignore(100000, '\n');
 	switch (option) {
-	case 1: 
-		std::cin.get();
+	case 1:
 		system("cls");
-		//login("../StaffAccount/");
 		Staff();
 		break;
 	case 2:
-		std::cin.get();
 		system("cls");
-		login("../StudentAccount/");
 		StudentAcc();
 		break;
-	case 0: 
+	case 0:
 		exit(0);
 		break;
-	default: 
-		std::cout << "Invalid input.";
+	default:
+		std::cout << "\n\nInvalid input.\n";
 	}
 		
 }
