@@ -98,6 +98,7 @@ void SchoolYear() {
             std::cout << "FIT.HCMUS\n";
             gotoxy(mid - 19 / 2, 14);
             std::cout << "Management Program!\n\n\n\n\n\n";
+            delete[] content;
             exit(0);
             break;
         }
@@ -274,6 +275,7 @@ void BeginSchoolYear(bool& flag) {
 
             pHeadSchoolYear->deleteSchoolYear();
             pHeadClass->deleteStudentList();
+            delete[] content;
 
             exit(0);
             break;
@@ -352,8 +354,6 @@ void BeginSemesterMenu() {
     std::cout << "\n"; gotox(mid - 49 / 2);
     std::cout << "0. Exit";
 
-    std::cout << "\n\n"; gotox(mid - 49 / 2);
-    std::cout << "Enter your choice: ";
 }
 void BeginSemester() {
     HWND console = GetConsoleWindow();
@@ -395,21 +395,41 @@ void BeginSemester() {
         case 0:
             continue;
         }
+        delete[] content;
+        content = new std::string[16];
+        content[0] = "1. Add a course";
+        content[1] = "2. Update course information";
+        content[2] = "3. Add a student to the course";
+        content[3] = "4. Remove a student from the course";
+        content[4] = "5. Delete a course";
+        content[5] = "6. End Semester";
+        content[6] = "-";
+        content[7] = "7. View student profile";
+        content[8] = "8. View a list of classes";
+        content[9] = "9: View a list of students in a class";
+        content[10] = "10. View a list of courses";
+        content[11] = "11. View a list of students in a course";
+        content[12] = "-";
+        content[13] = "12. Change Password";
+        content[14] = "13. Back";
+        content[15] = "0. Exit";
+
         bool flag{};
         std::ifstream fin;
         std::ofstream fout;
+
         do {
             system("cls");
             drawHeader();
             BeginSemesterMenu();
-            std::cin >> option;
+            option = movingBar(mid - 51 / 2, 14, 14, mid + 51 / 2, 29, 1, content);
 
             switch (option) {
-            case 1:
+            case 15:
                 system("cls");
                 curSemester->addCourse();
                 break;
-            case 2:
+            case 14:
                 std::cin.ignore();
                 while(true)
                 {
@@ -420,7 +440,7 @@ void BeginSemester() {
                     break;
                 }
                 break;
-            case 3:
+            case 13:
                 std::cin.ignore();
                 while (true)
                 {
@@ -431,9 +451,9 @@ void BeginSemester() {
                         break;
                 }
                 break;
-            case 4:
+            case 12:
                 //remove student in course
-            case 5:
+            case 11:
                 std::cin.ignore();
                 while (true)
                 {
@@ -444,21 +464,21 @@ void BeginSemester() {
                         break;
                 }
                 break;
-            case 6:
+            case 10:
                 EndSemester();
-            case 7:
+            case 8:
                 system("cls");
                 pStudent->viewProfile_Staff();
                 break;
-            case 8:
+            case 7:
                 std::cin.ignore();
                 pHeadClass->showingList();
                 break;
-            case 9:
+            case 6:
                 system("cls");
                 pHeadClass->viewStudentList();
                 break;
-            case 10:
+            case 5:
                 std::cin.ignore();
                 while (true)
                 {
@@ -469,7 +489,7 @@ void BeginSemester() {
                         break;
                 }
                 break;
-            case 11:
+            case 4:
                 std::cin.ignore();
                 while (true)
                 {
@@ -480,12 +500,12 @@ void BeginSemester() {
                         break;
                 }
                 break;
-            case 12:
+            case 2:
                 system("cls");
                 drawHeader();
                 changePassword(fin,fout);
                 break;
-            case 13:
+            case 1:
                 flag = 1;
                 break;
             case 0:
@@ -502,8 +522,6 @@ void BeginSemester() {
                 pHeadClass->deleteStudentList();
                 exit(0);
                 break;
-            default:
-                std::cout << "\n\t\t Invalid input.";
             }
         } while (!flag);
     } while (choice);

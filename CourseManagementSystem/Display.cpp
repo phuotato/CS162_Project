@@ -226,7 +226,7 @@ void Tutorial(std::string*& content) {
 	std::cout << "Press n - Next Page";
 	content[0] = "Press n - Next Page";
 
-	gotoxy(mid - 24 / 2, 10);
+	gotoxy(mid - 23 / 2, 10);
 	std::cout << "Press p - Previous Page";
 	content[1] = "Press p - Previous Page";
 
@@ -234,7 +234,7 @@ void Tutorial(std::string*& content) {
 	std::cout << "(Number) - Change List";
 	content[2] = "(Number) - Change List";
 
-	gotoxy(mid - 22 / 2, 18);
+	gotoxy(mid - 21 / 2, 18);
 	std::cout << "Press Enter - Confirm";
 	content[3] = "Press Enter - Confirm";
 }
