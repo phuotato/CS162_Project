@@ -101,28 +101,38 @@ void semester::addCourse()
 		std::cin >> choice;
 	}
 }
-void semester::saveCoursetoFolder(std::string& name, std::string& id, std::string& className, std::string& lecturer, int& credit, int& maxStudent, std::string& weekDay, int& session, std::string& year, std::string& semester)
+void semester::saveCoursetoFolder(const std::string& name, const std::string& id, const std::string& className, const std::string& lecturer, int credit, int maxStudent, const std::string& weekDay, int session, const std::string& year, const std::string& semester)
 {
 	std::ofstream fout;
-	if (_mkdir(("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id).c_str()));	// create course folder
-	fout.open("../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id + "/information.txt",std::ios::trunc);
-	if (!fout.is_open())
+	std::string folderPath = "../Data/SchoolYear/" + year + "/Sem" + semester + "/" + id;
+
+	if (_mkdir(folderPath.c_str()) == 0) // create course folder
 	{
-		std::cout << "Open UnSuccessfully";
+		fout.open(folderPath + "/information.txt", std::ios::trunc);
+		if (fout.is_open())
+		{
+			fout << id << '\n';
+			fout << name << '\n';
+			fout << className << '\n';
+			fout << lecturer << '\n';
+			fout << credit << '\n';
+			fout << maxStudent << '\n';
+			fout << weekDay << '\n';
+			fout << session;
+			fout.close();
+			std::cout << "Course information saved successfully.\n";
+		}
+		else
+		{
+			std::cout << "Unable to open the file for saving course information.\n";
+		}
 	}
 	else
 	{
-		fout << id << std::endl;
-		fout << name << std::endl;
-		fout << className << std::endl;
-		fout << lecturer << std::endl;
-		fout << credit << std::endl;
-		fout << maxStudent << std::endl;
-		fout << weekDay << std::endl;
-		fout << session;
+		std::cout << "Unable to create the course folder.\n";
 	}
-	fout.close();
 }
+
 
 int semester::getAllCourses(course* pHead) {
 	int i = 0;
