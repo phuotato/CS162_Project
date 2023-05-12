@@ -461,6 +461,7 @@ bool schoolYear::createSemester()
 		fout.open("../Data/SchoolYear/" + year + "/all semester.txt", std::ios::app);			//Open file stored all semester of that year
 		fout << "Semester " << x << std::endl;														//Write down the semester
 		fout.close();
+
 		gotox(mid - 61 / 2); std::cout << "Enter the start date: ";
 		std::string StartDate;
 		// Check length string > 10 return
@@ -509,21 +510,6 @@ bool schoolYear::createSemester()
 		SetColor(7, 0);
 		Sleep(1000);
 
-		////Reset
-		//gotox(mid - 20 / 2); std::cout << "                        ";
-		//gotox(mid - 61 / 2);
-		//std::cout << "Do you want to add more semester :(Y/N || y/n) ";
-		//char choice; std::cin >> choice;
-		//std::cin.ignore();
-		//if (choice == 'N' || choice == 'n')
-		//	return 1;
-		//if (!curSchoolYear->checkAvaiSemester())
-		//{
-		//	std::cout << "This school year is full of semester\n";
-		//	std::cout << "Press any key to back:";
-		//	_getch();
-		//	return 1;
-		//}
 	}
 }
 void schoolYear::loadFileSemester(std::string year)
@@ -609,7 +595,7 @@ bool schoolYear::showSemester()
 		system("pause");
 		return false;
 	}
-	std::cin.ignore();
+
 	while (true)
 	{
 		system("cls");

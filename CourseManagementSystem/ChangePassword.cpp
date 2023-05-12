@@ -12,7 +12,6 @@ void changePassword(std::ifstream& fin, std::ofstream& fout)
 	std::cout << "\n"; gotox(mid - 53 / 2);
 	std::cout << "Input the password (Press enter to go back): ";
 	std::string password, newPass, confirmPass;
-	std::cin.ignore();
 	std::getline(std::cin, password);
 	if (password == "")
 		return;

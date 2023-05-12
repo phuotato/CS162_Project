@@ -144,20 +144,18 @@ void Class::addNewClass() {
             if (!pHeadClass) {
                 pHeadClass = new Class("");
                 pTailClass = pHeadClass;
-                tmp = pTailClass;
             }
 
             //Add the new class
-            tmp->pNext = new Class(Name);
-            pTailClass = tmp->pNext;
-            pTailClass->getName() = Name;
-            pTailClass->pNext = nullptr;
+            pTailClass->pNext = new Class(Name);
+            pTailClass->pNext->pNext = nullptr;
             curClass = pTailClass;
 
             //Delete dummy node
             if (pHeadClass->getName() == "") {
+                tmp = pHeadClass->pNext;
                 delete pHeadClass;
-                pHeadClass = pTailClass;
+                pHeadClass = tmp;
             }
 
             //Add Class into the text file
@@ -195,9 +193,9 @@ void Class::addNewClass() {
 
 bool Class::checkLatestYear() {
     if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
-        std::cout << "\n\n"; gotox(mid - 52 / 2);
+        gotoxy(mid - 44 / 2, 26);
         SetColor(7, 12);
-        std::cout << "Sorry! You can only add classes in the latest year.";
+        std::cout << "Sorry! You can only add in the latest year.";
         SetColor(7, 0);
 
         Sleep(2000);
@@ -491,7 +489,6 @@ void Class::addStudentto1stClass_Console()
     std::string classname;
     std::cout << "Input the classcode (Press enter to go back): ";
     
-    std::cin.ignore();
     std::getline(std::cin, classname);
 
     if (classname == "") return;
@@ -1079,30 +1076,6 @@ void Class::deleteStudentList()
         curClass = curClass->pNext;
     }
 }
-
-//void Class::showStudents(student*& pHead, short range, short& Pcur) {
-//    gotoxy(mid - 15 / 2, 3);
-//    std::cout << "Student's List";
-//
-//    short i = 5;
-//    short k = 0;
-//    for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
-//    {
-//        std::string gender;
-//        if (pHead->getGender() == 0)
-//            gender = { "Male" };
-//        else
-//            gender = { "Female" };
-//        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getStudentID() << " " << pHead->getFirstName() << " " << pHead->getLastName() << " " << gender << "\n";
-//        // 1. 22125055 Huynh Tuan Minh Male (Sample!)
-//        // Ke bang dum nha roi xoa comment nay
-//        Pcur++;
-//    }
-//    drawBox(mid - 46 / 2, 4, 46, k + 4);
-//    gotoy(-2);
-//    drawLine(46, mid - 46 / 2);
-//    std::cout << "\n\n"; gotox(mid - 46 / 2);
-//}
 
 void Class::showStudents(student*& pHead, short range, short& Pcur) {
     gotoxy(mid - 10 / 2, 3);
