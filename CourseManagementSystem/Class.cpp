@@ -28,9 +28,8 @@ Class::Class(std::string Name) :Name(Name) {}
 
 void Class::LoadFile()
 {
-    std::ifstream fin;
     if (pHeadClass) return; //if there is a LL, don't load
-    fin.open("../Data/Class/Class.txt");
+    std::ifstream fin("../Data/Class/Class.txt");
     while (!fin.eof())
     {
         std::string curName;
@@ -222,14 +221,16 @@ bool Class::checkExistClass(std::string Name)
 }
 
 void Class::deleteClass() {
-    for (; pHeadClass;)
-    {
-        Class* tmp = pHeadClass->pNext;
-        delete pHeadClass;
-        pHeadClass = tmp;
-
+    Class* current = pHeadClass;
+    while (current) {
+        Class* next = current->pNext;
+        delete current;
+        current = next;
     }
+    pHeadClass = nullptr;
+    pTailClass = nullptr;
 }
+
 
 bool Class::CheckClasses(std::string curName) {
     int length = curName.length();
@@ -510,6 +511,7 @@ void Class::getOption()
         }
     }
 }
+
 bool checkValidName(std::string name)
 {
     if (name[0] == ' ')
@@ -1077,6 +1079,7 @@ void Class::sortStudents(std::string classcode)
     }
     curClass->headS = sortedList;
 }
+
 void Class::viewStudentList()
 {
     std::cout << "\n"; gotox(mid - 58 / 2);
@@ -1126,29 +1129,68 @@ void Class::deleteStudentList()
     }
 }
 
+//void Class::showStudents(student*& pHead, short range, short& Pcur) {
+//    gotoxy(mid - 15 / 2, 3);
+//    std::cout << "Student's List";
+//
+//    short i = 5;
+//    short k = 0;
+//    for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
+//    {
+//        std::string gender;
+//        if (pHead->getGender() == 0)
+//            gender = { "Male" };
+//        else
+//            gender = { "Female" };
+//        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getStudentID() << " " << pHead->getFirstName() << " " << pHead->getLastName() << " " << gender << "\n";
+//        // 1. 22125055 Huynh Tuan Minh Male (Sample!)
+//        // Ke bang dum nha roi xoa comment nay
+//        Pcur++;
+//    }
+//    drawBox(mid - 46 / 2, 4, 46, k + 4);
+//    gotoy(-2);
+//    drawLine(46, mid - 46 / 2);
+//    std::cout << "\n\n"; gotox(mid - 46 / 2);
+//}
+
 void Class::showStudents(student*& pHead, short range, short& Pcur) {
-    gotoxy(mid - 15 / 2, 3);
+    gotoxy(mid - 10 / 2, 3);
     std::cout << "Student's List";
 
-    short i = 5;
-    short k = 0;
-    for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
-    {
-        std::string gender;
-        if (pHead->getGender() == 0)
-            gender = { "Male" };
-        else
-            gender = { "Female" };
-        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getStudentID() << " " << pHead->getFirstName() << " " << pHead->getLastName() << " " << gender << "\n";
-        // 1. 22125055 Huynh Tuan Minh Male (Sample!)
-        // Ke bang dum nha roi xoa comment nay
-        Pcur++;
+    const int tableWidth = 62;
+    const int tableX = mid + 6 - tableWidth / 2;
+    const int tableY = 5;
+
+    // Print table header
+    gotoxy(tableX, tableY);
+    std::cout << "No.   Student ID   First Name    Last Name         Gender";
+
+    int i = tableY + 2;
+    int k = 0;
+    while (pHead != nullptr && k < range) {
+        // Print student information in table format
+        gotoxy(tableX, i);
+        std::cout << i - tableY - 1 << ".    " << pHead->getStudentID() << "      ";
+        gotoxy(tableX + 19, i);
+        std::cout << pHead->getFirstName();
+        gotoxy(tableX + 33, i);
+        std::cout << pHead->getLastName();
+        gotoxy(tableX + 51, i);
+        std::cout << (pHead->getGender() == 0 ? "Male" : "Female");
+
+        pHead = pHead->pNext;
+        i++;
+        k++;
     }
-    drawBox(mid - 46 / 2, 4, 46, k + 4);
+
+    drawBox(tableX - 2, tableY - 1, tableWidth, range + 4);
     gotoy(-2);
-    drawLine(46, mid - 46 / 2);
-    std::cout << "\n\n"; gotox(mid - 46 / 2);
+    drawLine(tableWidth, tableX - 2);
+    std::cout << "\n\n";
+    gotox(tableX - 2);
 }
+
+
 
 void Class::showPStudents(student*& pHead, short range, short& Pcur) {
     //Check if the last page

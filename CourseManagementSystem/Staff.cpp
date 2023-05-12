@@ -139,7 +139,7 @@ void BeginSchoolYearMenu() {
     std::cout << "5. View a list of classes";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "6. View a list of students in a class"; //chua co
+    std::cout << "6. View a list of students in a class"; 
 
     std::cout << "\n";
     drawLine(52, mid - 52 / 2);
