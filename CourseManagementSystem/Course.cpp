@@ -5,6 +5,8 @@
 #include <fstream>
 #include <direct.h>
 #include <string>
+#include "Student.h"
+#include "Display.h"
 
 //global variable
 extern schoolYear* curSchoolYear;
@@ -442,7 +444,12 @@ void course::updateCourse()
 
 void course::addStudentMenu()
 {
-    int choice;
+    int choice = 0;
+    std::string* content = new std::string[3];
+    content[0] = "1. Add student manually";
+    content[1] = "2. Import csv file";
+    content[2] = "0. Back";
+
     do
     {
         system("cls");
@@ -450,22 +457,9 @@ void course::addStudentMenu()
         drawBox(mid - 53 / 2, 8, 53, 5);
         
         gotoxy(mid - 49 / 2, 9); std::cout << "1. Add student manually\n";
-        gotox(mid - 49 / 2); std::cout << "2. Import csv file\n"; //chua lam
-        gotox(mid - 49 / 2); std::cout << "0. Back\n\n";
-        gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
-        std::cin >> choice;
-        if (choice < 0 || choice > 2) {
-            std::cout << "\n"; gotox(mid - 24 / 2);
-            SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
-
-            Sleep(1000);
-
-            //Reset
-            gotox(mid - 24 / 2); std::cout << "                       ";
-            gotoxy(mid - 9 / 2, -2); std::cout << "               ";
-            gotox(mid - 9 / 2);
-        }
-        else if(choice)
+        gotox(mid - 49 / 2); std::cout << "2. Import csv file\n";
+        gotox(mid - 49 / 2); std::cout << "0. Back";
+        choice = movingBar(mid - 51/2, 9, 9, mid+51/2, 11, 1, content);
         addStudent(choice);
     } while (choice);
 }
@@ -475,7 +469,7 @@ void course::addStudent(int choice)
     char ch = 'Y';
     do
     {
-        if (choice == 1)
+        if (choice == 2)
         {
             system("cls");
             bool gender;
@@ -553,12 +547,11 @@ void course::addStudent(int choice)
 
             //Reset
             gotox(mid - 26 / 2); std::cout << "                         ";
-            gotoxy(mid - 49 / 2, -1);
 
-            std::cout << "Do you want to add more (Y/y to continue N/n to stop): ";
-            std::cin >> ch;
+            std::cout << "Do you want to add more: ";
+            YNQuestions(mid - 30/2, 13, 30);
         }
-        else
+        else if (choice == 1)
         {
             system("cls");
             //header
@@ -829,3 +822,173 @@ void course::loadStudentInCourse()
             }
     }
 }
+
+void course::showingStudentList()
+{
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
+    std::string displayk = "N";
+    std::string* content = nullptr;
+    bool EnterConfirm = 0;
+    int yp = 6;
+    short TH = 3;
+    short range = 10;
+    short Pcur = 0;
+    int APages = getAllStudent() / range + 1;
+    student* cur = pHeadStudent;
+    if (!pTailStudent) return;
+    system("cls");
+    while (true) {
+        switch (TH) {
+            //Next page
+        case 3: {
+            if (cur == nullptr) {
+                SetColor(7, 12);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+                std::cout << "You are at the last page";
+                SetColor(7, 0);
+                Sleep(2000);
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial(content);
+                showStudent(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+            }
+            yp = 6;
+            break;
+        }
+              //Previous Page
+        case 2: {
+            if (Pcur <= range) {
+                SetColor(7, 12);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+                std::cout << "You are at the first page";
+                SetColor(7, 0);
+                Sleep(2000);
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial(content);
+                showPStudent(cur, range, Pcur);
+                showStudent(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+            }
+            yp = 6 + 4;
+            break;
+        }
+              //Enter to confirm
+        case 0: {
+            EnterConfirm = 1;
+            break;
+        }
+              //Change list
+        case 1: {
+            if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 50 / 2, range + 12);
+            else gotoxy(mid - 50 / 2, Pcur % range + 12);
+            std::cout << "Please enter the number you want to change list: ";
+            getline(std::cin, displayk);
+            if (displayk[0] <= '9' && displayk[0] >= '0') {
+                int sample = stoi(displayk);
+                if (sample > 25 || sample < 10) {
+                    SetColor(7, 12);
+                    std::cout << "\n\n"; gotox(mid - 42 / 2);
+                    std::cout << "The range is too big or too small (10~25)!";
+                    SetColor(7, 0);
+                    Sleep(2000);
+                    //Reset the command
+                    gotox(mid - 47 / 2);
+                    std::cout << "                                                          \r";
+                    gotoxy(mid - 50 / 2, -3); std::cout << "                                                    ";
+                }
+                else {
+                    //Reset everything
+                    range = sample;
+                    Pcur = 0;
+                    cur = pHeadStudent;
+                    APages = getAllStudent() / range + 1;
+                    //Draw again
+                    system("cls");
+                    drawBox(15, 2, 30, 23);
+                    Tutorial(content);
+                    showStudent(cur, range, Pcur);
+                    Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+                }
+            }
+            yp = 6 + 8;
+            break;
+        }
+        }
+        if (EnterConfirm == 1) {
+            if (Pcur % range == 0 && Pcur != 0) gotoy(range + 8);
+            else gotoy(Pcur % range + 8);
+            break;
+        }
+        TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
+    }
+}
+void course::showStudent(student*& pHead, short range, short& Pcur)
+{
+    const int tableWidth = 62;
+    const int tableX = mid + 6 - tableWidth / 2;
+    const int tableY = 5;
+    gotoxy((2 * tableX + 45) / 2, 3);
+    std::cout << "Student's List";
+    // Print table header
+    gotoxy(tableX, tableY);
+    std::cout << "No.   Student ID   First Name    Last Name         Gender\n";
+
+    int i = tableY + 2;
+    int k = 0;
+    while (pHead != nullptr && k < range) {
+        // Print student information in table format
+        gotoxy(tableX, i);
+        std::cout << i - tableY - 1 << ".    " << pHead->getStudentID() << "      ";
+        gotoxy(tableX + 19, i);
+        std::cout << pHead->getFirstName();
+        gotoxy(tableX + 33, i);
+        std::cout << pHead->getLastName();
+        gotoxy(tableX + 51, i);
+        std::cout << (pHead->getGender() == 0 ? "Male" : "Female");
+        pHead = pHead->pNext;
+        i++;
+        k++;
+        Pcur++;
+    }
+    drawBox(tableX - 2, tableY - 1, tableWidth, Pcur + 6);
+    gotoxy(tableX, tableY + 1);
+    drawLine(62, tableX - 2);
+    gotoxy(tableX - 3, tableY + 2 + Pcur);
+    drawLine(tableWidth, tableX - 2);
+    std::cout << "\n\n";
+    gotox(tableX - 2);
+
+}
+void course::showPStudent(student*& pHead, short range, short& Pcur) {
+    //Check if the last page
+    if (Pcur % range == 0) {
+        for (int i = 0; i < Pcur - range * 2; i++) pHead = pHead->pNext;
+        Pcur -= range * 2;
+    }
+    else {
+        for (int i = 0; i < Pcur - (Pcur % range) - range; i++) pHead = pHead->pNext;
+        Pcur += -(Pcur % range) - range;
+    }
+}
+int course::getAllStudent()
+{
+    int i = 0;
+    for (student* cur = pHeadStudent; cur; cur = cur->pNext, i++);
+    return --i;
+}
+
