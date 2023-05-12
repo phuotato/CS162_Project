@@ -1043,7 +1043,7 @@ void Class::exportNewStudentProfile(std::string classcode, std::string id, std::
 
 }
 
-void Class::sortStudentsLexicographically(std::string classcode)
+void Class::sortStudents(std::string classcode)
 {
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
@@ -1085,7 +1085,7 @@ void Class::viewStudentList()
     std::cin.ignore();
     std::getline(std::cin, classcode);
 
-    sortStudentsLexicographically(classcode);
+    sortStudents(classcode);
     Class* curClass = pHeadClass;
     for (curClass; curClass != nullptr; curClass = curClass->pNext)
     {
@@ -1134,7 +1134,14 @@ void Class::showStudents(student*& pHead, short range, short& Pcur) {
     short k = 0;
     for (; pHead && k < range; pHead = pHead->pNext, i++, k++)
     {
-        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getFirstName() << " " << pHead->getLastName() << "\n";
+        std::string gender;
+        if (pHead->getGender() == 0)
+            gender = { "Male" };
+        else
+            gender = { "Female" };
+        gotoxy(mid - 30 / 2, i); std::cout << i-4 << ". " << pHead->getStudentID() << " " << pHead->getFirstName() << " " << pHead->getLastName() << " " << gender << "\n";
+        // 1. 22125055 Huynh Tuan Minh Male (Sample!)
+        // Ke bang dum nha roi xoa comment nay
         Pcur++;
     }
     drawBox(mid - 46 / 2, 4, 46, k + 4);
