@@ -18,42 +18,89 @@ course::course(std::string id, std::string name, std::string className, std::str
 void course::ExportClass()
 {
     std::ofstream fout;
-    fout.open("../InputFile/" + id + "_scoreboard.csv");
+    std::cout << "The format of the course ID is: CourseName_ClassName. \n\n";
+    std::cout << "Input the course ID: ";
+    std::string courseID;
+    std::getline(std::cin, courseID);
+
+    fout.open("../InputFile/" + courseID + "_scoreboard.csv");
 
     //File header
     fout << "No,Student ID,First name,Last name" << "\n";
 
     int i = 1;
-    studentScore* current = hScore;
+    course* curCourse = curSemester->pHeadCourse;
+    for (curCourse; curCourse != nullptr; curCourse = curCourse->pNext)
+    {
+        if (curCourse->id == courseID)
+            break;
+    }
+    if (!curCourse)
+    {
+        std::cout << "This semester doesn't have this course! Please try again!\n";
+        system("pause");
+        return;
+    }
+    studentScore* current = curCourse->hScore;
     while (current) 
     {
         fout << i++ << ",";
         fout << current->studentID << ",";
         fout << current->firstName << ",";
         fout << current->lastName << ",";
-
+        fout << "\n";
         current = current->pNext;
     }
 
     fout.close();
     gotoxy(mid - 86 / 2, 5);
     std::cout << "Finished exporting to " << id << "_scoreboard.csv\n";
+    system("pause");
+    system("cls");
 }
 
 void course::ImportScoreboard()
 {
-    std::ifstream fin("../InputFile/" + id + "_scoreboard.csv");
+    std::cout << "The format of the file should be: ../CourseID_scoreboard.csv" << "\n";
+    std::cout << "For example: D:/Data/Score/PH212_22CTT2_scoreboard.csv \n\n";
+
+    std::cout << "Import the link of the scoreboard of the course: ";
+    std::string direct;
+    std::getline(std::cin, direct);
+    std::ifstream fin(direct);
+
     if (!fin)
     {
         std::cout << "Error loading file! Please try again.";
         return;
     }
-    if (_mkdir(("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + id).c_str())); //create folder of that course if not exist
-    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + id + "/score.csv");
+    // get the ID of the course with the given directory
+    int slashPosition = direct.rfind('\\');
+    std::string csvFileName = direct.substr(slashPosition + 1);
+    int pos = csvFileName.rfind('_');
+    std::string courseID = csvFileName.substr(0, pos);
+    
+    
+    if (_mkdir(("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID).c_str())); //create folder of that course if not exist
+    std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
     fout << "No,Student ID,First name,Last name,Total,Final,Midterm,Other" << "\n"; // first line of the CSV
     std::string header;
     std::getline(fin, header); // ignore the header row of csv
 
+    // search for the course in the list
+    course* curCourse = curSemester->pHeadCourse;
+    for (curCourse; curCourse != nullptr; curCourse = curCourse->pNext)
+    {
+        if (curCourse->id == courseID)  // Found!
+            break;
+    }
+    if (!curCourse) // Not found
+    {
+        std::cout << "This semester doesn't have this course!\n";
+        system("pause");
+        return;
+    }
+    int line = 2;   
     while (!fin.eof())
     {
         std::string getNo,studentID, firstName, lastName, totalMarkStr, finalMarkStr, midtermMarkStr, otherMarkStr;
@@ -79,47 +126,66 @@ void course::ImportScoreboard()
             otherMark = std::stod(otherMarkStr);
         }
         catch (const std::exception& e) {
-            std::cout << "Error: Invalid data format in file. Please check again.\n";
+            std::cout << "Error in line " << line << ": Invalid data format in file. Please check again.\n";
             continue;
         }
         if (totalMark > 10 || totalMark < 0 || finalMark > 10 || finalMark < 0 || midtermMark > 10 || midtermMark < 0 || otherMark > 10 || otherMark < 0)
         {
-            std::cout << "Error: Invalid data format in file!" << "\n";
+            std::cout << "Error in line " << line << ": Invalid data format in file!" << "\n";
             continue;
         }
         studentScore* newScore = new studentScore{ studentID, firstName, lastName, totalMark, finalMark, midtermMark, otherMark, nullptr };
-        if (!hScore)
+        if (!curCourse->hScore)
         {
             hScore = newScore;
         }
         else
         {
-            studentScore* pCur = hScore;
+            studentScore* pCur = curCourse->hScore;
             while (pCur->pNext)
                 pCur = pCur->pNext;
             pCur->pNext = newScore;
         }
         // Save the score to the score.csv
         fout << getNo << "," << studentID << "," << firstName << "," << lastName << "," << totalMark << "," << finalMark << "," << midtermMark << "," << otherMark << "\n";
+        ++line;
     }
     fin.close(); 
     fout.close();
-    saveIndividualScore();      // save score after importing 
+    saveIndividualScore(curCourse);      // save score after importing 
     std::cout << "Import successful!\n";
+    system("pause");
+    system("cls");
 }
 
 void course::updateStudentResult()
 {
+    std::cout << "Enter the course which the student's result need to be updated: ";
+    std::string courseID;
+    std::getline(std::cin, courseID);
     std::string studentID;
     std::cout << "Enter student ID: ";
     getline(std::cin, studentID, '\n');
-    studentScore* pCur = hScore;
+    course* curCourse = curSemester->pHeadCourse;
+    for (curCourse; curCourse != nullptr; curCourse = curCourse->pNext)
+    {
+        if (curCourse->id == courseID)
+            break;
+    }
+    if (!curCourse)
+    {
+        std::cout << "This semester doesn't have this course! Please try again!\n";
+        system("pause");
+        return;
+    }
+    studentScore* pCur = curCourse->hScore;
     while (pCur && pCur->studentID != studentID)
         pCur = pCur->pNext;
 
     if (!pCur)
     {
         std::cout << "Student not found!\n";
+        system("pause");
         return;
     }
 
@@ -146,7 +212,7 @@ void course::ViewScoreboard() {
     std::ifstream fin("../Data/SchoolYear/score.csv");
     // Get the number of students
     int numStudents = 0;
-    studentScore* currScore = curSemester->pHeadCourse->hScore; // help! 
+    studentScore* currScore = curSemester->pHeadCourse->hScore;
     while (currScore != nullptr) {
         numStudents++;
         currScore = currScore->pNext;
@@ -169,7 +235,7 @@ void course::ViewScoreboard() {
     // Iterate over the linked list and print each student's data
     int row = 5; // start at row 5
     int no = 1;
-    currScore = hScore;
+    currScore = curSemester->pHeadCourse->hScore;
     std::string firstline;
     std::getline(fin, firstline);
     while (currScore) {
@@ -192,9 +258,9 @@ void course::ViewScoreboard() {
     drawBox(2, row, 90, 3);
 }
 
-void course::saveIndividualScore() {
+void course::saveIndividualScore(course* curCourse) {
     // Iterate over the linked list of students
-    studentScore* currScore = hScore;
+    studentScore* currScore = curCourse->hScore;
     while (currScore != nullptr) {
         std::ofstream fout("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv", std::fstream::app);
         fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
