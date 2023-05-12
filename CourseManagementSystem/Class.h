@@ -29,7 +29,7 @@ public:
 	void exportNewStudentProfile(std::string classcode, std::string id, std::string firstname, std::string lastname, int no, bool gender, int day, int month, int year, std::string socialID);
 	void addStudentto1stClass_File();
 	void loadStudent();
-	void sortStudentsLexicographically(std::string classcode);
+	void sortStudents(std::string classcode);
 
 	//View Students
 	void viewStudentList();
