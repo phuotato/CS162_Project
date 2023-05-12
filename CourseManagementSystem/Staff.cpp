@@ -257,7 +257,6 @@ void BeginSchoolYear(bool& flag) {
         case 1:
             flag = 1;
             system("cls");
-            std::cin.ignore();
 
             pHeadSchoolYear->deleteSchoolYear();
             //pHeadClass->deleteStudentList();
@@ -484,7 +483,7 @@ void BeginSemester() {
                 {
                     system("cls");
                     if (curSemester->viewCourse())
-                        curCourse->showStudent(); //Check sau
+                        curCourse->showInfo();
                     else
                         break;
                 }
@@ -495,7 +494,7 @@ void BeginSemester() {
                 {
                     system("cls");
                     if (curSemester->viewCourse())
-                        curCourse->showInfo();
+                        curCourse->showStudent(); //Check sau
                     else
                         break;
                 }

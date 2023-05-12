@@ -9,6 +9,7 @@
 //global variable
 extern schoolYear* curSchoolYear;
 extern semester* curSemester;
+extern course* curCourse;
 extern int mid;
 
 //Constructor
@@ -453,7 +454,7 @@ void course::addStudentMenu()
         gotox(mid - 49 / 2); std::cout << "0. Back\n\n";
         gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
         std::cin >> choice;
-        if (choice <= 0 || choice > 2) {
+        if (choice < 0 || choice > 2) {
             std::cout << "\n"; gotox(mid - 24 / 2);
             SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
 
@@ -464,7 +465,8 @@ void course::addStudentMenu()
             gotoxy(mid - 9 / 2, -2); std::cout << "               ";
             gotox(mid - 9 / 2);
         }
-        else addStudent(choice);
+        else if(choice)
+        addStudent(choice);
     } while (choice);
 }
 
@@ -571,6 +573,7 @@ void course::addStudent(int choice)
             std::cout << "\n";
             std::ifstream fin;
             fin.open(dir);
+            if (fin.is_open())
             {
                 std::string redundant;
                 getline(fin, redundant);
@@ -587,7 +590,7 @@ void course::addStudent(int choice)
                         getline(fin, dob, ',');
                         fin.get();
                         getline(fin, socialId);
-                        if (pHeadStudent)
+                        if (!pHeadStudent)
                         {
                             pHeadStudent = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
                             pTailStudent = pHeadStudent;
@@ -652,6 +655,8 @@ void course::addStudent(int choice)
             break;
         }
     } while (ch != 'N' && ch!='n');
+    std::string path = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + id + "/Student's List.csv";
+    saveStudentinCourse(path);
 }
 
 int compareString(std::string a, std::string b, std::string c, std::string d)
@@ -694,13 +699,8 @@ void course::showStudent()
 {
     system("cls");
     drawHeader();
-    if (!pHeadStudent) {
-        std::cout << "\n"; gotox(mid - 38 / 2);
-        SetColor(7, 4); std::cout << "There are no students in this course!"; SetColor(7, 0);
-
-        Sleep(1000);
-        return;
-    }
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
 
     for (student* cur = pHeadStudent; cur; cur = cur->pNext)
     {
@@ -780,4 +780,52 @@ void course::showInfo()
 
     drawBox(mid - 53 / 2, 9, 53, 9);
     _getch();
+}
+
+void course::saveStudentinCourse(std::string path)
+{
+    std::ofstream fout(path);
+    if(fout.is_open())
+    {
+        fout << "No,Student ID,First name,Last name,Gender,Date Of Birth,Social ID";
+        for (student* tmp = pHeadStudent; tmp; tmp = tmp->pNext)
+        {
+            fout << std::endl;
+            fout << tmp->getNo() << "," << tmp->getStudentID() << "," << tmp->getFirstName() << "," << tmp->getLastName() << "," << tmp->getGender() << "," << tmp->getDate() << "," << tmp->getSocialId();
+        }
+    }
+    fout.close();
+}
+
+void course::loadStudentInCourse()
+{
+    std::string path = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + id + "/Student's List.csv";
+    std::ifstream fin(path);
+    if (fin.is_open())
+    {
+        std::string redundant;
+        getline(fin, redundant);
+        while (!fin.eof())
+            {
+                std::string no, id, gender, firstname, lastname, dob, socialId;
+                getline(fin, no, ',');
+                getline(fin, id, ',');
+                getline(fin, firstname, ',');
+                getline(fin, lastname, ',');
+                getline(fin, gender, ',');
+                getline(fin, dob, ',');
+                fin.get();
+                getline(fin, socialId);
+                if (!pHeadStudent)
+                {
+                    pHeadStudent = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                    pTailStudent = pHeadStudent;
+                }
+                else
+                {
+                    pTailStudent->pNext = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                    pTailStudent = pTailStudent->pNext;
+                }
+            }
+    }
 }

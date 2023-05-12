@@ -308,7 +308,7 @@ void schoolYear::ShowingList() {
 					drawBox(15, 2, 30, 23);
 					Tutorial(content);
 					showSchoolYearAll(range, Pcur);
-					Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+					Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 				}
 				yp = 6;
 				break;
@@ -335,7 +335,7 @@ void schoolYear::ShowingList() {
 					Tutorial(content);
 					showP(range, Pcur);
 					showSchoolYearAll(range, Pcur);
-					Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+					Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 				}
 				yp = 6 + 4;
 				break;
@@ -380,7 +380,7 @@ void schoolYear::ShowingList() {
 						drawBox(15, 2, 30, 23);
 						Tutorial(content);
 						showSchoolYearAll(range, Pcur);
-						Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+						Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 					}
 				}
 				yp = 6 + 8;

@@ -40,6 +40,9 @@ public:
 
 	// Supportive function
 	bool checkExistScoringFile(std::string direct);
+	void saveIndividualScore();
+	void saveStudentinCourse(std::string path);
+	void loadStudentInCourse();
 };
 
 int compareString(std::string a, std::string b, std::string c, std::string d);
