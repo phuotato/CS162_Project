@@ -1,7 +1,6 @@
 No,Student ID,First name,Last name,Total,Final,Midterm,Other
-27,22125055,Tuan Minh,Huynh,6.5,3,8.75,7
-28,22125056,Phat Minh,Le,4.34,6,2.6,5
-29,22125057,Quang Minh,Ngo,6.62,4.3,7.5,7.75
-30,22125058,Minh,Nguyen,6.48,8,4,8.25
-58,22125096,Cong Thanh,Doan,4.28,2.5,6,3.75
-72,22125110,Phan Cao Tri,Nguyen,5.7,4,7.5,5
+01,22125002,Pham,Minh Anh,6.5,3,8.75,7
+02,22125004,Tran,Phuong Anh,4.34,6,2.6,5
+03,22125009,Ngo,Thien Bao,6.62,4.3,7.5,7.75
+04,22125010,Phan,Phuc Bao,6.48,8,4,8.25
+05,22125014,Tran,Minh Dang,4.28,2.5,6,3.75
