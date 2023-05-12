@@ -3,6 +3,7 @@
 #include "Universal.h"
 #include "Staff.h"
 #include "StudentAcc.h"
+#include "Display.h"
 std::string username{};
 extern int mid;
 
@@ -42,19 +43,22 @@ void welcomePage()
     std::cout << "2. Student";
     gotoxy(mid-26/2, 14);
     std::cout << "0. Exit"; //character i make the box break
-	
-	gotoxy(mid - 26 / 2, 17);
-	std::cout << "Your choice: ";
+
+    std::string* content = new std::string[3];
+
+    content[0] = "  1. Staff";
+    content[1] = "  2. Student";
+    content[2] = "  0. Exit";
+
 	int option;
-	std::cin >> option;
-	std::cin.ignore(100000, '\n');
+	option = movingBar(mid-32/2, 10, 10, mid+32/2, 14, 2, content);
 	switch (option) {
-	case 1:
+	case 2:
 		system("cls");
         
 		Staff();
 		break;
-	case 2:
+	case 1:
 		system("cls");
         login("../StudentAccount/");
 		StudentAcc();
