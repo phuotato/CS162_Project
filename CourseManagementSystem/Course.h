@@ -36,7 +36,7 @@ public:
 	void showScoreBoardOfClass();
 	void updateStudentResult();
 	void ViewScoreboard();
-	void saveIndividualScore();
+	void saveIndividualScore(course* curCourse);
 
 };
 

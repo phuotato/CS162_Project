@@ -1073,6 +1073,7 @@ void Class::deleteStudentList()
             curStudent = curStudent->pNext;
             delete temp;
         }
+        curClass->headS = nullptr;
         curClass = curClass->pNext;
     }
 }
