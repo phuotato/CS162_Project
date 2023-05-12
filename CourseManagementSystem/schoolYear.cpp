@@ -140,60 +140,61 @@ void schoolYear::loadFile()
 
 //check if exist
 
-bool schoolYear::checkExistSchoolYear(std::string year)
+bool schoolYear::checkExistSchoolYear(const std::string& year)
 {
 	if (pHeadSchoolYear)
 	{
 		for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 		{
 			if (cur->getYear() == year)
-				return 0;
+				return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 //Make sure a valid schoolyear
-
-bool schoolYear::checkCorrectYear(std::string year) {
+bool schoolYear::checkCorrectYear(const std::string& year)
+{
 	int length = year.length();
 
-	//Check length
-	if (length != 9) return false;
+	// Check length
+	if (length != 9)
+		return false;
 
-	//0->3, 5->8 is number
-	for (int i = 0; i < 4; i++) {
-		if (year[i] < '0' || year[i] > '9' || year[i + 5] > '9' || year[i + 5] < '0') return false;
+	// Check year format
+	for (int i = 0; i < 4; i++)
+	{
+		if (!isdigit(year[i]) || !isdigit(year[i + 5]))
+			return false;
 	}
 
-	//4-> '-'
-	if (year[4] != '-') return false;
+	// Check delimiter
+	if (year[4] != '-')
+		return false;
 
-	//are two years consecutive
-	if (year[8] - year[3] == -9);
-	else if (year[8] - year[3] != 1) return false;
+	// Check consecutive years
+	int startYear = std::stoi(year.substr(0, 4));
+	int endYear = std::stoi(year.substr(5, 4));
+	if (endYear - startYear != 1)
+		return false;
 
 	return true;
 }
 
-
 //Delete SchoolYear
-
-
 void schoolYear::deleteSchoolYear()
 {
-	for (pHeadSchoolYear; pHeadSchoolYear;)
+	while (pHeadSchoolYear)
 	{
-		schoolYear* tmp = pHeadSchoolYear->pNext;
-		delete pHeadSchoolYear;
-		pHeadSchoolYear = tmp;
-
+		schoolYear* tmp = pHeadSchoolYear;
+		pHeadSchoolYear = pHeadSchoolYear->pNext;
+		delete tmp;
 	}
+	pTailSchoolYear = nullptr; // Reset the tail pointer
 }
 
-
 //Show SchoolYear
-
 void schoolYear::showSchoolYearAll(short range, short& Pcur)
 {
 	gotoxy(mid-19/2, 3); std::cout << "School Years' List";
@@ -408,6 +409,7 @@ std::string schoolYear::getYear()
 {
 	return year;
 }
+
 bool schoolYear::createSemester()
 {
 	std::ofstream fout;
@@ -565,27 +567,27 @@ bool schoolYear::checkExistSemester(int sem)
 	for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
 	{
 		if (sem == cur->getSem())
-			return 1;
+			return true;
 	}
-	return 0;
+	return false;
 }
 int semester::getSem()
 {
 	return sem;
 }
-schoolYear* schoolYear::findSchoolYear(std::string year)
+
+schoolYear* schoolYear::findSchoolYear(const std::string& year)
 {
-	schoolYear* cur = pHeadSchoolYear;
-	for (; cur; cur = cur->pNext)
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
 	{
-		std::string tmp = cur->getYear();
-		if (!tmp.compare(year))
+		if (cur->getYear() == year)
 		{
 			return cur;
 		}
 	}
 	return nullptr;
 }
+
 
 void schoolYear::increaseSem()
 {
@@ -594,22 +596,25 @@ void schoolYear::increaseSem()
 bool schoolYear::checkAvaiSemester()
 {
 	if (numSem == 3)
-		return 0;
-	return 1;
+		return false;
+	return true;
 }
+
 bool schoolYear::showSemester()
 {
 	if (!pHeadSemester)			//load semester
-		curSchoolYear->loadFile(year);
+		loadFile(year);
 
 	if (!pHeadSemester)			//check pHeadSemester null or not
 	{
 		std::cout << "\n";
-		gotox(mid - 48 / 2); std::cout << "This schoolyear haven't had any semester before\n\n";
-		gotox(mid - 28 / 2); 
-		SetColor(7, 4); system("pause");
+		gotox(mid - 48 / 2);
+		SetColor(7, 4);
+		std::cout << "This school year hasn't had any semester before\n\n";
 		SetColor(7, 0);
-		return 0;
+		gotox(mid - 28 / 2);
+		system("pause");
+		return false;
 	}
 	std::cin.ignore();
 	while (true)
@@ -619,7 +624,9 @@ bool schoolYear::showSemester()
 		//show all semester in schoolyear
 		drawHeader();
 		std::cout << "\n\n";
-		gotox(mid - 17 / 2); SetColor(7, 9); std::cout << "Semester's list\n\n"; SetColor(7, 0);
+		gotox(mid - 17 / 2); SetColor(7, 9); 
+		std::cout << "Semester's list\n\n"; 
+		SetColor(7, 0);
 
 		short k = 0;
 		for (semester* cur = pHeadSemester; cur; cur = cur->pNext)
@@ -632,7 +639,8 @@ bool schoolYear::showSemester()
 		std::cout << "Please choose your semester (Press enter to go back): ";
 		std::string sem;
 		getline(std::cin, sem);
-		if (sem == "") return 0;
+		if (sem.empty())
+			return false;
 
 		for (semester* cur = pHeadSemester; cur; cur = cur->pNext) {
 			if (stoi(sem) == cur->getSem()) {
@@ -651,7 +659,7 @@ bool schoolYear::showSemester()
 		gotox(mid - 24 / 2); std::cout << "Please input correctly!";
 		SetColor(7, 0);
 
-		//Clear everything to show back
+		//Clear everything to show again
 		Sleep(500);
 		system("cls");
 	}

@@ -1,0 +1,36 @@
+void schoolYear::loadSemestersFromFile(const std::string& year)
+{
+    std::ifstream fin("../Data/SchoolYear/" + year + "/all semester.txt");
+
+    std::string line;
+    while (std::getline(fin, line))
+    {
+        if (line.empty())
+            break;
+
+        std::istringstream iss(line);
+        std::string sem, startDate, endDate;
+        std::getline(iss, sem, ',');
+        std::getline(iss, startDate, ',');
+        std::getline(iss, endDate);
+
+        if (!sem.empty() && !startDate.empty() && !endDate.empty())
+        {
+            semester* dummy = new semester(std::stoi(sem), startDate, endDate);
+            if (!pHeadSemester)
+            {
+                pHeadSemester = dummy;
+                pTailSemester = dummy;
+                ++numSem;
+            }
+            else
+            {
+                pTailSemester->pNext = dummy;
+                pTailSemester = dummy;
+                ++numSem;
+            }
+        }
+    }
+
+    fin.close();
+}

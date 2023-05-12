@@ -1,0 +1,25 @@
+bool schoolYear::checkCorrectYear(const std::string& year)
+{
+	int length = year.length();
+
+	// Check length
+	if (length != 9) return false;
+
+	// Check year format
+	for (int i = 0; i < 4; i++){
+		if (!isdigit(year[i]) || !isdigit(year[i + 5]))
+			return false;
+	}
+
+	// Check delimiter
+	if (year[4] != '-')
+		return false;
+
+	// Check consecutive years
+	int startYear = std::stoi(year.substr(0, 4));
+	int endYear = std::stoi(year.substr(5, 4));
+	if (endYear - startYear != 1)
+		return false;
+
+	return true;
+}

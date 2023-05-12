@@ -1,0 +1,94 @@
+void semester::addCourse()
+{
+    std::ofstream fout;
+    char choice = 'Y';
+
+    while (choice == 'Y' || choice == 'y')
+    {
+        system("cls");
+        std::cin.ignore();
+        // Header
+        drawHeader();
+        std::cout << "\n";
+        gotox(mid - 16 / 2);
+        SetColor(7, 9);
+        std::cout << "Create Course\n\n";
+        SetColor(7, 0);
+
+        gotox(mid - 49 / 2);
+        std::cout << "Enter the name of the course: ";
+        std::string name;
+        getline(std::cin, name, '\n');
+
+        gotox(mid - 49 / 2);
+        std::cout << "Enter the course's ID: ";
+        std::string ID;
+        getline(std::cin, ID);
+
+        gotox(mid - 49 / 2);
+        std::cout << "Enter the classname: ";
+        std::string className;
+        getline(std::cin, className);
+
+        gotox(mid - 49 / 2);
+        std::cout << "Enter the lecturer of the course: ";
+        std::string lecturer;
+        getline(std::cin, lecturer);
+
+        gotox(mid - 49 / 2);
+        std::cout << "Input the course's credit: ";
+        int credit;
+        std::cin >> credit;
+
+        gotox(mid - 49 / 2);
+        std::cout << "Input the maximum student of this course: ";
+        int maxStudent;
+        std::cin >> maxStudent;
+        std::cin.ignore();
+
+        gotox(mid - 49 / 2);
+        std::cout << "Which day will the course be performed? ";
+        std::string weekDay;
+        getline(std::cin, weekDay);
+
+        gotox(mid - 49 / 2);
+        std::cout << "Enter the session that the course will be performed (1: 07:30, 2: 09:30, 3: 13:30, 4: 15:30): ";
+        int session;
+        std::cin >> session;
+
+        if (pHeadCourse)
+        {
+            pTailCourse->pNext = new course(ID, name, className, lecturer, credit, maxStudent, stoi(weekDay), session);
+            pTailCourse = pTailCourse->pNext;
+        }
+        else
+        {
+            pHeadCourse = new course(ID, name, className, lecturer, credit, maxStudent, stoi(weekDay), session);
+            pTailCourse = pHeadCourse;
+        }
+
+        // Save course ID to text file
+        fout.open("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt", std::ios::app);
+	
+    loadingPage();
+
+    std::cout << "\n\n";
+    gotox(mid - 20 / 2);
+    SetColor(7, 2);
+    std::cout << "Create successfully";
+    SetColor(7, 0);
+
+    Sleep(500);
+
+    // Reset
+    gotox(mid - 20 / 2);
+    std::cout << "                            ";
+    gotoxy(mid - 26 / 2, -2);
+    std::cout << "                           ";
+    gotoxy(mid - 12 / 2, -2);
+    std::cout << "                           ";
+
+    gotoxy(mid - 49 / 2, -1);
+    std::cout << "Would you like to add more courses for this semester? (Y/N): ";
+    std::cin >> choice;
+}
