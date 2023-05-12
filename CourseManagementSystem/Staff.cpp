@@ -257,7 +257,6 @@ void BeginSchoolYear(bool& flag) {
         case 1:
             flag = 1;
             system("cls");
-            std::cin.ignore();
 
             pHeadSchoolYear->deleteSchoolYear();
             //pHeadClass->deleteStudentList();

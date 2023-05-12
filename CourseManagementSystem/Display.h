@@ -9,4 +9,4 @@ void Tutorial(std::string*& content);
 
 int YNQuestions(int x, int y, int size);
 
-void Description(short range, short APages, short CPages, short Pcur);
+void Description(short range, short APages, short CPages, short Pcur, int Tablex, int Tablewidth);

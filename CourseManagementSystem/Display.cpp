@@ -94,6 +94,13 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 		}
 		else if (c == 13) {
 			setcursor(1, 10);
+
+			//Reset
+			SetColor(7, 0);
+			gotoxy(x, yp);
+			for (int i = 0; i < limitx - x; i++) std::cout << " ";
+			gotox(mid - content[count].length() / 2); std::cout << content[count];
+
 			return (limity - yp) / steep;
 		}
 		else c = _getch();
@@ -206,6 +213,13 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 		}
 		else if (c == 13) {
 			setcursor(1, 10);
+
+			//Reset
+			SetColor(7, 0);
+			gotoxy(x, yp);
+			for (int i = 0; i < limitx - x; i++) std::cout << " ";
+			gotox(x + 1); std::cout << content[count];
+
 			return (limity - yp) / steep;
 		}
 		
@@ -258,19 +272,19 @@ int YNQuestions(int x, int y, int size) {
 	}
 }
 
-void Description(short range, short APages, short CPages, short Pcur) {
-	int mid = getMidColumns();
+void Description(short range, short APages, short CPages, short Pcur, int Tablex, int Tablewidth) {
+	int mid = Tablex + Tablewidth / 2;
 	SetColor(7, 1);
 	gotox(mid - 12 / 2);
 	std::cout << "Pages: " << CPages << "/" << APages;
 	SetColor(7, 0);
 
-	gotoxy(mid - 44 / 2, -1);
+	gotoxy(Tablex+1, -1);
 	if (Pcur % range == 0) std::cout << "Showing " << Pcur - (range-1) << "-" << Pcur;
 	else std::cout << "Showing " << Pcur - (Pcur%range) + 1 << "-" << Pcur;
 
 
 
-	gotox(mid + 44 / 2 - 7 - (range/10) - 1);
+	gotox(Tablex + Tablewidth - 7 - (range/10) - 3);
 	std::cout << "List: " << range;
 }

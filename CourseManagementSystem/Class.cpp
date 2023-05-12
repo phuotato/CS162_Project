@@ -331,7 +331,7 @@ void Class::showingList() {
                 drawBox(15, 2, 30, 23);
                 Tutorial(content);
                 showClassList(range, Pcur);
-                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
             }
             yp = 6;
             break;
@@ -358,7 +358,7 @@ void Class::showingList() {
                 Tutorial(content);
                 showP(range, Pcur);
                 showClassList(range, Pcur);
-                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
             }
             yp = 6 + 4;
             break;
@@ -403,7 +403,7 @@ void Class::showingList() {
                     drawBox(15, 2, 30, 23);
                     Tutorial(content);
                     showClassList(range, Pcur);
-                    Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                    Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
                 }
             }
             yp = 6 + 8;
@@ -510,10 +510,10 @@ void Class::addStudentto1stClass_Console()
         return;
     }
 
-    char choice = 'Y';
+    int choice = 1;
     student* curStudent = curClass->headS;
     student* tail = nullptr;
-    while (choice == 'Y' || choice == 'y')
+    while (choice == 1)
     {
         system("cls");
         drawHeader();
@@ -560,7 +560,7 @@ void Class::addStudentto1stClass_Console()
             curStudent = curStudent->pNext;
         }
 
-        if (choice == 'Y' || choice == 'y')
+        if (choice == 1)
         {
             gotox(mid - 36 / 2);
             std::cout << "First name: ";
@@ -723,12 +723,9 @@ void Class::addStudentto1stClass_Console()
         }
         // Option for user
 
-        gotox(mid - 50 / 2);
-        std::cout << "Enter Y (or y) to continue inputting on console\r\n";
-        gotox(mid-50/2); std::cout << "Enter any other character except Y and y to stop inputting!" << "\n";
-        gotox(mid - 50 / 2);
-        std::cout << "Your choice -> ";
-        std::cin >> choice;
+        gotoxy(mid - 37 / 2, 20); std::cout << "Do you want to add more student?";
+        choice = YNQuestions(mid - 40 / 2, 19, 40);
+
         curStudent = curClass->headS;       // reset pointer
         std::cin.ignore();
     }
@@ -1079,16 +1076,16 @@ void Class::deleteStudentList()
 }
 
 void Class::showStudents(student*& pHead, short range, short& Pcur) {
-    gotoxy(mid - 10 / 2, 3);
-    std::cout << "Student's List";
-
     const int tableWidth = 62;
     const int tableX = mid + 6 - tableWidth / 2;
     const int tableY = 5;
 
+    gotoxy((2*tableX+45) / 2, 3);
+    std::cout << "Student's List";
+
     // Print table header
     gotoxy(tableX, tableY);
-    std::cout << "No.   Student ID   First Name    Last Name         Gender";
+    std::cout << "No.   Student ID   First Name    Last Name         Gender\n";
 
     int i = tableY + 2;
     int k = 0;
@@ -1106,10 +1103,14 @@ void Class::showStudents(student*& pHead, short range, short& Pcur) {
         pHead = pHead->pNext;
         i++;
         k++;
+        Pcur++;
     }
 
-    drawBox(tableX - 2, tableY - 1, tableWidth, range + 4);
-    gotoy(-2);
+    drawBox(tableX - 2, tableY - 1, tableWidth, Pcur + 6);
+    gotoxy(tableX, tableY+1);
+    drawLine(62, tableX - 2);
+
+    gotoxy(tableX-3, tableY + 2 + Pcur);
     drawLine(tableWidth, tableX - 2);
     std::cout << "\n\n";
     gotox(tableX - 2);
@@ -1157,8 +1158,8 @@ void Class::showingStudentList(student* pHead) {
         case 3: {
             if (cur == nullptr) {
                 SetColor(7, 12);
-                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 8);
-                else gotoxy(mid - 25 / 2, Pcur % range + 8);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
                 std::cout << "You are at the last page";
                 SetColor(7, 0);
 
@@ -1174,7 +1175,7 @@ void Class::showingStudentList(student* pHead) {
                 drawBox(15, 2, 30, 23);
                 Tutorial(content);
                 showStudents(cur, range, Pcur);
-                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
             }
             yp = 6;
             break;
@@ -1183,8 +1184,8 @@ void Class::showingStudentList(student* pHead) {
         case 2: {
             if (Pcur <= range) {
                 SetColor(7, 12);
-                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 8);
-                else gotoxy(mid - 25 / 2, Pcur % range + 8);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
                 std::cout << "You are at the first page";
                 SetColor(7, 0);
 
@@ -1201,7 +1202,7 @@ void Class::showingStudentList(student* pHead) {
                 Tutorial(content);
                 showPStudents(cur, range, Pcur);
                 showStudents(cur, range, Pcur);
-                Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
             }
             yp = 6 + 4;
             break;
@@ -1214,8 +1215,8 @@ void Class::showingStudentList(student* pHead) {
               //Change list
         case 1: {
 
-            if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 50 / 2, range + 8);
-            else gotoxy(mid - 50 / 2, Pcur % range + 8);
+            if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 50 / 2, range + 12);
+            else gotoxy(mid - 50 / 2, Pcur % range + 12);
             std::cout << "Please enter the number you want to change list: ";
             getline(std::cin, displayk);
 
@@ -1246,7 +1247,7 @@ void Class::showingStudentList(student* pHead) {
                     drawBox(15, 2, 30, 23);
                     Tutorial(content);
                     showStudents(cur, range, Pcur);
-                    Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+                    Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
                 }
             }
             yp = 6 + 8;

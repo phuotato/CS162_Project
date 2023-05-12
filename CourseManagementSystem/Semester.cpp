@@ -217,7 +217,7 @@ void semester::showingCourseList(course* pHead) {
 				drawBox(15, 2, 30, 23);
 				Tutorial(content);
 				showCourses(cur, range, Pcur);
-				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+				Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 			}
 			yp = 6;
 			break;
@@ -244,7 +244,7 @@ void semester::showingCourseList(course* pHead) {
 				Tutorial(content);
 				showPCourses(cur, range, Pcur);
 				showCourses(cur, range, Pcur);
-				Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+				Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 			}
 			yp = 6 + 4;
 			break;
@@ -289,7 +289,7 @@ void semester::showingCourseList(course* pHead) {
 					drawBox(15, 2, 30, 23);
 					Tutorial(content);
 					showCourses(cur, range, Pcur);
-					Description(range, APages, (Pcur - 1) / range + 1, Pcur);
+					Description(range, APages, (Pcur - 1) / range + 1, Pcur, mid - 45 / 2, 46);
 				}
 			}
 			yp = 6 + 8;
