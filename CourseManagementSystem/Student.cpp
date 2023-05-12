@@ -75,9 +75,8 @@ void student::readStudentScore() {
 
 void student::viewProfile_Staff()
 {
-    char opt = 'Y';
-    std::cin.ignore();                  //ignore the \n
-    while (opt == 'Y' || opt == 'y')
+    int opt = 1;
+    while (opt == 1)
     {
         system("cls");
         drawHeader();
@@ -99,12 +98,9 @@ void student::viewProfile_Staff()
 
             //Reset the warning
             gotox(mid - 35 / 2); std::cout << "                                ";
+            gotoxy(mid - 37 / 2, 12); std::cout << "Do you want to show another student?";
 
-            gotox(mid - 53 / 2); std::cout << "Enter Y (or y) to continue viewing.\n";
-            gotox(mid - 53 / 2); std::cout << "Enter N (or N) to stop.\n";
-            gotox(mid - 53 / 2); std::cout << "Your choice -> ";
-            std::cin >> opt;
-            std::cin.ignore();
+            opt = YNQuestions(mid - 40 / 2, 11, 40);
             continue;
         }
         std::string id, firstname, lastname, socialId;
@@ -138,19 +134,12 @@ void student::viewProfile_Staff()
             std::cout << "Female" << "\n";
 
         gotox(mid - 53 / 2); std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
-        gotox(mid - 53 / 2); std::cout << "Social ID: " << socialId << "\n";
+        gotox(mid - 53 / 2); std::cout << "Social ID: " << socialId << "\n\n\n";
+        gotox(mid - 37 / 2); std::cout << "Do you want to show another student?";
 
-        gotox(mid - 53 / 2); std::cout << "Would you like to view other information of another student? (Y/N):";
-
-        std::cin >> opt;
-        std::cin.ignore();
+        opt = YNQuestions(mid - 40 / 2, 17, 40);
     }
 
-    std::cout << "\n\n"; gotox(mid - 51 / 2);
-    SetColor(7, 2);
-    std::cout << "Process done! The system will go back to the menu.";
-    SetColor(7, 0);
-    Sleep(1000);
 }
 
 void student::viewProfile_Student()

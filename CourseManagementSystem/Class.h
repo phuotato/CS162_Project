@@ -17,6 +17,9 @@ public:
 	int getAllClass();
 	bool checkLatestYear();
 
+	//Function show score
+
+
 	//Function show for class
 	void showClassList(short range, short& Pcur);
 	void showP(short range, short& Pcur);

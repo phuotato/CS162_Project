@@ -28,7 +28,11 @@ public:
 	void increaseSem();
 	schoolYear* findSchoolYear(const std::string& year);
 	void loadFile();
-	void loadFile(std::string year);//doi ten di
+
+	//Load all created semester of specific schoolyear
+	void loadFileSemester(std::string year);
+
+	//Delete function
 	void deleteSchoolYear();
 	void showSchoolYearAll(short range, short& Pcur);
 	void showP(short range, short& Pcur);

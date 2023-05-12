@@ -16,7 +16,6 @@ void loadingPage();
 int getMidColumns();
 void set_console_size(short x, short y);
 
-
 //0 = Black  8 = Gray
 //1 = Blue   9 = Light Blue
 //2 = Green  10 = Light Green

@@ -7,4 +7,6 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 
 void Tutorial(std::string*& content);
 
+int YNQuestions(int x, int y, int size);
+
 void Description(short range, short APages, short CPages, short Pcur);
