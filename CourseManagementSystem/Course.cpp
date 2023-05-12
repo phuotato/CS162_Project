@@ -444,7 +444,12 @@ void course::updateCourse()
 
 void course::addStudentMenu()
 {
-    int choice;
+    int choice = 0;
+    std::string* content = new std::string[3];
+    content[0] = "1. Add student manually";
+    content[1] = "2. Import csv file";
+    content[2] = "0. Back";
+
     do
     {
         system("cls");
@@ -452,22 +457,9 @@ void course::addStudentMenu()
         drawBox(mid - 53 / 2, 8, 53, 5);
         
         gotoxy(mid - 49 / 2, 9); std::cout << "1. Add student manually\n";
-        gotox(mid - 49 / 2); std::cout << "2. Import csv file\n"; //chua lam
-        gotox(mid - 49 / 2); std::cout << "0. Back\n\n";
-        gotox(mid - 49 / 2); std::cout << "Enter your choice: ";
-        std::cin >> choice;
-        if (choice < 0 || choice > 2) {
-            std::cout << "\n"; gotox(mid - 24 / 2);
-            SetColor(7, 4); std::cout << "Please input correctly!"; SetColor(7, 0);
-
-            Sleep(1000);
-
-            //Reset
-            gotox(mid - 24 / 2); std::cout << "                       ";
-            gotoxy(mid - 9 / 2, -2); std::cout << "               ";
-            gotox(mid - 9 / 2);
-        }
-        else if(choice)
+        gotox(mid - 49 / 2); std::cout << "2. Import csv file\n";
+        gotox(mid - 49 / 2); std::cout << "0. Back";
+        choice = movingBar(mid - 51/2, 9, 9, mid+51/2, 11, 1, content);
         addStudent(choice);
     } while (choice);
 }
@@ -477,7 +469,7 @@ void course::addStudent(int choice)
     char ch = 'Y';
     do
     {
-        if (choice == 1)
+        if (choice == 2)
         {
             system("cls");
             bool gender;
@@ -555,12 +547,11 @@ void course::addStudent(int choice)
 
             //Reset
             gotox(mid - 26 / 2); std::cout << "                         ";
-            gotoxy(mid - 49 / 2, -1);
 
-            std::cout << "Do you want to add more (Y/y to continue N/n to stop): ";
-            std::cin >> ch;
+            std::cout << "Do you want to add more: ";
+            YNQuestions(mid - 30/2, 13, 30);
         }
-        else
+        else if (choice == 1)
         {
             system("cls");
             //header
@@ -831,7 +822,6 @@ void course::loadStudentInCourse()
             }
     }
 }
-
 
 void course::showingStudentList()
 {

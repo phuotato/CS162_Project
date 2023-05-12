@@ -43,6 +43,7 @@ public:
 	void saveIndividualScore();
 	void saveStudentinCourse(std::string path);
 	void loadStudentInCourse();
+
 	//show Student
 	void showingStudentList();
 	void showStudent(student*& pHead, short range, short& Pcur);

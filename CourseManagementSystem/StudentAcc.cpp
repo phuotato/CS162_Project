@@ -5,6 +5,7 @@
 #include "Graphic.h"
 #include "Staff.h"
 #include "Class.h"
+#include "Display.h"
 
 
 extern student* pStudent;
@@ -20,7 +21,7 @@ student curStudent(username);
 extern int mid;
 
 void drawStudentMenu(){
-    drawBox(mid - 53 / 2, 10, 52, 15);
+    drawBox(mid - 53 / 2, 10, 52, 10);
     gotoxy(mid - 13 / 2, 11);
     std::cout << "MENU OPTIONS";
 
@@ -44,25 +45,34 @@ void drawStudentMenu(){
     std::cout << "\n"; gotox(mid - 49 / 2);
     std::cout << "0. Exit";
 
-    std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "  Enter your choice: ";
 }
 
 void StudentMenu() {
     mid = getMidColumns();
-    int option;
+    int option = 0;
     short k = 1;
+    std::string* content = new std::string[6];
+    std::ifstream fin;
+    std::ofstream fout;
+
+    content[0] = "1. View profile";
+    content[1] = "2. View courses";
+    content[2] = "3. View scoreboard";
+    content[3] = "-";
+    content[4] = "4. Change password";
+    content[5] = "0. Exit";
+
     while (k != 0) {
         system("cls");
         drawStudentMenu();
-        std::cin >> option;
+        option = movingBar(mid - 50/2, 13, 13, mid + 50/2, 18, 1, content);
         switch (option) {
-        case 1:
+        case 5:
             system("cls");
             drawHeader();
             curStudent.viewProfile_Student();
             break;
-        case 2:
+        case 4:
             system("cls");
             drawHeader();
             curStudent.viewCourseList();
@@ -72,8 +82,11 @@ void StudentMenu() {
             drawHeader();
             curStudent.viewScoreboard();
             break;
-        case 4:
-            //change password
+        case 1:
+            system("cls");
+            drawHeader();
+            changePassword(fin, fout);
+            break;
         case 0:
             system("cls");
             drawBox(mid - 50 / 2, 5, 50, 16);
@@ -85,11 +98,6 @@ void StudentMenu() {
             std::cout << "Management Program!\n\n\n\n\n\n";
             exit(0);
             break;
-        default:
-            std::cout << "\n\n"; gotox(mid - 15 / 2);
-            SetColor(7, 12);
-            std::cout << "Invalid input.";
-            SetColor(7, 0);
         }
     }
 }
