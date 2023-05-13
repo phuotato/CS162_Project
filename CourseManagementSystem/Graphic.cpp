@@ -154,41 +154,41 @@ void drawHeader() {
 
 void loadingPage() {
 	int mid = getMidColumns();
-	std::cout << "\n"; gotox(mid - 13 / 2);
+	std::cout << "\n"; gotox(mid - 8);
 	std::cout << "Loading...\n\n";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	std::cout << "[                   ] 0%\r";
 	Sleep(100);
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	std::cout << "[=                  ] 10%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==                 ] 20%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[===                ] 30%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[======             ] 40%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[========           ] 50%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[=========          ] 60%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==========         ] 70%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[============       ] 80%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==============     ] 90%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[===================] 100%\r";
-	gotox(mid - 13 / 2);
+	gotox(mid - 8);
 	Sleep(100);
 }
 
