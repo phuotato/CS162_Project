@@ -3,6 +3,7 @@
 #include "Class.h"
 #include "Semester.h"
 #include "Graphic.h"
+#include"Display.h"
 
 
 //Declare global variables
@@ -18,3 +19,13 @@ Class* pHeadClass = nullptr;
 Class* pTailClass = nullptr;
 Class* curClass = nullptr;
 int mid = getMidColumns();
+void deleteData()
+{
+	pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteStudentCourseList();
+	pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteCourseList();
+	pHeadSchoolYear->deleteSemesterList();
+	pHeadSchoolYear->deleteSchoolYear();
+	pHeadClass->deleteStudentList();
+	pHeadClass->deleteClass();
+
+}

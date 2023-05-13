@@ -91,7 +91,6 @@ void SchoolYear() {
             break;
         case 0:
             delete[] content;
-            exit(0);
             break;
         }
     }
