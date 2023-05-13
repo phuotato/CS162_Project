@@ -628,8 +628,21 @@ void EndSemester() {
         option = movingBar(mid - 51 / 2, 14, 14, mid + 51 / 2, 28, 1, content);
 
         switch (option) {
+        case 14:
+            system("cls");
+            curCourse->ExportClass();
+            break;
         case 13:
-            std::cout << "hi";
+            system("cls");
+            curCourse->ImportScoreboard();
+            break;
+        case 12:
+            system("cls");
+            curCourse->ViewScoreboard();
+            break;
+        case 11:
+            system("cls");
+            curCourse->updateStudentResult();
             break;
         case 7:
             system("cls");
