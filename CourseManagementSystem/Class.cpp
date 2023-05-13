@@ -1312,6 +1312,8 @@ void Class::showGPAOfClass()
         int credit{}, total{};
         if (fin.is_open())
         {
+            std::string a;
+            getline(fin, a);
             while (getline(fin, temp))                                  // GPA in semester
             {
                 int pos1 = temp.find(',');
@@ -1341,7 +1343,9 @@ void Class::showGPAOfClass()
                 std::string temp;
                 if (fin.is_open())
                 {
-                    while (getline(fin, temp))                                  // GPA in semester
+                    std::string a;
+                    getline(fin, a);
+                    while (getline(fin, temp))                                  // Overall GPA
                     {
                         int pos1 = temp.find(',');
                         int pos2 = temp.find(',', pos1 + 1);
@@ -1396,6 +1400,8 @@ void Class::showDetailMark()
             std::string temp;
             if (fin.is_open())
             {
+                std::string a;
+                getline(fin, a);
                 while (getline(fin, temp))                                  // GPA in semester
                 {
                     int pos1 = temp.find(',');
