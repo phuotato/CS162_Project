@@ -1,4 +1,4 @@
-#include "Universal.h"
+﻿#include "Universal.h"
 #include "SchoolYear.h"
 #include "Student.h"
 #include "Date.h"
@@ -1287,32 +1287,54 @@ void Class::showScoreBoardOfClass()
 {
     while (true)
     {
-        std::cout << "1.View GPA of student\n";
-        std::cout << "2.View detail mark of student\n";
-        std::cout << "0.Back\n";
-        int choice;
-        std::cin >> choice;
+        std::string* content = new std::string[3];
+        content[0] = "1. View GPA of students";
+        content[1] = "2. View detail score of students";
+        content[2] = "0. Back";
+
+        system("cls");
+        drawHeader();
+        drawBox(mid - 53 / 2, 8, 53, 5);
+
+        gotoxy(mid - 61 / 2, 7); std::cout << "View the GPA of class or total of class in semester.";
+        gotoxy(mid - 49 / 2, 9); std::cout << "1. View GPA of students";
+        gotoxy(mid - 49 / 2, 10); std::cout << "2. View detail score of students";
+        gotoxy(mid - 49 / 2, 11); std::cout << "0. Back";
+        int choice = 0;
+        choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
         switch (choice)
         {
-        case 1:
-            showGPAOfClass();
-            break;
         case 2:
+            showingGPAList(headS);
+            break;
+        case 1:
+            pHeadClass->showingStudentList(headS);
             showDetailMark();
             break;
         case 0:
-            break;
+            return;
         }
     }
 }
 
-void Class::showGPAOfClass()
+void Class::showGPAOfClass(student*& pHead, short range, short& Pcur)
 {
+    const int tableWidth = 62;
+    const int tableX = mid + 6 - tableWidth / 2;
+    const int tableY = 5;
+    gotoxy((2 * tableX + 45) / 2, 3);
+    std::cout << "Student's List";
+    // Print table header
+    gotoxy(tableX, tableY);
+    std::cout << "No.   Student ID   Name                  SemGPA    TotalGPA\n\n";
+    
+    int i = tableY + 2;
+    int k = 0;
+
     int tmp = 1;
-    std::cout << "No Id Name GPA Overall";
-    for (student* cur = headS; cur; cur = cur->pNext)
+    for (; pHead && k < range; pHead = pHead->pNext)
     {
-        std::string dir = "../Data/SchoolYear/" + curSchoolYear->getYear() + "/" + "Sem" + std::to_string(curSemester->getSem()) + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
+        std::string dir = "../Data/SchoolYear/" + curSchoolYear->getYear() + "/" + "Sem" + std::to_string(curSemester->getSem()) + "/Class/" + curClass->getName() + "/" + pHead->getStudentID() + ".csv";
         std::ifstream fin(dir);
         std::string temp;
         double gpa{}, overall{};
@@ -1337,7 +1359,7 @@ void Class::showGPAOfClass()
         fin.close();
         
         std::string block = curSchoolYear->getYear().substr(2, 2);
-        std::string yea = cur->getStudentID().substr(0, 2);
+        std::string yea = pHead->getStudentID().substr(0, 2);
         int firstY = stoi(block), id = stoi(yea);
         while(firstY >= id)
         {
@@ -1347,7 +1369,7 @@ void Class::showGPAOfClass()
 
                 std::string y = "20" + std::to_string(firstY) + "-" + "20" + std::to_string(firstY + 1);
                 std::string path = "../Data/SchoolYear/" + y + "/" + "Sem" + std::to_string(sem)
-                    + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
+                    + "/Class/" + curClass->getName() + "/" + pHead->getStudentID() + ".csv";
                 fin.open(path);
                 std::string temp;
                 if (fin.is_open())
@@ -1371,9 +1393,26 @@ void Class::showGPAOfClass()
             }
             firstY--;
         }
-        std::cout << tmp++ << " " << cur->getStudentID() << cur->getLastName() << " " << cur->getFirstName() <<" "<< gpa / credit <<" "<< overall / total <<std::endl;
+        gotox(tableX); std::cout << tmp++ << "     " << pHead->getStudentID() << "     " << pHead->getLastName() << " " << pHead->getFirstName();
+        gotox(tableX + 42); 
+        std::cout.setf(std::ios::fixed, std::ios::floatfield); std::cout.precision(2); 
+        std::cout << gpa / credit;
+        gotox(tableX + 53); std::cout << overall / total << std::endl;
+
+        Pcur++;
+        i++;
+        k++;
     }
+
+    drawBox(tableX - 2, tableY - 1, tableWidth, Pcur + 6);
+    gotoxy(tableX, tableY + 1);
+    drawLine(62, tableX - 2);
+    gotoxy(tableX - 3, tableY + 2 + Pcur);
+    drawLine(tableWidth, tableX - 2);
+    std::cout << "\n\n";
+    gotox(tableX - 2);
 }
+
 void viewClass()
 {
     for (Class* cur = pHeadClass; cur; cur = cur->pNext)
@@ -1395,12 +1434,10 @@ void Class::showDetailMark()
 {
     while(true)
     {
-        system("cls");
-        for (student* cur = headS; cur; cur = cur->pNext)
-            std::cout << cur->getStudentID() << " " << cur->getLastName() << " " << cur->getFirstName() << std::endl;
+
+        std::cout << "\n\n\n"; gotox(mid - 40 / 2);
         std::string id;
-        std::cout << "Enter your choice:(Press enter to back)";
-        std::cin.ignore();
+        std::cout << "Enter your choice (Press enter to back): ";
         getline(std::cin, id);
         if (id == "")
             break;
@@ -1434,4 +1471,190 @@ void Class::showDetailMark()
         }
     }
 
+}
+
+void Class::getClass() {
+    while (true) {
+        system("cls");
+
+        //Display pages
+        if (pHeadClass != nullptr) showingList();
+        else {
+            drawHeader();
+            std::cout << "\n"; gotox(mid - 29 / 2);
+            SetColor(7, 4); std::cout << "There is no class currently!"; SetColor(7, 0);
+        }
+
+        //Enter the class code
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Please make sure to input valid class";
+
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Please enter the name of the class you want to choose";
+
+        std::cout << "\n"; gotox(mid - 62 / 2);
+        std::cout << "Press enter to stop: ";
+        std::string Name;  getline(std::cin, Name);
+
+        //if enter then return
+        if (Name == "") return;
+
+        //Check the class
+        if (checkExistClass(Name) != 0) {
+            std::cout << "\n"; gotox(mid - 29 / 2);
+            SetColor(7, 12);
+            std::cout << "This class is not exist.";
+            SetColor(7, 0);
+
+            Sleep(2000);
+            continue;
+        }
+
+        //Check the class if correct to add
+        else if (pHeadClass->CheckClasses(Name) == 0) {
+            std::cout << "\n"; gotox(mid - 35 / 2);
+            SetColor(7, 12);
+            std::cout << "Please enter the class correctly.\n";
+            SetColor(7, 0);
+
+            Sleep(2000);
+            continue;
+        }
+        for (Class* cur = pHeadClass; cur; cur = cur->pNext)
+        {
+            if (Name == cur->getName())
+            {
+                curClass = cur;
+                break;
+            }
+        }
+        return;
+    }
+}
+
+void Class::showingGPAList(student* pHead) {
+    std::string displayk = "N";
+    std::string* content = nullptr;
+    bool EnterConfirm = 0;
+    int yp = 6;
+    short TH = 3;
+    short range = 10;
+    short Pcur = 0;
+    int APages = getAllStudents(pHead) / range + 1;
+    student* pTail = pHead;
+    student* cur = pHead;
+    if (!pTail) return;
+    for (; pTail->pNext; pTail = pTail->pNext);
+
+    system("cls");
+    while (true) {
+
+        switch (TH) {
+            //Next page
+        case 3: {
+            if (cur == nullptr) {
+                SetColor(7, 12);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+                std::cout << "You are at the last page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial(content);
+                showGPAOfClass(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+            }
+            yp = 6;
+            break;
+        }
+              //Previous Page
+        case 2: {
+            if (Pcur <= range) {
+                SetColor(7, 12);
+                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+                std::cout << "You are at the first page";
+                SetColor(7, 0);
+
+                Sleep(2000);
+
+                //Reset the command
+                gotox(mid - 47 / 2);
+                std::cout << "                                                          \r";
+
+            }
+            else {
+                system("cls");
+                drawBox(15, 2, 30, 23);
+                Tutorial(content);
+                showPStudents(cur, range, Pcur);
+                showGPAOfClass(cur, range, Pcur);
+                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+            }
+            yp = 6 + 4;
+            break;
+        }
+              //Enter to confirm
+        case 0: {
+            EnterConfirm = 1;
+            break;
+        }
+              //Change list
+        case 1: {
+
+            if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 50 / 2, range + 12);
+            else gotoxy(mid - 50 / 2, Pcur % range + 12);
+            std::cout << "Please enter the number you want to change list: ";
+            getline(std::cin, displayk);
+
+            if (displayk[0] <= '9' && displayk[0] >= '0') {
+                int sample = stoi(displayk);
+                if (sample > 25 || sample < 10) {
+                    SetColor(7, 12);
+                    std::cout << "\n\n"; gotox(mid - 42 / 2);
+                    std::cout << "The range is too big or too small (10~25)!";
+                    SetColor(7, 0);
+
+                    Sleep(2000);
+
+                    //Reset the command
+                    gotox(mid - 47 / 2);
+                    std::cout << "                                                          \r";
+                    gotoxy(mid - 50 / 2, -3); std::cout << "                                                    ";
+                }
+                else {
+                    //Reset everything
+                    range = sample;
+                    Pcur = 0;
+                    cur = pHead;
+                    APages = getAllClass() / range + 1;
+
+                    //Draw again
+                    system("cls");
+                    drawBox(15, 2, 30, 23);
+                    Tutorial(content);
+                    showGPAOfClass(cur, range, Pcur);
+                    Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+                }
+            }
+            yp = 6 + 8;
+            break;
+        }
+        }
+        if (EnterConfirm == 1) {
+            if (Pcur % range == 0 && Pcur != 0) gotoy(range + 8);
+            else gotoy(Pcur % range + 8);
+            break;
+        }
+        TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
+    }
 }

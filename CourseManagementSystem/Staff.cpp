@@ -228,7 +228,6 @@ void BeginSchoolYear(bool& flag) {
             option = 0;
             break;
         case 5:
-            //std::cin.ignore();
             if (check == 1) {
                 pHeadClass->deleteClass();
                 pHeadClass->LoadFile();
@@ -657,7 +656,9 @@ void EndSemester() {
             break;
         case 10:
             system("cls");
-            viewClass();
+            //view the class
+            pHeadClass->getClass();
+
             curClass->showScoreBoardOfClass();
 
             break;
