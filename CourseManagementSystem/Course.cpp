@@ -48,7 +48,15 @@ course::course(std::string id, std::string name, std::string className, std::str
     this->session = session;
 }
 
+void course::UpdateListOfScore(studentScore* pScore)
+{
+    student* curS = curCourse->pHeadStudent;
+    studentScore* curScore = pScore;
+    while (curS != nullptr)
+    {
 
+    }
+}
 void course::ExportClass()
 {
     std::ofstream fout;
@@ -60,20 +68,21 @@ void course::ExportClass()
     fout << "No,Student ID,First name,Last name,Total,Final,Midterm,Other" << "\n";
 
     int i = 1;
-    studentScore* current = curCourse->hScore;
+    student* current = curCourse->pHeadStudent;
     while (current) 
     {
         fout << i++ << ",";
-        fout << current->studentID << ",";
-        fout << current->firstName << ",";
-        fout << current->lastName << ",";
+        fout << current->getStudentID() << ",";
+        fout << current->getFirstName() << ",";
+        fout << current->getLastName() << ",";
         fout << "\n";
         current = current->pNext;
     }
 
     fout.close();
-    gotoxy(mid - 86 / 2, 5);
+    gotoxy(mid -  52/ 2, 17);
     std::cout << "Finished exporting to " << id << "_scoreboard.csv\n";
+    gotoxy(mid - 52/ 2, 18);
     system("pause");
     system("cls");
 }
