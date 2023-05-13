@@ -52,12 +52,11 @@ void student::loadProfile(std::string username){
             gender = 0;
         else
             gender = 1;
-
-        std::cout << "Class data loaded successfully!" << std::endl;
     }
     else
     {
-        std::cout << "File is empty!" << std::endl;
+        std::cout << "\n\t\t\tFile is empty!" << std::endl;
+        Sleep(1000);
     }
 
     file.close();
@@ -123,6 +122,15 @@ bool student::readStudentScore() {
 
     fin.close();
     return true;
+}
+void student::deleteScores() {
+    courseScore* current = hScore;
+    while (current != nullptr) {
+        courseScore* next = current->pNext;
+        delete current;
+        current = next;
+    }
+    hScore = nullptr;
 }
 
 

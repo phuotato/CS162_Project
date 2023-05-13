@@ -109,7 +109,7 @@ void learningProgress()
             break;
 
         case 0:
-            //goback
+            curStudent.deleteScores();
             return;
         }
     }
