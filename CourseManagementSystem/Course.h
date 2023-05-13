@@ -46,6 +46,7 @@ public:
 	void updateStudentResult();
 	void ViewScoreboard();
 	void saveIndividualScore(course* curCourse);
+	void UpdateListOfScore(studentScore* pScore);
 
 	// Supportive function
 	bool checkExistScoringFile(std::string direct);

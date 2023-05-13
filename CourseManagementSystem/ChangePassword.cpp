@@ -3,8 +3,10 @@
 extern int mid;
 extern std::string username;
 
-void changePassword(std::ifstream& fin, std::ofstream& fout)
+void changePassword()
 {
+	std::ifstream fin;
+	std::ofstream fout;
 	if (username[0] >= 'a' && username[0] <= 'z')
 		fin.open("../StaffAccount/" + username + ".txt", std::ios::in);
 	else if (username[0] >= '0' && username[0] <= '9')

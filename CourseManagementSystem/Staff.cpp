@@ -251,7 +251,7 @@ void BeginSchoolYear(bool& flag) {
         case 2:
             system("cls");
             drawHeader();
-            changePassword(fin, fout);
+            changePassword();
             option = 0;
             break;
         case 1:
@@ -507,7 +507,7 @@ void BeginSemester() {
             case 2:
                 system("cls");
                 drawHeader();
-                changePassword(fin,fout);
+                changePassword();
                 break;
             case 1:
                 flag = 1;
@@ -724,7 +724,7 @@ void EndSemester() {
         case 1:
             system("cls");
             drawHeader();
-            changePassword(fin, fout);
+            changePassword();
             break;
         case 0:
             system("cls");
