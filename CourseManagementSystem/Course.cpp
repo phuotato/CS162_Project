@@ -90,9 +90,11 @@ void course::ExportClass()
 
 void course::ImportScoreboard()
 {
+    gotoxy(mid - 55 /2, 3);
     std::cout << "Format of the file address: ../CourseID_scoreboard.csv" << "\n";
+    gotoxy(mid - 55 / 2, 4);
     std::cout << "For example: D:/Data/Score/PH212_22CTT2_scoreboard.csv \n\n";
-
+    gotoxy(mid - 85 / 2, 8);
     std::cout << "Input the address of the scoreboard: ";
     std::string direct;
     std::getline(std::cin, direct);
@@ -100,7 +102,10 @@ void course::ImportScoreboard()
 
     if (!fin)
     {
+        gotoxy(mid - 55 / 2, 10);
         std::cout << "Error loading file! Please try again.";
+        gotoxy(mid - 55 / 2, 11);
+        system("pause");
         return;
     }
     // get the ID of the course with the given directory
@@ -125,22 +130,24 @@ void course::ImportScoreboard()
     }
     if (!curCourse) // Not found
     {
+        gotoxy(mid - 55 / 2, 10);
         std::cout << "This semester doesn't have this course!\n";
+        gotoxy(mid - 55 / 2, 11);
         system("pause");
         return;
     }
-    int line = 2;   
+    int line = 2;  
+    int coorY = 12;
     while (!fin.eof())
     {
         std::string getNo,studentID, firstName, lastName, totalMarkStr, finalMarkStr, midtermMarkStr, otherMarkStr;
         double totalMark, finalMark, midtermMark, otherMark;
-
+        std::getline(fin, getNo, ',');
         std::getline(fin, studentID, ',');
         if (studentID.empty() || fin.eof()) // check if we have reached the end of the file
             break;
         
         // get information from the file
-        std::getline(fin, getNo, ',');
         std::getline(fin, firstName, ',');
         std::getline(fin, lastName, ',');
         std::getline(fin, totalMarkStr, ',');
@@ -155,18 +162,24 @@ void course::ImportScoreboard()
             otherMark = std::stod(otherMarkStr);
         }
         catch (const std::exception& e) {
+            gotoxy(mid - 55 / 2, coorY);
+            ++coorY;
             std::cout << "Error in line " << line << ": Invalid data format in file. Please check again.\n";
+            ++line;
             continue;
         }
         if (totalMark > 10 || totalMark < 0 || finalMark > 10 || finalMark < 0 || midtermMark > 10 || midtermMark < 0 || otherMark > 10 || otherMark < 0)
         {
+            gotoxy(mid - 55 / 2, coorY);
+            ++coorY;
             std::cout << "Error in line " << line << ": Invalid data format in file!" << "\n";
+            ++line;
             continue;
         }
         studentScore* newScore = new studentScore{ studentID, firstName, lastName, totalMark, finalMark, midtermMark, otherMark, nullptr };
         if (!curCourse->hScore)
         {
-            hScore = newScore;
+            curCourse->hScore = newScore;
         }
         else
         {
@@ -182,7 +195,9 @@ void course::ImportScoreboard()
     fin.close(); 
     fout.close();
     saveIndividualScore(curCourse);      // save score after importing 
+    gotoxy(mid - 55 / 2, coorY + 3);
     std::cout << "Import successful!\n";
+    gotoxy(mid - 55 / 2, coorY + 4);
     system("pause");
     system("cls");
 }
@@ -347,11 +362,10 @@ void course::saveIndividualScore(course* curCourse) {
         fout << currScore->totalMark << "," 
             << currScore->finalMark << ","
             << currScore->midtermMark << ","
-            << currScore->otherMark << curCourse->id << "," << curCourse->credit << "\n";
+            << currScore->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
         fout.close();
         currScore = currScore->pNext;
     }
-    std::cout << "\n\t\tSaving successful!\n";
 }
 
 void course::updateCourse()
