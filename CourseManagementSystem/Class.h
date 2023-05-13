@@ -47,7 +47,9 @@ public:
 	void showingGPAList(student* pHead);
 	void showGPAOfClass(student*& pHead, short range, short& Pcur);
 
-	void showDetailMark();
+	void showDetailMark(student*& pHead, short range, short& Pcur);
+	void showingDetailMarkList(student* pHead);
+	int getAllDetailMarks(student* pHead);
 
 	//Minor function
 	bool CheckClasses(std::string curName);

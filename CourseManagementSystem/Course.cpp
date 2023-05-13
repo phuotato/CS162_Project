@@ -316,20 +316,21 @@ void course::ViewScoreboard() {
         numStudents++;
         currScore = currScore->pNext;
     }
+
     system("cls");
     // Draw a box around the entire scoreboard
-    drawBox(1, 1, 94, numStudents + 7);
+    drawBox(mid - 94/2, 1, 94, numStudents + 7);
 
     // Print the header row
-    drawBox(2, 2, 90, 3);
-    gotoxy(4, 3);
-    std::cout << std::left << std::setw(10) << "No."
-        << std::setw(12) << "ID"
-        << std::setw(20) << "Name"
-        << std::setw(12) << "Total"
-        << std::setw(12) << "Final"
-        << std::setw(12) << "Midterm"
-        << std::setw(12) << "Other";
+    drawBox(mid-90/2, 2, 90, 3);
+    gotoxy(mid - 86/2, 3);
+    std::cout << std::left << std::setw(10) << "No.";
+    std::cout << std::left << std::setw(12) << "ID";
+    std::cout << std::left << std::setw(20) << "Name";
+    std::cout << std::left << std::setw(12) << "Total";
+    std::cout << std::left << std::setw(12) << "Final";
+    std::cout << std::left << std::setw(12) << "Midterm";
+    std::cout << std::left << std::setw(12) << "Other";;
 
     int row = 5;
     int no = 1;
@@ -337,7 +338,7 @@ void course::ViewScoreboard() {
 
     while (currScore) {
         // Print the row number
-        gotoxy(4, row);
+        gotoxy(mid - 86 / 2, row);
         std::cout << std::left << std::setw(10) << no;
 
         // Print the student data
@@ -353,7 +354,7 @@ void course::ViewScoreboard() {
     }
 
     // Draw a box around the bottom of the scoreboard
-    drawBox(2, row, 90, 3);
+    drawBox(mid - 90/2, row, 90, 3);
     system("pause");
 }
 bool course::checkExistScoringFile(std::string direct)

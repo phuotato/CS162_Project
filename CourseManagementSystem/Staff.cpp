@@ -352,17 +352,14 @@ void BeginSemester() {
         system("cls");
         drawHeader();
 
-        drawBox(mid - 53 / 2 + 8, 8, 53, 9);
-        gotoxy(mid - 65 / 2 + 12, 7); std::cout << "Create a new semester or choose an existing one to continue.";
-        gotoxy(mid - 49 / 2 + 8, 10); std::cout << "1. Create semester                            ";
-        gotoxy(mid - 49 / 2 + 8, 12); std::cout << "2. Choose existing semester                   ";
-        gotoxy(mid - 49 / 2 + 8, 14); std::cout << "0. Back                                          ";
-        /*gotoxy(mid - 53 / 2 + 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
-        gotoxy(mid - 53 / 2 + 2, 9); std::cout << "1. Create semester";
-        gotoxy(mid - 53 / 2 + 2, 10); std::cout << "2. Choose existing semester";
-        gotoxy(mid - 53 / 2 + 2, 11); std::cout << "0. Back";*/
-        //choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
-        choice = movingBar(mid - 51 / 2, 10, 10 + choice * 2, mid + 51 / 2, 14, 2, content);
+        drawBox(mid - 53 / 2, 8, 53, 9);
+
+        gotoxy(mid - 53 / 2 + 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
+        gotoxy(mid - 53 / 2 + 2, 10); std::cout << "1. Create semester";
+        gotoxy(mid - 53 / 2 + 2, 12); std::cout << "2. Choose existing semester";
+        gotoxy(mid - 53 / 2 + 2, 14); std::cout << "0. Back";
+
+        choice = movingBar(mid - 51 / 2, 10, 10 + choice * 2, mid + 53 / 2, 14, 2, content);
         switch (choice)
         {
         case 2:
