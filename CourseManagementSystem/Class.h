@@ -40,7 +40,9 @@ public:
 	void showStudents(student*& pHead, short range, short& Pcur);
 	int getAllStudents(student* pHead);
 	void showPStudents(student*& pHead, short range, short& Pcur);
-
+	void showScoreBoardOfClass();
+	void showGPAOfClass();
+	void showDetailMark();
 	//Minor function
 	bool CheckClasses(std::string curName);
 	bool checkExistClass(std::string Name);
@@ -54,3 +56,4 @@ private:
 	student* headS = nullptr;
 };
 bool checkValidName(std::string name);
+void viewClass();

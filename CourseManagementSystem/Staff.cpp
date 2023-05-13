@@ -206,6 +206,7 @@ void BeginSchoolYear(bool& flag) {
                 system("cls");
                 drawHeader();
                 pHeadClass->getOption();
+                check = 1;
             }
             option = 0;
             break;
@@ -630,6 +631,11 @@ void EndSemester() {
         switch (option) {
         case 13:
             std::cout << "hi";
+            break;
+        case 10:
+            system("cls");
+            //curCourse->ChooseGPARTotal();
+
             break;
         case 7:
             system("cls");
