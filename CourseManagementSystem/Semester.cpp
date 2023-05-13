@@ -331,7 +331,7 @@ bool semester::viewCourse()
 			int x = 0;
 
 			std::cout << "\n"; gotox(mid - 58 / 2);
-			std::cout << "Please choose your course's id (Press enter to go back): ";
+			std::cout << "Please choose the course's id (Press enter to go back): ";
 			std::string Id;
 			getline(std::cin, Id);
 

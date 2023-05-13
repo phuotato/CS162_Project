@@ -52,29 +52,13 @@ course::course(std::string id, std::string name, std::string className, std::str
 void course::ExportClass()
 {
     std::ofstream fout;
-    std::cout << "The format of the course ID is: CourseName_ClassName. \n\n";
-    std::cout << "Input the course ID: ";
-    std::string courseID;
-    std::getline(std::cin, courseID);
-
-    fout.open("../InputFile/" + courseID + "_scoreboard.csv");
-
+    std::string courseID = curCourse->id;
+    if (!curCourse->pHeadStudent)
+        curCourse->loadStudentInCourse();
+    fout.open("../InputFile/" + courseID + "_student.csv");
     //File header
     fout << "No,Student ID,First name,Last name" << "\n";
-
     int i = 1;
-    course* curCourse = curSemester->pHeadCourse;
-    for (curCourse; curCourse != nullptr; curCourse = curCourse->pNext)
-    {
-        if (curCourse->id == courseID)
-            break;
-    }
-    if (!curCourse)
-    {
-        std::cout << "This semester doesn't have this course! Please try again!\n";
-        system("pause");
-        return;
-    }
     studentScore* current = curCourse->hScore;
     while (current) 
     {
