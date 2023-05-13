@@ -33,7 +33,7 @@ void EndSemester();
 //main
 void Staff()
 {
-    loadingPage();
+    loadingPageNotuse();
     system("cls");
     bool flag = 1;
     while (flag != 0) {
