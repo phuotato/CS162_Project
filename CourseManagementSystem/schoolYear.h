@@ -34,6 +34,7 @@ public:
 
 	//Delete function
 	void deleteSchoolYear();
+	void deleteSemesterList();
 	void showSchoolYearAll(short range, short& Pcur);
 	void showP(short range, short& Pcur);
 	void ShowingList();

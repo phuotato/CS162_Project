@@ -642,3 +642,16 @@ bool schoolYear::showSemester()
 		system("cls");
 	}
 }
+
+void schoolYear::deleteSemesterList()
+{
+	for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+	{
+		for (semester* tmp = cur->pHeadSemester; tmp;)
+		{
+			semester* dummy = tmp->pNext;
+			delete tmp;
+			tmp = dummy;
+		}
+	}
+}
