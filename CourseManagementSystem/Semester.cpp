@@ -104,6 +104,7 @@ void semester::addCourse()
 		std::cout << '\n';
 		gotox(mid - 30 / 2); std::cout << "Would you like to add more courses for this semester?(Y/N) : ";
 		std::cin >> choice;
+		std::cin.ignore();
 	}
 }
 void semester::saveCoursetoFolder(const std::string& name, const std::string& id, const std::string& className, const std::string& lecturer, int credit, int maxStudent, const std::string& weekDay, int session, const std::string& year, const std::string& semester)
@@ -329,6 +330,7 @@ bool semester::viewCourse()
 				if (cur->id == Id) {
 					std::cout << "\n"; gotox(mid - 18 / 2);
 					SetColor(7, 2);
+					gotox(mid - 15 / 2);
 					std::cout << "Found! Getting in";
 					SetColor(7, 0);
 
@@ -353,21 +355,23 @@ bool semester::viewCourse()
 void semester::loadCourse()
 {
 	std::ifstream fin ("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/course.txt");
-		while(!fin.eof())
+	if(fin.is_open())
+	{
+		while (!fin.eof())
 		{
 			std::string Id;
 			getline(fin, Id);
 			std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + Id + "/information.txt");
-			if(read.is_open())
+			if (read.is_open())
 			{
-				std::string redundant, name, className, lecturer, weekDay;
+				std::string redundant,name, className, lecturer, weekDay;
 				int credit, maxStudent, session;
-
 				getline(read, redundant);
 				getline(read, name);
 				getline(read, className);
 				getline(read, lecturer);
 				read >> credit >> maxStudent;
+				read.ignore();
 				getline(read, weekDay);
 				read >> session;
 				if (pHeadCourse)
@@ -383,6 +387,8 @@ void semester::loadCourse()
 			}
 			read.close();
 		}
+	}
+	fin.close();
 }
 
 void semester::deleteCourse()
