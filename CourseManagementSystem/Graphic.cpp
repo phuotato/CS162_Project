@@ -135,7 +135,7 @@ void drawHeader() {
 //	std::cout << "#                    _                                      #" << std::endl;
 //	std::cout << "#                  -=\\`\\                                    #" << std::endl;
 //	std::cout << "#              |\\ ____\\_\\__                                 #" << std::endl;
-//	std::cout << "#            -=\\c`""""""" "`)                               #" << std::endl;
+//	std::cout << "#            -=\\c`""""""" "` )                               #" << std::endl;
 //	std::cout << "#               `~~~~~/ /~~`\                                #" << std::endl;
 //	std::cout << "#                 -==/ /                                    #" << std::endl;
 //	std::cout << "#                   '-'                                     #" << std::endl;
@@ -152,64 +152,63 @@ void drawHeader() {
 //	Sleep(2000);
 //}
 
-//void loadingPage() {
-//	std::cout << "Loading...\n\n";
-//	std::cout << "[                    ] 0%\r";
-//	Sleep(100);
-//	std::cout << "[=                   ] 10%\r";
-//	Sleep(100);
-//	std::cout << "[==                  ] 20%\r";
-//	Sleep(100);
-//	std::cout << "[===                 ] 30%\r";
-//	Sleep(100);
-//	std::cout << "[====                ] 40%\r";
-//	Sleep(100);
-//	std::cout << "[=====               ] 50%\r";
-//	Sleep(100);
-//	std::cout << "[======              ] 60%\r";
-//	Sleep(100);
-//	std::cout << "[=======             ] 70%\r";
-//	Sleep(100);
-//	std::cout << "[========            ] 80%\r";
-//	Sleep(100);
-//	std::cout << "[=========           ] 90%\r";
-//	Sleep(100);
-//	std::cout << "[==========          ] 100%\r";
-//	Sleep(100);
-//}
+void loadingPage() {
+	std::cout << "Loading...\n\n";
+	std::cout << "[                   ] 0%\r";
+	Sleep(100);
+	std::cout << "[=                  ] 10%\r";
+	Sleep(100);
+	std::cout << "[==                 ] 20%\r";
+	Sleep(100);
+	std::cout << "[===                ] 30%\r";
+	Sleep(100);
+	std::cout << "[======             ] 40%\r";
+	Sleep(100);
+	std::cout << "[========           ] 50%\r";
+	Sleep(100);
+	std::cout << "[=========          ] 60%\r";
+	Sleep(100);
+	std::cout << "[==========         ] 70%\r";
+	Sleep(100);
+	std::cout << "[============       ] 80%\r";
+	Sleep(100);
+	std::cout << "[==============     ] 90%\r";
+	Sleep(100);
+	std::cout << "[===================] 100%\r";
+	Sleep(100);
+}
 
-void loadingPage()
+void loadingPageNotuse()
 {
-	// Clear the console
-	system("cls");
 	int mid = getMidColumns();
-	int x = mid-10;
-	int y = 10;
+	int x = mid-12;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		// Clear the console
 		system("cls");
 
-		gotoxy(x, y);
-		std::cout << "     _  _        ";
-		gotoxy(x, y + 1);
-		std::cout << "    ( `   )_     ";
-		gotoxy(x, y + 2);
-		std::cout << "   (    )    `)  ";
-		gotoxy(x, y + 3);
-		std::cout << "(_   (_ .  _) _) ";
+		gotox(x);
+		std::cout << "         _ \n";
+		gotox(x);
+		std::cout << "      -=\\`\\ \n";
+		gotox(x);
+		std::cout << "  |\\ ____\\_\\__  \n";
+		gotox(x);
+		std::cout << "  -=\\c`\"\"\"\"\"\"` )\n";
+		gotox(x);
+		std::cout << "    `~~~~~/ /~~`\   \n";
+		gotox(x);
+		std::cout << "      -==/ /        \n";
+		gotox(x);
+		std::cout << "        '-'\n";
 
-		// Sleep for a short duration to create animation effect
+		gotox(x + 5);
+		std::cout << "Loading";
+
 		Sleep(200);
 
-		// Move the starting position of the ASCII art for the next frame
 		x++;
-		y++;
 	}
-
-	// Clear the console
-	system("cls");
 }
 
 void drawHeader(std::string title) {

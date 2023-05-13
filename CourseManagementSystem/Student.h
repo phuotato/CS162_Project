@@ -39,6 +39,7 @@ public:
 		id = studentID;
 	}
 	
+	void loadProfile(std::string username);
 	bool readStudentScore();
 	void viewProfile_Staff();
 	void viewProfile_Student();

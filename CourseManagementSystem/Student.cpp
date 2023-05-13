@@ -21,7 +21,47 @@ extern std::string curYear;
 extern int curSem;
 extern std::string curSClass;
 
+void student::loadProfile(std::string username){
+    std::ifstream file("../Data/StudentProfile/" + username + ".csv");
+    if (!file)
+    {
+        std::cout << "Unable to open file!" << std::endl;
+        return;
+    }
 
+    std::string line;
+    if (std::getline(file, line))
+    {
+        std::istringstream iss(line);
+        std::string sNum, sGender, classcode;
+        std::getline(iss, sNum, ',');
+        std::getline(iss, id, ',');
+        std::getline(iss, firstName, ',');
+        std::getline(iss, lastName, ',');
+        std::getline(iss, sGender, ',');
+        std::getline(iss, dat, ',');
+        std::getline(iss, socialId, ',');
+        std::getline(iss, classcode);
+
+        // Assign the classcode
+        curSClass = classcode;
+
+        //Assign the profile
+        no = stoi(sNum);
+        if (sGender == "0")
+            gender = 0;
+        else
+            gender = 1;
+
+        std::cout << "Class data loaded successfully!" << std::endl;
+    }
+    else
+    {
+        std::cout << "File is empty!" << std::endl;
+    }
+
+    file.close();
+}
 
 bool student::readStudentScore() {
     std::string filename = "../Data/SchoolYear/" + curYear + "/Sem" + std::to_string(curSem) + "/Class/" + curSClass + "/" + id + ".csv";
@@ -45,23 +85,27 @@ bool student::readStudentScore() {
         double finalMark = 0;
         double midtermMark = 0;
         double otherMark = 0;
+        int credit = 0;
 
         while (std::getline(ss, field, ',')) {
             switch (fieldIndex) {
             case 0:
-                courseID = field;
-                break;
-            case 1:
                 totalMark = std::stod(field);
                 break;
-            case 2:
+            case 1:
                 finalMark = std::stod(field);
                 break;
-            case 3:
+            case 2:
                 midtermMark = std::stod(field);
                 break;
-            case 4:
+            case 3:
                 otherMark = std::stod(field);
+                break;
+            case 4:
+                courseID = field;
+                break;
+            case 5:
+                credit = std::stoi(field);
                 break;
             }
             fieldIndex++;
@@ -175,33 +219,15 @@ void student::viewProfile_Student() {
 
     drawHeader();
 
-    std::ifstream read;
-    read.open("../Data/StudentProfile/" + id + ".csv");
-    if (!read) {
-        SetColor(7, 12); 
+    // Check if the student profile is available
+    if (id.empty()) {
+        SetColor(7, 12);
         gotoxy(mid - 10, 10);
         std::cout << "Your profile is not available to view now!\n";
         SetColor(7, 0);
         Sleep(1000);
         return;
     }
-
-    std::string studentID, firstname, lastname, socialId;
-    std::string getNO;
-    std::getline(read, getNO, ',');
-    std::getline(read, studentID, ',');
-    std::getline(read, firstname, ',');
-    std::getline(read, lastname, ',');
-    std::string getDay, getMonth, getYear;
-    std::string getGender;
-    std::getline(read, getGender, ',');
-    std::getline(read, getDay, '/');
-    std::getline(read, getMonth, '/');
-    std::getline(read, getYear, ',');
-    std::getline(read, socialId, ',');
-    std::string classcode;
-    std::getline(read, classcode);
-    read.close();
 
     // Dimensions
     int boxWidth = 60;
@@ -216,27 +242,27 @@ void student::viewProfile_Student() {
     gotoxy(mid - 10, boxY);
     std::cout << "Student Profile";
 
-    SetColor(7, 0); 
+    SetColor(7, 0);
+    gotoxy(boxX + 2, boxY + 2);
+    std::cout << "No: " << no;
     gotoxy(boxX + 2, boxY + 3);
-    std::cout << "No: " << getNO;
+    std::cout << "Student ID: " << id;
     gotoxy(boxX + 2, boxY + 4);
-    std::cout << "Student ID: " << studentID;
+    std::cout << "Name: " << lastName << " " << firstName;
     gotoxy(boxX + 2, boxY + 5);
-    std::cout << "Name: " << lastname << " " << firstname;
+    std::cout << "Class: " << curSClass;
     gotoxy(boxX + 2, boxY + 6);
-    std::cout << "Class: " << classcode;
-    gotoxy(boxX + 2, boxY + 7);
     std::cout << "Gender: ";
-    if (getGender == "0")
-        std::cout << "Male";
-    else
+    if (gender)
         std::cout << "Female";
+    else
+        std::cout << "Male";
+    gotoxy(boxX + 2, boxY + 7);
+    std::cout << "Date of birth: " << dat;
     gotoxy(boxX + 2, boxY + 8);
-    std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear;
-    gotoxy(boxX + 2, boxY + 9);
     std::cout << "Social ID: " << socialId;
 
-    SetColor(7, 0); 
+    SetColor(7, 0);
     gotoxy(mid - 20, boxY + boxHeight + 3);
     std::cout << "Process done! The system will go back to the menu." << std::endl;
     gotoxy(mid - 15, boxY + boxHeight + 4);
