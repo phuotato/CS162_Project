@@ -14,9 +14,9 @@ private:
 	};
 public:
 	//constructor
-	course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session);
-	std::string id, name, className, lecturer;
-	int credit, maxStudent, weekDay, session;
+	course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, std::string weekDay, int session);
+	std::string id, name, className, lecturer, weekDay;
+	int credit, maxStudent, session;
 	
 	studentScore* hScore = nullptr;
 	course* pNext = nullptr;

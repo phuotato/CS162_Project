@@ -15,8 +15,39 @@ extern course* curCourse;
 extern int mid;
 
 //Constructor
-course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
-    :id(id), name(name), className(className), lecturer(lecturer), credit(credit), maxStudent(maxStudent), weekDay(weekDay), session(session) {};
+bool isValidWeekday(const std::string& weekday)
+{
+    static const std::string validWeekdays[] = { "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+    static const int numValidWeekdays = sizeof(validWeekdays) / sizeof(validWeekdays[0]);
+
+    for (int i = 0; i < numValidWeekdays; i++) {
+        if (weekday == validWeekdays[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, std::string weekDay, int session)
+{
+    this->id = id;
+    this->name = name;
+    this->className = className;
+    this->lecturer = lecturer;
+    this->credit = credit;
+    this->maxStudent = maxStudent;
+    if (isValidWeekday(weekDay)) {
+        this->weekDay = weekDay;
+    }
+    else {
+        //invalid
+        this->weekDay = "";
+        std::cerr << "Error: Invalid weekday provided for course " << id << std::endl;
+    }
+    this->session = session;
+}
+
 
 void course::ExportClass()
 {

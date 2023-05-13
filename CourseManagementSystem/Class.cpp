@@ -727,7 +727,6 @@ void Class::addStudentto1stClass_Console()
         choice = YNQuestions(mid - 40 / 2, 19, 40);
 
         curStudent = curClass->headS;       // reset pointer
-        std::cin.ignore();
     }
 }
 bool Class::checkClassInfo(std::string classcode)
