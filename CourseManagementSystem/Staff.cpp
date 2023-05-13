@@ -620,14 +620,8 @@ void EndSemester() {
             break;
         case 11:
             system("cls");
-            while (true)
-            {
-                system("cls");
-                if (curSemester->viewCourse())
-                    curCourse->updateStudentResult();
-                else
-                    break;
-            }
+            curSemester->viewCourse();
+            curCourse->updateStudentResult();
             break;
         case 10:
             system("cls");

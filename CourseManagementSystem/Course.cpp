@@ -239,24 +239,9 @@ void course::ImportScoreboard()
 
 void course::updateStudentResult()
 {
-    std::cout << "Enter the course which the student's result need to be updated: ";
-    std::string courseID;
-    std::getline(std::cin, courseID);
     std::string studentID;
     std::cout << "Enter student ID: ";
     getline(std::cin, studentID, '\n');
-    course* curCourse = curSemester->pHeadCourse;
-    for (curCourse; curCourse != nullptr; curCourse = curCourse->pNext)
-    {
-        if (curCourse->id == courseID)
-            break;
-    }
-    if (!curCourse)
-    {
-        std::cout << "This semester doesn't have this course! Please try again!\n";
-        system("pause");
-        return;
-    }
     studentScore* pCur = curCourse->hScore;
     while (pCur && pCur->studentID != studentID)
         pCur = pCur->pNext;
@@ -289,9 +274,9 @@ void course::updateStudentResult()
     {
         int posComma = temp.find(',');
         std::string ID = temp.substr(0, posComma);
-        if (ID == courseID)
+        if (ID == curCourse->id)
         {
-            write << courseID << "," << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
+            write << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
             break;
         }
     }
@@ -299,8 +284,8 @@ void course::updateStudentResult()
     write.close();
 
     // update score.csv
-    std::ofstream writeScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
-    std::ifstream readScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + courseID + "/score.csv");
+    std::ofstream writeScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id+ "/score.csv");
+    std::ifstream readScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv");
     while (std::getline(read, temp))
     {
         int pos1 = temp.find(',');
