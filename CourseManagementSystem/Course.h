@@ -18,22 +18,29 @@ public:
 	std::string id, name, className, lecturer, weekDay;
 	int credit, maxStudent, session;
 	
-	studentScore* hScore = nullptr;
+	studentScore* hScore = nullptr; //score total
 	course* pNext = nullptr;
 	student* pHeadStudent = nullptr;
 	student* pTailStudent = nullptr;
+
 	//function
-	
-	
 	void updateCourse();
 	void addStudentMenu();
 	void addStudent(int choice);
 	void showStudent();
 	void showInfo();
+
+	//Show Functions
+	/*void showingScoreOfClassList(student* pHead);
+	void showScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur);
+	int getAllScore();
+	void showPScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur);
+
+	void showGPABoardOfClass();*/
+
 	//scoreboard functions
 	void ExportClass();
 	void ImportScoreboard();
-	void showScoreBoardOfClass();
 	void updateStudentResult();
 	void ViewScoreboard();
 	void saveIndividualScore(course* curCourse);
@@ -43,6 +50,7 @@ public:
 	void saveIndividualScore();
 	void saveStudentinCourse(std::string path);
 	void loadStudentInCourse();
+	void ChooseGPARTotal();
 
 	//show Student
 	void showingStudentList();

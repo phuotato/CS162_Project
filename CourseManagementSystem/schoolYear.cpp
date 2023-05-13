@@ -477,7 +477,6 @@ bool schoolYear::createSemester()
 		gotox(mid - 61 / 2); std::cout << "Enter the end date: ";
 		std::string EndDate;
 		getline(std::cin, EndDate);
-		std::cin.ignore();
 
 		std::string sem;
 		sem += x;
@@ -509,7 +508,7 @@ bool schoolYear::createSemester()
 		std::cout << "Created Succesfully";
 		SetColor(7, 0);
 		Sleep(1000);
-
+		return 1;
 	}
 }
 void schoolYear::loadFileSemester(std::string year)

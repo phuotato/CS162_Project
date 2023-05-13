@@ -177,6 +177,26 @@ void Class::addNewClass() {
             fout << "Social ID" << "\n";
 
             fout.close();
+
+            //Add Class into the text file
+            fout.open("../Data/SchoolYear/" + curSchoolYear->year + "../" + "Class/Class.txt", std::ios::app);
+            fout << "\n";
+            fout << Name;
+            fout.close();
+
+            //Create CSV file for class
+            fout.open("../Data/Class/" + Name + ".csv");
+
+            //Create column
+            fout << "No,";
+            fout << "Student ID,";
+            fout << "Last Name,";
+            fout << "First Name,";
+            fout << "Gender,";
+            fout << "Date of Birth,";
+            fout << "Social ID" << "\n";
+
+            fout.close();
         }
 
         loadingPage();
