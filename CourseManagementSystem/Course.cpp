@@ -49,13 +49,48 @@ course::course(std::string id, std::string name, std::string className, std::str
     this->session = session;
 }
 
-void course::UpdateListOfScore(studentScore* pScore)
+void course::LoadScoreList()
 {
-    student* curS = curCourse->pHeadStudent;
-    studentScore* curScore = pScore;
-    while (curS != nullptr)
+    curCourse = curSemester->pHeadCourse;
+    for (curCourse; curCourse; curCourse = curCourse->pNext)
     {
+        std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv");
+        if (!read)
+            continue;
+        studentScore* curScore = curCourse->hScore;
+        std::string line;
+        std::getline(read, line);
+        while (getline(read, line)) //ignore the first line of the CSV
+        {
+            // Finding comma
+            int pos1 = line.find(',');           int pos2 = line.find(',', pos1 + 1);
+            int pos3 = line.find(',', pos2 + 1); int pos4 = line.find(',', pos3 + 1);
+            int pos5 = line.find(',', pos4 + 1); int pos6 = line.find(',', pos5 + 1);
+            int pos7 = line.rfind(',');
 
+            // get content 
+            studentScore* newScore = new studentScore;
+            newScore->studentID = line.substr(pos1 + 1, pos2 - pos1 - 1);
+            newScore->firstName = line.substr(pos2 + 1, pos3 - pos2 - 1);
+            newScore->lastName = line.substr(pos3 + 1, pos4 - pos3 - 1);
+            newScore->totalMark = stod(line.substr(pos4 + 1, pos5 - pos4 - 1));
+            newScore->finalMark = stod(line.substr(pos5 + 1, pos6 - pos5 - 1));
+            newScore->midtermMark = stod(line.substr(pos6 + 1, pos7 - pos6 - 1));
+            newScore->otherMark = stod(line.substr(pos7 + 1));
+            newScore->pNext = nullptr;
+
+            if (curCourse->hScore == nullptr)
+            {
+                curCourse->hScore = newScore;
+                curScore = newScore;
+            }
+            else
+            {
+                curScore->pNext = newScore;
+                curScore = curScore->pNext;
+            }
+        }
+        read.close();
     }
 }
 void course::ExportClass()
@@ -288,20 +323,15 @@ void course::updateStudentResult()
 
 
 void course::ViewScoreboard() {
-    system("cls");
-    std::cout << "The format of a course ID is NameOfCourse_Classcode. For example: CS162_22CTT2" << "\n\n";
-    std::cout << "Enter the course ID: ";
-    std::string courseID;
-    std::getline(std::cin, courseID);
-    std::ifstream fin("../Data/SchoolYear/score.csv");
+
     // Get the number of students
     int numStudents = 0;
-    studentScore* currScore = curSemester->pHeadCourse->hScore;
+    studentScore* currScore = curCourse->hScore;
     while (currScore != nullptr) {
         numStudents++;
         currScore = currScore->pNext;
     }
-
+    system("cls");
     // Draw a box around the entire scoreboard
     drawBox(1, 1, 94, numStudents + 7);
 
@@ -318,9 +348,8 @@ void course::ViewScoreboard() {
 
     int row = 5;
     int no = 1;
-    currScore = curSemester->pHeadCourse->hScore;
-    std::string firstline;
-    std::getline(fin, firstline);
+    currScore = curCourse->hScore;
+
     while (currScore) {
         // Print the row number
         gotoxy(4, row);
@@ -335,10 +364,12 @@ void course::ViewScoreboard() {
             << std::setw(12) << currScore->otherMark;
         row++;
         no++;
+        currScore = currScore->pNext;
     }
 
     // Draw a box around the bottom of the scoreboard
     drawBox(2, row, 90, 3);
+    system("pause");
 }
 bool course::checkExistScoringFile(std::string direct)
 {
