@@ -32,14 +32,13 @@ void EndSemester();
 //main
 void Staff()
 {
+    loadingPage();
     system("cls");
     bool flag = 1;
     while (flag != 0) {
         SchoolYear();
         BeginSchoolYear(flag);
     }
-    //  BeginSemester();
-    EndSemester();
 }
 
 //define
@@ -407,7 +406,7 @@ void BeginSemester() {
         content[6] = "-";
         content[7] = "7. View student profile";
         content[8] = "8. View a list of classes";
-        content[9] = "9: View a list of students in a class";
+        content[9] = "9. View a list of students in a class";
         content[10] = "10. View a list of courses";
         content[11] = "11. View a list of students in a course";
         content[12] = "-";

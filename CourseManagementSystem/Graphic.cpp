@@ -152,54 +152,66 @@ void drawHeader() {
 //	Sleep(2000);
 //}
 
-void loadingPage() {
-	std::cout << "\n"; gotox(getMidColumns() - 13 / 2);
-	std::cout << "Loading...\n\n";
-	gotox(getMidColumns()-27/2);
-	std::cout << "[                    ] 0%\r";
-	Sleep(100);
+//void loadingPage() {
+//	std::cout << "Loading...\n\n";
+//	std::cout << "[                    ] 0%\r";
+//	Sleep(100);
+//	std::cout << "[=                   ] 10%\r";
+//	Sleep(100);
+//	std::cout << "[==                  ] 20%\r";
+//	Sleep(100);
+//	std::cout << "[===                 ] 30%\r";
+//	Sleep(100);
+//	std::cout << "[====                ] 40%\r";
+//	Sleep(100);
+//	std::cout << "[=====               ] 50%\r";
+//	Sleep(100);
+//	std::cout << "[======              ] 60%\r";
+//	Sleep(100);
+//	std::cout << "[=======             ] 70%\r";
+//	Sleep(100);
+//	std::cout << "[========            ] 80%\r";
+//	Sleep(100);
+//	std::cout << "[=========           ] 90%\r";
+//	Sleep(100);
+//	std::cout << "[==========          ] 100%\r";
+//	Sleep(100);
+//}
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=                   ] 10%\r";
-	Sleep(100);
+void loadingPage()
+{
+	// Clear the console
+	system("cls");
+	int mid = getMidColumns();
+	int x = mid-10;
+	int y = 10;
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[==                  ] 20%\r";
-	Sleep(100);
+	for (int i = 0; i < 5; i++)
+	{
+		// Clear the console
+		system("cls");
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[===                 ] 30%\r";
-	Sleep(100);
+		gotoxy(x, y);
+		std::cout << "     _  _        ";
+		gotoxy(x, y + 1);
+		std::cout << "    ( `   )_     ";
+		gotoxy(x, y + 2);
+		std::cout << "   (    )    `)  ";
+		gotoxy(x, y + 3);
+		std::cout << "(_   (_ .  _) _) ";
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[====                ] 40%\r";
-	Sleep(100);
+		// Sleep for a short duration to create animation effect
+		Sleep(200);
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=====               ] 50%\r";
-	Sleep(100);
+		// Move the starting position of the ASCII art for the next frame
+		x++;
+		y++;
+	}
 
-	gotox(getMidColumns()-27/2);
-	std::cout << "[======              ] 60%\r";
-	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=======             ] 70%\r";
-	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[========            ] 80%\r";
-	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=========           ] 90%\r";
-	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[==========          ] 100%\r";
-	Sleep(100);
-
+	// Clear the console
+	system("cls");
 }
+
 void drawHeader(std::string title) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 	std::cout << std::endl << std::setw(70) << std::right << title << std::endl << std::endl;

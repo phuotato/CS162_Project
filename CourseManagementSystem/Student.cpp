@@ -101,12 +101,12 @@ void student::viewProfile_Staff()
         {
             std::cout << "\n";
             SetColor(7, 4);
-            gotox(mid - 35/2); std::cout << "There is no student with this id";
+            gotox(mid - 35/2); std::cout << "There is no student with this id.";
             SetColor(7, 0);
             Sleep(1000);
 
             //Reset the warning
-            gotox(mid - 35 / 2); std::cout << "                                ";
+            gotox(mid - 35/2); std::cout << "                                 ";
             gotoxy(mid - 37 / 2, 12); std::cout << "Do you want to show another student?";
 
             opt = YNQuestions(mid - 40 / 2, 11, 40);
@@ -132,23 +132,42 @@ void student::viewProfile_Staff()
         std::getline(read, classcode, '\n');
 
         read.close();
-        gotox(mid - 53 / 2); std::cout << "No: " << getNO << "\n";
-        gotox(mid - 53 / 2); std::cout << "Student ID: " << id << "\n";
-        gotox(mid - 53 / 2); std::cout << "Name: " << firstname << " " << lastname << "\n";
-        gotox(mid - 53 / 2); std::cout << "Class: " << classcode << "\n";
-        gotox(mid - 53 / 2); std::cout << "Gender: ";
-        if (getGender == "0")
-            std::cout << "Male" << "\n";
-        else
-            std::cout << "Female" << "\n";
+        // Dimensions
+        int boxWidth = 60;
+        int boxHeight = 12;
+        int boxX = mid - boxWidth / 2;
+        int boxY = 10;
+        gotoxy(mid - 53 / 2, 8);           
+        std::cout << "                               ";
 
-        gotox(mid - 53 / 2); std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
-        gotox(mid - 53 / 2); std::cout << "Social ID: " << socialId << "\n\n\n";
-        gotox(mid - 37 / 2); std::cout << "Do you want to show another student?";
+        drawBox(boxX, boxY, boxWidth, boxHeight);
 
-        opt = YNQuestions(mid - 40 / 2, 17, 40);
+        // Print the profile information
+        SetColor(7, 9);
+        gotoxy(mid - 10, boxY);
+        std::cout << "Student Profile";
+
+        SetColor(7, 0);
+        gotoxy(boxX + 2, boxY + 2);
+        std::cout << "No: " << getNO;
+        gotoxy(boxX + 2, boxY + 3);
+        std::cout << "Student ID: " << id;
+        gotoxy(boxX + 2, boxY + 4);
+        std::cout << "Name: " << lastname << " " << firstname;
+        gotoxy(boxX + 2, boxY + 5);
+        std::cout << "Class: " << classcode;
+        gotoxy(boxX + 2, boxY + 6);
+        std::cout << "Gender: " << (getGender == "0" ? "Male" : "Female");
+        gotoxy(boxX + 2, boxY + 7);
+        std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear;
+        gotoxy(boxX + 2, boxY + 8);
+        std::cout << "Social ID: " << socialId;
+
+        SetColor(7, 0);
+        gotoxy(mid - 37 / 2, boxY + boxHeight + 3);
+        std::cout << "Do you want to show another student?";
+        opt = YNQuestions(mid - 40 / 2, boxY + boxHeight + 2, 40);
     }
-
 }
 
 void student::viewProfile_Student() {
@@ -160,8 +179,10 @@ void student::viewProfile_Student() {
     read.open("../Data/StudentProfile/" + id + ".csv");
     if (!read) {
         SetColor(7, 12); 
-        std::cout << "Your profile is not available to view now!" << "\n";
+        gotoxy(mid - 10, 10);
+        std::cout << "Your profile is not available to view now!\n";
         SetColor(7, 0);
+        Sleep(1000);
         return;
     }
 
@@ -201,22 +222,24 @@ void student::viewProfile_Student() {
     gotoxy(boxX + 2, boxY + 4);
     std::cout << "Student ID: " << studentID;
     gotoxy(boxX + 2, boxY + 5);
-    std::cout << "Name: " << firstname << " " << lastname;
+    std::cout << "Name: " << lastname << " " << firstname;
     gotoxy(boxX + 2, boxY + 6);
+    std::cout << "Class: " << classcode;
+    gotoxy(boxX + 2, boxY + 7);
     std::cout << "Gender: ";
     if (getGender == "0")
         std::cout << "Male";
     else
         std::cout << "Female";
-    gotoxy(boxX + 2, boxY + 7);
-    std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear;
     gotoxy(boxX + 2, boxY + 8);
+    std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear;
+    gotoxy(boxX + 2, boxY + 9);
     std::cout << "Social ID: " << socialId;
 
     SetColor(7, 0); 
-    gotoxy(mid - 20, boxY + boxHeight + 2);
+    gotoxy(mid - 20, boxY + boxHeight + 3);
     std::cout << "Process done! The system will go back to the menu." << std::endl;
-    gotoxy(mid - 15, boxY + boxHeight + 3);
+    gotoxy(mid - 15, boxY + boxHeight + 4);
     system("pause");
 }
 

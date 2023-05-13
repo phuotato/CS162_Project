@@ -757,34 +757,35 @@ void course::showInfo()
     system("cls");
     //header
     drawHeader();
-    std::cout << "\n"; gotox(mid - 16 / 2);
+    drawBox(mid - 53 / 2, 9, 53, 9);
+    gotoxy(mid - 16 / 2, 9);
     SetColor(7, 9);
-    std::cout << "Information of Course\n\n";
+    std::cout << "Course Information\n";
     SetColor(7, 0);
 
     gotox(mid - 49 / 2);
-    std::cout << "1.Id:" << id << std::endl;
+    std::cout << "1. Id:" << id << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "2.Name:" << name << std::endl;
+    std::cout << "2. Name:" << name << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "3.Class name:" << className << std::endl;
+    std::cout << "3. Class name:" << className << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "4.Lecturer:" << lecturer << std::endl;
+    std::cout << "4. Lecturer:" << lecturer << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "5.Credit:" << credit << std::endl;
+    std::cout << "5. Credit:" << credit << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "6.Max student:" << maxStudent << std::endl;
+    std::cout << "6. Max student:" << maxStudent << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "7.Day performed per week:" << weekDay << std::endl;
+    std::cout << "7. Schedule:" << weekDay << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "8.Session:";
+    std::cout << "8. Session:";
     switch (session)
     {
     case 1:
@@ -803,8 +804,6 @@ void course::showInfo()
     SetColor(7, 2);
     std::cout << "Press any key to back:";
     SetColor(7, 0);
-
-    drawBox(mid - 53 / 2, 9, 53, 9);
     _getch();
 }
 

@@ -217,10 +217,10 @@ bool Class::checkLatestYear() {
     if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
         gotoxy(mid - 44 / 2, 26);
         SetColor(7, 12);
-        std::cout << "Sorry! You can only add in the latest year.";
+        std::cout << "Sorry! You can't add to old school year.";
         SetColor(7, 0);
 
-        Sleep(2000);
+        Sleep(1000);
         return 0;
     }
     else return 1;
@@ -284,7 +284,7 @@ void Class::showClassList(short range, short& Pcur) {
 
     gotoy(5);
     for (; curClass && k < range; curClass = curClass->pNext, i++, k++) {
-        gotox(mid - ((curClass->getName()).length()+1) / 2);
+        gotox(mid - ((curClass->getName()).length()) / 2);
         std::cout << curClass->getName() << "\n";
         Pcur++;
     }
