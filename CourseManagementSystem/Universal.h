@@ -7,3 +7,6 @@
 #include <direct.h>
 #include <conio.h>
 #include <iomanip>
+
+void deleteData();
+void exitProgram();

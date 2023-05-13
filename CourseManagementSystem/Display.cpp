@@ -1,6 +1,5 @@
 #include "Display.h"
 #include "Graphic.h"
-#include <string>
 
 int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, std::string* content) {
 	int mid = 15 + 30 / 2;
@@ -301,4 +300,17 @@ void Description(short range, short APages, short CPages, short Pcur, int Tablex
 
 	gotox(Tablex + Tablewidth - 7 - (range/10) - 3);
 	std::cout << "List: " << range;
+}
+
+void drawExitBox()
+{
+	int mid = getMidColumns();
+	system("cls");
+	drawBox(mid - 50 / 2, 5, 50, 16);
+	gotoxy(mid - 19 / 2, 10);
+	std::cout << "Thank you for using\n";
+	gotoxy(mid - 9 / 2, 12);
+	std::cout << "FIT.HCMUS\n";
+	gotoxy(mid - 19 / 2, 14);
+	std::cout << "Management Program!\n\n\n\n\n\n";
 }

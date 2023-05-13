@@ -151,16 +151,8 @@ void StudentMenu() {
             //changePassword(fin, fout);
             break;
         case 0:
-            system("cls");
-            drawBox(mid - 50 / 2, 5, 50, 16);
-            gotoxy(mid - 19 / 2, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(mid - 9 / 2, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(mid - 19 / 2, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
-            exit(0);
-            break;
+            delete[] content;
+            exitProgram();
         }
     }
 

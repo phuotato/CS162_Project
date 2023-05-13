@@ -9,6 +9,7 @@
 #include "Display.h"
 
 //global variable
+extern schoolYear* pHeadSchoolYear;
 extern schoolYear* curSchoolYear;
 extern semester* curSemester;
 extern course* curCourse;
@@ -1329,3 +1330,38 @@ void course::deleteStudent()
 //        TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
 //    }
 //}
+
+void course::deleteStudentCourseList()
+{
+    for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+    {
+        for (semester* tmp = cur->pHeadSemester; tmp; tmp = tmp->pNext)
+        {
+            for (course* temp = tmp->pHeadCourse; temp; temp = temp->pNext)
+            {
+                for (student* head = temp->pHeadStudent; head;)
+                {
+                    student* dummy = head->pNext;
+                    delete head;
+                    head = dummy;
+                }
+            }
+        }
+    }
+}
+
+void course::deleteCourseList()
+{
+    for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+    {
+        for (semester* tmp = cur->pHeadSemester; tmp; tmp = tmp->pNext)
+        {
+            for (course* temp = tmp->pHeadCourse; temp;)
+            {
+                course* dummy=temp->pNext;
+                delete temp;
+                temp = dummy;
+            }
+        }
+    }
+}
