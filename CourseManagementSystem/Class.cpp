@@ -1344,7 +1344,8 @@ void Class::showGPAOfClass()
             for (int i = 1; i <= 3; ++i)
             {
                 int sem = i;
-                std::string y = std::to_string(firstY) + "-" + std::to_string(firstY - 1);
+
+                std::string y = "20" + std::to_string(firstY) + "-" + "20" + std::to_string(firstY + 1);
                 std::string path = "../Data/SchoolYear/" + y + "/" + "Sem" + std::to_string(sem)
                     + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
                 fin.open(path);
