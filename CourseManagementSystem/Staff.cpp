@@ -596,6 +596,7 @@ void EndSemester() {
     content[13] = "12. Change Password";;
     content[14] = "0. Exit";
     curSemester->loadCourse();
+    curCourse->LoadScoreList();
     do {
         system("cls");
         drawHeader();
@@ -614,14 +615,8 @@ void EndSemester() {
             break;
         case 12:
             system("cls");
-            while (true)
-            {
-                system("cls");
-                if (curSemester->viewCourse())
-                    curCourse->ViewScoreboard();
-                else
-                    break;
-            }
+            curSemester->viewCourse();
+            curCourse->ViewScoreboard();
             break;
         case 11:
             system("cls");
