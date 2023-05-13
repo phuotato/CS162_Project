@@ -57,7 +57,8 @@ void course::ExportClass()
         curCourse->loadStudentInCourse();
     fout.open("../InputFile/" + courseID + "_student.csv");
     //File header
-    fout << "No,Student ID,First name,Last name" << "\n";
+    fout << "No,Student ID,First name,Last name,Total,Final,Midterm,Other" << "\n";
+
     int i = 1;
     studentScore* current = curCourse->hScore;
     while (current) 
@@ -79,10 +80,10 @@ void course::ExportClass()
 
 void course::ImportScoreboard()
 {
-    std::cout << "The format of the file should be: ../CourseID_scoreboard.csv" << "\n";
+    std::cout << "Format of the file address: ../CourseID_scoreboard.csv" << "\n";
     std::cout << "For example: D:/Data/Score/PH212_22CTT2_scoreboard.csv \n\n";
 
-    std::cout << "Import the link of the scoreboard of the course: ";
+    std::cout << "Input the address of the scoreboard: ";
     std::string direct;
     std::getline(std::cin, direct);
     std::ifstream fin(direct);
@@ -290,8 +291,7 @@ void course::ViewScoreboard() {
         << std::setw(12) << "Midterm"
         << std::setw(12) << "Other";
 
-    // Iterate over the linked list and print each student's data
-    int row = 5; // start at row 5
+    int row = 5;
     int no = 1;
     currScore = curSemester->pHeadCourse->hScore;
     std::string firstline;
@@ -318,29 +318,26 @@ void course::ViewScoreboard() {
 bool course::checkExistScoringFile(std::string direct)
 {
     std::ifstream read(direct);
-    if (!read)
-    {
+    if (!read){
         read.close();
         return false;
     }
-    else
-    {
+    else{
         read.close();
         return true;
     }
 }
 void course::saveIndividualScore(course* curCourse) {
-    // Iterate over the linked list of students
     studentScore* currScore = curCourse->hScore;
     while (currScore != nullptr) {
         std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv";
         std::ofstream fout(direct, std::fstream::app);
         if (!checkExistScoringFile(direct))
-            fout << "Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark\n";
-        fout << curCourse->id << "," << currScore->totalMark << ","
+            fout << "Total,Final,Midterm,Other,ID_Course,Credit\n";
+        fout << currScore->totalMark << "," 
             << currScore->finalMark << ","
             << currScore->midtermMark << ","
-            << currScore->otherMark << "\n";
+            << currScore->otherMark << curCourse->id << "," << curCourse->credit << "\n";
         fout.close();
         currScore = currScore->pNext;
     }
@@ -511,7 +508,7 @@ void course::addStudent(int choice)
             std::cin.ignore();
             getline(std::cin, dob);
 
-            gotox(mid - 49 / 2); std::cout << "Social id:";
+            gotox(mid - 49 / 2); std::cout << "Social ID:";
             getline(std::cin, socialId);
 
             if (pHeadStudent)

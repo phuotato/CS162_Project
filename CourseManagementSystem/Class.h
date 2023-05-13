@@ -16,6 +16,7 @@ public:
 	void addNewClass();
 	int getAllClass();
 	bool checkLatestYear();
+	void getClass();
 
 	//Function show score
 
@@ -40,8 +41,12 @@ public:
 	void showStudents(student*& pHead, short range, short& Pcur);
 	int getAllStudents(student* pHead);
 	void showPStudents(student*& pHead, short range, short& Pcur);
+
 	void showScoreBoardOfClass();
-	void showGPAOfClass();
+
+	void showingGPAList(student* pHead);
+	void showGPAOfClass(student*& pHead, short range, short& Pcur);
+
 	void showDetailMark();
 
 	//Minor function

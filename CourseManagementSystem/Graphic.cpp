@@ -153,28 +153,42 @@ void drawHeader() {
 //}
 
 void loadingPage() {
+	int mid = getMidColumns();
+	std::cout << "\n"; gotox(mid - 8);
 	std::cout << "Loading...\n\n";
+	gotox(mid - 8);
 	std::cout << "[                   ] 0%\r";
 	Sleep(100);
+	gotox(mid - 8);
 	std::cout << "[=                  ] 10%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==                 ] 20%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[===                ] 30%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[======             ] 40%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[========           ] 50%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[=========          ] 60%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==========         ] 70%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[============       ] 80%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[==============     ] 90%\r";
+	gotox(mid - 8);
 	Sleep(100);
 	std::cout << "[===================] 100%\r";
+	gotox(mid - 8);
 	Sleep(100);
 }
 
@@ -182,10 +196,15 @@ void loadingPageNotuse()
 {
 	int mid = getMidColumns();
 	int x = mid-12;
-
+	
 	for (int i = 0; i < 8; i++)
 	{
 		system("cls");
+		std::cout << "\n\n\n";
+		gotox(mid);
+		SetColor(7, 3);
+		std::cout << "Loading";
+		SetColor(7, 10);
 
 		gotox(x);
 		std::cout << "         _ \n";
@@ -202,13 +221,10 @@ void loadingPageNotuse()
 		gotox(x);
 		std::cout << "        '-'\n";
 
-		gotox(x + 5);
-		std::cout << "Loading";
-
 		Sleep(200);
-
 		x++;
 	}
+	SetColor(7, 0);
 }
 
 void drawHeader(std::string title) {
