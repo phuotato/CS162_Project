@@ -52,8 +52,10 @@ void drawStudentMenu(){
 
 void learningProgress()
 {
+    gotoxy(mid - 30, 11);
     std::cout << "Enter the school year: ";
     std::cin >> curYear;
+    gotoxy(mid - 30, 12);
     std::cout << "Enter the semester: ";
     std::cin >> curSem;
 
@@ -62,8 +64,6 @@ void learningProgress()
         system("pause");
         return;
     }
-
-    
 
     int option = 0;
     short k = 1;

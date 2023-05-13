@@ -41,10 +41,10 @@ bool student::readStudentScore() {
         int fieldIndex = 0;
 
         std::string courseID;
-        int totalMark = 0;
-        int finalMark = 0;
-        int midtermMark = 0;
-        int otherMark = 0;
+        double totalMark = 0;
+        double finalMark = 0;
+        double midtermMark = 0;
+        double otherMark = 0;
 
         while (std::getline(ss, field, ',')) {
             switch (fieldIndex) {
@@ -52,16 +52,16 @@ bool student::readStudentScore() {
                 courseID = field;
                 break;
             case 1:
-                totalMark = std::stoi(field);
+                totalMark = std::stod(field);
                 break;
             case 2:
-                finalMark = std::stoi(field);
+                finalMark = std::stod(field);
                 break;
             case 3:
-                midtermMark = std::stoi(field);
+                midtermMark = std::stod(field);
                 break;
             case 4:
-                otherMark = std::stoi(field);
+                otherMark = std::stod(field);
                 break;
             }
             fieldIndex++;
@@ -80,6 +80,7 @@ bool student::readStudentScore() {
     fin.close();
     return true;
 }
+
 
 void student::viewProfile_Staff()
 {
@@ -150,19 +151,24 @@ void student::viewProfile_Staff()
 
 }
 
-void student::viewProfile_Student()
-{
+void student::viewProfile_Student() {
+    system("cls");
+
+    drawHeader();
+
     std::ifstream read;
     read.open("../Data/StudentProfile/" + id + ".csv");
-    if (!read)
-    {
+    if (!read) {
+        SetColor(7, 12); 
         std::cout << "Your profile is not available to view now!" << "\n";
+        SetColor(7, 0);
         return;
     }
-    std::string id, firstname, lastname, socialId;
+
+    std::string studentID, firstname, lastname, socialId;
     std::string getNO;
     std::getline(read, getNO, ',');
-    std::getline(read, id, ',');
+    std::getline(read, studentID, ',');
     std::getline(read, firstname, ',');
     std::getline(read, lastname, ',');
     std::string getDay, getMonth, getYear;
@@ -175,57 +181,50 @@ void student::viewProfile_Student()
     std::string classcode;
     std::getline(read, classcode);
     read.close();
-    std::cout << "No: " << getNO << "\n";
-    std::cout << "Student ID: " << id << "\n";
-    std::cout << "Name: " << firstname << " " << lastname << "\n";
+
+    // Dimensions
+    int boxWidth = 60;
+    int boxHeight = 10;
+    int boxX = mid - boxWidth / 2;
+    int boxY = 10;
+
+    drawBox(boxX, boxY, boxWidth, boxHeight);
+
+    // Print the profile information
+    SetColor(7, 9);
+    gotoxy(mid - 12, boxY);
+    std::cout << "Student Profile";
+
+    SetColor(7, 0); 
+    gotoxy(boxX + 2, boxY + 3);
+    std::cout << "No: " << getNO;
+    gotoxy(boxX + 2, boxY + 4);
+    std::cout << "Student ID: " << studentID;
+    gotoxy(boxX + 2, boxY + 5);
+    std::cout << "Name: " << firstname << " " << lastname;
+    gotoxy(boxX + 2, boxY + 6);
     std::cout << "Gender: ";
     if (getGender == "0")
-        std::cout << "Male" << "\n";
+        std::cout << "Male";
     else
-        std::cout << "Female" << "\n";
-    std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear << "\n";
-    std::cout << "Social ID: " << socialId << "\n";
+        std::cout << "Female";
+    gotoxy(boxX + 2, boxY + 7);
+    std::cout << "Date of birth: " << getDay << "/" << getMonth << "/" << getYear;
+    gotoxy(boxX + 2, boxY + 8);
+    std::cout << "Social ID: " << socialId;
 
-    std::cout << std::endl;
+    SetColor(7, 0); 
+    gotoxy(mid - 20, boxY + boxHeight + 2);
     std::cout << "Process done! The system will go back to the menu." << std::endl;
+    gotoxy(mid - 15, boxY + boxHeight + 3);
     system("pause");
 }
+
 
 void student::viewCourseList() {
     system("cls");
+    drawHeader();
 
-    //Get the number of courses
-    int numCourses = 0;
-    courseScore* currScore = hScore;
-    while (currScore != nullptr) {
-        numCourses++;
-        currScore = currScore->pNext;
-    }
-
-    //Outer Box
-    drawBox(1, 1, 50, numCourses + 5);
-
-    // Print the header
-    gotoxy(3, 2);
-    std::cout << "List of Courses:";
-
-    // Print the course IDs
-    currScore = hScore;
-    int row = 4;
-    while (currScore != nullptr) {
-        gotoxy(3, row);
-        std::cout << currScore->courseID;
-        currScore = currScore->pNext;
-        row++;
-    }
-
-    gotoxy(3, row + 2);
-    std::cout << "Press any key to go back: ";
-    system("pause");
-}
-
-void student::viewScoreboard() {
-    system("cls");
     // Get the number of courses
     int numCourses = 0;
     courseScore* currScore = hScore;
@@ -234,12 +233,63 @@ void student::viewScoreboard() {
         currScore = currScore->pNext;
     }
 
+    int mid = getMidColumns();
+
+    // Print the current school year and semester
+    gotoxy(mid - 53/2, 10);
+    SetColor(7, 9);
+    std::cout << "Current School Year: " << curYear;
+    gotoxy(mid - 53/2, 11);
+    std::cout << "Current Semester: " << curSem;
+    SetColor(7, 0);
+    // Outer Box
+    drawBox(mid - 25, 13, 50, numCourses + 5);
+
+    // Print the course IDs
+    currScore = hScore;
+    int row = 15;
+    while (currScore != nullptr) {
+        gotoxy(mid - static_cast<int>(currScore->courseID.length()) / 2 - 1, row);
+        std::cout << currScore->courseID;
+        currScore = currScore->pNext;
+        row++;
+    }
+
+    gotoxy(mid - 22, row + 4);
+    system("pause");
+}
+
+
+
+void student::viewScoreboard() {
+    system("cls");
+
+    drawHeader();
+
+    // Get the number of courses
+    int numCourses = 0;
+    courseScore* currScore = hScore;
+    while (currScore != nullptr) {
+        numCourses++;
+        currScore = currScore->pNext;
+    }
+
+    int mid = getMidColumns();
+
+    // Print the current school year and semester
+    gotoxy(mid - 53 / 2, 10);
+    SetColor(7, 9);
+    std::cout << "Current School Year: " << curYear;
+    gotoxy(mid - 53 / 2, 11);
+    std::cout << "Current Semester: " << curSem;
+    SetColor(7, 0);
+
     // Draw a box around the entire scoreboard
-    drawBox(1, 1, 94, numCourses + 7);
+    drawBox(mid - 47, 13, 94, numCourses + 7);
 
     // Print the header row
-    drawBox(2, 2, 90, 3);
-    gotoxy(4, 3);
+    drawBox(mid - 45, 14, 90, 3);
+    gotoxy(mid - 43, 15);
     std::cout << std::left << std::setw(10) << "No."
         << std::setw(20) << "Course ID"
         << std::setw(12) << "Total"
@@ -247,13 +297,13 @@ void student::viewScoreboard() {
         << std::setw(12) << "Midterm"
         << std::setw(12) << "Other";
 
-    // Iterate over the linked list and print each course's data
+    // Iterate over the linked list
     currScore = hScore;
-    int row = 5; // start at row 5
+    int row = 17;
     int no = 1;
     while (currScore != nullptr) {
         // Print the row number
-        gotoxy(4, row);
+        gotoxy(mid - 43, row);
         std::cout << std::left << std::setw(10) << no;
 
         // Print the course data
@@ -268,9 +318,6 @@ void student::viewScoreboard() {
         no++;
     }
 
-    // Draw a box around the bottom of the scoreboard
-    drawBox(2, row, 90, 3);
-    std::cout << "\n\n\nPress any key to back:";
+    gotoxy(mid - 22, row + 4);
     system("pause");
 }
-

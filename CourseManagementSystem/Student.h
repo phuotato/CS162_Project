@@ -14,10 +14,10 @@ private:
 
 	struct courseScore {
 		std::string courseID;
-		int totalMark;
-		int finalMark;
-		int midtermMark;
-		int otherMark;
+		double totalMark;
+		double finalMark;
+		double midtermMark;
+		double otherMark;
 		courseScore* pNext = nullptr;
 	};
 	courseScore* hScore;
