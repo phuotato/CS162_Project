@@ -31,6 +31,7 @@ public:
 	void showStudent();
 	void showInfo();
 	void deleteStudentCourseList();
+	void deleteCourseList();
 
 	//Show Functions
 	/*void showingScoreOfClassList(student* pHead);

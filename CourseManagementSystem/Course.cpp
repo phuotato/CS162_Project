@@ -1335,3 +1335,19 @@ void course::deleteStudentCourseList()
         }
     }
 }
+
+void course::deleteCourseList()
+{
+    for (schoolYear* cur = pHeadSchoolYear; cur; cur = cur->pNext)
+    {
+        for (semester* tmp = cur->pHeadSemester; tmp; tmp = tmp->pNext)
+        {
+            for (course* temp = tmp->pHeadCourse; temp;)
+            {
+                course* dummy=temp->pNext;
+                delete temp;
+                temp = dummy;
+            }
+        }
+    }
+}
