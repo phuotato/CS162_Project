@@ -18,6 +18,8 @@ semester::semester() {}
 //Function
 void semester::addCourse()
 {
+	if (!pHeadCourse)
+		curSemester->loadCourse();
 	std::ofstream fout;
 	char choice = 'Y';
 	while (choice == 'Y' || choice == 'y')
@@ -25,46 +27,45 @@ void semester::addCourse()
 		system("cls");
 		//header
 		drawHeader();
-		std::cout << "\n"; gotox(mid - 16 / 2);
+		std::cout << "\n"; gotox(mid);
 		SetColor(7, 9);
 		std::cout << "Create Course\n\n";
 		SetColor(7, 0);
 
-		gotox(mid - 49/2);
+		gotox(mid - 30/2);
 		std::cout << "Enter the name of the course: ";		// get information about the course
 		std::string name; getline(std::cin, name, '\n');
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Enter the course's ID: ";
 		std::string ID; getline(std::cin, ID);
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Enter the classname: ";
 		std::string className; getline(std::cin, className);
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Enter the lecturer of the course: ";
 		std::string lecturer; getline(std::cin, lecturer);
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Input the course's credit: ";
 		int credit; std::cin >> credit;
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Input the maximum student of this course: ";
 		int maxStudent; std::cin >> maxStudent;
 		std::cin.ignore();
 
-		gotox(mid - 49 / 2);
-		std::cout << "Which day will the course be performed? (MON-SAT): ";
+		gotox(mid - 30 / 2);
+		std::cout << "Which day will the course be performed in week:(MON-TUE-WED-THU-FRI-SAT-SUN) ";
 		std::string weekDay; getline(std::cin, weekDay);
 
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
 		std::cout << "Enter the session that the course will be performed\n";
 
-		gotox(mid - 49 / 2);
-		std::cout << "(1: 07 : 30, 2 : 09 : 30, 3 : 13 : 30, 4 : 15 : 30):\n ";
-		gotox(mid - 49 / 2);
+		gotox(mid - 30 / 2);
+		std::cout << "(1: 07 : 30, 2 : 09 : 30, 3 : 13 : 30, 4 : 15 : 30):  ";
 		int session; std::cin >> session;
 
 		if (pHeadCourse)
@@ -90,18 +91,18 @@ void semester::addCourse()
 
 		loadingPage();
 
-		std::cout << "\n\n"; gotox(mid - 20 / 2);
+		std::cout << "\n\n"; gotox(mid);
 		SetColor(7, 2);
 		std::cout << " Create succesfully";
 		SetColor(7, 0);
 
 		Sleep(500);
 		//Reset
-		gotox(mid - 20 / 2); std::cout << "                            ";
-		gotoxy(mid - 26 / 2, -2); std::cout << "                           ";
-		gotoxy(mid - 12 / 2, -2); std::cout << "                           ";
-
-		gotoxy(mid - 49 / 2, -1); std::cout << "Would you like to add more courses for this semester?(Y/N) : ";
+		gotox(mid - 20 / 2); std::cout << "                                                 ";
+		gotoxy(mid - 26 / 2, -2); std::cout << "                                            ";
+		gotoxy(mid - 12 / 2, -2); std::cout << "                                            ";
+		std::cout << '\n';
+		gotox(mid - 30 / 2); std::cout << "Would you like to add more courses for this semester?(Y/N) : ";
 		std::cin >> choice;
 	}
 }
@@ -124,20 +125,7 @@ void semester::saveCoursetoFolder(const std::string& name, const std::string& id
 			fout << weekDay << '\n';
 			fout << session;
 			fout.close();
-
-			gotox(mid - 49 / 2);
-			std::cout << "Course information saved successfully.\n";
 		}
-		else
-		{
-			gotox(mid - 49 / 2);
-			std::cout << "Unable to open the file for saving course information.\n";
-		}
-	}
-	else
-	{
-		gotox(mid - 49 / 2);
-		std::cout << "Unable to create the course folder.\n";
 	}
 }
 

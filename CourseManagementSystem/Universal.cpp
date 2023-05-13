@@ -21,12 +21,21 @@ Class* curClass = nullptr;
 int mid = getMidColumns();
 void deleteData()
 {
-	pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteStudentCourseList();
-	pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteCourseList();
-	pHeadSchoolYear->deleteSemesterList();
-	pHeadSchoolYear->deleteSchoolYear();
-	pHeadClass->deleteStudentList();
-	pHeadClass->deleteClass();
+	if(pHeadSchoolYear && pHeadSchoolYear->pHeadSemester && pHeadSchoolYear->pHeadSemester->pHeadCourse)
+	{
+		pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteStudentCourseList();
+		pHeadSchoolYear->pHeadSemester->pHeadCourse->deleteCourseList();
+	}
+	if (pHeadSchoolYear)
+	{
+		pHeadSchoolYear->deleteSemesterList();
+		pHeadSchoolYear->deleteSchoolYear();
+	}
+	if(pHeadClass)
+	{
+		pHeadClass->deleteStudentList();
+		pHeadClass->deleteClass();
+	}
 }
 
 void exitProgram()
