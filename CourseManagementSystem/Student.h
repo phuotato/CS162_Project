@@ -41,6 +41,7 @@ public:
 	
 	void loadProfile(std::string username);
 	bool readStudentScore();
+	void deleteScores();
 	void viewProfile_Staff();
 	void viewProfile_Student();
 	bool checkExistFile(std::string id);
