@@ -1292,10 +1292,17 @@ void Class::showScoreBoardOfClass()
         std::cout << "0.Back\n";
         int choice;
         std::cin >> choice;
-        /*switch (choice)
+        switch (choice)
         {
         case 1:
-        }*/
+            showGPAOfClass();
+            break;
+        case 2:
+            showDetailMark();
+            break;
+        case 0:
+            break;
+        }
     }
 }
 
@@ -1312,6 +1319,8 @@ void Class::showGPAOfClass()
         int credit{}, total{};
         if (fin.is_open())
         {
+            std::string a;
+            getline(fin, a);
             while (getline(fin, temp))                                  // GPA in semester
             {
                 int pos1 = temp.find(',');
@@ -1320,7 +1329,7 @@ void Class::showGPAOfClass()
                 int pos4 = temp.find(',', pos3 + 1);
                 int pos5 = temp.find(',', pos4 + 1);
                 std::string ToTal = temp.substr(0, pos1);
-                std::string Credit = temp.substr(pos5, temp.length()-pos5-1);
+                std::string Credit = temp.substr(pos5+1, temp.length()-pos5-1);
                 credit += stoi(Credit);
                 gpa += stod(ToTal) * stoi(Credit);
             }
@@ -1328,20 +1337,24 @@ void Class::showGPAOfClass()
         fin.close();
         
         std::string block = curSchoolYear->getYear().substr(2, 2);
-        int firstY = stoi(block), id = stoi(cur->getStudentID());
+        std::string yea = cur->getStudentID().substr(0, 2);
+        int firstY = stoi(block), id = stoi(yea);
         while(firstY >= id)
         {
             for (int i = 1; i <= 3; ++i)
             {
                 int sem = i;
-                std::string y = std::to_string(firstY) + "-" + std::to_string(firstY - 1);
+
+                std::string y = "20" + std::to_string(firstY) + "-" + "20" + std::to_string(firstY + 1);
                 std::string path = "../Data/SchoolYear/" + y + "/" + "Sem" + std::to_string(sem)
                     + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
                 fin.open(path);
                 std::string temp;
                 if (fin.is_open())
                 {
-                    while (getline(fin, temp))                                  // GPA in semester
+                    std::string a;
+                    getline(fin, a);
+                    while (getline(fin, temp))                                  // Overall GPA
                     {
                         int pos1 = temp.find(',');
                         int pos2 = temp.find(',', pos1 + 1);
@@ -1349,13 +1362,14 @@ void Class::showGPAOfClass()
                         int pos4 = temp.find(',', pos3 + 1);
                         int pos5 = temp.find(',', pos4 + 1);
                         std::string ToTal = temp.substr(0, pos1);
-                        std::string Credit = temp.substr(pos5, temp.length() - pos5 - 1);
+                        std::string Credit = temp.substr(pos5+1, temp.length() - pos5 - 1);
                         total += stoi(Credit);
                         overall += stod(ToTal) * stoi(Credit);
                     }
                 }
                 fin.close();
             }
+            firstY--;
         }
         std::cout << tmp++ << " " << cur->getStudentID() << cur->getLastName() << " " << cur->getFirstName() <<" "<< gpa / credit <<" "<< overall / total <<std::endl;
     }
@@ -1386,6 +1400,7 @@ void Class::showDetailMark()
             std::cout << cur->getStudentID() << " " << cur->getLastName() << " " << cur->getFirstName() << std::endl;
         std::string id;
         std::cout << "Enter your choice:(Press enter to back)";
+        std::cin.ignore();
         getline(std::cin, id);
         if (id == "")
             break;
@@ -1396,6 +1411,9 @@ void Class::showDetailMark()
             std::string temp;
             if (fin.is_open())
             {
+                std::string a;
+                getline(fin, a);
+                std::cout << "ID_Course Total Final Midterm Other\n";
                 while (getline(fin, temp))                                  // GPA in semester
                 {
                     int pos1 = temp.find(',');
@@ -1404,13 +1422,12 @@ void Class::showDetailMark()
                     int pos4 = temp.find(',', pos3 + 1);
                     int pos5 = temp.find(',', pos4 + 1);
                     std::string ToTal = temp.substr(0, pos1);
-                    std::string Final = temp.substr(pos1, pos2 - pos1 - 1);
-                    std::string Midterm = temp.substr(pos2, pos3 - pos2 - 1);
-                    std::string Other = temp.substr(pos3, pos4 - pos3 - 1);
-                    std::string CourseId = temp.substr(pos4, pos5 - pos4 - 1);
-                    std::string Credit = temp.substr(pos5, temp.length() - pos5 - 1);
-                    std::cout << "ID_Course Total Final Midterm Other\n";
-                    std::cout << stoi(CourseId) << " " << stoi(ToTal) << " " << stoi(Final) << " " << stoi(Midterm) << " " << stoi(Other) << std::endl;
+                    std::string Final = temp.substr(pos1+1, pos2 - pos1 - 1);
+                    std::string Midterm = temp.substr(pos2+1, pos3 - pos2 - 1);
+                    std::string Other = temp.substr(pos3+1, pos4 - pos3 - 1);
+                    std::string CourseId = temp.substr(pos4+1, pos5 - pos4 - 1);
+                    std::string Credit = temp.substr(pos5+1, temp.length() - pos5 - 1);
+                    std::cout << CourseId << " " << ToTal << " " << Final << " " << Midterm << " " << Other << std::endl;
                 }
             }
             fin.close();

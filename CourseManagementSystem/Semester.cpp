@@ -199,7 +199,7 @@ void semester::showingCourseList(course* pHead) {
 		switch (TH) {
 		//Next page
 		case 3: {
-			if (curSchoolYear == nullptr) {
+			if (cur == nullptr) {
 				SetColor(7, 12);
 				if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 8);
 				else gotoxy(mid - 25 / 2, Pcur % range + 8);

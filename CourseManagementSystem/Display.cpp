@@ -97,6 +97,7 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 					}
 				}
 			}
+			else c = _getch();
 		}
 		else if (c == 13) {
 			setcursor(1, 10);
