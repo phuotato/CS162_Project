@@ -66,8 +66,8 @@ void welcomePage()
 		StudentAcc();
 		break;
 	case 0:
-		exit(0);
-		break;
+        delete[] content;
+        exitProgram();
 	default:
 		std::cout << "\n\nInvalid input.\n";
 	}

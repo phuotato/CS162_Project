@@ -91,7 +91,7 @@ void SchoolYear() {
             break;
         case 0:
             delete[] content;
-            break;
+            exitProgram();
         }
     }
 }
@@ -254,21 +254,8 @@ void BeginSchoolYear(bool& flag) {
             option = 0;
             return;
         case 0:
-            system("cls");
-            drawBox(mid - 50 / 2, 5, 50, 16);
-            gotoxy(mid - 19 / 2, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(mid - 9 / 2, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(mid - 19 / 2, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
-
-            pHeadSchoolYear->deleteSchoolYear();
-            pHeadClass->deleteStudentList();
             delete[] content;
-
-            exit(0);
-            break;
+            exitProgram();
         }
     } while (true);
 }
@@ -504,21 +491,8 @@ void BeginSemester() {
                 flag = 1;
                 break;
             case 0:
-                system("cls");
-                drawBox(mid - 50 / 2, 5, 50, 16);
-                gotoxy(mid - 19 / 2, 10);
-                std::cout << "Thank you for using\n";
-                gotoxy(mid - 9 / 2, 12);
-                std::cout << "FIT.HCMUS\n";
-                gotoxy(mid - 19 / 2, 14);
-                std::cout << "Management Program!\n\n\n\n\n\n";
-
-                pHeadSchoolYear->deleteSchoolYear();
-                pHeadClass->deleteStudentList();
                 delete[] content;
-
-                exit(0);
-                break;
+                exitProgram();
             }
         } while (!flag);
 
@@ -718,21 +692,8 @@ void EndSemester() {
             changePassword();
             break;
         case 0:
-            system("cls");
-            drawBox(mid - 50 / 2, 5, 50, 16);
-            gotoxy(mid - 19 / 2, 10);
-            std::cout << "Thank you for using\n";
-            gotoxy(mid - 9 / 2, 12);
-            std::cout << "FIT.HCMUS\n";
-            gotoxy(mid - 19 / 2, 14);
-            std::cout << "Management Program!\n\n\n\n\n\n";
-
-            pHeadSchoolYear->deleteSchoolYear();
-            pHeadClass->deleteStudentList();
             delete[] content;
-
-            exit(0);
-            break;
+            exitProgram();
         default:
             std::cout << "\n\t\t Invalid input.";
         }
