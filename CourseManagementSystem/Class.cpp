@@ -759,7 +759,6 @@ void Class::addStudentto1stClass_File()
     std::cout << "Input the link here: ";
     std::string fileName;
     std::string directory;
-    std::cin.ignore();
     std::getline(std::cin, directory);
     std::ifstream read(directory);
     if (!read)
@@ -867,7 +866,7 @@ void Class::addStudentto1stClass_File()
             state = false;
 
         // Save student information to a text file
-        if (state)         
+        if (state == true && dups == false)         
         {
             if (!curStudent->checkExistFile(id))
                 exportNewStudentProfile(classcode, id, firstname, lastname, no, gender, day, month, year, socialId);
