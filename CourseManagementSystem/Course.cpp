@@ -469,8 +469,7 @@ void course::updateCourse()
     }
     fout.close();
     std::string sem = std::to_string(curSemester->getSem());
-    std::string wd = std::to_string (weekDay);
-    curSemester->saveCoursetoFolder(name, id, className, lecturer, credit, maxStudent, wd, session, curSchoolYear->year, sem);// function call
+    curSemester->saveCoursetoFolder(name, id, className, lecturer, credit, maxStudent, weekDay, session, curSchoolYear->year, sem);// function call
 }
 
 void course::addStudentMenu()
