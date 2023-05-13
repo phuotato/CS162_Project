@@ -9,3 +9,4 @@
 #include <iomanip>
 
 void deleteData();
+void exitProgram();

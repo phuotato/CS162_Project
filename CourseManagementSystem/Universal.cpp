@@ -27,5 +27,11 @@ void deleteData()
 	pHeadSchoolYear->deleteSchoolYear();
 	pHeadClass->deleteStudentList();
 	pHeadClass->deleteClass();
+}
 
+void exitProgram()
+{
+	deleteData();
+	drawExitBox();
+	exit(0);
 }
