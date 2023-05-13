@@ -640,19 +640,47 @@ void EndSemester() {
         switch (option) {
         case 14:
             system("cls");
-            curCourse->ExportClass();
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->ExportClass();
+                else
+                    break;
+            }
             break;
         case 13:
             system("cls");
-            curCourse->ImportScoreboard();
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->ImportScoreboard();
+                else
+                    break;
+            }
             break;
         case 12:
             system("cls");
-            curCourse->ViewScoreboard();
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->ViewScoreboard();
+                else
+                    break;
+            }
             break;
         case 11:
             system("cls");
-            curCourse->updateStudentResult();
+            while (true)
+            {
+                system("cls");
+                if (curSemester->viewCourse())
+                    curCourse->updateStudentResult();
+                else
+                    break;
+            }
             break;
         case 10:
             system("cls");
