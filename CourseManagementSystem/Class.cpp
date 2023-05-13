@@ -1292,10 +1292,17 @@ void Class::showScoreBoardOfClass()
         std::cout << "0.Back\n";
         int choice;
         std::cin >> choice;
-        /*switch (choice)
+        switch (choice)
         {
         case 1:
-        }*/
+            showGPAOfClass();
+            break;
+        case 2:
+            showDetailMark();
+            break;
+        case 0:
+            break;
+        }
     }
 }
 
