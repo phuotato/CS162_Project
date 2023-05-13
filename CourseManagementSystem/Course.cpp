@@ -748,34 +748,34 @@ void course::showInfo()
     system("cls");
     //header
     drawHeader();
-    drawBox(mid - 53 / 2, 9, 53, 9);
-    gotoxy(mid - 16 / 2, 9);
+    drawBox(mid - 53 / 2 + 8, 9, 53, 10);
+    gotoxy(mid - 16 / 2 + 5, 8);
     SetColor(7, 9);
-    std::cout << "Course Information\n";
+    std::cout << "Course Information\n\n";
     SetColor(7, 0);
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "1. Id:" << id << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "2. Name:" << name << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "3. Class name:" << className << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "4. Lecturer:" << lecturer << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "5. Credit:" << credit << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "6. Max student:" << maxStudent << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "7. Schedule:" << weekDay << std::endl;
 
-    gotox(mid - 49 / 2);
+    gotox(mid - 53 / 2 + 9);
     std::cout << "8. Session:";
     switch (session)
     {
@@ -787,11 +787,13 @@ void course::showInfo()
         break;
     case 3:
         std::cout << "13:30\n";
+        break;
     case 4:
         std::cout << "15:30\n";
+        break;
     }
 
-    std::cout << "\n"; gotox(mid - 23 / 2);
+    std::cout << "\n"; gotox(mid - 16 / 2 + 5);
     SetColor(7, 2);
     std::cout << "Press any key to back:";
     SetColor(7, 0);
