@@ -15,6 +15,7 @@ extern schoolYear* curSchoolYear;
 extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
+extern Class* curClass;
 extern course* curCourse;
 extern int mid;
 
@@ -383,10 +384,12 @@ void BeginSemester() {
         switch (choice)
         {
         case 2:
-            if (curSchoolYear->createSemester())
-                break;
-            else
-                continue;
+            if (pHeadClass->checkLatestYear() != 0) {
+                if (curSchoolYear->createSemester())
+                    break;
+                else
+                    continue;
+            }
         case 1:
             if (curSchoolYear->showSemester())
                 break;
@@ -450,7 +453,15 @@ void BeginSemester() {
                 }
                 break;
             case 12:
-                //remove student in course
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->viewCourse())
+                        curCourse->deleteStudent();
+                    else
+                        break;
+                }
+                break;
             case 11:
                 while (true)
                 {
@@ -633,7 +644,8 @@ void EndSemester() {
             break;
         case 10:
             system("cls");
-            //curCourse->ChooseGPARTotal();
+            viewClass();
+            curClass->showScoreBoardOfClass();
 
             break;
         case 7:

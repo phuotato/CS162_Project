@@ -43,6 +43,7 @@ public:
 	void showScoreBoardOfClass();
 	void showGPAOfClass();
 	void showDetailMark();
+
 	//Minor function
 	bool CheckClasses(std::string curName);
 	bool checkExistClass(std::string Name);
