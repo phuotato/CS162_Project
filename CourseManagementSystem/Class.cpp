@@ -14,7 +14,9 @@ extern schoolYear* pTailSchoolYear;
 extern Class* pHeadClass;
 extern Class* curClass;
 extern Class* pTailClass;
+extern semester* curSemester;
 extern int mid;
+
 
 //Struct variable
 student* pStudent = nullptr;
@@ -177,6 +179,26 @@ void Class::addNewClass() {
             fout << "Social ID" << "\n";
 
             fout.close();
+
+            //Add Class into the text file
+            fout.open("../Data/SchoolYear/" + curSchoolYear->year + "../" + "Class/Class.txt", std::ios::app);
+            fout << "\n";
+            fout << Name;
+            fout.close();
+
+            //Create CSV file for class
+            fout.open("../Data/Class/" + Name + ".csv");
+
+            //Create column
+            fout << "No,";
+            fout << "Student ID,";
+            fout << "Last Name,";
+            fout << "First Name,";
+            fout << "Gender,";
+            fout << "Date of Birth,";
+            fout << "Social ID" << "\n";
+
+            fout.close();
         }
 
         loadingPage();
@@ -195,10 +217,10 @@ bool Class::checkLatestYear() {
     if (curSchoolYear->getYear() != pTailSchoolYear->getYear()) {
         gotoxy(mid - 44 / 2, 26);
         SetColor(7, 12);
-        std::cout << "Sorry! You can only add in the latest year.";
+        std::cout << "Sorry! You can't add to old school year.";
         SetColor(7, 0);
 
-        Sleep(2000);
+        Sleep(1000);
         return 0;
     }
     else return 1;
@@ -262,7 +284,7 @@ void Class::showClassList(short range, short& Pcur) {
 
     gotoy(5);
     for (; curClass && k < range; curClass = curClass->pNext, i++, k++) {
-        gotox(mid - ((curClass->getName()).length()+1) / 2);
+        gotox(mid - ((curClass->getName()).length()) / 2);
         std::cout << curClass->getName() << "\n";
         Pcur++;
     }
@@ -1259,4 +1281,157 @@ void Class::showingStudentList(student* pHead) {
         }
         TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
     }
+}
+
+void Class::showScoreBoardOfClass()
+{
+    while (true)
+    {
+        std::cout << "1.View GPA of student\n";
+        std::cout << "2.View detail mark of student\n";
+        std::cout << "0.Back\n";
+        int choice;
+        std::cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            showGPAOfClass();
+            break;
+        case 2:
+            showDetailMark();
+            break;
+        case 0:
+            break;
+        }
+    }
+}
+
+void Class::showGPAOfClass()
+{
+    int tmp = 1;
+    std::cout << "No Id Name GPA Overall";
+    for (student* cur = headS; cur; cur = cur->pNext)
+    {
+        std::string dir = "../Data/SchoolYear/" + curSchoolYear->getYear() + "/" + "Sem" + std::to_string(curSemester->getSem()) + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
+        std::ifstream fin(dir);
+        std::string temp;
+        double gpa{}, overall{};
+        int credit{}, total{};
+        if (fin.is_open())
+        {
+            std::string a;
+            getline(fin, a);
+            while (getline(fin, temp))                                  // GPA in semester
+            {
+                int pos1 = temp.find(',');
+                int pos2 = temp.find(',', pos1 + 1);
+                int pos3 = temp.find(',', pos2 + 1);
+                int pos4 = temp.find(',', pos3 + 1);
+                int pos5 = temp.find(',', pos4 + 1);
+                std::string ToTal = temp.substr(0, pos1);
+                std::string Credit = temp.substr(pos5+1, temp.length()-pos5-1);
+                credit += stoi(Credit);
+                gpa += stod(ToTal) * stoi(Credit);
+            }
+        }
+        fin.close();
+        
+        std::string block = curSchoolYear->getYear().substr(2, 2);
+        std::string yea = cur->getStudentID().substr(0, 2);
+        int firstY = stoi(block), id = stoi(yea);
+        while(firstY >= id)
+        {
+            for (int i = 1; i <= 3; ++i)
+            {
+                int sem = i;
+
+                std::string y = "20" + std::to_string(firstY) + "-" + "20" + std::to_string(firstY + 1);
+                std::string path = "../Data/SchoolYear/" + y + "/" + "Sem" + std::to_string(sem)
+                    + "/Class/" + curClass->getName() + "/" + cur->getStudentID() + ".csv";
+                fin.open(path);
+                std::string temp;
+                if (fin.is_open())
+                {
+                    std::string a;
+                    getline(fin, a);
+                    while (getline(fin, temp))                                  // Overall GPA
+                    {
+                        int pos1 = temp.find(',');
+                        int pos2 = temp.find(',', pos1 + 1);
+                        int pos3 = temp.find(',', pos2 + 1);
+                        int pos4 = temp.find(',', pos3 + 1);
+                        int pos5 = temp.find(',', pos4 + 1);
+                        std::string ToTal = temp.substr(0, pos1);
+                        std::string Credit = temp.substr(pos5+1, temp.length() - pos5 - 1);
+                        total += stoi(Credit);
+                        overall += stod(ToTal) * stoi(Credit);
+                    }
+                }
+                fin.close();
+            }
+            firstY--;
+        }
+        std::cout << tmp++ << " " << cur->getStudentID() << cur->getLastName() << " " << cur->getFirstName() <<" "<< gpa / credit <<" "<< overall / total <<std::endl;
+    }
+}
+void viewClass()
+{
+    for (Class* cur = pHeadClass; cur; cur = cur->pNext)
+        std::cout << cur->getName() << std::endl;
+    std::cout << "Input your choice:";
+    std::string name;
+    getline(std::cin, name);
+    for (Class* cur = pHeadClass; cur; cur = cur->pNext)
+    {
+        if (name == cur->getName())
+        {
+            curClass = cur;
+            break;
+        }
+    }
+}
+
+void Class::showDetailMark()
+{
+    while(true)
+    {
+        system("cls");
+        for (student* cur = headS; cur; cur = cur->pNext)
+            std::cout << cur->getStudentID() << " " << cur->getLastName() << " " << cur->getFirstName() << std::endl;
+        std::string id;
+        std::cout << "Enter your choice:(Press enter to back)";
+        std::cin.ignore();
+        getline(std::cin, id);
+        if (id == "")
+            break;
+        else
+        {
+            std::string dir = "../Data/SchoolYear/" + curSchoolYear->getYear() + "/" + "Sem" + std::to_string(curSemester->getSem()) + "/Class/" + curClass->getName() + "/" + id + ".csv";
+            std::ifstream fin(dir);
+            std::string temp;
+            if (fin.is_open())
+            {
+                std::string a;
+                getline(fin, a);
+                std::cout << "ID_Course Total Final Midterm Other\n";
+                while (getline(fin, temp))                                  // GPA in semester
+                {
+                    int pos1 = temp.find(',');
+                    int pos2 = temp.find(',', pos1 + 1);
+                    int pos3 = temp.find(',', pos2 + 1);
+                    int pos4 = temp.find(',', pos3 + 1);
+                    int pos5 = temp.find(',', pos4 + 1);
+                    std::string ToTal = temp.substr(0, pos1);
+                    std::string Final = temp.substr(pos1+1, pos2 - pos1 - 1);
+                    std::string Midterm = temp.substr(pos2+1, pos3 - pos2 - 1);
+                    std::string Other = temp.substr(pos3+1, pos4 - pos3 - 1);
+                    std::string CourseId = temp.substr(pos4+1, pos5 - pos4 - 1);
+                    std::string Credit = temp.substr(pos5+1, temp.length() - pos5 - 1);
+                    std::cout << CourseId << " " << ToTal << " " << Final << " " << Midterm << " " << Other << std::endl;
+                }
+            }
+            fin.close();
+        }
+    }
+
 }

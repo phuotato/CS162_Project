@@ -56,24 +56,25 @@ void semester::addCourse()
 		std::cin.ignore();
 
 		gotox(mid - 49 / 2);
-		std::cout << "Which day will the course be performed? FRI-SAT ";
+		std::cout << "Which day will the course be performed? (MON-SAT): ";
 		std::string weekDay; getline(std::cin, weekDay);
 
 		gotox(mid - 49 / 2);
 		std::cout << "Enter the session that the course will be performed\n";
 
 		gotox(mid - 49 / 2);
-		std::cout << "(1: 07 : 30, 2 : 09 : 30, 3 : 13 : 30, 4 : 15 : 30): ";
+		std::cout << "(1: 07 : 30, 2 : 09 : 30, 3 : 13 : 30, 4 : 15 : 30):\n ";
+		gotox(mid - 49 / 2);
 		int session; std::cin >> session;
 
 		if (pHeadCourse)
 		{
-			pTailCourse->pNext= new course(ID, name, className, lecturer, credit, maxStudent, stoi(weekDay), session);
+			pTailCourse->pNext= new course(ID, name, className, lecturer, credit, maxStudent, weekDay, session);
 			pTailCourse = pTailCourse->pNext;
 		}
 		else
 		{
-			pHeadCourse= new course(ID, name, className, lecturer, credit, maxStudent, stoi(weekDay), session);
+			pHeadCourse= new course(ID, name, className, lecturer, credit, maxStudent, weekDay, session);
 			pTailCourse = pHeadCourse;
 		}
 		// save course ID to textfile
@@ -157,7 +158,7 @@ void semester::showCourses(course*& pHead, short range, short& Pcur) {
 	{
 		int lengthn = pHead->name.length();
 		int lengthid = pHead->id.length();
-		gotoxy(mid - (lengthid+lengthn) / 2, i);  std::cout << pHead->name << "(" << pHead->id << ")\n";
+		gotoxy(mid - (lengthid+lengthn) / 2, i);  std::cout << pHead->name << " (" << pHead->id << ")\n";
 		Pcur++;
 	}
 	drawBox(mid - 46 / 2, 4, 46, k + 4);
@@ -198,7 +199,7 @@ void semester::showingCourseList(course* pHead) {
 		switch (TH) {
 		//Next page
 		case 3: {
-			if (curSchoolYear == nullptr) {
+			if (cur == nullptr) {
 				SetColor(7, 12);
 				if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 8);
 				else gotoxy(mid - 25 / 2, Pcur % range + 8);
@@ -371,13 +372,16 @@ void semester::loadCourse()
 			std::ifstream read("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + Id + "/information.txt");
 			if(read.is_open())
 			{
-				std::string redundant, name, className, lecturer;
-				int credit, maxStudent, weekDay, session;
+				std::string redundant, name, className, lecturer, weekDay;
+				int credit, maxStudent, session;
+
 				getline(read, redundant);
 				getline(read, name);
 				getline(read, className);
 				getline(read, lecturer);
-				read >> credit >> maxStudent >> weekDay >> session;
+				read >> credit >> maxStudent;
+				getline(read, weekDay);
+				read >> session;
 				if (pHeadCourse)
 				{
 					pTailCourse->pNext = new course(Id, name, className, lecturer, credit, maxStudent, weekDay, session);

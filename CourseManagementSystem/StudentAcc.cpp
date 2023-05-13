@@ -77,6 +77,7 @@ void learningProgress()
 
     while (k != 0) {
         system("cls");
+        drawHeader();
         drawBox(mid - 53 / 2, 10, 52, 8);
         gotoxy(mid - 13 / 2, 11);
         std::cout << "MENU OPTIONS";
@@ -123,13 +124,14 @@ void StudentMenu() {
 
     content[0] = "1. View profile";
     content[1] = "2. View learning progress";
-    content[2] = "3. View scoreboard";
+    content[2] = "-";
     content[3] = "-";
     content[4] = "4. Change password";
     content[5] = "0. Exit";
 
     while (k != 0) {
         system("cls");
+        drawHeader();
         drawStudentMenu();
         option = movingBar(mid - 50 / 2, 13, 13, mid + 50 / 2, 18, 1, content);
         switch (option) {
@@ -142,11 +144,6 @@ void StudentMenu() {
             system("cls");
             drawHeader();
             learningProgress();
-            break;
-        case 3:
-            system("cls");
-            drawHeader();
-            //curStudent.viewScoreboard();
             break;
         case 1:
             system("cls");
@@ -169,47 +166,8 @@ void StudentMenu() {
 
 }
 
-void loadClassFromFile()
-{
-    std::ifstream file("../Data/StudentProfile/" + username + ".csv");
-    if (!file)
-    {
-        std::cout << "Unable to open file!" << std::endl;
-        return;
-    }
-
-    std::string line;
-    if (std::getline(file, line))
-    {
-        std::istringstream iss(line);
-        std::string getNO, id, firstname, lastname, socialId, getGender, getDay, getMonth, getYear, classcode;
-
-        std::getline(iss, getNO, ',');
-        std::getline(iss, id, ',');
-        std::getline(iss, firstname, ',');
-        std::getline(iss, lastname, ',');
-        std::getline(iss, getGender, ',');
-        std::getline(iss, getDay, '/');
-        std::getline(iss, getMonth, '/');
-        std::getline(iss, getYear, ',');
-        std::getline(iss, socialId, ',');
-        std::getline(iss, classcode);
-
-        // Assign the classcode value to the student object
-        curSClass = classcode;
-
-        std::cout << "Class data loaded successfully!" << std::endl;
-    }
-    else
-    {
-        std::cout << "File is empty!" << std::endl;
-    }
-
-    file.close();
-}
-
 void StudentAcc() {
     curStudent.setID(username);
-    loadClassFromFile();
+    curStudent.loadProfile(username);
     StudentMenu();
 }

@@ -36,7 +36,9 @@ void welcomePage()
     std::cout << "\n\n\n\n";
 	drawBox(mid - 35 / 2, 8, 35, 9);
     gotoxy(mid-8/2, 6);
+    SetColor(7, 9);
     std::cout << "Login as";
+    SetColor(7, 0);
     gotoxy(mid-26/2, 10);
     std::cout << "1. Staff";
     gotoxy(mid-26/2, 12);

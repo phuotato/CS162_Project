@@ -15,6 +15,7 @@ extern schoolYear* curSchoolYear;
 extern semester* curSemester;
 extern Class* pHeadClass;
 extern Class* pTailClass;
+extern Class* curClass;
 extern course* curCourse;
 extern int mid;
 
@@ -32,14 +33,13 @@ void EndSemester();
 //main
 void Staff()
 {
+    loadingPage();
     system("cls");
     bool flag = 1;
     while (flag != 0) {
         SchoolYear();
         BeginSchoolYear(flag);
     }
-    //  BeginSemester();
-    EndSemester();
 }
 
 //define
@@ -206,6 +206,7 @@ void BeginSchoolYear(bool& flag) {
                 system("cls");
                 drawHeader();
                 pHeadClass->getOption();
+                check = 1;
             }
             option = 0;
             break;
@@ -383,10 +384,12 @@ void BeginSemester() {
         switch (choice)
         {
         case 2:
-            if (curSchoolYear->createSemester())
-                break;
-            else
-                continue;
+            if (pHeadClass->checkLatestYear() != 0) {
+                if (curSchoolYear->createSemester())
+                    break;
+                else
+                    continue;
+            }
         case 1:
             if (curSchoolYear->showSemester())
                 break;
@@ -406,7 +409,7 @@ void BeginSemester() {
         content[6] = "-";
         content[7] = "7. View student profile";
         content[8] = "8. View a list of classes";
-        content[9] = "9: View a list of students in a class";
+        content[9] = "9. View a list of students in a class";
         content[10] = "10. View a list of courses";
         content[11] = "11. View a list of students in a course";
         content[12] = "-";
@@ -450,7 +453,15 @@ void BeginSemester() {
                 }
                 break;
             case 12:
-                //remove student in course
+                while (true)
+                {
+                    system("cls");
+                    if (curSemester->viewCourse())
+                        curCourse->deleteStudent();
+                    else
+                        break;
+                }
+                break;
             case 11:
                 while (true)
                 {
@@ -643,6 +654,12 @@ void EndSemester() {
         case 11:
             system("cls");
             curCourse->updateStudentResult();
+            break;
+        case 10:
+            system("cls");
+            viewClass();
+            curClass->showScoreBoardOfClass();
+
             break;
         case 7:
             system("cls");

@@ -13,8 +13,8 @@ schoolYear* curSchoolYear = nullptr;
 semester* curSemester = nullptr;
 
 course* curCourse = nullptr;
+
 Class* pHeadClass = nullptr;
 Class* pTailClass = nullptr;
 Class* curClass = nullptr;
-
 int mid = getMidColumns();

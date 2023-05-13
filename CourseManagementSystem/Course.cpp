@@ -15,8 +15,39 @@ extern course* curCourse;
 extern int mid;
 
 //Constructor
-course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, int weekDay, int session)
-    :id(id), name(name), className(className), lecturer(lecturer), credit(credit), maxStudent(maxStudent), weekDay(weekDay), session(session) {};
+bool isValidWeekday(const std::string& weekday)
+{
+    static const std::string validWeekdays[] = { "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+    static const int numValidWeekdays = sizeof(validWeekdays) / sizeof(validWeekdays[0]);
+
+    for (int i = 0; i < numValidWeekdays; i++) {
+        if (weekday == validWeekdays[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+course::course(std::string id, std::string name, std::string className, std::string lecturer, int credit, int maxStudent, std::string weekDay, int session)
+{
+    this->id = id;
+    this->name = name;
+    this->className = className;
+    this->lecturer = lecturer;
+    this->credit = credit;
+    this->maxStudent = maxStudent;
+    if (isValidWeekday(weekDay)) {
+        this->weekDay = weekDay;
+    }
+    else {
+        //invalid
+        this->weekDay = "";
+        std::cerr << "Error: Invalid weekday provided for course " << id << std::endl;
+    }
+    this->session = session;
+}
+
 
 void course::ExportClass()
 {
@@ -438,8 +469,7 @@ void course::updateCourse()
     }
     fout.close();
     std::string sem = std::to_string(curSemester->getSem());
-    std::string wd = std::to_string (weekDay);
-    curSemester->saveCoursetoFolder(name, id, className, lecturer, credit, maxStudent, wd, session, curSchoolYear->year, sem);// function call
+    curSemester->saveCoursetoFolder(name, id, className, lecturer, credit, maxStudent, weekDay, session, curSchoolYear->year, sem);// function call
 }
 
 void course::addStudentMenu()
@@ -466,6 +496,8 @@ void course::addStudentMenu()
 
 void course::addStudent(int choice)
 {
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
     char ch = 'Y';
     do
     {
@@ -488,10 +520,10 @@ void course::addStudent(int choice)
             gotox(mid - 49 / 2); std::cout << "Last name:";
             getline(std::cin, lastname);
 
-            gotox(mid - 49 / 2); std::cout << "Gender:";
+            gotox(mid - 49 / 2); std::cout << "Gender (0 for male, 1 for female):";
             std::cin >> gender;
 
-            gotox(mid - 49 / 2); std::cout << "Date of birth(dd/mm/yyyy):";
+            gotox(mid - 49 / 2); std::cout << "Date of birth (dd/mm/yyyy):";
             std::cin.ignore();
             getline(std::cin, dob);
 
@@ -542,11 +574,12 @@ void course::addStudent(int choice)
             gotoxy(mid - 10 / 2, -2); std::cout << "         ";
             
             SetColor(7, 2); gotox(mid - 26 / 2);
-            std::cout << "Add student successfully!";
+            std::cout << "Add student successfully!          ";
             SetColor(7, 0);
 
             //Reset
             gotox(mid - 26 / 2); std::cout << "                         ";
+            gotoxy(mid - 49 / 2, -1);
 
             std::cout << "Do you want to add more: ";
             YNQuestions(mid - 30/2, 13, 30);
@@ -585,12 +618,12 @@ void course::addStudent(int choice)
                         getline(fin, socialId);
                         if (!pHeadStudent)
                         {
-                            pHeadStudent = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                            pHeadStudent = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                             pTailStudent = pHeadStudent;
                         }
                         else
                         {
-                            pTailStudent->pNext = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                            pTailStudent->pNext = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                             pTailStudent = pTailStudent->pNext;
                         }
                     }
@@ -652,7 +685,7 @@ void course::addStudent(int choice)
     saveStudentinCourse(path);
 }
 
-int compareString(std::string a, std::string b, std::string c, std::string d)
+int compareString(std::string c, std::string d, std::string a, std::string b)
 {
     std::string firstA, secondA, firstB, secondB;
     for (int i = a.length() - 1; ; --i)
@@ -724,34 +757,35 @@ void course::showInfo()
     system("cls");
     //header
     drawHeader();
-    std::cout << "\n"; gotox(mid - 16 / 2);
+    drawBox(mid - 53 / 2, 9, 53, 9);
+    gotoxy(mid - 16 / 2, 9);
     SetColor(7, 9);
-    std::cout << "Information of Course\n\n";
+    std::cout << "Course Information\n";
     SetColor(7, 0);
 
     gotox(mid - 49 / 2);
-    std::cout << "1.Id:" << id << std::endl;
+    std::cout << "1. Id:" << id << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "2.Name:" << name << std::endl;
+    std::cout << "2. Name:" << name << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "3.Class name:" << className << std::endl;
+    std::cout << "3. Class name:" << className << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "4.Lecturer:" << lecturer << std::endl;
+    std::cout << "4. Lecturer:" << lecturer << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "5.Credit:" << credit << std::endl;
+    std::cout << "5. Credit:" << credit << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "6.Max student:" << maxStudent << std::endl;
+    std::cout << "6. Max student:" << maxStudent << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "7.Day performed per week:" << weekDay << std::endl;
+    std::cout << "7. Schedule:" << weekDay << std::endl;
 
     gotox(mid - 49 / 2);
-    std::cout << "8.Session:";
+    std::cout << "8. Session:";
     switch (session)
     {
     case 1:
@@ -770,8 +804,6 @@ void course::showInfo()
     SetColor(7, 2);
     std::cout << "Press any key to back:";
     SetColor(7, 0);
-
-    drawBox(mid - 53 / 2, 9, 53, 9);
     _getch();
 }
 
@@ -992,3 +1024,304 @@ int course::getAllStudent()
     return --i;
 }
 
+void course::deleteStudent()
+{
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
+    bool del = 0;
+    while(true)
+    {
+        std::cout << "Full name ID";
+        for (student* cur = pHeadStudent; cur; cur = cur->pNext)
+            std::cout << cur->getLastName() << " " << cur->getFirstName() << " " << cur->getStudentID() << std::endl;
+        std::cout << "Enter your choice(Press enter to back)";
+        std::string id;
+        getline(std::cin, id);
+        if (id == "")
+            break;
+        else
+        {
+            if (pHeadStudent->getStudentID() == id)
+            {
+                student* tmp = pHeadStudent->pNext;
+                delete pHeadStudent;
+                pHeadStudent = tmp;
+                del = 1;
+            }
+            else
+            {
+                for (student* cur = pHeadStudent; cur->pNext; cur = cur->pNext)
+                {
+                    if (cur->pNext->getStudentID() == id)
+                    {
+                        student* tmp = pHeadStudent->pNext;
+                        cur->pNext = tmp->pNext;
+                        delete tmp;
+                        del = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        if (del)
+        {
+            std::cout << "Delete succesfully\n";
+            Sleep(500);
+            std::cout << "Do you want to continue:(Press Y/y to continue, N/n to stop)";
+            char ch;
+            std::cin >> ch;
+            if (ch == 'N' || ch == 'n')
+                break;
+        }
+        else
+        {
+            std::cout << "This student's id do not exist\n";
+            Sleep(500);
+        }
+    }
+
+    std::string path = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + id + "/Student's List.csv";
+    saveStudentinCourse(path);
+}
+//void course::ChooseGPARTotal() {
+//    int choice = 0;
+//    std::string* content = new std::string[3];
+//    content[0] = "1. Show GPA of all students";
+//    content[1] = "2. Show total course's score of all students";
+//    content[2] = "0. Back";
+//    do {
+//        drawHeader();
+//        drawBox(mid - 53 / 2, 8, 53, 5);
+//
+//        gotoxy(mid - 28 / 2, 7); std::cout << "Show score of all students.";
+//        gotoxy(mid - 49 / 2, 9); std::cout << "1. Show GPA of all students";
+//        gotoxy(mid - 49 / 2, 10); std::cout << "2. Show total course's score of all students";
+//        gotoxy(mid - 49 / 2, 11); std::cout << "0. Back";
+//        choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
+//        switch (choice)
+//        {
+//        case 2:
+//            curSemester->pHeadCourse->showGPABoardOfClass();
+//            break;
+//
+//        case 1:
+//            curSemester->pHeadCourse->showingScoreOfClassList();
+//            break;
+//        case 0:
+//            continue;
+//        }
+//    } while (choice != 0);
+//    delete[] content;
+//
+//}
+//
+//void course::showScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur) {
+//    const int tableWidth = 66;
+//    const int tableX = mid + 6 - tableWidth / 2;
+//    const int tableY = 5;
+//
+//    gotoxy((2 * tableX + 51) / 2, 3);
+//    std::cout << "Student's List";
+//
+//    // Print table header
+//    gotoxy(tableX, tableY);
+//    std::cout << "Course's ID   Student ID   First Name    Last Name         Total\n";
+//
+//    int i = tableY + 2;
+//    int k = 0;
+//    bool flag = 0;
+//    while (cur != nullptr && k < range) {
+//        for (; curScore; curScore = curScore->pNext) {
+//            // Print student information in table format
+//            gotoxy(tableX, i);
+//            std::cout << i - tableY - 1 << ".    " << curScore->studentID << "      ";
+//            gotoxy(tableX + 19, i);
+//            std::cout << curScore->firstName;
+//            gotoxy(tableX + 33, i);
+//            std::cout << curScore->lastName;
+//            gotoxy(tableX + 51, i);
+//            std::cout << curScore->totalMark;
+//
+//            if (curScore->pNext == nullptr) {
+//                flag = 1;
+//            }
+//            i++;
+//            k++;
+//            Pcur++;
+//        }
+//        if (flag == 1) {
+//            flag = 0;
+//            if (cur->pNext == nullptr) break;
+//            cur = cur->pNext;
+//        }
+//    }
+//
+//    drawBox(tableX - 2, tableY - 1, tableWidth, Pcur + 6);
+//    gotoxy(tableX, tableY + 1);
+//    drawLine(62, tableX - 2);
+//
+//    gotoxy(tableX - 3, tableY + 2 + Pcur);
+//    drawLine(tableWidth, tableX - 2);
+//    std::cout << "\n\n";
+//    gotox(tableX - 2);
+//}
+//
+//int course::getAllScore() {
+//    int i = 0;
+//   
+//    for (course* cur = curSemester->pHeadCourse; cur; cur = cur->pNext) {
+//        for (studentScore* curScore = cur->hScore; curScore; curScore = curScore->pNext, i++);
+//    }
+//    return --i;
+//}
+//
+//void course::showPScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur) {
+//    course* pHead = curSemester->pHeadCourse;
+//    
+//    //Check if the last page
+//    if (Pcur % range == 0) {
+//        for (; pHead; pHead = pHead->pNext) {
+//            studentScore* pHeadScore = pHead->hScore;
+//            for (int i = 0; i < Pcur - range * 2 && pHeadScore; i++, pHeadScore = pHeadScore->pNext);
+//            curScore = pHeadScore;
+//        }
+//        cur = pHead;
+//        Pcur -= range * 2;
+//    }
+//    else {
+//        for (; pHead; pHead = pHead->pNext) {
+//            studentScore* pHeadScore = pHead->hScore;
+//            for (int i = 0; i < Pcur - (Pcur%range) - range && pHeadScore; i++, pHeadScore = pHeadScore->pNext);
+//            curScore = pHeadScore;
+//        }
+//        cur = pHead;
+//        Pcur -= (Pcur % range) + range;
+//    }
+//}
+//
+//void course::showingScoreOfClassList(student* pHead) {
+//    std::string displayk = "N";
+//    std::string* content = nullptr;
+//    bool EnterConfirm = 0;
+//    int yp = 6;
+//    short TH = 3;
+//    short range = 10;
+//    short Pcur = 0;
+//    int APages = getAllScore() / range + 1;
+//    student* pTail = pHead;
+//    student* cur = pHead;
+//    if (!pTail) return;
+//    for (; pTail->pNext; pTail = pTail->pNext);
+//
+//    system("cls");
+//    while (true) {
+//
+//        switch (TH) {
+//            //Next page
+//        case 3: {
+//            if (cur == nullptr) {
+//                SetColor(7, 12);
+//                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+//                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+//                std::cout << "You are at the last page";
+//                SetColor(7, 0);
+//
+//                Sleep(2000);
+//
+//                //Reset the command
+//                gotox(mid - 47 / 2);
+//                std::cout << "                                                          \r";
+//
+//            }
+//            else {
+//                system("cls");
+//                drawBox(15, 2, 30, 23);
+//                Tutorial(content);
+//                showStudents(cur, range, Pcur);
+//                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+//            }
+//            yp = 6;
+//            break;
+//        }
+//              //Previous Page
+//        case 2: {
+//            if (Pcur <= range) {
+//                SetColor(7, 12);
+//                if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 25 / 2, range + 12);
+//                else gotoxy(mid - 25 / 2, Pcur % range + 12);
+//                std::cout << "You are at the first page";
+//                SetColor(7, 0);
+//
+//                Sleep(2000);
+//
+//                //Reset the command
+//                gotox(mid - 47 / 2);
+//                std::cout << "                                                          \r";
+//
+//            }
+//            else {
+//                system("cls");
+//                drawBox(15, 2, 30, 23);
+//                Tutorial(content);
+//                showPStudents(cur, range, Pcur);
+//                showStudents(cur, range, Pcur);
+//                Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+//            }
+//            yp = 6 + 4;
+//            break;
+//        }
+//              //Enter to confirm
+//        case 0: {
+//            EnterConfirm = 1;
+//            break;
+//        }
+//              //Change list
+//        case 1: {
+//
+//            if (Pcur % range == 0 && Pcur != 0) gotoxy(mid - 50 / 2, range + 12);
+//            else gotoxy(mid - 50 / 2, Pcur % range + 12);
+//            std::cout << "Please enter the number you want to change list: ";
+//            getline(std::cin, displayk);
+//
+//            if (displayk[0] <= '9' && displayk[0] >= '0') {
+//                int sample = stoi(displayk);
+//                if (sample > 25 || sample < 10) {
+//                    SetColor(7, 12);
+//                    std::cout << "\n\n"; gotox(mid - 42 / 2);
+//                    std::cout << "The range is too big or too small (10~25)!";
+//                    SetColor(7, 0);
+//
+//                    Sleep(2000);
+//
+//                    //Reset the command
+//                    gotox(mid - 47 / 2);
+//                    std::cout << "                                                          \r";
+//                    gotoxy(mid - 50 / 2, -3); std::cout << "                                                    ";
+//                }
+//                else {
+//                    //Reset everything
+//                    range = sample;
+//                    Pcur = 0;
+//                    cur = pHead;
+//                    APages = getAllClass() / range + 1;
+//
+//                    //Draw again
+//                    system("cls");
+//                    drawBox(15, 2, 30, 23);
+//                    Tutorial(content);
+//                    showStudents(cur, range, Pcur);
+//                    Description(range, APages, (Pcur - 1) / range + 1, Pcur, 52, 62);
+//                }
+//            }
+//            yp = 6 + 8;
+//            break;
+//        }
+//        }
+//        if (EnterConfirm == 1) {
+//            if (Pcur % range == 0 && Pcur != 0) gotoy(range + 8);
+//            else gotoy(Pcur % range + 8);
+//            break;
+//        }
+//        TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
+//    }
+//}

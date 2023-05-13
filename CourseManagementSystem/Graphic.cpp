@@ -135,7 +135,7 @@ void drawHeader() {
 //	std::cout << "#                    _                                      #" << std::endl;
 //	std::cout << "#                  -=\\`\\                                    #" << std::endl;
 //	std::cout << "#              |\\ ____\\_\\__                                 #" << std::endl;
-//	std::cout << "#            -=\\c`""""""" "`)                               #" << std::endl;
+//	std::cout << "#            -=\\c`""""""" "` )                               #" << std::endl;
 //	std::cout << "#               `~~~~~/ /~~`\                                #" << std::endl;
 //	std::cout << "#                 -==/ /                                    #" << std::endl;
 //	std::cout << "#                   '-'                                     #" << std::endl;
@@ -153,53 +153,64 @@ void drawHeader() {
 //}
 
 void loadingPage() {
-	std::cout << "\n"; gotox(getMidColumns() - 13 / 2);
 	std::cout << "Loading...\n\n";
-	gotox(getMidColumns()-27/2);
-	std::cout << "[                    ] 0%\r";
+	std::cout << "[                   ] 0%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=                   ] 10%\r";
+	std::cout << "[=                  ] 10%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[==                  ] 20%\r";
+	std::cout << "[==                 ] 20%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[===                 ] 30%\r";
+	std::cout << "[===                ] 30%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[====                ] 40%\r";
+	std::cout << "[======             ] 40%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=====               ] 50%\r";
+	std::cout << "[========           ] 50%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[======              ] 60%\r";
+	std::cout << "[=========          ] 60%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=======             ] 70%\r";
+	std::cout << "[==========         ] 70%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[========            ] 80%\r";
+	std::cout << "[============       ] 80%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[=========           ] 90%\r";
+	std::cout << "[==============     ] 90%\r";
 	Sleep(100);
-
-	gotox(getMidColumns()-27/2);
-	std::cout << "[==========          ] 100%\r";
+	std::cout << "[===================] 100%\r";
 	Sleep(100);
-
 }
+
+void loadingPageNotuse()
+{
+	int mid = getMidColumns();
+	int x = mid-12;
+
+	for (int i = 0; i < 8; i++)
+	{
+		system("cls");
+
+		gotox(x);
+		std::cout << "         _ \n";
+		gotox(x);
+		std::cout << "      -=\\`\\ \n";
+		gotox(x);
+		std::cout << "  |\\ ____\\_\\__  \n";
+		gotox(x);
+		std::cout << "  -=\\c`\"\"\"\"\"\"` )\n";
+		gotox(x);
+		std::cout << "    `~~~~~/ /~~`\   \n";
+		gotox(x);
+		std::cout << "      -==/ /        \n";
+		gotox(x);
+		std::cout << "        '-'\n";
+
+		gotox(x + 5);
+		std::cout << "Loading";
+
+		Sleep(200);
+
+		x++;
+	}
+}
+
 void drawHeader(std::string title) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 	std::cout << std::endl << std::setw(70) << std::right << title << std::endl << std::endl;
