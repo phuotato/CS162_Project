@@ -77,6 +77,7 @@ void learningProgress()
 
     while (k != 0) {
         system("cls");
+        drawHeader();
         drawBox(mid - 53 / 2, 10, 52, 8);
         gotoxy(mid - 13 / 2, 11);
         std::cout << "MENU OPTIONS";
@@ -130,6 +131,7 @@ void StudentMenu() {
 
     while (k != 0) {
         system("cls");
+        drawHeader();
         drawStudentMenu();
         option = movingBar(mid - 50 / 2, 13, 13, mid + 50 / 2, 18, 1, content);
         switch (option) {

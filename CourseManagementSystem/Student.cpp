@@ -192,7 +192,7 @@ void student::viewProfile_Student() {
 
     // Print the profile information
     SetColor(7, 9);
-    gotoxy(mid - 12, boxY);
+    gotoxy(mid - 10, boxY);
     std::cout << "Student Profile";
 
     SetColor(7, 0); 

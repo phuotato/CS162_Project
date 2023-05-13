@@ -8,7 +8,8 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 	int count = (yp - y) / steep;
 	char c = 1;
 
-	SetColor(4, 0);
+	//SetColor(4, 0);
+	SetColor(4, 7);
 	gotoxy(x, yp);
 	for (int i = 0; i < limitx - x; i++) std::cout << " ";
 	gotox(mid - content[count].length() / 2); std::cout << content[count];
@@ -33,7 +34,9 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 						//Calculate new bar
 						yp -= steep;
 						count--;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
+
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(mid - content[count].length() / 2); std::cout << content[count];
@@ -49,7 +52,8 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 						//Calculate new bar
 						yp = limity;
 						count = (limity - y) / steep;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(mid - content[count].length() / 2); std::cout << content[count];
@@ -67,7 +71,8 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 						//Calculate new bar
 						yp += steep;
 						count++;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(mid - content[count].length() / 2); std::cout << content[count];
@@ -83,7 +88,8 @@ int movingBarTutorial(int x, int y, int yp, int limitx, int limity, int steep, s
 						//Calculate new bar
 						yp = y;
 						count = 0;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(mid - content[count].length() / 2); std::cout << content[count];
@@ -113,7 +119,8 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 	int count = (yp-y)/steep;
 	char c = 1;
 
-	SetColor(4, 0);
+	//SetColor(4, 0);
+	SetColor(4, 7);
 	gotoxy(x, yp);
 	for (int i = 0; i < limitx - x; i++) std::cout << " ";
 	gotox(x + 1); std::cout << content[count];
@@ -145,7 +152,8 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						//Calculate new bar
 						yp -= steep;
 						count--;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(x + 1); std::cout << content[count];
@@ -161,7 +169,8 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						//Calculate new bar
 						yp = limity;
 						count = (limity - y) / steep;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(x + 1); std::cout << content[count];
@@ -185,7 +194,8 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						//Calculate new bar
 						yp += steep;
 						count++;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(x + 1); std::cout << content[count];
@@ -201,7 +211,8 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						//Calculate new bar
 						yp = y;
 						count = 0;
-						SetColor(4, 0);
+						//SetColor(4, 0);
+						SetColor(4, 7);
 						gotoxy(x, yp);
 						for (int i = 0; i < limitx - x; i++) std::cout << " ";
 						gotox(x + 1); std::cout << content[count];
@@ -231,27 +242,29 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 void Tutorial(std::string*& content) {
 	content = new std::string[4];
 	int mid = 15 + 30 / 2;
-	gotoxy(mid - 9/2, 2);
+
+	gotoxy(mid - 5, 2);
 	SetColor(7, 1);
-	std::cout << "Tutorial";
+	std::cout << "Navigation";
 	SetColor(7, 0);
 
-	gotoxy(mid - 20 / 2, 6);
-	std::cout << "Press n - Next Page";
-	content[0] = "Press n - Next Page";
+	gotoxy(mid - 9/2, 6);
+	std::cout << "Next Page";
+	content[0] = "Next Page";
 
-	gotoxy(mid - 23 / 2, 10);
-	std::cout << "Press p - Previous Page";
-	content[1] = "Press p - Previous Page";
+	gotoxy(mid - 13/2, 10);
+	std::cout << "Previous Page";
+	content[1] = "Previous Page";
 
-	gotoxy(mid - 23 / 2, 14);
-	std::cout << "(Number) - Change List";
-	content[2] = "(Number) - Change List";
+	gotoxy(mid - 8, 14);
+	std::cout << "Change List Length";
+	content[2] = "Change List Length";
 
-	gotoxy(mid - 21 / 2, 18);
-	std::cout << "Press Enter - Confirm";
-	content[3] = "Press Enter - Confirm";
+	gotoxy(mid - 7/2, 18);
+	std::cout << "Confirm";
+	content[3] = "Confirm";
 }
+
 
 int YNQuestions(int x, int y, int size) {
 	drawBox(x, y, size, 6);

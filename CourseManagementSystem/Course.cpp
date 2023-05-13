@@ -518,10 +518,10 @@ void course::addStudent(int choice)
             gotox(mid - 49 / 2); std::cout << "Last name:";
             getline(std::cin, lastname);
 
-            gotox(mid - 49 / 2); std::cout << "Gender:";
+            gotox(mid - 49 / 2); std::cout << "Gender (0 for male, 1 for female):";
             std::cin >> gender;
 
-            gotox(mid - 49 / 2); std::cout << "Date of birth(dd/mm/yyyy):";
+            gotox(mid - 49 / 2); std::cout << "Date of birth (dd/mm/yyyy):";
             std::cin.ignore();
             getline(std::cin, dob);
 
