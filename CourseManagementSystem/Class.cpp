@@ -1337,7 +1337,8 @@ void Class::showGPAOfClass()
         fin.close();
         
         std::string block = curSchoolYear->getYear().substr(2, 2);
-        int firstY = stoi(block), id = stoi(cur->getStudentID());
+        std::string yea = cur->getStudentID().substr(0, 2);
+        int firstY = stoi(block), id = stoi(yea);
         while(firstY >= id)
         {
             for (int i = 1; i <= 3; ++i)
