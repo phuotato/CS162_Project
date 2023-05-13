@@ -38,7 +38,8 @@ public:
 	void setID(std::string studentID) {
 		id = studentID;
 	}
-	void readStudentScore();
+	
+	bool readStudentScore();
 	void viewProfile_Staff();
 	void viewProfile_Student();
 	bool checkExistFile(std::string id);

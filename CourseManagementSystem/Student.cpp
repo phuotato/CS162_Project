@@ -16,11 +16,18 @@ extern Class* curClass;
 extern Class* pTailClass;
 extern int mid;
 
-void student::readStudentScore() {
-    std::ifstream fin("/Data/SchoolYear/2020-2021/Sem1/22CTT2_CS162/" + id + ".csv");
+//for student account use
+extern std::string curYear;
+extern int curSem;
+extern std::string curSClass;
+
+
+
+bool student::readStudentScore() {
+    std::string filename = "../Data/SchoolYear/" + curYear + "/Sem" + std::to_string(curSem) + "/Class/" + curSClass + "/" + id + ".csv";
+    std::ifstream fin(filename);
     if (!fin) {
-        std::cerr << "Error: could not open file.\n";
-        return;
+        return false;
     }
 
     std::string line;
@@ -71,6 +78,7 @@ void student::readStudentScore() {
     }
 
     fin.close();
+    return true;
 }
 
 void student::viewProfile_Staff()
