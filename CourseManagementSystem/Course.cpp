@@ -496,6 +496,8 @@ void course::addStudentMenu()
 
 void course::addStudent(int choice)
 {
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
     char ch = 'Y';
     do
     {
@@ -572,11 +574,12 @@ void course::addStudent(int choice)
             gotoxy(mid - 10 / 2, -2); std::cout << "         ";
             
             SetColor(7, 2); gotox(mid - 26 / 2);
-            std::cout << "Add student successfully!";
+            std::cout << "Add student successfully!          ";
             SetColor(7, 0);
 
             //Reset
             gotox(mid - 26 / 2); std::cout << "                         ";
+            gotoxy(mid - 49 / 2, -1);
 
             std::cout << "Do you want to add more: ";
             YNQuestions(mid - 30/2, 13, 30);
@@ -615,12 +618,12 @@ void course::addStudent(int choice)
                         getline(fin, socialId);
                         if (!pHeadStudent)
                         {
-                            pHeadStudent = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                            pHeadStudent = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                             pTailStudent = pHeadStudent;
                         }
                         else
                         {
-                            pTailStudent->pNext = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                            pTailStudent->pNext = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                             pTailStudent = pTailStudent->pNext;
                         }
                     }
@@ -682,7 +685,7 @@ void course::addStudent(int choice)
     saveStudentinCourse(path);
 }
 
-int compareString(std::string a, std::string b, std::string c, std::string d)
+int compareString(std::string c, std::string d, std::string a, std::string b)
 {
     std::string firstA, secondA, firstB, secondB;
     for (int i = a.length() - 1; ; --i)
@@ -1022,6 +1025,65 @@ int course::getAllStudent()
     return --i;
 }
 
+void course::deleteStudent()
+{
+    if (!pHeadStudent)
+        curCourse->loadStudentInCourse();
+    bool del = 0;
+    while(true)
+    {
+        std::cout << "Full name ID";
+        for (student* cur = pHeadStudent; cur; cur = cur->pNext)
+            std::cout << cur->getLastName() << " " << cur->getFirstName() << " " << cur->getStudentID() << std::endl;
+        std::cout << "Enter your choice(Press enter to back)";
+        std::string id;
+        getline(std::cin, id);
+        if (id == "")
+            break;
+        else
+        {
+            if (pHeadStudent->getStudentID() == id)
+            {
+                student* tmp = pHeadStudent->pNext;
+                delete pHeadStudent;
+                pHeadStudent = tmp;
+                del = 1;
+            }
+            else
+            {
+                for (student* cur = pHeadStudent; cur->pNext; cur = cur->pNext)
+                {
+                    if (cur->pNext->getStudentID() == id)
+                    {
+                        student* tmp = pHeadStudent->pNext;
+                        cur->pNext = tmp->pNext;
+                        delete tmp;
+                        del = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        if (del)
+        {
+            std::cout << "Delete succesfully\n";
+            Sleep(500);
+            std::cout << "Do you want to continue:(Press Y/y to continue, N/n to stop)";
+            char ch;
+            std::cin >> ch;
+            if (ch == 'N' || ch == 'n')
+                break;
+        }
+        else
+        {
+            std::cout << "This student's id do not exist\n";
+            Sleep(500);
+        }
+    }
+
+    std::string path = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + id + "/Student's List.csv";
+    saveStudentinCourse(path);
+}
 //void course::ChooseGPARTotal() {
 //    int choice = 0;
 //    std::string* content = new std::string[3];

@@ -27,6 +27,7 @@ public:
 	void updateCourse();
 	void addStudentMenu();
 	void addStudent(int choice);
+	void deleteStudent();
 	void showStudent();
 	void showInfo();
 
@@ -47,7 +48,6 @@ public:
 
 	// Supportive function
 	bool checkExistScoringFile(std::string direct);
-	void saveIndividualScore();
 	void saveStudentinCourse(std::string path);
 	void loadStudentInCourse();
 	void ChooseGPARTotal();
@@ -59,4 +59,4 @@ public:
 	void showPStudent(student*& pHead, short range, short& Pcur);
 };
 
-int compareString(std::string a, std::string b, std::string c, std::string d);
+int compareString(std::string c, std::string d, std::string a, std::string b);
