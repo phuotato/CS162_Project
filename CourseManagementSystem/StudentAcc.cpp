@@ -109,7 +109,7 @@ void learningProgress()
 
         case 0:
             //goback
-            break;
+            return;
         }
     }
 }
