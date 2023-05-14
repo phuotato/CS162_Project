@@ -239,7 +239,7 @@ void student::viewProfile_Student() {
 
     // Dimensions
     int boxWidth = 60;
-    int boxHeight = 10;
+    int boxHeight = 9;
     int boxX = mid - boxWidth / 2;
     int boxY = 10;
 
@@ -252,23 +252,22 @@ void student::viewProfile_Student() {
 
     SetColor(7, 0);
     gotoxy(boxX + 2, boxY + 2);
-    std::cout << "No: " << no;
-    gotoxy(boxX + 2, boxY + 3);
     std::cout << "Student ID: " << id;
-    gotoxy(boxX + 2, boxY + 4);
+    gotoxy(boxX + 2, boxY + 3);
     std::cout << "Name: " << lastName << " " << firstName;
-    gotoxy(boxX + 2, boxY + 5);
+    gotoxy(boxX + 2, boxY + 4);
     std::cout << "Class: " << curSClass;
-    gotoxy(boxX + 2, boxY + 6);
+    gotoxy(boxX + 2, boxY + 5);
     std::cout << "Gender: ";
     if (gender)
         std::cout << "Female";
     else
         std::cout << "Male";
-    gotoxy(boxX + 2, boxY + 7);
+    gotoxy(boxX + 2, boxY + 6);
     std::cout << "Date of birth: " << dat;
-    gotoxy(boxX + 2, boxY + 8);
+    gotoxy(boxX + 2, boxY + 7);
     std::cout << "Social ID: " << socialId;
+    
 
     SetColor(7, 0);
     gotoxy(mid - 20, boxY + boxHeight + 3);
@@ -277,10 +276,36 @@ void student::viewProfile_Student() {
     system("pause");
 }
 
+bool getCourseInformation(const std::string& courseID, std::string& courseName, std::string& teacherName, int& credits, std::string& dayOfWeek, int& session) {
+    // Open information.txt 
+    std::string filename = "../Data/SchoolYear/" + curYear + "/Sem" + std::to_string(curSem) + "/" + courseID + "/information.txt";
+    std::ifstream file(filename);
+    if (!file) {
+        return false;
+    }
+    int maxStudents; std::string courseId, classname;
+    // Read the course information
+    std::getline(file, courseId);
+    std::getline(file, courseName);
+    std::getline(file, classname);
+    std::getline(file, teacherName);
+    file >> credits;
+    file >> maxStudents;
+    file.ignore(1000, '\n');
+    std::getline(file, dayOfWeek);
+    //file.ignore(1000, '\n');
+    file >> session;
+
+    file.close();
+
+    return true;
+}
 
 void student::viewCourseList() {
     system("cls");
     drawHeader();
+
+    int mid = getMidColumns();
 
     // Get the number of courses
     int numCourses = 0;
@@ -290,31 +315,81 @@ void student::viewCourseList() {
         currScore = currScore->pNext;
     }
 
-    int mid = getMidColumns();
+    // Calculate the table dimensions
+    int boxWidth = 100;
+    int boxHeight = numCourses + 5;
+    int boxX = mid - boxWidth / 2;
+    int boxY = 13;
 
-    // Print the current school year and semester
-    gotoxy(mid - 53/2, 10);
-    SetColor(7, 9);
-    std::cout << "Current School Year: " << curYear;
-    gotoxy(mid - 53/2, 11);
-    std::cout << "Current Semester: " << curSem;
-    SetColor(7, 0);
     // Outer Box
-    drawBox(mid - 25, 13, 50, numCourses + 5);
+    drawBox(boxX, boxY, boxWidth, boxHeight);
+    
 
-    // Print the course IDs
+    // Header Box
+    drawBox(boxX + 1, boxY+1, boxWidth-4, 3);
+
+    // Print the table headers
+    SetColor(7, 1);
+    gotoxy(boxX + 2, boxY + 2);
+    std::cout << "No.";
+    gotoxy(boxX + 5, boxY + 2);
+    std::cout << "Course ID";
+    gotoxy(boxX + 25, boxY + 2);
+    std::cout << "Course Name";
+    gotoxy(boxX + 52, boxY + 2);
+    std::cout << "Teacher Name";
+    gotoxy(boxX + 72, boxY + 2);
+    std::cout << "Credits";
+    gotoxy(boxX + 82, boxY + 2);
+    std::cout << "Schedule";
+
+
+    // Print the course information
+    SetColor(7, 0);
     currScore = hScore;
-    int row = 15;
+    int row = boxY + 4;
+    int no = 1;
     while (currScore != nullptr) {
-        gotoxy(mid - static_cast<int>(currScore->courseID.length()) / 2 - 1, row);
-        std::cout << currScore->courseID;
+        std::string courseName, teacherName, dayOfWeek;
+        int credits, session;
+        if (getCourseInformation(currScore->courseID, courseName, teacherName, credits, dayOfWeek, session)) {
+            gotoxy(boxX + 2, row);
+            std::cout << no;
+            gotoxy(boxX + 5, row);
+            std::cout << currScore->courseID;
+            gotoxy(boxX + 25, row);
+            std::cout << courseName;
+            gotoxy(boxX + 52, row);
+            std::cout << teacherName;
+            gotoxy(boxX + 72, row);
+            std::cout << credits;
+            gotoxy(boxX + 82, row);
+            std::cout << dayOfWeek << ", ";
+            switch (session)            {
+            case 1:
+                std::cout << "07:30\n";
+                break;
+            case 2:
+                std::cout << "09:30\n";
+                break;
+            case 3:
+                std::cout << "13:30\n";
+                break;
+            case 4:
+                std::cout << "15:30\n";
+                break;
+            }
+            row++;
+        }
+
         currScore = currScore->pNext;
-        row++;
     }
 
-    gotoxy(mid - 22, row + 4);
+    gotoxy(mid - 22, row + 2);
     system("pause");
 }
+
+
 
 
 
@@ -345,6 +420,7 @@ void student::viewScoreboard() {
     drawBox(mid - 47, 13, 94, numCourses + 7);
 
     // Print the header row
+    SetColor(7, 1);
     drawBox(mid - 45, 14, 90, 3);
     gotoxy(mid - 43, 15);
     std::cout << std::left << std::setw(10) << "No."
@@ -354,7 +430,7 @@ void student::viewScoreboard() {
         << std::setw(12) << "Midterm"
         << std::setw(12) << "Other";
 
-    // Iterate over the linked list
+    SetColor(7, 0);
     currScore = hScore;
     int row = 17;
     int no = 1;
