@@ -107,7 +107,6 @@ void learningProgress()
             drawHeader();
             curStudent.viewScoreboard();
             break;
-
         case 0:
             curStudent.deleteScores();
             return;
@@ -148,7 +147,7 @@ void StudentMenu() {
         case 1:
             system("cls");
             drawHeader();
-            //changePassword(fin, fout);
+            changePassword();
             break;
         case 0:
             delete[] content;
