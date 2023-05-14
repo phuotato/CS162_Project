@@ -144,7 +144,7 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						gotox(x + 1); std::cout << content[count];
 
 						//check if the next one is line
-						if (content[count - 1] == "-") {
+						for (; content[count - 1] == "-";) {
 							count -= 1;
 							yp -= steep;
 						}
@@ -186,7 +186,7 @@ int movingBar(int x, int y, int yp, int limitx, int limity, int steep, std::stri
 						gotox(x + 1); std::cout << content[count];
 
 						//check if the next one is line
-						if (content[count + 1] == "-") {
+						for (; content[count + 1] == "-";) {
 							count += 1;
 							yp += steep;
 						}
