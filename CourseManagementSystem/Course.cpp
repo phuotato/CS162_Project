@@ -246,6 +246,7 @@ void course::updateStudentResult()
     std::cout << "Enter student ID: ";
     getline(std::cin, studentID, '\n');
     studentScore* pCur = curCourse->hScore;
+    course* current = curSemester->pHeadCourse;
     while (pCur && pCur->studentID != studentID)
         pCur = pCur->pNext;
 
@@ -272,75 +273,39 @@ void course::updateStudentResult()
 
     // update mssv.csv
     std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + pCur->studentID + ".csv";
-    std::string temp;
-    std::string tmpDir = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + "temp.csv";
-    std::string tmpDir1 = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + "temp.csv";
-    std::ofstream write(tmpDir);
-    std::ifstream read(direct);
-    while (std::getline(read, temp))
+    
+    std::ofstream write(direct, std::ios::trunc);
+    write << "Total,Final,Midterm,Other,ID_Course, Credit" << "\n";
+    while (current != nullptr)
     {
-        int pos1 = temp.find(',');
-        int pos2 = temp.find(',', pos1 + 1);
-        int pos3 = temp.find(',', pos2 + 1);
-        int pos4 = temp.find(',', pos3 + 1);
-        int pos5 = temp.find(',', pos4 + 1);
-        std::string ID = temp.substr(pos4 + 1, pos5 - pos4 - 1);
-        if (ID == curCourse->id)
+        studentScore* curS = current->hScore;
+        while (curS != nullptr)
         {
-            temp = std::to_string(pCur->totalMark) + ',' + std::to_string(pCur->finalMark) + ',' + std::to_string(pCur->midtermMark)
-                + ',' + std::to_string(pCur->otherMark) + ',' + curCourse->id + ',' + std::to_string(curCourse->credit);
+            if (curS->studentID == studentID)
+            {
+                write << curS->totalMark << "," << curS->finalMark << "," << curS->midtermMark << "," << curS->otherMark
+                    << "," << current->id << current->credit << "\n";
+                break;
+            }
+            curS = curS->pNext;
         }
-            write << temp << "\n"; 
-    }
-    std::rename(direct.c_str(), tmpDir1.c_str());
-    std::rename(tmpDir.c_str(), direct.c_str());
-    int state = remove(tmpDir1.c_str());
-
-
-/*    f.open(direct, std::ios::in | std::ios::out);
-    if (!f.is_open())
-        return;
-    std::string temp;
-    while (std::getline(read, temp))
-    {
-        int pos1 = temp.find(',');
-        int pos2 = temp.find(',', pos1 + 1);
-        int pos3 = temp.find(',', pos2 + 1);
-        int pos4 = temp.find(',', pos3 + 1);
-        int pos5 = temp.find(',', pos4 + 1);
-        std::string ID = temp.substr(pos4 + 1, pos5 - pos4 - 1);
-        if (ID == curCourse->id)
-        {
-            f.seekp(f.tellg());
-            f << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
-            break;
-        }
+        current = current->pNext;
     }
 
 
     // update score.csv
     std::string directory = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv";
-    std::fstream score;
-    score.open(directory, std::ios::in | std::ios::out);
-    while (std::getline(score, temp))
+    std::ofstream score;
+    studentScore* pS = curCourse->hScore;
+    int i = 1;
+    score.open(directory, std::ios::trunc);
+    while (pS != nullptr)
     {
-        int pos1 = temp.find(',');
-        int pos2 = temp.find(',', pos1 + 1);
-        int pos3 = temp.find(',', pos2 + 1);
-        int pos4 = temp.find(',', pos3 + 1);
-        std::string tmpID = temp.substr(pos1 + 1, pos2 - pos1 - 1);
-        if (tmpID == studentID)
-        {
-            score.seekp(score.tellg());
-            // Rewrite the information in this line No->StudentID->FirstName->LastName->.....
-            score << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
-                << temp.substr(pos2 + 1, pos3 - pos2 - 1) << "," << temp.substr(pos3 + 1, pos4 - pos3 - 1) << ","
-                << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
-            break;
-        }
+        score << i++ << "," << pS->studentID << "," << pS->firstName << "," << pS->lastName << "," << pS->totalMark << ","
+            << pS->finalMark << "," << pS->midtermMark << "," << pS->otherMark << "\n";
+        pS = pS->pNext;
     }
     score.close();
-    */
     system("pause");
 }
 
