@@ -7,6 +7,7 @@
 #include <string>
 #include "Student.h"
 #include "Display.h"
+#include <stdio.h>
 
 //global variable
 extern schoolYear* pHeadSchoolYear;
@@ -239,6 +240,8 @@ void course::ImportScoreboard()
 
 void course::updateStudentResult()
 {
+    system("cls");
+    gotoxy(mid - 19 / 2, 3);
     std::string studentID;
     std::cout << "Enter student ID: ";
     getline(std::cin, studentID, '\n');
@@ -248,11 +251,13 @@ void course::updateStudentResult()
 
     if (!pCur)
     {
+        gotoxy(mid - 19 / 2, 4);
         std::cout << "Student not found!\n";
+        gotoxy(mid - 19 / 2, 5);
         system("pause");
         return;
     }
-
+    
     std::cout << "Enter the updated scores for " << pCur->firstName << " " << pCur->lastName << " (student ID: " << pCur->studentID << ")\n";
     std::cout << "Total Mark: ";
     std::cin >> pCur->totalMark;
@@ -266,27 +271,58 @@ void course::updateStudentResult()
     std::cout << "Scores updated successfully!\n";
 
     // update mssv.csv
-    std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + pCur->studentID + ".csv";
+    std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + pCur->studentID + ".csv";
+    std::string temp;
+    std::string tmpDir = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + "temp.csv";
+    std::string tmpDir1 = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + "temp.csv";
+    std::ofstream write(tmpDir);
     std::ifstream read(direct);
-    std::ofstream write(direct);
+    while (std::getline(read, temp))
+    {
+        int pos1 = temp.find(',');
+        int pos2 = temp.find(',', pos1 + 1);
+        int pos3 = temp.find(',', pos2 + 1);
+        int pos4 = temp.find(',', pos3 + 1);
+        int pos5 = temp.find(',', pos4 + 1);
+        std::string ID = temp.substr(pos4 + 1, pos5 - pos4 - 1);
+        if (ID == curCourse->id)
+        {
+            temp = std::to_string(pCur->totalMark) + ',' + std::to_string(pCur->finalMark) + ',' + std::to_string(pCur->midtermMark)
+                + ',' + std::to_string(pCur->otherMark) + ',' + curCourse->id + ',' + std::to_string(curCourse->credit);
+        }
+            write << temp << "\n"; 
+    }
+    std::rename(direct.c_str(), tmpDir1.c_str());
+    std::rename(tmpDir.c_str(), direct.c_str());
+    int state = remove(tmpDir1.c_str());
+
+
+/*    f.open(direct, std::ios::in | std::ios::out);
+    if (!f.is_open())
+        return;
     std::string temp;
     while (std::getline(read, temp))
     {
-        int posComma = temp.find(',');
-        std::string ID = temp.substr(0, posComma);
+        int pos1 = temp.find(',');
+        int pos2 = temp.find(',', pos1 + 1);
+        int pos3 = temp.find(',', pos2 + 1);
+        int pos4 = temp.find(',', pos3 + 1);
+        int pos5 = temp.find(',', pos4 + 1);
+        std::string ID = temp.substr(pos4 + 1, pos5 - pos4 - 1);
         if (ID == curCourse->id)
         {
-            write << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
+            f.seekp(f.tellg());
+            f << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
             break;
         }
     }
-    read.close();
-    write.close();
+
 
     // update score.csv
-    std::ofstream writeScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id+ "/score.csv");
-    std::ifstream readScore("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv");
-    while (std::getline(read, temp))
+    std::string directory = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv";
+    std::fstream score;
+    score.open(directory, std::ios::in | std::ios::out);
+    while (std::getline(score, temp))
     {
         int pos1 = temp.find(',');
         int pos2 = temp.find(',', pos1 + 1);
@@ -295,15 +331,17 @@ void course::updateStudentResult()
         std::string tmpID = temp.substr(pos1 + 1, pos2 - pos1 - 1);
         if (tmpID == studentID)
         {
+            score.seekp(score.tellg());
             // Rewrite the information in this line No->StudentID->FirstName->LastName->.....
-            writeScore << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
+            score << temp.substr(0, pos1) << "," << temp.substr(pos1 + 1, pos2 - pos1 - 1) << ","
                 << temp.substr(pos2 + 1, pos3 - pos2 - 1) << "," << temp.substr(pos3 + 1, pos4 - pos3 - 1) << ","
                 << pCur->totalMark << "," << pCur->finalMark << "," << pCur->midtermMark << "," << pCur->otherMark << "\n";
             break;
         }
     }
-    readScore.close();
-    writeScore.close();
+    score.close();
+    */
+    system("pause");
 }
 
 
@@ -371,16 +409,30 @@ bool course::checkExistScoringFile(std::string direct)
 }
 void course::saveIndividualScore(course* curCourse) {
     studentScore* currScore = curCourse->hScore;
+    if (_mkdir(("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class").c_str()));  // create folder Class inside semester
+    if (_mkdir(("../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className).c_str()));  
     while (currScore != nullptr) {
-        std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + currScore->studentID + ".csv";
-        std::ofstream fout(direct, std::fstream::app);
+        
+        std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + currScore->studentID + ".csv";   // create individual file
         if (!checkExistScoringFile(direct))
+        {
+            std::ofstream fout(direct, std::fstream::app);
             fout << "Total,Final,Midterm,Other,ID_Course,Credit\n";
-        fout << currScore->totalMark << "," 
-            << currScore->finalMark << ","
-            << currScore->midtermMark << ","
-            << currScore->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
-        fout.close();
+            fout << currScore->totalMark << ","
+                << currScore->finalMark << ","
+                << currScore->midtermMark << ","
+                << currScore->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
+            fout.close();
+        }
+        else
+        {
+            std::ofstream fout(direct, std::fstream::app);
+            fout << currScore->totalMark << ","
+                << currScore->finalMark << ","
+                << currScore->midtermMark << ","
+                << currScore->otherMark << "," << curCourse->id << "," << curCourse->credit << "\n";
+            fout.close();
+        }
         currScore = currScore->pNext;
     }
 }
