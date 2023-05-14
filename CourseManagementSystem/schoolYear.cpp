@@ -501,8 +501,8 @@ bool schoolYear::createSemester()
 		}
 		std::cout << "\n\n"; gotox(mid - 48 / 2);
 		loadingPage();
-		gotox(mid - 27 / 2); std::cout << "                                                          ";
-		gotoxy(mid - 10 / 2, -2); std::cout << "                                                    ";
+		gotox(mid - 27 / 2); std::cout << "                                                               ";
+		gotoxy(mid - 10 / 2, -2); std::cout << "                                                          ";
 		SetColor(7, 2);
 		gotox(mid - 20 / 2);
 		std::cout << "Created Succesfully";

@@ -1048,6 +1048,9 @@ void Class::sortStudents(std::string classcode)
 
 void Class::viewStudentList()
 {
+    //display
+    showingList();
+
     std::cout << "\n"; gotox(mid - 58 / 2);
     std::cout << "Enter the class to see a list of students in that class: ";
     std::string classcode;
@@ -1447,7 +1450,7 @@ void Class::showDetailMark(student*& pHead, short range, short& Pcur)
 
     int tmp = 1;
 
-    while (k < range && !pHead)
+    while (k < range && pHead)
     {
         id = pHead->getStudentID();
         std::string dir = "../Data/SchoolYear/" + curSchoolYear->getYear() + "/" + "Sem" + std::to_string(curSemester->getSem()) + "/Class/" + curClass->getName() + "/" + id + ".csv";
@@ -1498,7 +1501,7 @@ void Class::showDetailMark(student*& pHead, short range, short& Pcur)
 
 }
 
-void Class::getClass() {
+bool Class::getClass() {
     while (true) {
         system("cls");
 
@@ -1522,7 +1525,7 @@ void Class::getClass() {
         std::string Name;  getline(std::cin, Name);
 
         //if enter then return
-        if (Name == "") return;
+        if (Name == "") return 0;
 
         //Check the class
         if (checkExistClass(Name) != 0) {
@@ -1553,7 +1556,7 @@ void Class::getClass() {
                 break;
             }
         }
-        return;
+        return 1;
     }
 }
 
@@ -1695,6 +1698,7 @@ void Class::showingDetailMarkList(student* pHead) {
     int APages = getAllDetailMarks(pHead) / range + 1;
     student* pTail = pHead;
     student* cur = pHead;
+    student* pPre = pHead;
     if (!pTail) return;
     for (; pTail->pNext; pTail = pTail->pNext);
 

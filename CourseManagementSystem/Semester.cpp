@@ -98,9 +98,9 @@ void semester::addCourse()
 
 		Sleep(500);
 		//Reset
-		gotox(mid - 20 / 2); std::cout << "                                                 ";
-		gotoxy(mid - 26 / 2, -2); std::cout << "                                            ";
-		gotoxy(mid - 16 / 2, -2); std::cout << "                                            ";
+		gotox(mid - 20 / 2); std::cout << "                                                      ";
+		gotoxy(mid - 26 / 2, -2); std::cout << "                                                 ";
+		gotoxy(mid - 16 / 2, -2); std::cout << "                                                 ";
 		std::cout << '\n';
 		gotox(mid - 30 / 2); std::cout << "Would you like to add more courses for this semester?(Y/N) : ";
 		std::cin >> choice;

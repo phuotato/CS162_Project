@@ -100,7 +100,7 @@ void course::ExportClass()
     std::string courseID = curCourse->id;
     if (!curCourse->pHeadStudent)
         curCourse->loadStudentInCourse();
-    fout.open("../InputFile/" + courseID + "_student.csv");
+    fout.open("../InputFile/" + courseID + "_scoreboard.csv");
     //File header
     fout << "No,Student ID,First name,Last name,Total,Final,Midterm,Other" << "\n";
 
@@ -239,14 +239,20 @@ void course::ImportScoreboard()
 }
 
 void course::updateStudentResult()
-{
+{    
     system("cls");
-    gotoxy(mid - 19 / 2, 3);
+    //Display
+    showingStudentList();
+
+    std::cout << "\n\n\n";
+    gotox(mid - 19 / 2);
     std::string studentID;
     std::cout << "Enter student ID: ";
     getline(std::cin, studentID, '\n');
     studentScore* pCur = curCourse->hScore;
     course* current = curSemester->pHeadCourse;
+
+    if (!pCur) 
     while (pCur && pCur->studentID != studentID)
         pCur = pCur->pNext;
 
@@ -259,17 +265,27 @@ void course::updateStudentResult()
         return;
     }
     
+    //clear screen
+    system("cls");
+
+    gotoxy(mid - 53 / 2, 6);
     std::cout << "Enter the updated scores for " << pCur->firstName << " " << pCur->lastName << " (student ID: " << pCur->studentID << ")\n";
+
+    gotox(mid - 53 / 2);
     std::cout << "Total Mark: ";
     std::cin >> pCur->totalMark;
+
+    gotox(mid - 53 / 2);
     std::cout << "Final Mark: ";
     std::cin >> pCur->finalMark;
+
+    gotox(mid - 53 / 2);
     std::cout << "Midterm Mark: ";
     std::cin >> pCur->midtermMark;
+
+    gotox(mid - 53 / 2);
     std::cout << "Other Mark: ";
     std::cin >> pCur->otherMark;
-
-    std::cout << "Scores updated successfully!\n";
 
     // update mssv.csv
     std::string direct = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/Class/" + curCourse->className + "/" + pCur->studentID + ".csv";
@@ -284,7 +300,7 @@ void course::updateStudentResult()
             if (curS->studentID == studentID)
             {
                 write << curS->totalMark << "," << curS->finalMark << "," << curS->midtermMark << "," << curS->otherMark
-                    << "," << current->id << current->credit << "\n";
+                    << "," << current->id << "," << current->credit << "\n";
                 break;
             }
             curS = curS->pNext;
@@ -292,13 +308,15 @@ void course::updateStudentResult()
         current = current->pNext;
     }
 
-
+    write.close();
     // update score.csv
     std::string directory = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->sem) + "/" + curCourse->id + "/score.csv";
     std::ofstream score;
     studentScore* pS = curCourse->hScore;
     int i = 1;
     score.open(directory, std::ios::trunc);
+
+    score << "No,Student ID,First name,Last name,Total,Final,Midterm,Other\n";
     while (pS != nullptr)
     {
         score << i++ << "," << pS->studentID << "," << pS->firstName << "," << pS->lastName << "," << pS->totalMark << ","
@@ -306,6 +324,14 @@ void course::updateStudentResult()
         pS = pS->pNext;
     }
     score.close();
+
+
+    gotox(mid - 53 / 2);
+    SetColor(7, 2);
+    std::cout << "Scores updated successfully!\n";
+    SetColor(7, 0);
+
+    gotox(mid - 28 / 2);
     system("pause");
 }
 
@@ -321,11 +347,7 @@ void course::ViewScoreboard() {
     }
 
     system("cls");
-    // Draw a box around the entire scoreboard
-    drawBox(mid - 94/2, 1, 94, numStudents + 7);
 
-    // Print the header row
-    drawBox(mid-90/2, 2, 90, 3);
     gotoxy(mid - 86/2, 3);
     std::cout << std::left << std::setw(10) << "No.";
     std::cout << std::left << std::setw(12) << "ID";
@@ -356,8 +378,15 @@ void course::ViewScoreboard() {
         currScore = currScore->pNext;
     }
 
+    // Draw a box around the entire scoreboard
+    drawBox(mid - 94 / 2, 1, 94, numStudents + 8);
+
+    // Print the header row
+    drawBox(mid - 90 / 2, 2, 90, 3);
+
     // Draw a box around the bottom of the scoreboard
     drawBox(mid - 90/2, row, 90, 3);
+    std::cout << "\n\n"; gotox(mid - 28 / 2);
     system("pause");
 }
 bool course::checkExistScoringFile(std::string direct)
@@ -645,10 +674,11 @@ void course::addStudent(int choice)
                 getline(fin, redundant);
                 if (!pHeadStudent)
                 {
-                    while(!fin.eof())
+                    while(fin)
                     {
                         std::string no,id, gender, firstname, lastname, dob, socialId;
                         getline(fin, no, ',');
+                        if (no == "") break;
                         getline(fin, id, ',');
                         getline(fin, firstname, ',');
                         getline(fin, lastname, ',');
@@ -807,28 +837,28 @@ void course::showInfo()
     std::cout << "Course Information\n\n";
     SetColor(7, 0);
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "1. Id:" << id << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "2. Name:" << name << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "3. Class name:" << className << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "4. Lecturer:" << lecturer << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "5. Credit:" << credit << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "6. Max student:" << maxStudent << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "7. Schedule:" << weekDay << std::endl;
 
-    gotox(mid - 53 / 2);
+    gotox(mid - 51 / 2);
     std::cout << "8. Session:";
     switch (session)
     {
@@ -890,12 +920,12 @@ void course::loadStudentInCourse()
                 getline(fin, socialId);
                 if (!pHeadStudent)
                 {
-                    pHeadStudent = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                    pHeadStudent = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                     pTailStudent = pHeadStudent;
                 }
                 else
                 {
-                    pTailStudent->pNext = new student(stoi(id), id, firstname, lastname, stoi(gender), dob, socialId);
+                    pTailStudent->pNext = new student(stoi(no), id, firstname, lastname, stoi(gender), dob, socialId);
                     pTailStudent = pTailStudent->pNext;
                 }
             }
@@ -1084,10 +1114,11 @@ void course::deleteStudent()
     bool del = 0;
     while(true)
     {
-        std::cout << "Full name ID";
-        for (student* cur = pHeadStudent; cur; cur = cur->pNext)
-            std::cout << cur->getLastName() << " " << cur->getFirstName() << " " << cur->getStudentID() << std::endl;
-        std::cout << "Enter your choice (Press enter to go back)";
+        //display
+        showingStudentList();
+
+        gotoxy(mid - 54/2, 20);
+        std::cout << "Enter the student's id to delete (Press enter to go back): ";
         std::string id;
         getline(std::cin, id);
         if (id == "")
@@ -1107,7 +1138,7 @@ void course::deleteStudent()
                 {
                     if (cur->pNext->getStudentID() == id)
                     {
-                        student* tmp = pHeadStudent->pNext;
+                        student* tmp = cur->pNext;
                         cur->pNext = tmp->pNext;
                         delete tmp;
                         del = 1;
@@ -1118,13 +1149,17 @@ void course::deleteStudent()
         }
         if (del)
         {
+            gotox(mid - 20/2);
+            SetColor(7, 2);
             std::cout << "Delete succesfully\n";
+            SetColor(7, 0);
             Sleep(500);
-            std::cout << "Do you want to continue:(Press Y/y to continue, N/n to stop)";
-            char ch;
-            std::cin >> ch;
-            if (ch == 'N' || ch == 'n')
-                break;
+
+            gotoxy(mid - 28/2, 26);
+            std::cout << "Do you want to delete more?";
+            int choice = 0;
+            choice = YNQuestions(mid - 30 / 2, 25, 28);
+            if (choice == 0) break;
         }
         else
         {

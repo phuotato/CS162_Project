@@ -34,12 +34,6 @@ public:
 	void deleteCourseList();
 
 	//Show Functions
-	/*void showingScoreOfClassList(student* pHead);
-	void showScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur);
-	int getAllScore();
-	void showPScoreBoardOfClass(studentScore*& curScore, course*& cur, short range, short& Pcur);
-
-	void showGPABoardOfClass();*/
 
 	//scoreboard functions
 	void ExportClass();
@@ -53,7 +47,6 @@ public:
 	bool checkExistScoringFile(std::string direct);
 	void saveStudentinCourse(std::string path);
 	void loadStudentInCourse();
-	void ChooseGPARTotal();
 
 	//show Student
 	void showingStudentList();

@@ -357,7 +357,7 @@ void BeginSemester() {
         gotoxy(mid - 61 / 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
         gotoxy(mid - 53 / 2 + 2, 10); std::cout << "1. Create semester";
         gotoxy(mid - 53 / 2 + 2, 12); std::cout << "2. Choose existing semester";
-        gotoxy(mid - 53 / 2 + 2, 14); std::cout << "0. Back";
+        gotoxy(mid - 53 / 2 + 2, 14); std::cout << "0. Go back";
 
         choice = movingBar(mid - 51 / 2, 10, 10 + choice * 2, mid + 53 / 2, 14, 2, content);
         switch (choice)
@@ -608,7 +608,7 @@ void EndSemester() {
         switch (option) {
         case 14:
             system("cls");
-            curSemester->viewCourse();
+            if (curSemester->viewCourse())
             curCourse->ExportClass();
             break;
         case 13:
@@ -617,21 +617,19 @@ void EndSemester() {
             break;
         case 12:
             system("cls");
-            curSemester->viewCourse();
+            if (curSemester->viewCourse())
             curCourse->ViewScoreboard();
             break;
         case 11:
             system("cls");
-            curSemester->viewCourse();
+            if (curSemester->viewCourse())
             curCourse->updateStudentResult();
             break;
         case 10:
             system("cls");
             //view the class
-            pHeadClass->getClass();
-
+            if (pHeadClass->getClass())
             curClass->showScoreBoardOfClass();
-
             break;
         case 7:
             system("cls");

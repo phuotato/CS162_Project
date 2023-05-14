@@ -16,7 +16,7 @@ public:
 	void addNewClass();
 	int getAllClass();
 	bool checkLatestYear();
-	void getClass();
+	bool getClass();
 
 	//Function show score
 
