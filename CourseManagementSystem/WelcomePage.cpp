@@ -57,7 +57,7 @@ void welcomePage()
 	switch (option) {
 	case 2:
 		system("cls");
-        
+        login("../StaffAccount/");
 		Staff();
 		break;
 	case 1:
