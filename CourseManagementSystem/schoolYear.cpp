@@ -411,7 +411,7 @@ bool schoolYear::createSemester()
 	curSchoolYear->loadFileSemester(year);
 	if (!curSchoolYear->checkAvaiSemester())
 	{
-		gotoxy(mid - 37 / 2, 14);
+		gotoxy(mid - 37 / 2, 18);
 		SetColor(7, 4);
 		std::cout << "This school year is full of semester\n";
 		SetColor(7, 0);
@@ -423,12 +423,12 @@ bool schoolYear::createSemester()
 	}
 	while (true)
 	{
-		gotoxy(mid - 61 / 2 + 21, 17);
+		gotoxy(mid - 61 / 2, 17);
 		std::cout << "What is semester you want to create: ";
 		while (true)
 		{
-			gotoxy(mid - 61 / 2 + 21,18); std::cout << "                          ";
-			gotoxy(mid - 61 / 2 + 21,18); std::cout << "Sem:";
+			gotoxy(mid - 61 / 2,18); std::cout << "                          ";
+			gotoxy(mid - 61 / 2,18); std::cout << "Sem:";
 			std::cin >> x;
 			if (x < '1' || x > '3')
 			{
@@ -462,7 +462,7 @@ bool schoolYear::createSemester()
 		fout << "Semester " << x << std::endl;														//Write down the semester
 		fout.close();
 
-		gotox(mid - 61 / 2 + 21); std::cout << "Enter the start date: ";
+		gotox(mid - 61 / 2); std::cout << "Enter the start date: ";
 		std::string StartDate;
 		// Check length string > 10 return
 		// Check string[2] && string[5] == '/'
@@ -474,7 +474,7 @@ bool schoolYear::createSemester()
 		std::cin.ignore();
 		getline(std::cin, StartDate);
 
-		gotox(mid - 61 / 2 + 21); std::cout << "Enter the end date: ";
+		gotox(mid - 61 / 2); std::cout << "Enter the end date: ";
 		std::string EndDate;
 		getline(std::cin, EndDate);
 
@@ -501,10 +501,10 @@ bool schoolYear::createSemester()
 		}
 		std::cout << "\n\n"; gotox(mid - 48 / 2);
 		loadingPage();
-		gotox(mid - 27 / 2 - 10); std::cout << "                                                          ";
-		gotoxy(mid - 10 / 2 - 10 , -2); std::cout << "                                                    ";
+		gotox(mid - 27 / 2); std::cout << "                                                          ";
+		gotoxy(mid - 10 / 2, -2); std::cout << "                                                    ";
 		SetColor(7, 2);
-		gotox(mid - 16 / 2 + 5);
+		gotox(mid - 20 / 2);
 		std::cout << "Created Succesfully";
 		SetColor(7, 0);
 		Sleep(1000);

@@ -512,15 +512,16 @@ void course::addStudentMenu()
         gotox(mid - 49 / 2); std::cout << "2. Import csv file\n";
         gotox(mid - 49 / 2); std::cout << "0. Go back";
         choice = movingBar(mid - 51/2, 9, 9, mid+51/2, 11, 1, content);
+        if (choice == 0) break;
         addStudent(choice);
-    } while (choice);
+    } while (true);
 }
 
 void course::addStudent(int choice)
 {
+    int option = 1;
     if (!pHeadStudent)
         curCourse->loadStudentInCourse();
-    char ch = 'Y';
     do
     {
         if (choice == 2)
@@ -600,11 +601,12 @@ void course::addStudent(int choice)
             SetColor(7, 0);
 
             //Reset
-            gotox(mid - 26 / 2); std::cout << "                         ";
-            gotoxy(mid - 49 / 2, -1);
+            gotox(mid - 26 / 2); std::cout << "                                    ";
+            gotoxy(mid - 28 / 2, -1);
 
             std::cout << "Do you want to add more: ";
-            YNQuestions(mid - 30/2, 13, 30);
+            option = YNQuestions(mid - 30/2, 13, 30);
+            std::cout << "         ";
         }
         else if (choice == 1)
         {
@@ -615,7 +617,6 @@ void course::addStudent(int choice)
             std::cout << "\n"; gotox(mid - 49 / 2);
             std::cout << "Input the directory:";
             std::string dir;
-            std::cin.ignore();
             getline(std::cin, dir);
 
             std::cout << "\n";
@@ -654,15 +655,17 @@ void course::addStudent(int choice)
                 {
                     student* headStudent = nullptr, *tailStudent = nullptr;
                     int count = 1;
-                    while (!fin.eof())
+                    while (fin)
                     {
                         std::string no, id, gender, firstname, lastname, dob, socialId;
                         getline(fin, no, ',');
+                        if (no == "") break;
                         getline(fin, id, ',');
                         getline(fin, firstname, ',');
                         getline(fin, lastname, ',');
                         getline(fin, gender, ',');
                         getline(fin, dob, ',');
+                        fin.get();
                         getline(fin, socialId);
                         if (!headStudent)
                         {
@@ -700,9 +703,11 @@ void course::addStudent(int choice)
 
             std::cout << "Press any key to go back...";
             _getch();
+            option = 0;
             break;
         }
-    } while (ch != 'N' && ch!='n');
+    } while (option != 0);
+
     std::string path = "../Data/SchoolYear/" + curSchoolYear->year + "/Sem" + std::to_string(curSemester->getSem()) + "/" + id + "/Student's List.csv";
     saveStudentinCourse(path);
 }
@@ -779,34 +784,34 @@ void course::showInfo()
     system("cls");
     //header
     drawHeader();
-    drawBox(mid - 53 / 2 + 8, 9, 53, 10);
-    gotoxy(mid - 16 / 2 + 5, 8);
+    drawBox(mid - 53 / 2, 9, 53, 10);
+    gotoxy(mid - 16 / 2, 8);
     SetColor(7, 9);
     std::cout << "Course Information\n\n";
     SetColor(7, 0);
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "1. Id:" << id << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "2. Name:" << name << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "3. Class name:" << className << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "4. Lecturer:" << lecturer << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "5. Credit:" << credit << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "6. Max student:" << maxStudent << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "7. Schedule:" << weekDay << std::endl;
 
-    gotox(mid - 53 / 2 + 9);
+    gotox(mid - 53 / 2);
     std::cout << "8. Session:";
     switch (session)
     {
@@ -824,7 +829,7 @@ void course::showInfo()
         break;
     }
 
-    std::cout << "\n"; gotox(mid - 16 / 2 + 5);
+    std::cout << "\n"; gotox(mid - 23/2);
     SetColor(7, 2);
     std::cout << "Press any key to back...";
     SetColor(7, 0);
@@ -840,7 +845,7 @@ void course::saveStudentinCourse(std::string path)
         for (student* tmp = pHeadStudent; tmp; tmp = tmp->pNext)
         {
             fout << std::endl;
-            fout << tmp->getNo() << "," << tmp->getStudentID() << "," << tmp->getFirstName() << "," << tmp->getLastName() << "," << tmp->getGender() << "," << tmp->getDate() << "," << tmp->getSocialId();
+            fout << tmp->getNo() << "," << tmp->getStudentID() << "," << tmp->getFirstName() << "," << tmp->getLastName() << "," << tmp->getGender() << "," << tmp->getDate() << ",'" << tmp->getSocialId();
         }
     }
     fout.close();
@@ -858,6 +863,7 @@ void course::loadStudentInCourse()
             {
                 std::string no, id, gender, firstname, lastname, dob, socialId;
                 getline(fin, no, ',');
+                if (no == "") break;
                 getline(fin, id, ',');
                 getline(fin, firstname, ',');
                 getline(fin, lastname, ',');
@@ -999,6 +1005,7 @@ void course::showingStudentList()
         TH = movingBarTutorial(16, 6, yp, 44, 18, 4, content);
     }
 }
+
 void course::showStudent(student*& pHead, short range, short& Pcur)
 {
     const int tableWidth = 62;

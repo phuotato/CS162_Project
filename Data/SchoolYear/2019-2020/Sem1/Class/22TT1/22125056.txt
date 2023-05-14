@@ -1,0 +1,6 @@
+Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark
+CS162,8.5,9.0,7.5,9.3
+Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark
+MTH252,9.6,10.0,9.5,10.0
+Course ID,Total Mark,Final Mark,Midterm Mark,Other Mark
+PH212,8.5,8.6,8.6,8.8

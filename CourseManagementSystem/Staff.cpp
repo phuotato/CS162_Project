@@ -99,10 +99,10 @@ void SchoolYear() {
 void BeginSchoolYearMenu() {
 
     SetColor(7, 1);
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "State: Beginning of School Year.";
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "Current Year : ";
     std::cout << curSchoolYear->year;
 
@@ -162,7 +162,7 @@ void BeginSchoolYear(bool& flag) {
     pHeadClass->loadStudent();
     std::ifstream fin;
     std::ofstream fout;
-    bool check = 0;
+    bool check = 1;
 
     std::string* content = new std::string[11];
 
@@ -266,14 +266,14 @@ void CreateSemesterMenu() {
 
 void BeginSemesterMenu() {
     SetColor(7, 1);
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "State: Beginning of Semester.";
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "Current Year: ";
     std::cout << curSchoolYear->year;
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "Current Semester: ";
     std::cout << curSemester->getSem();
     
@@ -353,8 +353,8 @@ void BeginSemester() {
         drawHeader();
 
         drawBox(mid - 53 / 2, 8, 53, 9);
-
-        gotoxy(mid - 53 / 2 + 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
+        
+        gotoxy(mid - 61 / 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
         gotoxy(mid - 53 / 2 + 2, 10); std::cout << "1. Create semester";
         gotoxy(mid - 53 / 2 + 2, 12); std::cout << "2. Choose existing semester";
         gotoxy(mid - 53 / 2 + 2, 14); std::cout << "0. Back";
@@ -507,14 +507,14 @@ void BeginSemester() {
 void EndSemesterMenu() {
     SetColor(7, 1);
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "State: End of Semester.";
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "Current Year:";
     std::cout << curSchoolYear->year;
 
-    std::cout << "\n"; gotox(mid - 74 / 2 + 15);
+    std::cout << "\n"; gotox(mid - 74 / 2);
     std::cout << "Current Semester: ";
     std::cout << curSemester->getSem();
     
