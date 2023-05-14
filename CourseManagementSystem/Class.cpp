@@ -341,7 +341,7 @@ void Class::showingList() {
                 std::cout << "You are at the last page";
                 SetColor(7, 0);
 
-                Sleep(2000);
+                Sleep(1000);
 
                 //Reset the command
                 gotox(mid - 47 / 2);
@@ -1183,7 +1183,7 @@ void Class::showingStudentList(student* pHead) {
                 std::cout << "You are at the last page";
                 SetColor(7, 0);
 
-                Sleep(2000);
+                Sleep(1000);
 
                 //Reset the command
                 gotox(mid - 47 / 2);
@@ -1290,7 +1290,7 @@ void Class::showScoreBoardOfClass()
         std::string* content = new std::string[3];
         content[0] = "1. View GPA of students";
         content[1] = "2. View detail score of students";
-        content[2] = "0. Back";
+        content[2] = "0. Go back";
 
         system("cls");
         drawHeader();
@@ -1299,7 +1299,7 @@ void Class::showScoreBoardOfClass()
         gotoxy(mid - 61 / 2, 7); std::cout << "View the GPA of class or total of class in semester.";
         gotoxy(mid - 49 / 2, 9); std::cout << "1. View GPA of students";
         gotoxy(mid - 49 / 2, 10); std::cout << "2. View detail score of students";
-        gotoxy(mid - 49 / 2, 11); std::cout << "0. Back";
+        gotoxy(mid - 49 / 2, 11); std::cout << "0. Go back";
         int choice = 0;
         choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
         switch (choice)
@@ -1437,7 +1437,7 @@ void Class::showDetailMark()
 
         std::cout << "\n\n\n"; gotox(mid - 40 / 2);
         std::string id;
-        std::cout << "Enter your choice (Press enter to back): ";
+        std::cout << "Enter your choice (Press enter to go back): ";
         getline(std::cin, id);
         if (id == "")
             break;
@@ -1559,7 +1559,7 @@ void Class::showingGPAList(student* pHead) {
                 std::cout << "You are at the last page";
                 SetColor(7, 0);
 
-                Sleep(2000);
+                Sleep(1000);
 
                 //Reset the command
                 gotox(mid - 47 / 2);

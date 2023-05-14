@@ -499,7 +499,7 @@ void course::addStudentMenu()
     std::string* content = new std::string[3];
     content[0] = "1. Add student manually";
     content[1] = "2. Import csv file";
-    content[2] = "0. Back";
+    content[2] = "0. Go back";
 
     do
     {
@@ -509,7 +509,7 @@ void course::addStudentMenu()
         
         gotoxy(mid - 49 / 2, 9); std::cout << "1. Add student manually\n";
         gotox(mid - 49 / 2); std::cout << "2. Import csv file\n";
-        gotox(mid - 49 / 2); std::cout << "0. Back";
+        gotox(mid - 49 / 2); std::cout << "0. Go back";
         choice = movingBar(mid - 51/2, 9, 9, mid+51/2, 11, 1, content);
         addStudent(choice);
     } while (choice);
@@ -531,24 +531,24 @@ void course::addStudent(int choice)
             drawHeader();
 
             std::cout << "\n"; gotox(mid - 49 / 2);
-            std::cout << "Id:";
+            std::cout << "ID: ";
             std::cin.ignore();
             getline(std::cin, id);
 
-            gotox(mid - 49 / 2); std::cout << "First name:";
+            gotox(mid - 49 / 2); std::cout << "First name: ";
             getline(std::cin, firstname);
 
-            gotox(mid - 49 / 2); std::cout << "Last name:";
+            gotox(mid - 49 / 2); std::cout << "Last name: ";
             getline(std::cin, lastname);
 
-            gotox(mid - 49 / 2); std::cout << "Gender (0 for male, 1 for female):";
+            gotox(mid - 49 / 2); std::cout << "Gender (0 for male, 1 for female): ";
             std::cin >> gender;
 
-            gotox(mid - 49 / 2); std::cout << "Date of birth (dd/mm/yyyy):";
+            gotox(mid - 49 / 2); std::cout << "Date of birth (dd/mm/yyyy): ";
             std::cin.ignore();
             getline(std::cin, dob);
 
-            gotox(mid - 49 / 2); std::cout << "Social ID:";
+            gotox(mid - 49 / 2); std::cout << "Social ID: ";
             getline(std::cin, socialId);
 
             if (pHeadStudent)
@@ -825,7 +825,7 @@ void course::showInfo()
 
     std::cout << "\n"; gotox(mid - 16 / 2 + 5);
     SetColor(7, 2);
-    std::cout << "Press any key to back:";
+    std::cout << "Press any key to back...";
     SetColor(7, 0);
     _getch();
 }
@@ -891,7 +891,13 @@ void course::showingStudentList()
     short Pcur = 0;
     int APages = getAllStudent() / range + 1;
     student* cur = pHeadStudent;
-    if (!pTailStudent) return;
+    if (!pTailStudent) {
+        gotoxy(mid - 18, 30);
+        std::cout << "There is no student in this course.";
+        gotoxy(mid - 18, 31);
+        system("pause");
+        return;
+    }
     system("cls");
     while (true) {
         switch (TH) {
@@ -903,7 +909,7 @@ void course::showingStudentList()
                 else gotoxy(mid - 25 / 2, Pcur % range + 12);
                 std::cout << "You are at the last page";
                 SetColor(7, 0);
-                Sleep(2000);
+                Sleep(1000);
                 //Reset the command
                 gotox(mid - 47 / 2);
                 std::cout << "                                                          \r";
@@ -926,7 +932,7 @@ void course::showingStudentList()
                 else gotoxy(mid - 25 / 2, Pcur % range + 12);
                 std::cout << "You are at the first page";
                 SetColor(7, 0);
-                Sleep(2000);
+                Sleep(1000);
                 //Reset the command
                 gotox(mid - 47 / 2);
                 std::cout << "                                                          \r";
@@ -1027,7 +1033,6 @@ void course::showStudent(student*& pHead, short range, short& Pcur)
     drawLine(tableWidth, tableX - 2);
     std::cout << "\n\n";
     gotox(tableX - 2);
-
 }
 void course::showPStudent(student*& pHead, short range, short& Pcur) {
     //Check if the last page
@@ -1057,7 +1062,7 @@ void course::deleteStudent()
         std::cout << "Full name ID";
         for (student* cur = pHeadStudent; cur; cur = cur->pNext)
             std::cout << cur->getLastName() << " " << cur->getFirstName() << " " << cur->getStudentID() << std::endl;
-        std::cout << "Enter your choice(Press enter to back)";
+        std::cout << "Enter your choice (Press enter to go back)";
         std::string id;
         getline(std::cin, id);
         if (id == "")
@@ -1111,7 +1116,7 @@ void course::deleteStudent()
 //    std::string* content = new std::string[3];
 //    content[0] = "1. Show GPA of all students";
 //    content[1] = "2. Show total course's score of all students";
-//    content[2] = "0. Back";
+//    content[2] = "0. Go back";
 //    do {
 //        drawHeader();
 //        drawBox(mid - 53 / 2, 8, 53, 5);
@@ -1119,7 +1124,7 @@ void course::deleteStudent()
 //        gotoxy(mid - 28 / 2, 7); std::cout << "Show score of all students.";
 //        gotoxy(mid - 49 / 2, 9); std::cout << "1. Show GPA of all students";
 //        gotoxy(mid - 49 / 2, 10); std::cout << "2. Show total course's score of all students";
-//        gotoxy(mid - 49 / 2, 11); std::cout << "0. Back";
+//        gotoxy(mid - 49 / 2, 11); std::cout << "0. Go back";
 //        choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
 //        switch (choice)
 //        {

@@ -195,18 +195,17 @@ void loadingPage() {
 void loadingPageNotuse()
 {
 	int mid = getMidColumns();
-	int x = mid-12;
+	int x = mid-13;
 	
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		system("cls");
-		std::cout << "\n\n\n";
-		gotox(mid);
+		gotoxy(mid, 10);
 		SetColor(7, 3);
-		std::cout << "Loading";
-		SetColor(7, 10);
+		std::cout << "LOADING";
+		SetColor(7, 0);
 
-		gotox(x);
+		gotoxy(x, 9);
 		std::cout << "         _ \n";
 		gotox(x);
 		std::cout << "      -=\\`\\ \n";

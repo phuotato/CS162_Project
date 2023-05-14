@@ -296,7 +296,7 @@ void schoolYear::ShowingList() {
 					std::cout << "You are at the last page";
 					SetColor(7, 0);
 
-					Sleep(2000);
+					Sleep(1000);
 
 					//Reset the command
 					gotox(mid - 47 / 2);
@@ -417,7 +417,7 @@ bool schoolYear::createSemester()
 		SetColor(7, 0);
 
 		gotox(mid - 23/2);
-		std::cout << "Press any key to back:";
+		std::cout << "Press any key to go back...";
 		_getch();
 		return 0;
 	}

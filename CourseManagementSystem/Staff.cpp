@@ -326,7 +326,7 @@ void BeginSemesterMenu() {
     std::cout << "12. Change Password";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
-    std::cout << "13. Back";
+    std::cout << "13. Go back";
 
     std::cout << "\n"; gotox(mid - 49 / 2);
     std::cout << "0. Exit";
@@ -347,7 +347,7 @@ void BeginSemester() {
         std::string* content = new std::string[3];
         content[0] = "1. Create semester";
         content[1] = "2. Choose existing semester";
-        content[2] = "0. Back";
+        content[2] = "0. Go back";
 
         system("cls");
         drawHeader();
@@ -356,11 +356,11 @@ void BeginSemester() {
         gotoxy(mid - 65 / 2 + 12, 7); std::cout << "Create a new semester or choose an existing one to continue.";
         gotoxy(mid - 49 / 2 + 8, 10); std::cout << "1. Create semester                            ";
         gotoxy(mid - 49 / 2 + 8, 12); std::cout << "2. Choose existing semester                   ";
-        gotoxy(mid - 49 / 2 + 8, 14); std::cout << "0. Back                                          ";
+        gotoxy(mid - 49 / 2 + 8, 14); std::cout << "0. Go back                                          ";
         /*gotoxy(mid - 53 / 2 + 2, 7); std::cout << "Create a new semester or choose an existing one to continue.";
         gotoxy(mid - 53 / 2 + 2, 9); std::cout << "1. Create semester";
         gotoxy(mid - 53 / 2 + 2, 10); std::cout << "2. Choose existing semester";
-        gotoxy(mid - 53 / 2 + 2, 11); std::cout << "0. Back";*/
+        gotoxy(mid - 53 / 2 + 2, 11); std::cout << "0. Go back";*/
         //choice = movingBar(mid - 51 / 2, 9, 9 + choice, mid + 53 / 2, 11, 1, content);
         choice = movingBar(mid - 51 / 2, 10, 10 + choice * 2, mid + 51 / 2, 14, 2, content);
         switch (choice)
@@ -396,7 +396,7 @@ void BeginSemester() {
         content[11] = "11. View a list of students in a course";
         content[12] = "-";
         content[13] = "12. Change Password";
-        content[14] = "13. Back";
+        content[14] = "13. Go back";
         content[15] = "0. Exit";
 
         bool flag{};

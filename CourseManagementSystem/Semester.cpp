@@ -58,7 +58,7 @@ void semester::addCourse()
 		std::cin.ignore();
 
 		gotox(mid - 30 / 2);
-		std::cout << "Which day will the course be performed in week:(MON-TUE-WED-THU-FRI-SAT-SUN) ";
+		std::cout << "Which day will the course be performed (MON-TUE-WED-THU-FRI-SAT)? ";
 		std::string weekDay; getline(std::cin, weekDay);
 
 		gotox(mid - 30 / 2);
@@ -195,7 +195,7 @@ void semester::showingCourseList(course* pHead) {
 				std::cout << "You are at the last page";
 				SetColor(7, 0);
 
-				Sleep(2000);
+				Sleep(1000);
 
 				//Reset the command
 				gotox(mid - 47 / 2);

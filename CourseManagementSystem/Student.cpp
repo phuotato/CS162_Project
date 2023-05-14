@@ -272,7 +272,7 @@ void student::viewProfile_Student() {
 
     SetColor(7, 0);
     gotoxy(mid - 20, boxY + boxHeight + 3);
-    std::cout << "Process done! The system will go back to the menu." << std::endl;
+    std::cout << "Process done! The system will go back to the menu.\n";
     gotoxy(mid - 15, boxY + boxHeight + 4);
     system("pause");
 }
